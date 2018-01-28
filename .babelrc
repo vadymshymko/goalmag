@@ -1,0 +1,27 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": ["last 4 versions", "ie >= 11"]
+        },
+        "modules": false
+      }
+    ],
+    "react",
+    "stage-0",
+  ],
+  "plugins": [
+    "react-hot-loader/babel",
+    "transform-decorators-legacy"
+  ],
+  "env": {
+    "test": {
+      "plugins": [
+        "transform-decorators-legacy",
+        "transform-es2015-modules-commonjs"
+      ]
+    }
+  }
+}

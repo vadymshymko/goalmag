@@ -1,0 +1,10 @@
+.App {
+  align-items: flex-start;
+  display: flex;
+  flex-flow: row wrap;
+  min-height: 100vh;
+
+  &__content {
+    width: 100%;
+  }
+}
