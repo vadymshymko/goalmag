@@ -10,7 +10,7 @@ const AppFooter = () => {
   return (
     <footer className="AppFooter">
       <Container>
-        <p>Copyright (c) {currentDateYear} Copyright Holder All Rights Reserved.</p>
+        <p className="AppFooter__copyright">Copyright (c) {currentDateYear} Copyright Holder All Rights Reserved.</p>
       </Container>
     </footer>
   );

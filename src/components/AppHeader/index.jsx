@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Container from 'components/Container';
+import AppLogo from 'components/AppLogo';
 
 import './AppHeader.scss';
 
@@ -8,12 +9,12 @@ const AppHeader = () => (
   <header className="AppHeader">
     <Container>
       <Link
-        className="AppLogo"
+        className="AppHeader__link"
         to="/"
         href="/"
         title="Go To Homepage"
       >
-        <i className="AppLogo__icon" />
+        <AppLogo />
       </Link>
     </Container>
   </header>

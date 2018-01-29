@@ -1,10 +1,14 @@
 .AppHeader {
+  align-items: center;
+  box-shadow: 0 0 1px #eee;
+  display: flex;
+  padding: 30px 0;
   width: 100%;
-}
 
-.AppLogo {
-  background-color: #000;
-  border-radius: 50%;
-  height: 60px;
-  width: 60px;
+  &__link {
+    color: #000;
+    display: inline-flex;
+    line-height: 1;
+    text-decoration: none;
+  }
 }

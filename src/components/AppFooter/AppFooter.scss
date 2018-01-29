@@ -1,4 +1,10 @@
 .AppFooter {
   align-self: flex-end;
+  padding: 30px 0;
   width: 100%;
+
+  &__copyright {
+    box-shadow: 0 0 0 1px #eee;
+    margin: 0;
+  }
 }
