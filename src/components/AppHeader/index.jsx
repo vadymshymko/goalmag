@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
+import AppNav from 'containers/AppNav';
 import Container from 'components/Container';
 import AppLogo from 'components/AppLogo';
 
@@ -16,6 +18,8 @@ const AppHeader = () => (
       >
         <AppLogo />
       </Link>
+
+      <AppNav />
     </Container>
   </header>
 );
