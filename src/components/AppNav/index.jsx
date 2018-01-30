@@ -1,0 +1,51 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
+
+import './AppNav.scss';
+
+const AppNav = ({ competitionsItems }) => (
+  <nav className="AppNav">
+    <ul className="AppNav__list">
+      <li className="AppNav__item">
+        <NavLink
+          className="AppNav__link"
+          activeClassName="AppNav__link--active"
+          to="/live"
+          title="Live"
+        >
+          Live!
+        </NavLink>
+      </li>
+
+      {competitionsItems.map(competition => (
+        <li
+          className="AppNav__item"
+          key={competition.id}
+        >
+          <NavLink
+            className="AppNav__link"
+            activeClassName="AppNav__link--active"
+            to={`/${competition.id}`}
+            title={competition.caption}
+          >
+            {competition.caption}
+          </NavLink>
+        </li>
+      ))}
+    </ul>
+  </nav>
+);
+
+AppNav.propTypes = {
+  competitionsItems: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    caption: PropTypes.string,
+  })),
+};
+
+AppNav.defaultProps = {
+  competitionsItems: {},
+};
+
+export default AppNav;

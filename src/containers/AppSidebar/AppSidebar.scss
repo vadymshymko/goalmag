@@ -1,0 +1,12 @@
+.AppSidebar {
+  box-shadow: 1px 0 0 #eee;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  min-height: 100%;
+  width: 100%;
+
+  @media(min-width: 992px) {
+    width: 25%;
+  }
+}

@@ -3,20 +3,18 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import AppHeader from 'components/AppHeader';
-import AppFooter from 'components/AppFooter';
+import AppSidebar from 'containers/AppSidebar';
+import AppContent from 'components/AppContent';
 
 import './App.scss';
 
 const App = ({ children }) => (
   <div className="App">
-    <AppHeader />
+    <AppSidebar />
 
-    <div className="App__content">
+    <AppContent>
       {children}
-    </div>
-
-    <AppFooter />
+    </AppContent>
   </div>
 );
 
