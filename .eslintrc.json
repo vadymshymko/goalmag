@@ -12,6 +12,14 @@
     "import",
     "jest"
   ],
+  "rules": {
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ]
+  },
   "settings": {
     "import/resolver": "webpack"
   }
