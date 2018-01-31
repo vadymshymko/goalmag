@@ -1,4 +1,4 @@
-import { competitions as types } from 'types/';
+import { competitions as types } from 'types';
 import reducer from '../competitions';
 
 const initialState = {
