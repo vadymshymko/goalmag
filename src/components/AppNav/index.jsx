@@ -11,7 +11,8 @@ const AppNav = ({ competitionsItems }) => (
         <NavLink
           className="AppNav__link"
           activeClassName="AppNav__link--active"
-          to="/live"
+          exact
+          to="live"
           title="Live"
         >
           Live!
@@ -27,6 +28,7 @@ const AppNav = ({ competitionsItems }) => (
             className="AppNav__link"
             activeClassName="AppNav__link--active"
             to={`/${competition.id}`}
+            exact
             title={competition.caption}
           >
             {competition.caption}

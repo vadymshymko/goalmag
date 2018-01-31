@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import { getCompetitions } from 'actions';
 
@@ -48,4 +49,4 @@ const actions = {
   getCompetitions,
 };
 
-export default connect(mapStateToProps, actions)(AppSidebar);
+export default withRouter(connect(mapStateToProps, actions)(AppSidebar));

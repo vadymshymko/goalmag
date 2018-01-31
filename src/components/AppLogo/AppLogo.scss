@@ -1,5 +1,11 @@
 .AppLogo {
-  font-family: 'Roboto Mono', monospace;
-  font-size: 24px;
-  font-weight: 700;
+  &__title {
+    display: inline-flex;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    padding-left: 5px;
+    text-transform: uppercase;
+  }
 }
