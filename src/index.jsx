@@ -12,27 +12,23 @@ import Root from 'containers/Root';
 const history = createHistory();
 const store = configureStore();
 
-ReactDOM.render(
-  <AppContainer>
-    <Root
-      store={store}
-      history={history}
-    />
-  </AppContainer>,
-  document.getElementById('root'),
-);
+const render = (Component) => {
+  ReactDOM.render(
+    <AppContainer>
+      <Component
+        store={store}
+        history={history}
+      />
+    </AppContainer>,
+    document.getElementById('root'),
+  );
+};
 
-// Hot Module Replacement API
+render(Root);
+
+// Webpack Hot Module Replacement API
 if (module.hot) {
   module.hot.accept('containers/Root', () => {
-    ReactDOM.render(
-      <AppContainer>
-        <Root
-          store={store}
-          history={history}
-        />
-      </AppContainer>,
-      document.getElementById('root'),
-    );
+    render(Root);
   });
 }
