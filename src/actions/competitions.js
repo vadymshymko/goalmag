@@ -1,5 +1,5 @@
 import { competitions as types } from 'types';
-import { fetch } from 'utils/';
+import { callApi } from 'utils';
 
 const getCompetitionsRequest = () => ({
   type: types.GET_COMPETITIONS_REQUEST,
@@ -25,11 +25,7 @@ export const getCompetitions = () => (dispatch, getState) => {
 
   dispatch(getCompetitionsRequest());
 
-  return fetch('//api.football-data.org/v1/competitions', {
-    headers: {
-      'X-Auth-Token': '724a8fd63a4742099053576de1bd4439',
-    },
-  }).then(json => (
+  return callApi('competitions').then(json => (
     dispatch(getCompetitionsSuccess(json))
   )).catch((error) => {
     dispatch(getCompetitionsFailure());

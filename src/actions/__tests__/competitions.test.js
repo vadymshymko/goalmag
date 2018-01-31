@@ -1,7 +1,8 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import nock from 'nock';
-import { competitions as types } from 'types/';
+import config from 'config';
+import { competitions as types } from 'types';
 import * as actions from '../competitions';
 
 const middlewares = [thunk];
@@ -32,7 +33,7 @@ describe('competitions actions', () => {
       },
     ];
 
-    nock('https://api.football-data.org/v1/').get('/competitions').reply(
+    nock(config.apiRoot).get('/competitions').reply(
       200,
       [],
     );
@@ -49,7 +50,7 @@ describe('competitions actions', () => {
       { type: types.GET_COMPETITIONS_FAILURE },
     ];
 
-    nock('https://api.football-data.org/v1/').get('/competitions').replyWithError({
+    nock(config.apiRoot).get('/competitions').replyWithError({
       message: 'Some Error',
       code: 'AWFUL_ERROR',
       statusCode: '500',
