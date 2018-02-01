@@ -1,6 +1,6 @@
 .AppNav {
   font-size: 14px;
-  padding: 0 0 60px;
+  padding: 0 0 90px;
 
   &__list {
     list-style: none;
@@ -12,14 +12,14 @@
     box-shadow: 0 0 1px 0 #eee;
     color: #333;
     display: flex;
-    padding: 15px 30px;
+    padding: 10px 30px;
     text-decoration: none;
     width: 100%;
 
     &:hover,
     &--active {
       background-color: #eee;
-      color: #666;
+      opacity: .75;
     }
   }
 }
