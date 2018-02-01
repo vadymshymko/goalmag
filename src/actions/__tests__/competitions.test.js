@@ -33,7 +33,7 @@ describe('competitions actions', () => {
       },
     ];
 
-    nock(config.apiRoot).get('/competitions').reply(
+    nock(`https:${config.apiRoot}`).get('/competitions').reply(
       200,
       [],
     );
@@ -50,7 +50,7 @@ describe('competitions actions', () => {
       { type: types.GET_COMPETITIONS_FAILURE },
     ];
 
-    nock(config.apiRoot).get('/competitions').replyWithError({
+    nock(`https:${config.apiRoot}`).get('/competitions').replyWithError({
       message: 'Some Error',
       code: 'AWFUL_ERROR',
       statusCode: '500',
