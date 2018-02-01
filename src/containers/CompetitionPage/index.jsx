@@ -13,11 +13,7 @@ const CompetitionPage = ({ competitionInfo }) => (
 CompetitionPage.propTypes = {
   competitionInfo: PropTypes.shape({
     caption: PropTypes.string,
-  }),
-};
-
-CompetitionPage.defaultProps = {
-  competitionInfo: {},
+  }).isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => ({

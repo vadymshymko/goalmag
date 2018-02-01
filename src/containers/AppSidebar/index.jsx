@@ -12,16 +12,11 @@ import './AppSidebar.scss';
 
 class AppSidebar extends Component {
   static propTypes = {
+    getCompetitions: PropTypes.func.isRequired,
     competitionsItems: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number,
       caption: PropTypes.string,
-    })),
-    getCompetitions: PropTypes.func,
-  }
-
-  static defaultProps = {
-    competitionsItems: {},
-    getCompetitions: () => {},
+    })).isRequired,
   }
 
   componentDidMount() {
