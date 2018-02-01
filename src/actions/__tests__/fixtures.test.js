@@ -35,7 +35,9 @@ describe('fixtures actions', () => {
 
     nock(`https:${config.apiRoot}`).get('/fixtures?timeFrame=n1').reply(
       200,
-      [],
+      {
+        fixtures: [],
+      },
     );
 
     return store.dispatch(actions.getFixtures()).then(() => {

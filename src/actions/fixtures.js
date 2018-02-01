@@ -26,7 +26,7 @@ export const getFixtures = () => (dispatch, getState) => {
   dispatch(getFixturesRequest());
 
   return callApi('fixtures?timeFrame=n1').then(json => (
-    dispatch(getFixturesSuccess(json))
+    dispatch(getFixturesSuccess(json.fixtures))
   )).catch((error) => {
     dispatch(getFixturesFailure());
     throw error;
