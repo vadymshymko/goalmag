@@ -12,7 +12,7 @@ const AppNav = ({ competitionsItems }) => (
           className="AppNav__link"
           activeClassName="AppNav__link--active"
           exact
-          to="live"
+          to="/live"
           title="Live"
         >
           Live!
