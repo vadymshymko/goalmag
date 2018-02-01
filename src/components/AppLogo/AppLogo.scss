@@ -1,11 +1,23 @@
 .AppLogo {
+  &__icon {
+    border-radius: 50%;
+    border: 5px solid;
+    display: inline-flex;
+    height: 90px;
+    margin-bottom: 30px;
+    position: relative;
+    width: 90px;
+  }
+
   &__title {
     display: inline-flex;
     font-family: 'Roboto Mono', monospace;
     font-size: 24px;
     font-weight: 700;
+    justify-content: center;
     letter-spacing: 5px;
     padding-left: 5px;
     text-transform: uppercase;
+    width: 100%;
   }
 }

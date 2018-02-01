@@ -6,6 +6,7 @@ const AppLogo = () => (
     className="AppLogo"
     title="Goal Magazine"
   >
+    <span className="AppLogo__icon" />
     <strong className="AppLogo__title">Goal Magazine</strong>
   </span>
 );
