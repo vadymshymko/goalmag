@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { getFixtures } from 'actions';
 
 import AppPage from 'components/AppPage';
+import FixturesList from 'components/FixturesList';
 
 class LivePage extends Component {
   static propTypes = {
@@ -23,9 +24,7 @@ class LivePage extends Component {
 
     return (
       <AppPage title="Live Results">
-        {fixturesItems.map((i, index) => (
-          index
-        ))}
+        <FixturesList fixturesItems={fixturesItems} />
       </AppPage>
     );
   }
