@@ -24,6 +24,8 @@ class LivePage extends Component {
 
     return (
       <AppPage title="Live Results">
+        <h1>Live!</h1>
+
         <FixturesList fixturesItems={fixturesItems} />
       </AppPage>
     );
