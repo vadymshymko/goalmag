@@ -1,4 +1,5 @@
 import httpRequest from 'isomorphic-fetch';
+import { convertObjKeysToCamelCase } from 'utils';
 
 export const fetch = (url, params) => (
   httpRequest(url, params).then((response) => {
@@ -7,7 +8,9 @@ export const fetch = (url, params) => (
     }
 
     return response.json();
-  })
+  }).then(json => (
+    convertObjKeysToCamelCase(json)
+  ))
 );
 
 export default fetch;
