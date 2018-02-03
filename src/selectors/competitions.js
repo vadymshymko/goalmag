@@ -1,4 +1,4 @@
-export const getCompetitionInfo = (competitionsItems = [], competitionId = 0) => (
+export const getCompetitionInfo = (competitionId = 0, competitionsItems = []) => (
   competitionsItems.find(competition => (
     parseInt(competition.id, 10) === parseInt(competitionId, 10)
   )) || {}
