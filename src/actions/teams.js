@@ -26,7 +26,7 @@ export const getTeam = teamId => (dispatch, getState) => {
     throw new Error('Invalid team id');
   }
 
-  const currentState = getTeamState(teamId, getState().teams);
+  const currentState = getTeamState(teamId, getState());
 
   if (currentState && (currentState.isInitialized || currentState.isFetching)) {
     return Promise.resolve();
