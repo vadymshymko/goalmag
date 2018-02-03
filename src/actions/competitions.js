@@ -17,7 +17,7 @@ const getCompetitionsFailure = () => ({
 });
 
 export const getCompetitions = () => (dispatch, getState) => {
-  const currentState = getState();
+  const currentState = getState().competitions;
 
   if (currentState.isInitialized || currentState.isFetching) {
     return Promise.resolve();
