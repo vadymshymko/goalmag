@@ -1,14 +1,14 @@
 import config from 'config';
-import { fetch } from 'utils';
+import { fetch, getDataFromLocalStorage, saveDataToLocalStorage } from 'utils';
 
 const CALL_API_HEADERS = {
   'X-Auth-Token': config.apiKey,
 };
 
-let apiRequestsCount = 0;
-let prevApiRequestDate = 0;
-
 export const callApi = endpoint => new Promise((resolve) => {
+  const apiRequestsCount = getDataFromLocalStorage('apiRequestsCount') || 0;
+  const prevApiRequestDate = getDataFromLocalStorage('prevApiRequestDate') || 0;
+
   const requestUrl = (endpoint.indexOf(config.apiRoot) === -1)
     ? config.apiRoot + endpoint
     : endpoint;
@@ -21,10 +21,10 @@ export const callApi = endpoint => new Promise((resolve) => {
   );
 
   if (isApiRequestEnabled) {
-    prevApiRequestDate = requestDate;
-    apiRequestsCount = apiRequestsCount >= 50
+    saveDataToLocalStorage('prevApiRequestDate', requestDate);
+    saveDataToLocalStorage('apiRequestsCount', apiRequestsCount >= 50
       ? 1
-      : apiRequestsCount + 1;
+      : apiRequestsCount + 1);
 
     resolve(fetch(requestUrl, {
       headers: CALL_API_HEADERS,
