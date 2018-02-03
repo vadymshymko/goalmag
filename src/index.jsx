@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { createBrowserHistory as createHistory } from 'history';
-import { saveStoreToLocalStorage } from 'localStorage';
+import { saveDataToLocalStorage } from 'utils';
 
 import 'normalize.css';
 import 'assets/styles/main.scss';
@@ -17,7 +17,7 @@ store.subscribe(() => {
   const storeTeams = store.getState().teams;
   const storeCompetitions = store.getState().competitions;
 
-  saveStoreToLocalStorage({
+  saveDataToLocalStorage('store', {
     competitions: storeCompetitions.isInitialized
       ? storeCompetitions
       : {},

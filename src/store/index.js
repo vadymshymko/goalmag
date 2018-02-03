@@ -1,11 +1,11 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import rootReducer from 'reducers';
-import { loadStoreFromLocalStorage } from 'localStorage';
+import { getDataFromLocalStorage } from 'utils';
 
 const devTools = '__REDUX_DEVTOOLS_EXTENSION__';
 
-const localStore = loadStoreFromLocalStorage();
+const preloadedStore = getDataFromLocalStorage('store');
 
 const composeEnhancers = () => {
   if (process.env.NODE_ENV === 'production' || !window || !window[devTools]) {
@@ -19,7 +19,7 @@ const composeEnhancers = () => {
 };
 
 const configureStore = () => (
-  createStore(rootReducer, localStore, composeEnhancers())
+  createStore(rootReducer, preloadedStore, composeEnhancers())
 );
 
 export default configureStore;
