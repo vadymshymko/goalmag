@@ -1,20 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import LiveFixturesCompetition from 'components/LiveFixturesCompetition';
+import MatchCenterCompetition from 'components/MatchCenterCompetition';
 
-import './LiveFixturesList.scss';
+import './MatchCenterList.scss';
 
-const LiveFixturesList = ({
+const MatchCenterList = ({
   fixturesItems,
 }) => (
-  <ul className="LiveFixturesList">
+  <ul className="MatchCenterList">
     {Object.keys(fixturesItems).map(key => (
       <li
-        className="LiveFixturesList__item"
+        className="MatchCenterList__item"
         key={key}
       >
-        <LiveFixturesCompetition
+        <MatchCenterCompetition
           title={key}
           fixturesItems={fixturesItems[key]}
         />
@@ -23,7 +23,7 @@ const LiveFixturesList = ({
   </ul>
 );
 
-LiveFixturesList.propTypes = {
+MatchCenterList.propTypes = {
   fixturesItems: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.shape({
     awayTeamName: PropTypes.string,
     homeTeamName: PropTypes.string,
@@ -36,8 +36,8 @@ LiveFixturesList.propTypes = {
   }))),
 };
 
-LiveFixturesList.defaultProps = {
+MatchCenterList.defaultProps = {
   fixturesItems: {},
 };
 
-export default LiveFixturesList;
+export default MatchCenterList;

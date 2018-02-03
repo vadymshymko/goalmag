@@ -9,7 +9,7 @@ import {
 } from 'react-router-dom';
 
 import App from 'containers/App';
-import LivePage from 'containers/LivePage';
+import MatchCenterPage from 'containers/MatchCenterPage';
 import CompetitionPage from 'containers/CompetitionPage';
 
 const Root = ({
@@ -22,8 +22,8 @@ const Root = ({
         <Switch>
           <Route
             exact
-            path="/live"
-            component={LivePage}
+            path="/match-center"
+            component={MatchCenterPage}
           />
 
           <Route
@@ -48,7 +48,7 @@ const Root = ({
             )}
           /> */}
 
-          <Redirect to="/live" />
+          <Redirect to="/match-center" />
         </Switch>
       </App>
     </Router>

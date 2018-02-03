@@ -6,9 +6,9 @@ import { getFixtures } from 'actions';
 
 import AppPage from 'components/AppPage';
 import AppPageTitle from 'components/AppPageTitle';
-import LiveFixturesList from 'components/LiveFixturesList';
+import MatchCenterList from 'components/MatchCenterList';
 
-class LivePage extends Component {
+class MatchCenterPage extends Component {
   static propTypes = {
     fixturesItems: PropTypes.arrayOf(PropTypes.object).isRequired,
     getFixtures: PropTypes.func.isRequired,
@@ -47,10 +47,10 @@ class LivePage extends Component {
     const sortedFixturesItems = this.getSortedFixturesItems(fixturesItems);
 
     return (
-      <AppPage title="Live Results">
-        <AppPageTitle>Live Results</AppPageTitle>
+      <AppPage title="Match Center">
+        <AppPageTitle>Match Center</AppPageTitle>
 
-        <LiveFixturesList fixturesItems={sortedFixturesItems} />
+        <MatchCenterList fixturesItems={sortedFixturesItems} />
 
       </AppPage>
     );
@@ -65,4 +65,4 @@ const actions = {
   getFixtures,
 };
 
-export default connect(mapStateToProps, actions)(LivePage);
+export default connect(mapStateToProps, actions)(MatchCenterPage);

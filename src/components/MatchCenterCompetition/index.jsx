@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import FixturesList from 'components/FixturesList';
 
-import './LiveFixturesCompetition.scss';
+import './MatchCenterCompetition.scss';
 
-export default class LiveFixturesCompetition extends Component {
+export default class MatchCenterCompetition extends Component {
   static propTypes = {
     title: PropTypes.string,
     fixturesItems: PropTypes.arrayOf(PropTypes.shape({
@@ -42,10 +42,10 @@ export default class LiveFixturesCompetition extends Component {
     } = this.props;
 
     return (
-      <article className="LiveFixturesCompetition">
-        <h3 className="LiveFixturesCompetition__title">
+      <article className="MatchCenterCompetition">
+        <h3 className="MatchCenterCompetition__title">
           <button
-            className="LiveFixturesCompetition__toggle-fixtures-btn"
+            className="MatchCenterCompetition__toggle-fixtures-btn"
             type="button"
             onClick={this.toggleCompetitionFixtures}
             title={title}
@@ -55,7 +55,7 @@ export default class LiveFixturesCompetition extends Component {
         </h3>
 
         <div
-          className="LiveFixturesCompetition__fixtures"
+          className="MatchCenterCompetition__fixtures"
           style={{
             maxHeight: this.state.showCompetitionFixtures ? '100%' : '0',
           }}
