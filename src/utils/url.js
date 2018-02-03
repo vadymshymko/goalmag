@@ -3,7 +3,7 @@ export const getURLLastPath = (url = '') => {
     return null;
   }
 
-  return parseInt(url.substr(url.lastIndexOf('/') + 1), 10);
+  return url.substr(url.lastIndexOf('/') + 1);
 };
 
 export default getURLLastPath;
