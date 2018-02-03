@@ -66,7 +66,10 @@ describe('fixtures actions', () => {
   it('should not create any actions if fixtures isInitialized', () => {
     const store = mockStore({
       ...initialStore,
-      isInitialized: true,
+      fixtures: {
+        ...initialStore.fixtures,
+        isInitialized: true,
+      },
     });
     const expectedActions = [];
 
@@ -78,7 +81,10 @@ describe('fixtures actions', () => {
   it('should not create any actions if fixtures isFetching', () => {
     const store = mockStore({
       ...initialStore,
-      isFetching: true,
+      fixtures: {
+        ...initialStore.fixtures,
+        isFetching: true,
+      },
     });
     const expectedActions = [];
 

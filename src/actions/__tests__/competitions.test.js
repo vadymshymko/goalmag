@@ -64,7 +64,10 @@ describe('competitions actions', () => {
   it('should not create any actions if competitions isInitialized', () => {
     const store = mockStore({
       ...initialStore,
-      isInitialized: true,
+      competitions: {
+        ...initialStore.competitions,
+        isInitialized: true,
+      },
     });
     const expectedActions = [];
 
@@ -76,7 +79,10 @@ describe('competitions actions', () => {
   it('should not create any actions if competitions isFetching', () => {
     const store = mockStore({
       ...initialStore,
-      isFetching: true,
+      competitions: {
+        ...initialStore.competitions,
+        isFetching: true,
+      },
     });
     const expectedActions = [];
 
