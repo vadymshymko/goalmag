@@ -1,7 +1,7 @@
 export const getDataFromLocalStorage = (dataKey) => {
   try {
     const localStorageData = JSON.parse(localStorage.getItem(dataKey));
-    return localStorageData || {};
+    return localStorageData;
   } catch (error) {
     throw new Error('Invalid Data to parse', error);
   }
