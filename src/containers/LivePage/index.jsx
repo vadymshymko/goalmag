@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import { getFixtures } from 'actions';
 
 import AppPage from 'components/AppPage';
-import FixturesList from 'components/FixturesList';
+import AppPageTitle from 'components/AppPageTitle';
+import LiveFixturesList from 'components/LiveFixturesList';
 
 class LivePage extends Component {
   static propTypes = {
@@ -17,16 +18,40 @@ class LivePage extends Component {
     this.props.getFixtures();
   }
 
+  getSortedFixturesItems = fixturesItems => (
+    fixturesItems.reduce((result, item) => {
+      if (!result[item.links.competition.href]) {
+        return {
+          ...result,
+          [item.links.competition.href]: [
+            item,
+          ],
+        };
+      }
+
+      return {
+        ...result,
+        [item.links.competition.href]: [
+          item,
+          ...result[item.links.competition.href],
+        ],
+      };
+    }, {})
+  )
+
   render() {
     const {
       fixturesItems,
     } = this.props;
 
+    const sortedFixturesItems = this.getSortedFixturesItems(fixturesItems);
+
     return (
       <AppPage title="Live Results">
-        <h1>Live!</h1>
+        <AppPageTitle>Live Results</AppPageTitle>
 
-        <FixturesList fixturesItems={fixturesItems} />
+        <LiveFixturesList fixturesItems={sortedFixturesItems} />
+
       </AppPage>
     );
   }

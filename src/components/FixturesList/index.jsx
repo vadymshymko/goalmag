@@ -1,12 +1,41 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const getFixtureTeamGoalsValue = (goalsCount) => {
-  if (!goalsCount && goalsCount !== 0) {
+import { getFormattedDatetimeByDatetime } from 'utils';
+
+import './FixturesList.scss';
+
+const getFixtureTeamGoalsCount = (goalsValue) => {
+  if (!goalsValue && goalsValue !== 0) {
     return '-';
   }
 
-  return goalsCount;
+  return goalsValue;
+};
+
+const getFixtureScoreColorByStatus = (status = '') => {
+  if (!status || status.toLowerCase() === 'timed') {
+    return null;
+  } else if (
+    status.toLowerCase() === 'finished'
+    || status.toLowerCase() === 'in_play'
+  ) {
+    return 'white';
+  }
+
+  return null;
+};
+
+const getFixtureScoreBgColorByStatus = (status = '') => {
+  if (!status || status.toLowerCase() === 'timed') {
+    return null;
+  } else if (status.toLowerCase() === 'finished') {
+    return 'red';
+  } else if (status.toLowerCase() === 'in_play') {
+    return 'green';
+  }
+
+  return null;
 };
 
 const FixturesList = ({
@@ -14,24 +43,48 @@ const FixturesList = ({
 }) => (
   <ul className="FixturesList">
     {fixturesItems.map(item => (
-      <li className="FixturesList__item Fixture">
-        <div>
+      <li
+        className="FixturesList__item"
+        key={item.links.self.href}
+      >
+        <article className="Fixture">
           <span className="Fixture__date">
-            {item.date}
+            {getFormattedDatetimeByDatetime(item.date)}
           </span>
 
-          <span className="Fixture__status">
-            {item.status}
-          </span>
-        </div>
+          <span className="Fixture__main-info">
+            <span className="Fixture__team-name">{item.homeTeamName}</span>
 
-        <div>
-          {item.homeTeamName}
-          {getFixtureTeamGoalsValue(item.result.goalsHomeTeam)}
-          :
-          {getFixtureTeamGoalsValue(item.result.goalsAwayTeam)}
-          {item.awayTeamName}
-        </div>
+            <strong
+              className="Fixture__score FixtureScore"
+              style={{
+                color: getFixtureScoreColorByStatus(item.status),
+              }}
+            >
+              <span
+                className="FixtureScore__goals-count"
+                style={{
+                  backgroundColor: getFixtureScoreBgColorByStatus(item.status),
+                }}
+              >
+                {getFixtureTeamGoalsCount(item.result.goalsHomeTeam)}
+              </span>
+
+              <span className="FixtureScore__separator">:</span>
+
+              <span
+                className="FixtureScore__goals-count"
+                style={{
+                  backgroundColor: getFixtureScoreBgColorByStatus(item.status),
+                }}
+              >
+                {getFixtureTeamGoalsCount(item.result.goalsAwayTeam)}
+              </span>
+            </strong>
+
+            <span className="Fixture__team-name">{item.awayTeamName}</span>
+          </span>
+        </article>
       </li>
     ))}
   </ul>
@@ -51,7 +104,7 @@ FixturesList.propTypes = {
 };
 
 FixturesList.defaultProps = {
-  fixturesItems: [],
+  fixturesItems: {},
 };
 
 export default FixturesList;
