@@ -1,0 +1,10 @@
+.FixtureTeam {
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+  position: relative;
+
+  .FixtureScore + & {
+    justify-content: flex-start;
+  }
+}

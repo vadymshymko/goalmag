@@ -17,7 +17,7 @@ CompetitionPage.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  competitionInfo: getCompetitionInfo(state.competitions.items, ownProps.match.params.id),
+  competitionInfo: getCompetitionInfo(ownProps.match.params.id, state.competitions.items),
 });
 
 export default connect(mapStateToProps)(CompetitionPage);

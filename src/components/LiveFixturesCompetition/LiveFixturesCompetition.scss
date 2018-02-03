@@ -1,0 +1,28 @@
+.LiveFixturesCompetition {
+  margin: 0 -60px;
+
+  &__title {
+    background-color: #eee;
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0;
+    text-align: center;
+  }
+
+  &__toggle-fixtures-btn {
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    padding: 15px 0;
+    width: 100%;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__fixtures {
+    overflow: hidden;
+    transition: max-height .4s;
+  }
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import FixturesList from 'components/FixturesList';
+import LiveFixturesCompetition from 'components/LiveFixturesCompetition';
 
 import './LiveFixturesList.scss';
 
@@ -14,11 +14,10 @@ const LiveFixturesList = ({
         className="LiveFixturesList__item"
         key={key}
       >
-        <article className="LiveFixturesList__competition">
-          <h3 className="LiveFixturesList__competition-title">{key}</h3>
-
-          <FixturesList fixturesItems={fixturesItems[key]} />
-        </article>
+        <LiveFixturesCompetition
+          title={key}
+          fixturesItems={fixturesItems[key]}
+        />
       </li>
     ))}
   </ul>
