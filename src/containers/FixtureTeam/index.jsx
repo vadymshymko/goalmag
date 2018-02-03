@@ -5,15 +5,9 @@ import { connect } from 'react-redux';
 import { getTeam } from 'actions';
 import { getTeamState } from 'selectors';
 
+import { getURLLastPath } from 'utils';
+
 import './FixtureTeam.scss';
-
-const getTeamIdByTeamLink = (link = '') => {
-  if (!link) {
-    return null;
-  }
-
-  return parseInt(link.substr(link.lastIndexOf('/') + 1), 10);
-};
 
 class FixtureTeam extends Component {
   static propTypes = {
@@ -34,7 +28,7 @@ class FixtureTeam extends Component {
   }
 
   componentDidMount() {
-    const teamId = getTeamIdByTeamLink(this.props.link);
+    const teamId = getURLLastPath(this.props.link);
 
     this.props.getTeam(teamId);
   }
@@ -63,7 +57,7 @@ class FixtureTeam extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const teamState = getTeamState(getTeamIdByTeamLink(ownProps.link), state.teams) || {};
+  const teamState = getTeamState(getURLLastPath(ownProps.link), state.teams) || {};
 
   return teamState.info || {};
 };

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { getFixtures } from 'actions';
+import { getFixturesItemsdGroupedByCompetition } from 'selectors';
 
 import AppPage from 'components/AppPage';
 import AppPageTitle from 'components/AppPageTitle';
@@ -18,39 +19,16 @@ class MatchCenterPage extends Component {
     this.props.getFixtures();
   }
 
-  getSortedFixturesItems = fixturesItems => (
-    fixturesItems.reduce((result, item) => {
-      if (!result[item.links.competition.href]) {
-        return {
-          ...result,
-          [item.links.competition.href]: [
-            item,
-          ],
-        };
-      }
-
-      return {
-        ...result,
-        [item.links.competition.href]: [
-          item,
-          ...result[item.links.competition.href],
-        ],
-      };
-    }, {})
-  )
-
   render() {
     const {
       fixturesItems,
     } = this.props;
 
-    const sortedFixturesItems = this.getSortedFixturesItems(fixturesItems);
-
     return (
       <AppPage title="Match Center">
         <AppPageTitle>Match Center</AppPageTitle>
 
-        <MatchCenterList fixturesItems={sortedFixturesItems} />
+        <MatchCenterList fixturesItems={fixturesItems} />
 
       </AppPage>
     );
@@ -58,7 +36,7 @@ class MatchCenterPage extends Component {
 }
 
 const mapStateToProps = state => ({
-  fixturesItems: state.fixtures.items,
+  fixturesItems: getFixturesItemsdGroupedByCompetition(state),
 });
 
 const actions = {
