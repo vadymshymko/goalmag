@@ -1,13 +1,17 @@
+import { getURLLastPath } from 'utils';
+
 export const getFixturesItemsdGroupedByCompetition = ({
   fixtures: {
     items: fixturesItems,
   },
 }) => (
   fixturesItems.reduce((result, item) => {
-    if (!result[item.links.competition.href]) {
+    const fixtureCompetitionId = parseInt(getURLLastPath(item.links.competition.href), 10);
+
+    if (!result[fixtureCompetitionId]) {
       return {
         ...result,
-        [item.links.competition.href]: [
+        [fixtureCompetitionId]: [
           item,
         ],
       };
@@ -15,9 +19,9 @@ export const getFixturesItemsdGroupedByCompetition = ({
 
     return {
       ...result,
-      [item.links.competition.href]: [
+      [fixtureCompetitionId]: [
         item,
-        ...result[item.links.competition.href],
+        ...result[fixtureCompetitionId],
       ],
     };
   }, {})
