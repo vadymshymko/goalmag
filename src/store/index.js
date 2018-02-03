@@ -5,7 +5,7 @@ import { getDataFromLocalStorage } from 'utils';
 
 const devTools = '__REDUX_DEVTOOLS_EXTENSION__';
 
-const preloadedStore = getDataFromLocalStorage('store');
+const preloadedStore = getDataFromLocalStorage('store') || {};
 
 const composeEnhancers = () => {
   if (process.env.NODE_ENV === 'production' || !window || !window[devTools]) {
