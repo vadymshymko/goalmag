@@ -9,7 +9,7 @@
   }
 
   &__link {
-    box-shadow: 0 0 1px 0 #eee;
+    box-shadow: 0 0 1px 0 #f7f8fb;
     color: #333;
     display: flex;
     padding: 10px 60px;
@@ -18,7 +18,7 @@
 
     &:hover,
     &--active {
-      background-color: #eee;
+      background-color: #f7f8fb;
       opacity: .75;
     }
   }
