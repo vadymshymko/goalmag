@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { createBrowserHistory as createHistory } from 'history';
+import { saveStoreToLocalStorage } from 'localStorage';
 
 import 'normalize.css';
 import 'assets/styles/main.scss';
@@ -11,6 +12,27 @@ import Root from 'containers/Root';
 
 const history = createHistory();
 const store = configureStore();
+
+store.subscribe(() => {
+  const storeTeams = store.getState().teams;
+  const storeCompetitions = store.getState().competitions;
+
+  saveStoreToLocalStorage({
+    competitions: storeCompetitions.isInitialized
+      ? storeCompetitions
+      : {},
+    teams: Object.keys(storeTeams).reduce((result, teamId) => {
+      if (!storeTeams[teamId].isInitialized) {
+        return result;
+      }
+
+      return {
+        ...result,
+        [teamId]: storeTeams[teamId],
+      };
+    }, {}),
+  });
+});
 
 const render = (Component) => {
   ReactDOM.render(
