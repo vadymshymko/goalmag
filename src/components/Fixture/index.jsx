@@ -47,16 +47,12 @@ const Fixture = ({
         type="home"
       />
 
-      <strong
-        className="Fixture__score FixtureScore"
-        style={{
-          color: getFixtureScoreColorByStatus(status),
-        }}
-      >
+      <strong className="Fixture__score FixtureScore">
         <span
           className="FixtureScore__goals-count"
           style={{
             backgroundColor: getFixtureScoreBgColorByStatus(status),
+            color: getFixtureScoreColorByStatus(status),
           }}
         >
           {(status === 'in_play' || status === 'finished')
@@ -71,6 +67,7 @@ const Fixture = ({
           className="FixtureScore__goals-count"
           style={{
             backgroundColor: getFixtureScoreBgColorByStatus(status),
+            color: getFixtureScoreColorByStatus(status),
           }}
         >
           {(status === 'in_play' || status === 'finished')

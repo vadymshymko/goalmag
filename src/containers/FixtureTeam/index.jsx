@@ -12,7 +12,7 @@ const getTeamIdByTeamLink = (link = '') => {
     return null;
   }
 
-  return link.substr(link.lastIndexOf('/') + 1);
+  return parseInt(link.substr(link.lastIndexOf('/') + 1), 10);
 };
 
 class FixtureTeam extends Component {
@@ -36,7 +36,7 @@ class FixtureTeam extends Component {
   componentDidMount() {
     const teamId = getTeamIdByTeamLink(this.props.link);
 
-    // this.props.getTeam(teamId);
+    this.props.getTeam(teamId);
   }
 
   render() {

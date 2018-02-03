@@ -12,10 +12,10 @@ const AppNav = ({ competitionsItems }) => (
           className="AppNav__link"
           activeClassName="AppNav__link--active"
           exact
-          to="/live"
-          title="Live"
+          to="/match-center"
+          title="Match Center"
         >
-          Live!
+          Match Center
         </NavLink>
       </li>
 
