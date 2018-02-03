@@ -9,14 +9,14 @@ const MatchCenterList = ({
   fixturesItems,
 }) => (
   <ul className="MatchCenterList">
-    {Object.keys(fixturesItems).map(key => (
+    {Object.keys(fixturesItems).map(competitionId => (
       <li
         className="MatchCenterList__item"
-        key={key}
+        key={competitionId}
       >
         <MatchCenterCompetition
-          title={key}
-          fixturesItems={fixturesItems[key]}
+          competitionId={competitionId}
+          fixturesItems={fixturesItems[competitionId]}
         />
       </li>
     ))}

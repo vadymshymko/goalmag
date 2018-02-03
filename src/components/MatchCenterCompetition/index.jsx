@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import { getCompetitionInfo } from 'selectors';
 
 import FixturesList from 'components/FixturesList';
 
 import './MatchCenterCompetition.scss';
 
-export default class MatchCenterCompetition extends Component {
+class MatchCenterCompetition extends Component {
   static propTypes = {
-    title: PropTypes.string,
+    competitionInfo: PropTypes.shape({
+      caption: PropTypes.string,
+    }).isRequired,
     fixturesItems: PropTypes.arrayOf(PropTypes.shape({
       awayTeamName: PropTypes.string,
       homeTeamName: PropTypes.string,
@@ -21,7 +26,6 @@ export default class MatchCenterCompetition extends Component {
   }
 
   static defaultProps = {
-    title: '',
     fixturesItems: [],
   }
 
@@ -38,7 +42,9 @@ export default class MatchCenterCompetition extends Component {
   render() {
     const {
       fixturesItems,
-      title,
+      competitionInfo: {
+        caption: competitionName,
+      },
     } = this.props;
 
     return (
@@ -48,9 +54,9 @@ export default class MatchCenterCompetition extends Component {
             className="MatchCenterCompetition__toggle-fixtures-btn"
             type="button"
             onClick={this.toggleCompetitionFixtures}
-            title={title}
+            title={competitionName}
           >
-            {title}
+            {competitionName}
           </button>
         </h3>
 
@@ -66,3 +72,9 @@ export default class MatchCenterCompetition extends Component {
     );
   }
 }
+
+const mapStateToProps = (state, ownProps) => ({
+  competitionInfo: getCompetitionInfo(ownProps.competitionId, state),
+});
+
+export default connect(mapStateToProps)(MatchCenterCompetition);

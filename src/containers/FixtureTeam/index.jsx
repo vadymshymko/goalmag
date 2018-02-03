@@ -28,7 +28,7 @@ class FixtureTeam extends Component {
   }
 
   componentDidMount() {
-    const teamId = getURLLastPath(this.props.link);
+    const teamId = parseInt(getURLLastPath(this.props.link), 10);
 
     this.props.getTeam(teamId);
   }
@@ -57,7 +57,7 @@ class FixtureTeam extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const teamState = getTeamState(getURLLastPath(ownProps.link), state.teams) || {};
+  const teamState = getTeamState(parseInt(getURLLastPath(ownProps.link), 10), state) || {};
 
   return teamState.info || {};
 };

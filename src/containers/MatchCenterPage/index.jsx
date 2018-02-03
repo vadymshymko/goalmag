@@ -11,7 +11,7 @@ import MatchCenterList from 'components/MatchCenterList';
 
 class MatchCenterPage extends Component {
   static propTypes = {
-    fixturesItems: PropTypes.arrayOf(PropTypes.object).isRequired,
+    fixturesItems: PropTypes.objectOf(PropTypes.array).isRequired,
     getFixtures: PropTypes.func.isRequired,
   };
 
