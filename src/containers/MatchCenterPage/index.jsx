@@ -7,6 +7,7 @@ import { getFixturesItemsdGroupedByCompetition } from 'selectors';
 
 import AppPage from 'components/AppPage';
 import AppPageTitle from 'components/AppPageTitle';
+import AppPageContent from 'components/AppPageContent';
 import MatchCenterList from 'components/MatchCenterList';
 
 class MatchCenterPage extends Component {
@@ -28,7 +29,9 @@ class MatchCenterPage extends Component {
       <AppPage title="Match Center">
         <AppPageTitle>Match Center</AppPageTitle>
 
-        <MatchCenterList fixturesItems={fixturesItems} />
+        <AppPageContent>
+          <MatchCenterList fixturesItems={fixturesItems} />
+        </AppPageContent>
 
       </AppPage>
     );

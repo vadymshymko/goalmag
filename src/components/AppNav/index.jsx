@@ -47,7 +47,7 @@ AppNav.propTypes = {
 };
 
 AppNav.defaultProps = {
-  competitionsItems: {},
+  competitionsItems: [],
 };
 
 export default AppNav;

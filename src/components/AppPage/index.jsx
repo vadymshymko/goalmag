@@ -7,9 +7,9 @@ const AppPage = ({
   children,
 }) => (
   <DocumentTitle title={title}>
-    <div className="AppPage">
+    <main className="AppPage">
       {children}
-    </div>
+    </main>
   </DocumentTitle>
 );
 

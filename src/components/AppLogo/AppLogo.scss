@@ -11,6 +11,18 @@
     margin-bottom: 15px;
     position: relative;
     width: 90px;
+
+    &::before {
+      background-color: #333;
+      border-radius: 50%;
+      content: "";
+      height: 30px;
+      left: 50%;
+      position: absolute;
+      top: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      width: 30px;
+    }
   }
 
   &__title {
