@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server",
-    "build": "export NODE_ENV=production && webpack -p --progress --colors --display-reasons --verbose --display-chunks",
+    "build": "export NODE_ENV=production && node_modules/.bin/rimraf ./dist && webpack -p --progress --colors --display-reasons --verbose --display-chunks",
     "test": "NODE_ENV=test jest --no-cache",
     "test:coverage": "NODE_ENV=test jest --no-cache --coverage"
   },

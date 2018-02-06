@@ -1,8 +1,8 @@
 import { teams as types } from 'types';
 
-export const initialState = {};
+const initialState = {};
 
-export const teams = (state = initialState, action) => {
+const teams = (state = initialState, action) => {
   switch (action.type) {
     case types.GET_TEAM_REQUEST:
       return {

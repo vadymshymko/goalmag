@@ -1,13 +1,13 @@
 import { competitions as types } from 'types';
 
-export const initialState = {
+const initialState = {
   items: [],
   isFetching: false,
   isRequestFailed: false,
   isInitialized: false,
 };
 
-export const competitions = (state = initialState, action) => {
+const competitions = (state = initialState, action) => {
   switch (action.type) {
     case types.GET_COMPETITIONS_REQUEST:
       return {
