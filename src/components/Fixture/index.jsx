@@ -83,6 +83,10 @@ const Fixture = ({
         type="home"
       />
     </span>
+
+    <span className="Fixture__status">
+      {status}
+    </span>
   </article>
 );
 
@@ -98,6 +102,7 @@ Fixture.propTypes = {
     'timed',
     'in_play',
     'finished',
+    'postponed',
   ]),
 };
 

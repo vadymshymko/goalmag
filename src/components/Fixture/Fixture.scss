@@ -5,14 +5,20 @@
   &__date {
     font-size: 13px;
     font-weight: 100;
-    width: 200px;
+    width: 110px;
+  }
+
+  &__status {
+    font-size: 13px;
+    font-weight: 100;
+    text-align: right;
+    width: 110px;
   }
 
   &__main-info {
     display: flex;
     flex: 1;
     justify-content: space-around;
-    padding-right: 200px;
   }
 
   &__score {

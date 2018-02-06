@@ -1,9 +1,8 @@
 .MatchCenterCompetition {
   &__title {
-    background-color: #f7f8fb;
-    font-size: 16px;
-    font-weight: 400;
-    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0 0 10px;
     text-align: center;
   }
 
@@ -11,8 +10,8 @@
     background-color: transparent;
     border: 0;
     cursor: pointer;
-    padding: 15px 0;
-    width: 100%;
+    font-weight: 700;
+    padding: 0;
 
     &:focus {
       outline: none;

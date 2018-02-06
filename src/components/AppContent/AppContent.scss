@@ -1,4 +1,9 @@
 .AppContent {
-  padding: 30px 60px;
+  padding: 30px;
   width: 100%;
+
+  .Container {
+    align-items: stretch;
+    flex-flow: nowrap;
+  }
 }

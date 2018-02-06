@@ -3,17 +3,23 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import AppSidebar from 'containers/AppSidebar';
+import AppNav from 'containers/AppNav';
+import AppHeader from 'components/AppHeader';
 import AppContent from 'components/AppContent';
+import Container from 'components/Container';
 
 import './App.scss';
 
 const App = ({ children }) => (
   <div className="App">
-    <AppSidebar />
+    <AppHeader />
 
     <AppContent>
-      {children}
+      <Container>
+        <AppNav />
+
+        {children}
+      </Container>
     </AppContent>
   </div>
 );

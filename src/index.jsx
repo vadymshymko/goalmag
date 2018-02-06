@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { createBrowserHistory as createHistory } from 'history';
+
 import { saveDataToLocalStorage } from 'utils';
 
 import 'normalize.css';
@@ -14,21 +15,23 @@ const history = createHistory();
 const store = configureStore();
 
 store.subscribe(() => {
-  const storeTeams = store.getState().teams;
-  const storeCompetitions = store.getState().competitions;
+  const {
+    competitions,
+    teams,
+  } = store.getState();
 
   saveDataToLocalStorage('store', {
-    competitions: storeCompetitions.isInitialized
-      ? storeCompetitions
-      : {},
-    teams: Object.keys(storeTeams).reduce((result, teamId) => {
-      if (!storeTeams[teamId].isInitialized) {
+    competitions: competitions.isInitialized
+      ? competitions
+      : undefined,
+    teams: Object.keys(teams).reduce((result, teamId) => {
+      if (!teams[teamId].isInitialized) {
         return result;
       }
 
       return {
         ...result,
-        [teamId]: storeTeams[teamId],
+        [teamId]: teams[teamId],
       };
     }, {}),
   });
