@@ -8,7 +8,7 @@ import {
   Switch,
 } from 'react-router-dom';
 
-import App from 'containers/App';
+import App from 'components/App';
 import MatchCenterPage from 'containers/MatchCenterPage';
 import CompetitionPage from 'containers/CompetitionPage';
 

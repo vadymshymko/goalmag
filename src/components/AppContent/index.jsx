@@ -1,11 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Container from 'components/Container';
+import AppNav from 'containers/AppNav';
+
 import './AppContent.scss';
 
 const AppContent = ({ children }) => (
   <div className="AppContent">
-    {children}
+    <Container>
+      <AppNav />
+
+      {children}
+    </Container>
   </div>
 );
 
