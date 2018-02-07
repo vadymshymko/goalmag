@@ -34,6 +34,9 @@
     "url": "https://github.com/vadymshymko/react-football-app/issues"
   },
   "homepage": "https://github.com/vadymshymko/react-football-app#readme",
+  "engines": {
+    "node": "9.1.0"
+  },
   "dependencies": {
     "express": "^4.16.2",
     "history": "^4.7.2",
