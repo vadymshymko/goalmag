@@ -9,8 +9,7 @@
     "build": "export NODE_ENV=production && rm -rf ./dist && webpack -p --progress --colors --display-reasons --verbose --display-chunks",
     "test": "NODE_ENV=test jest --no-cache",
     "test:coverage": "npm run test --coverage",
-    "heroku-prebuild": "NPM_CONFIG_PRODUCTION=false",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=true && npm run build"
+    "heroku-postbuild": "npm run build"
   },
   "repository": {
     "type": "git",
