@@ -33,6 +33,7 @@
   "homepage": "https://github.com/vadymshymko/react-football-app#readme",
   "dependencies": {
     "history": "^4.7.2",
+    "humps": "^2.0.1",
     "isomorphic-fetch": "^2.2.1",
     "normalize.css": "^7.0.0",
     "prop-types": "^15.6.0",
@@ -90,7 +91,9 @@
     "modulePaths": [
       "src"
     ],
-    "setupFiles": ["<rootDir>/src/__mocks__/browser.js"],
+    "setupFiles": [
+      "<rootDir>/src/__mocks__/browser.js"
+    ],
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/src/__mocks__/fileMock.js",
       "\\.(css|less)$": "<rootDir>/src/__mocks__/styleMock.js"
