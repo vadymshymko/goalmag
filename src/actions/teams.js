@@ -37,7 +37,10 @@ export const getTeam = teamId => (dispatch, getState) => {
   return callApi(`teams/${teamId}`).then(json => (
     dispatch(getTeamSuccess({
       teamId,
-      teamInfo: json,
+      teamInfo: {
+        ...json,
+        crestUrl: json.crestUrl.replace('http://', 'https://'),
+      },
     }))
   )).catch((error) => {
     dispatch(getTeamFailure(teamId));
