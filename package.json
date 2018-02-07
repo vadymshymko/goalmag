@@ -9,8 +9,8 @@
     "build": "export NODE_ENV=production && rm -rf ./dist && webpack -p --progress --colors --display-reasons --verbose --display-chunks",
     "test": "NODE_ENV=test jest --no-cache",
     "test:coverage": "npm run test --coverage",
-    "heroku-prebuild": "npm install --only=dev",
-    "heroku-postbuild": "npm run build"
+    "heroku-prebuild": "NPM_CONFIG_PRODUCTION=false",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=true && npm run build"
   },
   "repository": {
     "type": "git",
@@ -34,10 +34,6 @@
     "url": "https://github.com/vadymshymko/react-football-app/issues"
   },
   "homepage": "https://github.com/vadymshymko/react-football-app#readme",
-  "engines": {
-    "node": "9.1.0",
-    "npm": "5.6.0"
-  },
   "dependencies": {
     "express": "^4.16.2",
     "history": "^4.7.2",
