@@ -28,7 +28,7 @@ const Root = ({
 
           <Route
             exact
-            path="/:id"
+            path="/competitions/:id"
             component={CompetitionPage}
           />
 

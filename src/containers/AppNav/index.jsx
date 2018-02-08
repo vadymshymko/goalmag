@@ -38,7 +38,7 @@ class AppNav extends Component {
           <NavLink
             className="AppNav__link"
             activeClassName="AppNav__link--active"
-            to={`/${competition.id}`}
+            to={`/competitions/${competition.id}`}
             exact
             title={competition.caption}
           >
