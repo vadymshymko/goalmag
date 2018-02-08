@@ -1,7 +1,8 @@
 import { competitions as types } from 'types';
 
 const initialState = {
-  items: [],
+  items: {},
+  ids: [],
   isFetching: false,
   isRequestFailed: false,
   isInitialized: false,

@@ -9,16 +9,64 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 const initialStore = {
   competitions: {
-    items: [],
+    ids: [],
+    items: {},
     isFetching: false,
     isRequestFailed: false,
     isInitialized: false,
   },
 };
 
+const mockResponse = [
+  {
+    id: 1,
+    caption: '1 caption',
+  },
+  {
+    id: 2,
+    caption: '2 caption',
+  },
+];
+
+const items = {
+  1: {
+    id: 1,
+    caption: '1 caption',
+  },
+  2: {
+    id: 2,
+    caption: '2 caption',
+  },
+};
+
+const ids = [1, 2];
+
 describe('competitions actions', () => {
   afterEach(() => {
     nock.cleanAll();
+  });
+
+  it('should create FETCH_COMPETITIONS_SUCCESS (empty response)', () => {
+    const store = mockStore(initialStore);
+    const expectedActions = [
+      { type: types.FETCH_COMPETITIONS_REQUEST },
+      {
+        type: types.FETCH_COMPETITIONS_SUCCESS,
+        payload: {
+          items: {},
+          ids: [],
+        },
+      },
+    ];
+
+    nock(`https:${config.apiRoot}`).get('/competitions').reply(
+      200,
+      [],
+    );
+
+    return store.dispatch(actions.fetchCompetitions()).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
   });
 
   it('should create FETCH_COMPETITIONS_SUCCESS', () => {
@@ -28,14 +76,15 @@ describe('competitions actions', () => {
       {
         type: types.FETCH_COMPETITIONS_SUCCESS,
         payload: {
-          items: [],
+          items,
+          ids,
         },
       },
     ];
 
     nock(`https:${config.apiRoot}`).get('/competitions').reply(
       200,
-      [],
+      mockResponse,
     );
 
     return store.dispatch(actions.fetchCompetitions()).then(() => {

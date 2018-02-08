@@ -6,14 +6,14 @@ import AppPage from 'components/AppPage';
 import AppPageTitle from 'components/AppPageTitle';
 import AppPageContent from 'components/AppPageContent';
 
-import { getCompetitionInfo } from 'selectors';
+import { getCompetition } from 'selectors';
 
 const COMPETITION_ID_REG_EXP = /[\d]{1,}$/;
 
 class CompetitionPage extends Component {
   static propTypes = {
     needRedirectToIndex: PropTypes.bool.isRequired,
-    competitionInfo: PropTypes.shape({
+    competition: PropTypes.shape({
       caption: PropTypes.string,
     }).isRequired,
     match: PropTypes.shape({
@@ -45,11 +45,11 @@ class CompetitionPage extends Component {
   }
 
   render() {
-    const { competitionInfo } = this.props;
+    const { competition } = this.props;
 
     return (
-      <AppPage title={competitionInfo.caption}>
-        <AppPageTitle>{competitionInfo.caption}</AppPageTitle>
+      <AppPage title={competition.caption}>
+        <AppPageTitle>{competition.caption}</AppPageTitle>
 
         <AppPageContent>
           Competition info
@@ -70,15 +70,15 @@ const mapStateToProps = (state, ownProps) => {
   } = ownProps;
 
   const isCompeitionsInitialized = state.competitions.isInitialized;
-  const competitionInfo = getCompetitionInfo(state, id);
+  const competition = getCompetition(state, id);
   const needRedirectToIndex = (
     isCompeitionsInitialized
-    && Object.keys(competitionInfo).length === 0
+    && Object.keys(competition).length === 0
   );
 
   return {
     needRedirectToIndex,
-    competitionInfo,
+    competition,
   };
 };
 

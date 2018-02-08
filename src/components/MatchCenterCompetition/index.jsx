@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getCompetitionInfo } from 'selectors';
+import { getCompetition } from 'selectors';
 
 import FixturesList from 'components/FixturesList';
 
@@ -10,7 +10,7 @@ import './MatchCenterCompetition.scss';
 
 class MatchCenterCompetition extends Component {
   static propTypes = {
-    competitionInfo: PropTypes.shape({
+    competition: PropTypes.shape({
       caption: PropTypes.string,
     }).isRequired,
     fixturesItems: PropTypes.arrayOf(PropTypes.shape({
@@ -42,7 +42,7 @@ class MatchCenterCompetition extends Component {
   render() {
     const {
       fixturesItems,
-      competitionInfo: {
+      competition: {
         caption: competitionName,
       },
     } = this.props;
@@ -74,7 +74,7 @@ class MatchCenterCompetition extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  competitionInfo: getCompetitionInfo(state, ownProps.competitionId),
+  competition: getCompetition(state, ownProps.competitionId),
 });
 
 export default connect(mapStateToProps)(MatchCenterCompetition);

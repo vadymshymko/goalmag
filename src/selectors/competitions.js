@@ -1,7 +1,9 @@
-export const getCompetitionInfo = (state, id = 0) => (
-  state.competitions.items.find(competition => (
-    parseInt(competition.id, 10) === parseInt(id, 10)
-  )) || {}
+export const getCompetitions = state => (
+  state.competitions.ids.map(id => ({
+    ...state.competitions.items[id],
+  }))
 );
 
-export default getCompetitionInfo;
+export const getCompetition = (state, id = 0) => (
+  state.competitions.items[id] || {}
+);
