@@ -5,5 +5,15 @@ export const getCompetitions = state => (
 );
 
 export const getCompetition = (state, id = 0) => (
-  state.competitions.items[id] || {}
+  state.competitions.items[id]
 );
+
+export const getCompetitionName = (state, id) => {
+  const competition = getCompetition(state, id);
+
+  if (!competition) {
+    return null;
+  }
+
+  return competition.caption;
+};

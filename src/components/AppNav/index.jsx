@@ -1,24 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { NavLink, withRouter } from 'react-router-dom';
-
-import { fetchCompetitions } from 'actions';
-import { getCompetitions } from 'selectors';
+import { NavLink } from 'react-router-dom';
 
 import './AppNav.scss';
 
 class AppNav extends Component {
   static propTypes = {
-    fetchCompetitions: PropTypes.func.isRequired,
     competitions: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number,
       caption: PropTypes.string,
     })).isRequired,
-  }
-
-  componentDidMount() {
-    this.props.fetchCompetitions();
   }
 
   getCompetitionsByLeagueCodes = (leagues = []) => (
@@ -115,12 +106,4 @@ class AppNav extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  competitions: getCompetitions(state),
-});
-
-const actions = {
-  fetchCompetitions,
-};
-
-export default withRouter(connect(mapStateToProps, actions)(AppNav));
+export default AppNav;
