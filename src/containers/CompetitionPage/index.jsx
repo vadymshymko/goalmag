@@ -12,34 +12,30 @@ const COMPETITION_ID_REG_EXP = /[\d]{1,}$/;
 
 class CompetitionPage extends Component {
   static propTypes = {
-    needRedirectToIndex: PropTypes.bool.isRequired,
-    competition: PropTypes.shape({
-      caption: PropTypes.string,
-    }).isRequired,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        id: PropTypes.string,
-      }),
-    }).isRequired,
+    id: PropTypes.number.isRequired,
+    competition: PropTypes.objectOf(PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.object,
+      PropTypes.array,
+    ])),
     history: PropTypes.shape({
       replace: PropTypes.func,
     }).isRequired,
   }
 
+  static defaultProps = {
+    competition: {},
+  }
+
   componentDidMount() {
-    if (
-      this.props.needRedirectToIndex
-      || !COMPETITION_ID_REG_EXP.test(this.props.match.params.id)
-    ) {
+    if (!COMPETITION_ID_REG_EXP.test(this.props.id) || !this.props.competition.id) {
       this.props.history.replace('/');
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.needRedirectToIndex
-      || !COMPETITION_ID_REG_EXP.test(nextProps.match.params.id)
-    ) {
+    if (!COMPETITION_ID_REG_EXP.test(nextProps.id) || !nextProps.competition.id) {
       this.props.history.replace('/');
     }
   }
@@ -60,26 +56,15 @@ class CompetitionPage extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const {
-    match: {
-      params: {
-        id,
-      },
+const mapStateToProps = (state, {
+  match: {
+    params: {
+      id,
     },
-  } = ownProps;
-
-  const isCompeitionsInitialized = state.competitions.isInitialized;
-  const competition = getCompetition(state, id);
-  const needRedirectToIndex = (
-    isCompeitionsInitialized
-    && Object.keys(competition).length === 0
-  );
-
-  return {
-    needRedirectToIndex,
-    competition,
-  };
-};
+  },
+}) => ({
+  id: parseInt(id, 10),
+  competition: getCompetition(state, id) || {},
+});
 
 export default connect(mapStateToProps)(CompetitionPage);
