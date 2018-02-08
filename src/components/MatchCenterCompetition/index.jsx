@@ -74,7 +74,7 @@ class MatchCenterCompetition extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  competitionInfo: getCompetitionInfo(ownProps.competitionId, state),
+  competitionInfo: getCompetitionInfo(state, ownProps.competitionId),
 });
 
 export default connect(mapStateToProps)(MatchCenterCompetition);

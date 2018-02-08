@@ -1,10 +1,6 @@
-export const getCompetitionInfo = (competitionId = 0, {
-  competitions: {
-    items: competitionsItems,
-  },
-}) => (
-  competitionsItems.find(competition => (
-    parseInt(competition.id, 10) === parseInt(competitionId, 10)
+export const getCompetitionInfo = (state, id = 0) => (
+  state.competitions.items.find(competition => (
+    parseInt(competition.id, 10) === parseInt(id, 10)
   )) || {}
 );
 
