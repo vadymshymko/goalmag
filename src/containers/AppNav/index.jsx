@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 
-import { getCompetitions } from 'actions';
+import { fetchCompetitions } from 'actions';
 
 import './AppNav.scss';
 
 class AppNav extends Component {
   static propTypes = {
-    getCompetitions: PropTypes.func.isRequired,
+    fetchCompetitions: PropTypes.func.isRequired,
     competitionsItems: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number,
       caption: PropTypes.string,
@@ -17,7 +17,7 @@ class AppNav extends Component {
   }
 
   componentDidMount() {
-    this.props.getCompetitions();
+    this.props.fetchCompetitions();
   }
 
   getCompetitionsByLeagueCodes = (leagues = []) => (
@@ -119,7 +119,7 @@ const mapStateToProps = state => ({
 });
 
 const actions = {
-  getCompetitions,
+  fetchCompetitions,
 };
 
 export default withRouter(connect(mapStateToProps, actions)(AppNav));

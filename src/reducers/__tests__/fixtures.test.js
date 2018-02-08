@@ -43,13 +43,13 @@ describe('fixtures reducer', () => {
 
   it('should return fetchingState', () => {
     expect(reducer(undefined, {
-      type: types.GET_FIXTURES_REQUEST,
+      type: types.FETCH_FIXTURES_REQUEST,
     })).toEqual(fetchingState);
   });
 
   it('should return initializedState', () => {
     expect(reducer(undefined, {
-      type: types.GET_FIXTURES_SUCCESS,
+      type: types.FETCH_FIXTURES_SUCCESS,
       payload: {
         items,
       },
@@ -58,7 +58,7 @@ describe('fixtures reducer', () => {
 
   it('should return failureState', () => {
     expect(reducer(undefined, {
-      type: types.GET_FIXTURES_FAILURE,
+      type: types.FETCH_FIXTURES_FAILURE,
     })).toEqual(failureState);
   });
 });

@@ -1,36 +1,36 @@
 import { competitions as types } from 'types';
 import { callApi } from 'utils';
 
-const getCompetitionsRequest = () => ({
-  type: types.GET_COMPETITIONS_REQUEST,
+const fetchCompetitionsRequest = () => ({
+  type: types.FETCH_COMPETITIONS_REQUEST,
 });
 
-const getCompetitionsSuccess = items => ({
-  type: types.GET_COMPETITIONS_SUCCESS,
+const fetchCompetitionsSuccess = items => ({
+  type: types.FETCH_COMPETITIONS_SUCCESS,
   payload: {
     items,
   },
 });
 
-const getCompetitionsFailure = () => ({
-  type: types.GET_COMPETITIONS_FAILURE,
+const fetchCompetitionsFailure = () => ({
+  type: types.FETCH_COMPETITIONS_FAILURE,
 });
 
-export const getCompetitions = () => (dispatch, getState) => {
+export const fetchCompetitions = () => (dispatch, getState) => {
   const currentState = getState().competitions;
 
   if (currentState.isInitialized || currentState.isFetching) {
     return Promise.resolve();
   }
 
-  dispatch(getCompetitionsRequest());
+  dispatch(fetchCompetitionsRequest());
 
   return callApi('competitions').then(json => (
-    dispatch(getCompetitionsSuccess(json))
+    dispatch(fetchCompetitionsSuccess(json))
   )).catch((error) => {
-    dispatch(getCompetitionsFailure());
+    dispatch(fetchCompetitionsFailure());
     throw error;
   });
 };
 
-export default getCompetitions;
+export default fetchCompetitions;

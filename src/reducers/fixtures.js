@@ -9,14 +9,14 @@ const initialState = {
 
 const fixtures = (state = initialState, action) => {
   switch (action.type) {
-    case types.GET_FIXTURES_REQUEST:
+    case types.FETCH_FIXTURES_REQUEST:
       return {
         ...state,
         isFetching: true,
         isRequestFailed: false,
       };
 
-    case types.GET_FIXTURES_SUCCESS:
+    case types.FETCH_FIXTURES_SUCCESS:
       return {
         ...state,
         ...action.payload,
@@ -24,7 +24,7 @@ const fixtures = (state = initialState, action) => {
         isInitialized: true,
       };
 
-    case types.GET_FIXTURES_FAILURE:
+    case types.FETCH_FIXTURES_FAILURE:
       return {
         ...state,
         isFetching: false,

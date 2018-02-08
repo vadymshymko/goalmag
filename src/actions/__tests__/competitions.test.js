@@ -21,12 +21,12 @@ describe('competitions actions', () => {
     nock.cleanAll();
   });
 
-  it('should create GET_COMPETITIONS_SUCCESS', () => {
+  it('should create FETCH_COMPETITIONS_SUCCESS', () => {
     const store = mockStore(initialStore);
     const expectedActions = [
-      { type: types.GET_COMPETITIONS_REQUEST },
+      { type: types.FETCH_COMPETITIONS_REQUEST },
       {
-        type: types.GET_COMPETITIONS_SUCCESS,
+        type: types.FETCH_COMPETITIONS_SUCCESS,
         payload: {
           items: [],
         },
@@ -38,16 +38,16 @@ describe('competitions actions', () => {
       [],
     );
 
-    return store.dispatch(actions.getCompetitions()).then(() => {
+    return store.dispatch(actions.fetchCompetitions()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
 
-  it('should create GET_COMPETITIONS_FAILURE', () => {
+  it('should create FETCH_COMPETITIONS_FAILURE', () => {
     const store = mockStore(initialStore);
     const expectedActions = [
-      { type: types.GET_COMPETITIONS_REQUEST },
-      { type: types.GET_COMPETITIONS_FAILURE },
+      { type: types.FETCH_COMPETITIONS_REQUEST },
+      { type: types.FETCH_COMPETITIONS_FAILURE },
     ];
 
     nock(`https:${config.apiRoot}`).get('/competitions').replyWithError({
@@ -56,7 +56,7 @@ describe('competitions actions', () => {
       statusCode: '500',
     });
 
-    return store.dispatch(actions.getCompetitions()).catch(() => {
+    return store.dispatch(actions.fetchCompetitions()).catch(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
@@ -71,7 +71,7 @@ describe('competitions actions', () => {
     });
     const expectedActions = [];
 
-    return store.dispatch(actions.getCompetitions()).then(() => {
+    return store.dispatch(actions.fetchCompetitions()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
@@ -86,7 +86,7 @@ describe('competitions actions', () => {
     });
     const expectedActions = [];
 
-    return store.dispatch(actions.getCompetitions()).then(() => {
+    return store.dispatch(actions.fetchCompetitions()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });

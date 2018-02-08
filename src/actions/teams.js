@@ -2,26 +2,26 @@ import { teams as types } from 'types';
 import { callApi } from 'utils';
 import { getTeamState } from 'selectors';
 
-const getTeamRequest = teamId => ({
-  type: types.GET_TEAM_REQUEST,
+const fetchTeamRequest = teamId => ({
+  type: types.FETCH_TEAM_REQUEST,
   payload: {
     teamId,
   },
 });
 
-const getTeamSuccess = payload => ({
-  type: types.GET_TEAM_SUCCESS,
+const fetchTeamSuccess = payload => ({
+  type: types.FETCH_TEAM_SUCCESS,
   payload,
 });
 
-const getTeamFailure = teamId => ({
-  type: types.GET_TEAM_FAILURE,
+const fetchTeamFailure = teamId => ({
+  type: types.FETCH_TEAM_FAILURE,
   payload: {
     teamId,
   },
 });
 
-export const getTeam = teamId => (dispatch, getState) => {
+export const fetchTeam = teamId => (dispatch, getState) => {
   if (!teamId) {
     throw new Error('Invalid team id');
   }
@@ -32,10 +32,10 @@ export const getTeam = teamId => (dispatch, getState) => {
     return Promise.resolve();
   }
 
-  dispatch(getTeamRequest(teamId));
+  dispatch(fetchTeamRequest(teamId));
 
   return callApi(`teams/${teamId}`).then(json => (
-    dispatch(getTeamSuccess({
+    dispatch(fetchTeamSuccess({
       teamId,
       teamInfo: {
         ...json,
@@ -43,9 +43,9 @@ export const getTeam = teamId => (dispatch, getState) => {
       },
     }))
   )).catch((error) => {
-    dispatch(getTeamFailure(teamId));
+    dispatch(fetchTeamFailure(teamId));
     throw error;
   });
 };
 
-export default getTeam;
+export default fetchTeam;

@@ -1,36 +1,36 @@
 import { fixtures as types } from 'types';
 import { callApi } from 'utils';
 
-const getFixturesRequest = () => ({
-  type: types.GET_FIXTURES_REQUEST,
+const fetchFixturesRequest = () => ({
+  type: types.FETCH_FIXTURES_REQUEST,
 });
 
-const getFixturesSuccess = items => ({
-  type: types.GET_FIXTURES_SUCCESS,
+const fetchFixturesSuccess = items => ({
+  type: types.FETCH_FIXTURES_SUCCESS,
   payload: {
     items,
   },
 });
 
-const getFixturesFailure = () => ({
-  type: types.GET_FIXTURES_FAILURE,
+const fetchFixturesFailure = () => ({
+  type: types.FETCH_FIXTURES_FAILURE,
 });
 
-export const getFixtures = () => (dispatch, getState) => {
+export const fetchFixtures = () => (dispatch, getState) => {
   const currentState = getState().fixtures;
 
   if (currentState.isInitialized || currentState.isFetching) {
     return Promise.resolve();
   }
 
-  dispatch(getFixturesRequest());
+  dispatch(fetchFixturesRequest());
 
   return callApi('fixtures?timeFrame=n1').then(json => (
-    dispatch(getFixturesSuccess(json.fixtures))
+    dispatch(fetchFixturesSuccess(json.fixtures))
   )).catch((error) => {
-    dispatch(getFixturesFailure());
+    dispatch(fetchFixturesFailure());
     throw error;
   });
 };
 
-export default getFixtures;
+export default fetchFixtures;

@@ -9,14 +9,14 @@ const initialState = {
 
 const competitions = (state = initialState, action) => {
   switch (action.type) {
-    case types.GET_COMPETITIONS_REQUEST:
+    case types.FETCH_COMPETITIONS_REQUEST:
       return {
         ...state,
         isFetching: true,
         isRequestFailed: false,
       };
 
-    case types.GET_COMPETITIONS_SUCCESS:
+    case types.FETCH_COMPETITIONS_SUCCESS:
       return {
         ...state,
         ...action.payload,
@@ -24,7 +24,7 @@ const competitions = (state = initialState, action) => {
         isInitialized: true,
       };
 
-    case types.GET_COMPETITIONS_FAILURE:
+    case types.FETCH_COMPETITIONS_FAILURE:
       return {
         ...state,
         isFetching: false,

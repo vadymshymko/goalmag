@@ -21,12 +21,12 @@ describe('fixtures actions', () => {
     nock.cleanAll();
   });
 
-  it('should create GET_FIXTURES_SUCCESS', () => {
+  it('should create FETCH_FIXTURES_SUCCESS', () => {
     const store = mockStore(initialStore);
     const expectedActions = [
-      { type: types.GET_FIXTURES_REQUEST },
+      { type: types.FETCH_FIXTURES_REQUEST },
       {
-        type: types.GET_FIXTURES_SUCCESS,
+        type: types.FETCH_FIXTURES_SUCCESS,
         payload: {
           items: [],
         },
@@ -40,16 +40,16 @@ describe('fixtures actions', () => {
       },
     );
 
-    return store.dispatch(actions.getFixtures()).then(() => {
+    return store.dispatch(actions.fetchFixtures()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
 
-  it('should create GET_FIXTURES_FAILURE', () => {
+  it('should create FETCH_FIXTURES_FAILURE', () => {
     const store = mockStore(initialStore);
     const expectedActions = [
-      { type: types.GET_FIXTURES_REQUEST },
-      { type: types.GET_FIXTURES_FAILURE },
+      { type: types.FETCH_FIXTURES_REQUEST },
+      { type: types.FETCH_FIXTURES_FAILURE },
     ];
 
     nock(`https:${config.apiRoot}`).get('/fixtures?timeFrame=n1').replyWithError({
@@ -58,7 +58,7 @@ describe('fixtures actions', () => {
       statusCode: '500',
     });
 
-    return store.dispatch(actions.getFixtures()).catch(() => {
+    return store.dispatch(actions.fetchFixtures()).catch(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
@@ -73,7 +73,7 @@ describe('fixtures actions', () => {
     });
     const expectedActions = [];
 
-    return store.dispatch(actions.getFixtures()).then(() => {
+    return store.dispatch(actions.fetchFixtures()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
@@ -88,7 +88,7 @@ describe('fixtures actions', () => {
     });
     const expectedActions = [];
 
-    return store.dispatch(actions.getFixtures()).then(() => {
+    return store.dispatch(actions.fetchFixtures()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });

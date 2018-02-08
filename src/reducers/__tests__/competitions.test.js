@@ -43,13 +43,13 @@ describe('competitions reducer', () => {
 
   it('should return fetchingState', () => {
     expect(reducer(undefined, {
-      type: types.GET_COMPETITIONS_REQUEST,
+      type: types.FETCH_COMPETITIONS_REQUEST,
     })).toEqual(fetchingState);
   });
 
   it('should return initializedState', () => {
     expect(reducer(undefined, {
-      type: types.GET_COMPETITIONS_SUCCESS,
+      type: types.FETCH_COMPETITIONS_SUCCESS,
       payload: {
         items,
       },
@@ -58,7 +58,7 @@ describe('competitions reducer', () => {
 
   it('should return failureState', () => {
     expect(reducer(undefined, {
-      type: types.GET_COMPETITIONS_FAILURE,
+      type: types.FETCH_COMPETITIONS_FAILURE,
     })).toEqual(failureState);
   });
 });
