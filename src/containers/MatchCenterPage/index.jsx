@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { fetchFixtures } from 'actions';
-import { getFixturesItemsdGroupedByCompetition } from 'selectors';
-
 import AppPage from 'components/AppPage';
 import AppPageTitle from 'components/AppPageTitle';
 import AppPageContent from 'components/AppPageContent';
 import MatchCenterList from 'components/MatchCenterList';
 
+import { fetchFixtures } from 'actions';
+import { getFixturesCompetitions } from 'selectors';
+
 class MatchCenterPage extends Component {
   static propTypes = {
-    fixturesItems: PropTypes.objectOf(PropTypes.array).isRequired,
+    fixturesCompetitions: PropTypes.arrayOf(PropTypes.object).isRequired,
     fetchFixtures: PropTypes.func.isRequired,
   };
 
@@ -22,7 +22,7 @@ class MatchCenterPage extends Component {
 
   render() {
     const {
-      fixturesItems,
+      fixturesCompetitions,
     } = this.props;
 
     return (
@@ -30,7 +30,7 @@ class MatchCenterPage extends Component {
         <AppPageTitle>Match Center</AppPageTitle>
 
         <AppPageContent>
-          <MatchCenterList fixturesItems={fixturesItems} />
+          <MatchCenterList competitions={fixturesCompetitions} />
         </AppPageContent>
 
       </AppPage>
@@ -39,7 +39,7 @@ class MatchCenterPage extends Component {
 }
 
 const mapStateToProps = state => ({
-  fixturesItems: getFixturesItemsdGroupedByCompetition(state),
+  fixturesCompetitions: getFixturesCompetitions(state),
 });
 
 const actions = {

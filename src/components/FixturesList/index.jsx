@@ -6,10 +6,10 @@ import Fixture from 'components/Fixture';
 import './FixturesList.scss';
 
 const FixturesList = ({
-  fixturesItems,
+  fixtures,
 }) => (
   <ul className="FixturesList">
-    {fixturesItems.map(item => (
+    {fixtures.map(item => (
       <li
         className="FixturesList__item"
         key={item.links.self.href}
@@ -30,11 +30,11 @@ const FixturesList = ({
 );
 
 FixturesList.propTypes = {
-  fixturesItems: PropTypes.arrayOf(PropTypes.object),
+  fixtures: PropTypes.arrayOf(PropTypes.object),
 };
 
 FixturesList.defaultProps = {
-  fixturesItems: [],
+  fixtures: [],
 };
 
 export default FixturesList;

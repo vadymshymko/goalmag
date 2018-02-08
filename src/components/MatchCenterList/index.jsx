@@ -1,22 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import MatchCenterCompetition from 'components/MatchCenterCompetition';
+import MatchCenterCompetition from 'containers/MatchCenterCompetition';
 
 import './MatchCenterList.scss';
 
 const MatchCenterList = ({
-  fixturesItems,
+  competitions,
 }) => (
   <ul className="MatchCenterList">
-    {Object.keys(fixturesItems).map(competitionId => (
+    {competitions.map(competition => (
       <li
         className="MatchCenterList__item"
-        key={competitionId}
+        key={competition.id}
       >
         <MatchCenterCompetition
-          competitionId={competitionId}
-          fixturesItems={fixturesItems[competitionId]}
+          competition={competition}
         />
       </li>
     ))}
@@ -24,20 +23,7 @@ const MatchCenterList = ({
 );
 
 MatchCenterList.propTypes = {
-  fixturesItems: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.shape({
-    awayTeamName: PropTypes.string,
-    homeTeamName: PropTypes.string,
-    date: PropTypes.string,
-    status: PropTypes.string,
-    result: PropTypes.shape({
-      goalsAwayTeam: PropTypes.number,
-      goalsHomeTeam: PropTypes.number,
-    }),
-  }))),
-};
-
-MatchCenterList.defaultProps = {
-  fixturesItems: {},
+  competitions: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default MatchCenterList;

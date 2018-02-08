@@ -39,7 +39,9 @@ export const fetchTeam = teamId => (dispatch, getState) => {
       teamId,
       teamInfo: {
         ...json,
-        crestUrl: json.crestUrl.replace('http://', 'https://'),
+        crestUrl: json.crestUrl
+          ? json.crestUrl.replace('http://', 'https://')
+          : '',
       },
     }))
   )).catch((error) => {
