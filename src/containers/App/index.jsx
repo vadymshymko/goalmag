@@ -8,7 +8,7 @@ import AppNav from 'components/AppNav';
 import Container from 'components/Container';
 
 import { fetchCompetitions } from 'actions';
-import { getCompetitions } from 'selectors';
+import { getCompetitions, getIsCompetitionsInitialized } from 'selectors';
 
 import './App.scss';
 
@@ -58,7 +58,7 @@ class App extends Component {
 
 const mapStateToProps = state => ({
   competitions: getCompetitions(state),
-  isCompetitionsInitialized: state.competitions.isInitialized,
+  isCompetitionsInitialized: getIsCompetitionsInitialized(state),
 });
 
 const actions = {

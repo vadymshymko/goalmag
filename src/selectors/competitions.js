@@ -17,3 +17,7 @@ export const getCompetitionName = (state, id) => {
 
   return competition.caption;
 };
+
+export const getIsCompetitionsInitialized = state => (
+  state.competitions.isInitialized
+);
