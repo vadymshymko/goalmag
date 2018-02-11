@@ -83,10 +83,8 @@ class CompetitionPage extends Component {
         <AppPageTitle>{competitionName}</AppPageTitle>
 
         <AppPageContent>
-          {competitionTable.isInitialized && (
-            <CompetitionTable
-              standing={competitionTable.standing}
-            />
+          {competitionTable.standing && (
+            <CompetitionTable standing={competitionTable.standing} />
           )}
         </AppPageContent>
 

@@ -16,8 +16,9 @@ const store = configureStore();
 
 store.subscribe(() => {
   const {
-    competitions,
-    teams,
+    competitions = {},
+    teams = {},
+    tables = {},
   } = store.getState();
 
   saveDataToLocalStorage('store', {
@@ -32,6 +33,16 @@ store.subscribe(() => {
       return {
         ...result,
         [teamId]: teams[teamId],
+      };
+    }, {}),
+    tables: Object.keys(tables).reduce((result, tableId) => {
+      if (!tables[tableId].isInitialized) {
+        return result;
+      }
+
+      return {
+        ...result,
+        [tableId]: tables[tableId],
       };
     }, {}),
   });

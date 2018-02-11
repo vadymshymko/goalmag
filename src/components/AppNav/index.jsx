@@ -60,11 +60,11 @@ class AppNav extends Component {
           {this.renderCompetitionsList(['CL'])}
         </div>
 
-        <div className="AppNav__section">
+        {/* <div className="AppNav__section">
           <span className="AppNav__title">Australia</span>
 
           {this.renderCompetitionsList(['AAL'])}
-        </div>
+        </div> */}
 
         <div className="AppNav__section">
           <span className="AppNav__title">England</span>
@@ -90,11 +90,11 @@ class AppNav extends Component {
           {this.renderCompetitionsList(['SA', 'SB'])}
         </div>
 
-        <div className="AppNav__section">
+        {/* <div className="AppNav__section">
           <span className="AppNav__title">Portugal</span>
 
           {this.renderCompetitionsList(['PPL'])}
-        </div>
+        </div> */}
 
         <div className="AppNav__section">
           <span className="AppNav__title">Spain</span>
