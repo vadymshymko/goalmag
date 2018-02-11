@@ -5,50 +5,89 @@ import { connect } from 'react-redux';
 import AppPage from 'components/AppPage';
 import AppPageTitle from 'components/AppPageTitle';
 import AppPageContent from 'components/AppPageContent';
+import CompetitionTable from 'components/CompetitionTable';
 
-import { getCompetition } from 'selectors';
+import { getCompetition, getTable } from 'selectors';
 
-const COMPETITION_ID_REG_EXP = /[\d]{1,}$/;
+import { fetchTable } from 'actions';
 
 class CompetitionPage extends Component {
   static propTypes = {
-    id: PropTypes.number.isRequired,
-    competition: PropTypes.objectOf(PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-      PropTypes.object,
-      PropTypes.array,
-    ])),
+    fetchTable: PropTypes.func.isRequired,
+    competitionId: PropTypes.number.isRequired,
+    competitionMatchday: PropTypes.number,
+    competitionName: PropTypes.string,
+    competitionTable: PropTypes.shape({
+      isInitialized: PropTypes.bool,
+      standing: PropTypes.array,
+    }),
     history: PropTypes.shape({
       replace: PropTypes.func,
     }).isRequired,
   }
 
   static defaultProps = {
-    competition: {},
+    competitionName: '',
+    competitionMatchday: null,
+    competitionTable: {},
   }
 
   componentDidMount() {
-    if (!COMPETITION_ID_REG_EXP.test(this.props.id) || !this.props.competition.id) {
+    const {
+      competitionId,
+      competitionMatchday,
+    } = this.props;
+
+    if (!competitionId) {
       this.props.history.replace('/');
+    } else {
+      this.props.fetchTable({
+        competitionId,
+        matchday: competitionMatchday,
+      });
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!COMPETITION_ID_REG_EXP.test(nextProps.id) || !nextProps.competition.id) {
+    const {
+      competitionId,
+      competitionMatchday,
+    } = this.props;
+
+    const {
+      competitionId: nextCompetitionId,
+      competitionMatchday: nextCompetitionMatchday,
+    } = nextProps;
+
+    if (!nextCompetitionId) {
       this.props.history.replace('/');
+    } else if (
+      nextCompetitionId !== competitionId
+      || competitionMatchday !== nextCompetitionMatchday
+    ) {
+      this.props.fetchTable({
+        competitionId: nextCompetitionId,
+        matchday: nextCompetitionMatchday,
+      });
     }
   }
 
   render() {
-    const { competition } = this.props;
+    const {
+      competitionName,
+      competitionTable,
+    } = this.props;
 
     return (
-      <AppPage title={competition.caption}>
-        <AppPageTitle>{competition.caption}</AppPageTitle>
+      <AppPage title={competitionName}>
+        <AppPageTitle>{competitionName}</AppPageTitle>
 
         <AppPageContent>
-          Competition info
+          {competitionTable.isInitialized && (
+            <CompetitionTable
+              standing={competitionTable.standing}
+            />
+          )}
         </AppPageContent>
 
       </AppPage>
@@ -59,12 +98,28 @@ class CompetitionPage extends Component {
 const mapStateToProps = (state, {
   match: {
     params: {
-      id,
+      id: competitionId,
     },
   },
-}) => ({
-  id: parseInt(id, 10),
-  competition: getCompetition(state, id) || {},
-});
+}) => {
+  const {
+    caption: competitionName,
+    currentMatchday: competitionMatchday,
+  } = getCompetition(state, competitionId);
 
-export default connect(mapStateToProps)(CompetitionPage);
+  const competitionTableId = `${competitionId}-${competitionMatchday}`;
+  const competitionTable = getTable(state, competitionTableId);
+
+  return {
+    competitionId: parseInt(competitionId, 10),
+    competitionName,
+    competitionMatchday,
+    competitionTable,
+  };
+};
+
+const actions = {
+  fetchTable,
+};
+
+export default connect(mapStateToProps, actions)(CompetitionPage);

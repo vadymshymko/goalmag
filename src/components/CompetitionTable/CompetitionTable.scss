@@ -1,0 +1,36 @@
+.CompetitionTable {
+  font-size: 14px;
+  table-layout: auto;
+  width: 100%;
+
+  tr {
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  td,
+  th, {
+    padding: 5px 15px;
+    text-align: right;
+  }
+
+  td:first-child,
+  th:first-child, {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  td:last-child,
+  th:last-child, {
+    padding-right: 0;
+  }
+
+  th:nth-child(2),
+  td:nth-child(2) {
+    width: 100%;
+  }
+
+  th:nth-child(2),
+  td:nth-child(2) {
+    text-align: left;
+  }
+}
