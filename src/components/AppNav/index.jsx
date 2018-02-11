@@ -56,9 +56,9 @@ class AppNav extends Component {
           </NavLink>
         </div>
 
-        <div className="AppNav__section">
+        {/* <div className="AppNav__section">
           {this.renderCompetitionsList(['CL'])}
-        </div>
+        </div> */}
 
         {/* <div className="AppNav__section">
           <span className="AppNav__title">Australia</span>
