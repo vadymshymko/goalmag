@@ -8,16 +8,6 @@ export const getCompetition = (state, id = 0) => (
   state.competitions.items[id]
 );
 
-export const getCompetitionName = (state, id) => {
-  const competition = getCompetition(state, id);
-
-  if (!competition) {
-    return null;
-  }
-
-  return competition.caption;
-};
-
 export const getIsCompetitionsInitialized = state => (
   state.competitions.isInitialized
 );

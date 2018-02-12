@@ -1,7 +1,5 @@
-export const getTeamState = (teamId, {
-  teams,
-}) => (
-  teams[teamId]
+export const getTeamState = (state, id) => (
+  state.teams.items[id]
 );
 
 export default getTeamState;

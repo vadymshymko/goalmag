@@ -2,10 +2,10 @@ import { teams as types } from 'types';
 import { callApi } from 'utils';
 import { getTeamState } from 'selectors';
 
-const fetchTeamRequest = teamId => ({
+const fetchTeamRequest = id => ({
   type: types.FETCH_TEAM_REQUEST,
   payload: {
-    teamId,
+    id,
   },
 });
 
@@ -14,10 +14,10 @@ const fetchTeamSuccess = payload => ({
   payload,
 });
 
-const fetchTeamFailure = teamId => ({
+const fetchTeamFailure = id => ({
   type: types.FETCH_TEAM_FAILURE,
   payload: {
-    teamId,
+    id,
   },
 });
 
@@ -26,7 +26,7 @@ export const fetchTeam = teamId => (dispatch, getState) => {
     throw new Error('Invalid team id');
   }
 
-  const currentState = getTeamState(teamId, getState());
+  const currentState = getTeamState(getState(), teamId);
 
   if (currentState && (currentState.isInitialized || currentState.isFetching)) {
     return Promise.resolve();
@@ -36,8 +36,8 @@ export const fetchTeam = teamId => (dispatch, getState) => {
 
   return callApi(`teams/${teamId}`).then(json => (
     dispatch(fetchTeamSuccess({
-      teamId,
-      teamInfo: {
+      id: teamId,
+      info: {
         ...json,
         crestUrl: json.crestUrl
           ? json.crestUrl.replace('http://', 'https://')

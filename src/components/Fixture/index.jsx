@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getFormattedDatetimeByDatetime } from 'utils';
+import FixtureTeam from 'components/FixtureTeam';
 
-import FixtureTeam from 'containers/FixtureTeam';
+import { getFormattedDatetimeByDatetime } from 'utils';
 
 import './Fixture.scss';
 
@@ -26,12 +26,12 @@ const getFixtureScoreBgColorByStatus = (status = '') => {
 };
 
 const Fixture = ({
-  awayTeamLink,
+  awayTeamId,
   awayTeamName,
   date,
   goalsAwayTeam,
   goalsHomeTeam,
-  homeTeamLink,
+  homeTeamId,
   homeTeamName,
   status,
 }) => (
@@ -42,7 +42,7 @@ const Fixture = ({
 
     <span className="Fixture__main-info">
       <FixtureTeam
-        link={homeTeamLink}
+        id={homeTeamId}
         name={homeTeamName}
         type="home"
       />
@@ -78,7 +78,7 @@ const Fixture = ({
       </strong>
 
       <FixtureTeam
-        link={awayTeamLink}
+        id={awayTeamId}
         name={awayTeamName}
         type="away"
       />
@@ -91,29 +91,30 @@ const Fixture = ({
 );
 
 Fixture.propTypes = {
-  awayTeamLink: PropTypes.string,
+  awayTeamId: PropTypes.number,
   awayTeamName: PropTypes.string,
   date: PropTypes.string,
   goalsAwayTeam: PropTypes.number,
   goalsHomeTeam: PropTypes.number,
-  homeTeamLink: PropTypes.string,
+  homeTeamId: PropTypes.number,
   homeTeamName: PropTypes.string,
   status: PropTypes.oneOf([
     'timed',
     'in_play',
     'finished',
     'postponed',
+    'scheduled',
   ]),
 };
 
 Fixture.defaultProps = {
-  awayTeamLink: '',
+  awayTeamId: null,
   awayTeamName: '',
-  date: '',
+  homeTeamId: null,
+  homeTeamName: '',
   goalsAwayTeam: null,
   goalsHomeTeam: null,
-  homeTeamLink: '',
-  homeTeamName: '',
+  date: '',
   status: 'timed',
 };
 

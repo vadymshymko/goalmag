@@ -3,6 +3,7 @@ import reducer from '../fixtures';
 
 const initialState = {
   items: [],
+  ids: [],
   isFetching: false,
   isRequestFailed: false,
   isInitialized: false,
@@ -13,19 +14,22 @@ const fetchingState = {
   isFetching: true,
 };
 
-const items = [
-  {
+const items = {
+  1: {
     id: 1,
-    key: 'value',
+    key: 'value 1',
   },
-  {
+  2: {
     id: 2,
-    key: 'value',
+    key: 'value 2',
   },
-];
+};
+
+const ids = [1, 2];
 
 const initializedState = {
   ...initialState,
+  ids,
   items,
   isInitialized: true,
 };
@@ -52,6 +56,7 @@ describe('fixtures reducer', () => {
       type: types.FETCH_FIXTURES_SUCCESS,
       payload: {
         items,
+        ids,
       },
     })).toEqual(initializedState);
   });

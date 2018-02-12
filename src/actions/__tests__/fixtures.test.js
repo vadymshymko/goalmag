@@ -9,12 +9,39 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 const initialStore = {
   fixtures: {
-    items: [],
+    ids: [],
+    items: {},
     isFetching: false,
     isRequestFailed: false,
     isInitialized: false,
   },
 };
+
+const mockResponse = {
+  fixtures: [
+    {
+      id: 1,
+      key: 'value 1',
+    },
+    {
+      id: 2,
+      key: 'value 2',
+    },
+  ],
+};
+
+const items = {
+  1: {
+    id: 1,
+    key: 'value 1',
+  },
+  2: {
+    id: 2,
+    key: 'value 2',
+  },
+};
+
+const ids = [1, 2];
 
 describe('fixtures actions', () => {
   afterEach(() => {
@@ -28,7 +55,8 @@ describe('fixtures actions', () => {
       {
         type: types.FETCH_FIXTURES_SUCCESS,
         payload: {
-          items: [],
+          items: {},
+          ids: [],
         },
       },
     ];
@@ -38,6 +66,29 @@ describe('fixtures actions', () => {
       {
         fixtures: [],
       },
+    );
+
+    return store.dispatch(actions.fetchFixtures()).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+
+  it('should create FETCH_FIXTURES_SUCCESS', () => {
+    const store = mockStore(initialStore);
+    const expectedActions = [
+      { type: types.FETCH_FIXTURES_REQUEST },
+      {
+        type: types.FETCH_FIXTURES_SUCCESS,
+        payload: {
+          items,
+          ids,
+        },
+      },
+    ];
+
+    nock(`https:${config.apiRoot}`).get('/fixtures?timeFrame=n1').reply(
+      200,
+      mockResponse,
     );
 
     return store.dispatch(actions.fetchFixtures()).then(() => {

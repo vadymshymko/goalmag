@@ -42,7 +42,11 @@ export const fetchTable = ({
     id: tableId,
   }));
 
-  return callApi(`competitions/${competitionId}/leagueTable?matchday=${requestMatchday}`).then(json => (
+  return callApi(`competitions/${competitionId}/leagueTable?matchday=${requestMatchday}`, {
+    headers: {
+      'X-Response-Control': 'full',
+    },
+  }).then(json => (
     dispatch(fetchTableSuccess({
       id: tableId,
       table: json,

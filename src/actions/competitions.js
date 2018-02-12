@@ -1,6 +1,6 @@
 import { normalize } from 'normalizr';
-import { competitions as types } from 'types';
 import { competitions as schema } from 'schemas';
+import { competitions as types } from 'types';
 import { callApi } from 'utils';
 
 export const fetchCompetitionsRequest = () => ({
@@ -33,7 +33,7 @@ export const fetchCompetitions = () => (dispatch, getState) => {
       result: ids = [],
     } = normalize(json, schema);
 
-    dispatch(fetchCompetitionsSuccess({
+    return dispatch(fetchCompetitionsSuccess({
       items,
       ids,
     }));

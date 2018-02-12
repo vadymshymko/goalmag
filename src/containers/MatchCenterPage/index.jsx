@@ -8,13 +8,17 @@ import AppPageContent from 'components/AppPageContent';
 import MatchCenterCompetitionsList from 'components/MatchCenterCompetitionsList';
 
 import { fetchFixtures } from 'actions';
-import { getFixturesCompetitions } from 'selectors';
+import { getFixturesCompetitionsIds, getCompetition } from 'selectors';
 
 class MatchCenterPage extends Component {
   static propTypes = {
-    fixturesCompetitions: PropTypes.arrayOf(PropTypes.object).isRequired,
+    fixturesCompetitions: PropTypes.arrayOf(PropTypes.object),
     fetchFixtures: PropTypes.func.isRequired,
   };
+
+  static defaultProps = {
+    fixturesCompetitions: [],
+  }
 
   componentDidMount() {
     this.props.fetchFixtures();
@@ -30,7 +34,9 @@ class MatchCenterPage extends Component {
         <AppPageTitle>Match Center</AppPageTitle>
 
         <AppPageContent>
-          <MatchCenterCompetitionsList competitions={fixturesCompetitions} />
+          <MatchCenterCompetitionsList
+            competitions={fixturesCompetitions}
+          />
         </AppPageContent>
 
       </AppPage>
@@ -39,7 +45,9 @@ class MatchCenterPage extends Component {
 }
 
 const mapStateToProps = state => ({
-  fixturesCompetitions: getFixturesCompetitions(state),
+  fixturesCompetitions: getFixturesCompetitionsIds(state).map(competitionId => (
+    getCompetition(state, competitionId)
+  )),
 });
 
 const actions = {

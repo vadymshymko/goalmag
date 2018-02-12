@@ -2,6 +2,7 @@ import { fixtures as types } from 'types';
 
 const initialState = {
   items: [],
+  ids: [],
   isFetching: false,
   isRequestFailed: false,
   isInitialized: false,

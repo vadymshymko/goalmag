@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getCompetitionFixtures } from 'selectors';
+import { getFixturesByCompetitionId } from 'selectors';
 
 import FixturesList from 'components/FixturesList';
 
@@ -10,15 +10,12 @@ import './MatchCenterCompetition.scss';
 
 class MatchCenterCompetition extends Component {
   static propTypes = {
-    competition: PropTypes.shape({
-      id: PropTypes.number,
-      caption: PropTypes.string,
-    }).isRequired,
-    fixtures: PropTypes.arrayOf(PropTypes.object),
+    competitionName: PropTypes.string.isRequired,
+    competitionFixtures: PropTypes.arrayOf(PropTypes.object),
   }
 
   static defaultProps = {
-    fixtures: [],
+    competitionFixtures: [],
   }
 
   state = {
@@ -33,10 +30,8 @@ class MatchCenterCompetition extends Component {
 
   render() {
     const {
-      fixtures,
-      competition: {
-        caption: competitionName,
-      },
+      competitionFixtures,
+      competitionName,
     } = this.props;
 
     return (
@@ -55,10 +50,12 @@ class MatchCenterCompetition extends Component {
         <div
           className="MatchCenterCompetition__fixtures"
           style={{
-            maxHeight: this.state.showCompetitionFixtures ? '100%' : '0',
+            maxHeight: this.state.showCompetitionFixtures
+              ? '100%'
+              : '0',
           }}
         >
-          <FixturesList fixtures={fixtures} />
+          <FixturesList fixtures={competitionFixtures} />
         </div>
       </article>
     );
@@ -66,7 +63,7 @@ class MatchCenterCompetition extends Component {
 }
 
 const mapStateToProps = (state, props) => ({
-  fixtures: getCompetitionFixtures(state, props.competition.id),
+  competitionFixtures: getFixturesByCompetitionId(state, props.competitionId),
 });
 
 export default connect(mapStateToProps)(MatchCenterCompetition);

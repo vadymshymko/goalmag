@@ -1,3 +1,5 @@
+import { normalize } from 'normalizr';
+import { fixtures as schema } from 'schemas';
 import { fixtures as types } from 'types';
 import { callApi } from 'utils';
 
@@ -5,11 +7,9 @@ const fetchFixturesRequest = () => ({
   type: types.FETCH_FIXTURES_REQUEST,
 });
 
-const fetchFixturesSuccess = items => ({
+const fetchFixturesSuccess = payload => ({
   type: types.FETCH_FIXTURES_SUCCESS,
-  payload: {
-    items,
-  },
+  payload,
 });
 
 const fetchFixturesFailure = () => ({
@@ -25,9 +25,19 @@ export const fetchFixtures = () => (dispatch, getState) => {
 
   dispatch(fetchFixturesRequest());
 
-  return callApi('fixtures?timeFrame=n1').then(json => (
-    dispatch(fetchFixturesSuccess(json.fixtures))
-  )).catch((error) => {
+  return callApi('fixtures?timeFrame=n1').then((json) => {
+    const {
+      entities: {
+        fixtures: items = {},
+      },
+      result: ids = [],
+    } = normalize(json.fixtures, schema);
+
+    return dispatch(fetchFixturesSuccess({
+      items,
+      ids,
+    }));
+  }).catch((error) => {
     dispatch(fetchFixturesFailure());
     throw error;
   });

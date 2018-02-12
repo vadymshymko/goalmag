@@ -12,17 +12,17 @@ const FixturesList = ({
     {fixtures.map(item => (
       <li
         className="FixturesList__item"
-        key={item.links.self.href}
+        key={item.id}
       >
         <Fixture
-          awayTeamLink={item.links.awayTeam.href}
+          awayTeamId={item.awayTeamId}
           awayTeamName={item.awayTeamName}
-          date={item.date}
+          homeTeamId={item.homeTeamId}
+          homeTeamName={item.homeTeamName}
           goalsAwayTeam={item.result.goalsAwayTeam}
           goalsHomeTeam={item.result.goalsHomeTeam}
-          homeTeamLink={item.links.homeTeam.href}
-          homeTeamName={item.homeTeamName}
           status={(item.status || '').toLowerCase()}
+          date={item.date}
         />
       </li>
     ))}

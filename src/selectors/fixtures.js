@@ -1,17 +1,27 @@
-import { getURLLastPath } from 'utils';
+export const getFixtures = state => (
+  state.fixtures.ids.map(id => ({
+    ...state.fixtures.items[id],
+  }))
+);
 
-export const getCompetitionFixtures = (state, competitionId = 0) => (
-  state.fixtures.items.filter(fixture => (
-    parseInt(getURLLastPath(fixture.links.competition.href), 10) === parseInt(competitionId, 10)
+export const getFixturesCompetitionsIds = state => (
+  [
+    ...new Set(getFixtures(state).map(fixture => (
+      parseInt(fixture.competitionId, 10)
+    ))),
+  ]
+);
+
+export const getFixturesByCompetitionId = (state, competitionId = 0) => (
+  getFixtures(state).filter(fixture => (
+    parseInt(fixture.competitionId, 10) === parseInt(competitionId, 10)
   ))
 );
 
-export const getFixturesCompetitions = state => (
-  [
-    ...new Set(state.fixtures.items.map(fixture => (
-      parseInt(getURLLastPath(fixture.links.competition.href), 10)
-    ))),
-  ].map(competitionId => ({
-    ...state.competitions.items[competitionId],
-  }))
+export const getFixture = (state, id = 0) => (
+  state.fixtures.items[id]
+);
+
+export const getIsFixturesInitialized = state => (
+  state.fixtures.isInitialized
 );

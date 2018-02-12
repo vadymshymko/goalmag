@@ -15,7 +15,8 @@ const MatchCenterCompetitionsList = ({
         key={competition.id}
       >
         <MatchCenterCompetition
-          competition={competition}
+          competitionName={competition.caption}
+          competitionId={competition.id}
         />
       </li>
     ))}
@@ -23,7 +24,14 @@ const MatchCenterCompetitionsList = ({
 );
 
 MatchCenterCompetitionsList.propTypes = {
-  competitions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  competitions: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    caption: PropTypes.string,
+  })),
+};
+
+MatchCenterCompetitionsList.defaultProps = {
+  competitions: [],
 };
 
 export default MatchCenterCompetitionsList;
