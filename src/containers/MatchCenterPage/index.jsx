@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import AppPage from 'components/AppPage';
 import AppPageTitle from 'components/AppPageTitle';
 import AppPageContent from 'components/AppPageContent';
-import MatchCenterList from 'components/MatchCenterList';
+import MatchCenterCompetitionsList from 'components/MatchCenterCompetitionsList';
 
 import { fetchFixtures } from 'actions';
 import { getFixturesCompetitions } from 'selectors';
@@ -30,7 +30,7 @@ class MatchCenterPage extends Component {
         <AppPageTitle>Match Center</AppPageTitle>
 
         <AppPageContent>
-          <MatchCenterList competitions={fixturesCompetitions} />
+          <MatchCenterCompetitionsList competitions={fixturesCompetitions} />
         </AppPageContent>
 
       </AppPage>

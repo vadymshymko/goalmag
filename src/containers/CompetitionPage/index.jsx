@@ -80,12 +80,12 @@ class CompetitionPage extends Component {
 
     return (
       <AppPage title={competitionName}>
-        <AppPageTitle>{competitionName}</AppPageTitle>
+        <AppPageTitle>
+          {competitionName}
+        </AppPageTitle>
 
         <AppPageContent>
-          {competitionTable.standing && (
-            <CompetitionTable standing={competitionTable.standing} />
-          )}
+          <CompetitionTable standing={competitionTable.standing} />
         </AppPageContent>
 
       </AppPage>

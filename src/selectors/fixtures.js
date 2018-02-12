@@ -1,6 +1,6 @@
 import { getURLLastPath } from 'utils';
 
-export const getFixturesByCompetitionId = (state, competitionId = 0) => (
+export const getCompetitionFixtures = (state, competitionId = 0) => (
   state.fixtures.items.filter(fixture => (
     parseInt(getURLLastPath(fixture.links.competition.href), 10) === parseInt(competitionId, 10)
   ))

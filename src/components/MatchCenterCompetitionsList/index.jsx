@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 
 import MatchCenterCompetition from 'containers/MatchCenterCompetition';
 
-import './MatchCenterList.scss';
+import './MatchCenterCompetitionsList.scss';
 
-const MatchCenterList = ({
+const MatchCenterCompetitionsList = ({
   competitions,
 }) => (
-  <ul className="MatchCenterList">
+  <ul className="MatchCenterCompetitionsList">
     {competitions.map(competition => (
       <li
-        className="MatchCenterList__item"
+        className="MatchCenterCompetitionsList__item"
         key={competition.id}
       >
         <MatchCenterCompetition
@@ -22,8 +22,8 @@ const MatchCenterList = ({
   </ul>
 );
 
-MatchCenterList.propTypes = {
+MatchCenterCompetitionsList.propTypes = {
   competitions: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export default MatchCenterList;
+export default MatchCenterCompetitionsList;

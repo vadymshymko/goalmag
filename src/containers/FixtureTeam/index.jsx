@@ -42,7 +42,7 @@ class FixtureTeam extends Component {
 
     return (
       <span className={`FixtureTeam FixtureTeam--type--${type}`}>
-        {crestUrl && (
+        {type === 'away' && crestUrl && (
           <img
             className="FixtureTeam__icon"
             src={crestUrl}
@@ -51,6 +51,14 @@ class FixtureTeam extends Component {
         )}
 
         <span className="FixtureTeam__name">{name}</span>
+
+        {type === 'home' && crestUrl && (
+          <img
+            className="FixtureTeam__icon"
+            src={crestUrl}
+            alt={name}
+          />
+        )}
       </span>
     );
   }

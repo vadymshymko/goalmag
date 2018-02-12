@@ -1,8 +1,10 @@
 .MatchCenterCompetition {
   &__title {
+    border-bottom: 1px solid #f0f0f0;
     font-size: 14px;
     font-weight: 700;
-    margin: 0 0 10px;
+    margin: 0;
+    padding-bottom: 10px;
     text-align: center;
   }
 
@@ -20,6 +22,5 @@
 
   &__fixtures {
     overflow: hidden;
-    transition: max-height .4s;
   }
 }

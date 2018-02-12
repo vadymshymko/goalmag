@@ -80,7 +80,7 @@ const Fixture = ({
       <FixtureTeam
         link={awayTeamLink}
         name={awayTeamName}
-        type="home"
+        type="away"
       />
     </span>
 

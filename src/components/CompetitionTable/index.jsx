@@ -100,10 +100,11 @@ const CompetitionTable = ({
 );
 
 CompetitionTable.propTypes = {
-  standing: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.array,
-  ]).isRequired,
+  standing: PropTypes.arrayOf(PropTypes.object),
+};
+
+CompetitionTable.defaultProps = {
+  standing: [],
 };
 
 export default CompetitionTable;
