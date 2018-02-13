@@ -85,7 +85,19 @@ class CompetitionPage extends Component {
         </AppPageTitle>
 
         <AppPageContent>
-          <CompetitionTable standing={competitionTable.standing} />
+          <div className="CompetitionInfo">
+            <section className="CompetitionInfo__section">
+              <h3 className="CompetitionInfo__title">Latest Fixtures:</h3>
+
+
+            </section>
+
+            <section className="CompetitionInfo__section">
+              <h3 className="CompetitionInfo__title">Standings:</h3>
+
+              <CompetitionTable standing={competitionTable.standing} />
+            </section>
+          </div>
         </AppPageContent>
 
       </AppPage>
