@@ -1,0 +1,24 @@
+.FixtureTeam {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+  position: relative;
+
+  .FixtureScore + & {
+    justify-content: flex-start;
+  }
+
+  &__icon {
+    height: 20px;
+    font-size: 0;
+    overflow: hidden;
+    margin-right: 5px;
+    width: auto;
+
+    .FixtureTeam__name + & {
+      margin-right: 0;
+      margin-left: 5px;
+    }
+  }
+}

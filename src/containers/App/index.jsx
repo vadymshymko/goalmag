@@ -1,33 +1,68 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import AppHeader from 'components/AppHeader';
-import AppFooter from 'components/AppFooter';
+import AppNav from 'components/AppNav';
+import Container from 'components/Container';
+
+import { fetchCompetitions } from 'actions';
+import { getCompetitions, getIsCompetitionsInitialized } from 'selectors';
 
 import './App.scss';
 
-const App = ({ children }) => (
-  <div className="App">
-    <AppHeader />
+class App extends Component {
+  static propTypes = {
+    fetchCompetitions: PropTypes.func.isRequired,
+    competitions: PropTypes.arrayOf(PropTypes.object).isRequired,
+    isCompetitionsInitialized: PropTypes.bool.isRequired,
+    children: PropTypes.node,
+  }
 
-    <div className="App__content">
-      {children}
-    </div>
+  static defaultProps = {
+    children: null,
+  }
 
-    <AppFooter />
-  </div>
-);
+  componentDidMount() {
+    this.props.fetchCompetitions();
+  }
 
-App.propTypes = {
-  children: PropTypes.node,
+  render() {
+    const {
+      children,
+      competitions,
+      isCompetitionsInitialized,
+    } = this.props;
+
+    return (
+      <div className="App">
+        <AppHeader />
+
+        {isCompetitionsInitialized ? (
+          <div className="App__content">
+            <Container>
+              <AppNav competitions={competitions} />
+
+              {children}
+            </Container>
+          </div>
+        ) : (
+          'Loading...'
+        )}
+
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = state => ({
+  competitions: getCompetitions(state),
+  isCompetitionsInitialized: getIsCompetitionsInitialized(state),
+});
+
+const actions = {
+  fetchCompetitions,
 };
 
-App.defaultProps = {
-  children: null,
-};
-
-const mapStateToProps = state => state;
-
-export default withRouter(connect(mapStateToProps)(App));
+export default withRouter(connect(mapStateToProps, actions)(App));

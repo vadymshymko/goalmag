@@ -9,6 +9,8 @@ import {
 } from 'react-router-dom';
 
 import App from 'containers/App';
+import MatchCenterPage from 'containers/MatchCenterPage';
+import CompetitionPage from 'containers/CompetitionPage';
 
 const Root = ({
   history,
@@ -20,37 +22,33 @@ const Root = ({
         <Switch>
           <Route
             exact
-            path="/example"
-            component={() => (
-              <div>Example Page</div>
-            )}
+            path="/match-center"
+            component={MatchCenterPage}
           />
 
           <Route
             exact
-            path="/example/:id"
-            component={() => (
-              <div>Example Page with id in match params</div>
-            )}
+            path="/competitions/:id"
+            component={CompetitionPage}
           />
 
-          <Route
+          {/* <Route
             exact
             path="/example/:id/:id"
             component={() => (
               <div>Example Page with id from id in match params</div>
             )}
-          />
+          /> */}
 
-          <Route
+          {/* <Route
             exact
             path="/"
             component={() => (
               <div>Default Page</div>
             )}
-          />
+          /> */}
 
-          <Redirect to="/" />
+          <Redirect to="/match-center" />
         </Switch>
       </App>
     </Router>

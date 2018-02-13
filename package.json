@@ -1,19 +1,23 @@
 {
-  "name": "react-football-app",
-  "version": "1.0.0",
-  "description": "Simple React/Redux App",
+  "name": "goal-magazine",
+  "version": "0.0.1",
+  "description": "Simple React/Redux App for my simple football scores site",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=development webpack-dev-server",
-    "build": "NODE_ENV=production webpack -p --progress --colors --display-reasons --verbose --display-chunks",
+    "start": "webpack-dev-server",
+    "start:production": "npm run build && node server.js",
+    "build": "export NODE_ENV=production && rm -rf ./dist && webpack -p --progress --colors --display-reasons --verbose --display-chunks",
     "test": "NODE_ENV=test jest --no-cache",
-    "test:coverage": "NODE_ENV=test jest --no-cache --coverage"
+    "test:coverage": "npm run test --coverage",
+    "heroku-postbuild": "npm run build"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vadymshymko/react-football-app.git"
   },
   "keywords": [
+    "Sport",
+    "Football",
     "React",
     "Redux",
     "Webpack",
@@ -30,9 +34,12 @@
   },
   "homepage": "https://github.com/vadymshymko/react-football-app#readme",
   "dependencies": {
+    "express": "^4.16.2",
     "history": "^4.7.2",
+    "humps": "^2.0.1",
     "isomorphic-fetch": "^2.2.1",
     "normalize.css": "^7.0.0",
+    "normalizr": "^3.2.4",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-document-title": "^2.0.3",
@@ -44,11 +51,11 @@
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
-    "autoprefixer": "^7.2.5",
+    "autoprefixer": "^7.2.6",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.1",
-    "babel-jest": "^22.1.0",
+    "babel-jest": "^22.2.2",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
@@ -59,32 +66,38 @@
     "css-loader": "^0.28.9",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
-    "eslint": "^4.16.0",
+    "eslint": "^4.17.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-import-resolver-webpack": "^0.8.4",
     "eslint-loader": "^1.9.0",
     "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-jest": "^21.7.0",
+    "eslint-plugin-jest": "^21.12.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.6.0",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.6",
-    "jest": "^22.1.4",
+    "html-webpack-plugin": "^2.30.1",
+    "jest": "^22.2.2",
     "nock": "^9.1.6",
     "node-sass": "^4.7.2",
-    "postcss-loader": "^2.0.10",
+    "postcss-loader": "^2.1.0",
     "redux-devtools": "^3.4.1",
     "redux-mock-store": "^1.5.0",
+    "rimraf": "^2.6.2",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.20.0",
     "uglifyjs-webpack-plugin": "^1.1.6",
     "url-loader": "^0.6.2",
-    "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.11.1"
+    "webpack": "^3.11.0",
+    "webpack-dev-server": "^2.11.1",
+    "webpack-merge": "^4.1.1"
   },
   "jest": {
     "modulePaths": [
       "src"
+    ],
+    "setupFiles": [
+      "<rootDir>/src/__mocks__/browser.js"
     ],
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/src/__mocks__/fileMock.js",
