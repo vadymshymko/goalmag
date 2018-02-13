@@ -11,6 +11,8 @@ import { getCompetition, getTable } from 'selectors';
 
 import { fetchTable } from 'actions';
 
+import './CompetitionPage.scss';
+
 class CompetitionPage extends Component {
   static propTypes = {
     fetchTable: PropTypes.func.isRequired,
@@ -87,7 +89,7 @@ class CompetitionPage extends Component {
         <AppPageContent>
           <div className="CompetitionInfo">
             <section className="CompetitionInfo__section">
-              <h3 className="CompetitionInfo__title">Latest Fixtures:</h3>
+              <h3 className="CompetitionInfo__title">Fixtures:</h3>
 
 
             </section>
@@ -117,14 +119,11 @@ const mapStateToProps = (state, {
     currentMatchday: competitionMatchday,
   } = getCompetition(state, competitionId);
 
-  const competitionTableId = `${competitionId}-${competitionMatchday}`;
-  const competitionTable = getTable(state, competitionTableId);
-
   return {
     competitionId: parseInt(competitionId, 10),
     competitionName,
     competitionMatchday,
-    competitionTable,
+    competitionTable: getTable(state, `${competitionId}-${competitionMatchday}`),
   };
 };
 

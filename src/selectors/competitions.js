@@ -1,11 +1,11 @@
 export const getCompetitions = state => (
   state.competitions.ids.map(id => ({
-    ...state.competitions.items[id],
+    ...state.competitions.byId[id],
   }))
 );
 
 export const getCompetition = (state, id = 0) => (
-  state.competitions.items[id]
+  state.competitions.byId[id]
 );
 
 export const getIsCompetitionsInitialized = state => (

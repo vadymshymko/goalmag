@@ -1,5 +1,5 @@
 export const getTable = (state, id) => (
-  state.tables.items[id]
+  state.tables.byId[id]
 );
 
 export default getTable;

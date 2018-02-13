@@ -10,7 +10,7 @@ const mockStore = configureMockStore(middlewares);
 const initialStore = {
   fixtures: {
     ids: [],
-    items: {},
+    byId: {},
     isFetching: false,
     isRequestFailed: false,
     isInitialized: false,
@@ -30,7 +30,7 @@ const mockResponse = {
   ],
 };
 
-const items = {
+const byId = {
   1: {
     id: 1,
     key: 'value 1',
@@ -55,7 +55,7 @@ describe('fixtures actions', () => {
       {
         type: types.FETCH_FIXTURES_SUCCESS,
         payload: {
-          items: {},
+          byId: {},
           ids: [],
         },
       },
@@ -80,7 +80,7 @@ describe('fixtures actions', () => {
       {
         type: types.FETCH_FIXTURES_SUCCESS,
         payload: {
-          items,
+          byId,
           ids,
         },
       },
@@ -110,21 +110,6 @@ describe('fixtures actions', () => {
     });
 
     return store.dispatch(actions.fetchFixtures()).catch(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
-  });
-
-  it('should not create any actions if fixtures isInitialized', () => {
-    const store = mockStore({
-      ...initialStore,
-      fixtures: {
-        ...initialStore.fixtures,
-        isInitialized: true,
-      },
-    });
-    const expectedActions = [];
-
-    return store.dispatch(actions.fetchFixtures()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });

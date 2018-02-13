@@ -19,7 +19,7 @@ const fetchFixturesFailure = () => ({
 export const fetchFixtures = () => (dispatch, getState) => {
   const currentState = getState().fixtures;
 
-  if (currentState.isInitialized || currentState.isFetching) {
+  if (currentState.isFetching) {
     return Promise.resolve();
   }
 
@@ -28,13 +28,13 @@ export const fetchFixtures = () => (dispatch, getState) => {
   return callApi('fixtures?timeFrame=n1').then((json) => {
     const {
       entities: {
-        fixtures: items = {},
+        fixtures: byId = {},
       },
       result: ids = [],
     } = normalize(json.fixtures, schema);
 
     return dispatch(fetchFixturesSuccess({
-      items,
+      byId,
       ids,
     }));
   }).catch((error) => {

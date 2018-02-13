@@ -10,7 +10,7 @@ const mockStore = configureMockStore(middlewares);
 const initialStore = {
   competitions: {
     ids: [],
-    items: {},
+    byId: {},
     isFetching: false,
     isRequestFailed: false,
     isInitialized: false,
@@ -28,7 +28,7 @@ const mockResponse = [
   },
 ];
 
-const items = {
+const byId = {
   1: {
     id: 1,
     caption: '1 caption',
@@ -53,7 +53,7 @@ describe('competitions actions', () => {
       {
         type: types.FETCH_COMPETITIONS_SUCCESS,
         payload: {
-          items: {},
+          byId: {},
           ids: [],
         },
       },
@@ -76,7 +76,7 @@ describe('competitions actions', () => {
       {
         type: types.FETCH_COMPETITIONS_SUCCESS,
         payload: {
-          items,
+          byId,
           ids,
         },
       },
