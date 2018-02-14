@@ -2,7 +2,7 @@ import { tables as types } from 'types';
 
 const initialState = {
   byId: {},
-  ids: [],
+  allIds: [],
 };
 
 export const table = (state = {}, action) => {
@@ -45,8 +45,8 @@ const tables = (state = initialState, action) => {
           ...state.byId,
           [action.payload.id]: table(state[action.payload.id], action),
         },
-        ids: [
-          ...state.ids,
+        allIds: [
+          ...state.allIds,
           action.payload.id,
         ],
       };

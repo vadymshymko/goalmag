@@ -1,7 +1,7 @@
 export const getFixtures = state => (
-  state.fixtures.ids.map(id => ({
-    ...state.fixtures.byId[id],
-  }))
+  state.fixtures.allIds.map(id => (
+    state.fixtures.byId[id]
+  ))
 );
 
 export const getFixturesCompetitionsIds = state => (

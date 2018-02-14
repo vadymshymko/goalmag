@@ -1,7 +1,7 @@
 export const getCompetitions = state => (
-  state.competitions.ids.map(id => ({
-    ...state.competitions.byId[id],
-  }))
+  state.competitions.allIds.map(id => (
+    state.competitions.byId[id]
+  ))
 );
 
 export const getCompetition = (state, id = 0) => (

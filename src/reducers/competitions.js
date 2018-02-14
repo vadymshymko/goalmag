@@ -2,7 +2,7 @@ import { competitions as types } from 'types';
 
 const initialState = {
   byId: {},
-  ids: [],
+  allIds: [],
   isFetching: false,
   isRequestFailed: false,
   isInitialized: false,
@@ -20,7 +20,14 @@ const competitions = (state = initialState, action) => {
     case types.FETCH_COMPETITIONS_SUCCESS:
       return {
         ...state,
-        ...action.payload,
+        byId: {
+          ...state.byId,
+          ...action.payload.items,
+        },
+        allIds: [
+          ...state.allIds,
+          ...action.payload.ids,
+        ],
         isFetching: false,
         isInitialized: true,
       };

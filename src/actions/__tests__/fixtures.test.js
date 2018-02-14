@@ -9,8 +9,8 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 const initialStore = {
   fixtures: {
-    ids: [],
     byId: {},
+    allIds: [],
     isFetching: false,
     isRequestFailed: false,
     isInitialized: false,
@@ -30,7 +30,7 @@ const mockResponse = {
   ],
 };
 
-const byId = {
+const items = {
   1: {
     id: 1,
     key: 'value 1',
@@ -55,7 +55,7 @@ describe('fixtures actions', () => {
       {
         type: types.FETCH_FIXTURES_SUCCESS,
         payload: {
-          byId: {},
+          items: {},
           ids: [],
         },
       },
@@ -80,7 +80,7 @@ describe('fixtures actions', () => {
       {
         type: types.FETCH_FIXTURES_SUCCESS,
         payload: {
-          byId,
+          items,
           ids,
         },
       },

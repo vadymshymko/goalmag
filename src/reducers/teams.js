@@ -2,7 +2,7 @@ import { teams as types } from 'types';
 
 const initialState = {
   byId: {},
-  ids: [],
+  allIds: [],
 };
 
 const team = (state = {}, action) => {
@@ -45,8 +45,8 @@ const teams = (state = initialState, action) => {
           ...state.byId,
           [action.payload.id]: team(state[action.payload.id], action),
         },
-        ids: [
-          ...state.ids,
+        allIds: [
+          ...state.allIds,
           action.payload.id,
         ],
       };

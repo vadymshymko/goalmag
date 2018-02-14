@@ -3,7 +3,7 @@ import reducer from '../competitions';
 
 const initialState = {
   byId: {},
-  ids: [],
+  allIds: [],
   isFetching: false,
   isRequestFailed: false,
   isInitialized: false,
@@ -14,7 +14,7 @@ const fetchingState = {
   isFetching: true,
 };
 
-const byId = {
+const items = {
   1: {
     id: 1,
     caption: '1 caption',
@@ -29,8 +29,8 @@ const ids = [1, 2];
 
 const initializedState = {
   ...initialState,
-  ids,
-  byId,
+  byId: items,
+  allIds: ids,
   isInitialized: true,
 };
 
@@ -55,7 +55,7 @@ describe('competitions reducer', () => {
     expect(reducer(undefined, {
       type: types.FETCH_COMPETITIONS_SUCCESS,
       payload: {
-        byId,
+        items,
         ids,
       },
     })).toEqual(initializedState);

@@ -28,13 +28,13 @@ export const fetchCompetitions = () => (dispatch, getState) => {
   return callApi('competitions').then((json) => {
     const {
       entities: {
-        competitions: byId = {},
+        competitions: items = {},
       },
       result: ids = [],
     } = normalize(json, schema);
 
     return dispatch(fetchCompetitionsSuccess({
-      byId,
+      items,
       ids,
     }));
   }).catch((error) => {

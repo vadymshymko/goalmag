@@ -28,13 +28,13 @@ export const fetchFixtures = () => (dispatch, getState) => {
   return callApi('fixtures?timeFrame=n1').then((json) => {
     const {
       entities: {
-        fixtures: byId = {},
+        fixtures: items = {},
       },
       result: ids = [],
     } = normalize(json.fixtures, schema);
 
     return dispatch(fetchFixturesSuccess({
-      byId,
+      items,
       ids,
     }));
   }).catch((error) => {
