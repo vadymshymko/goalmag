@@ -6,9 +6,9 @@ import { getDataFromLocalStorage } from 'utils';
 const devTools = '__REDUX_DEVTOOLS_EXTENSION__';
 
 const {
-  lastUpdated: localStorageLastUpdatedDate,
+  lastUpdated: localStorageLastUpdatedDate = 0,
   ...localStorageData
-} = getDataFromLocalStorage('store');
+} = getDataFromLocalStorage('store') || {};
 
 const preloadedStore = localStorageLastUpdatedDate && (
   Date.now() - localStorageLastUpdatedDate <= 86400000
