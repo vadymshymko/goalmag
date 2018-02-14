@@ -2,8 +2,8 @@ import { competitions as types } from 'types';
 import reducer from '../competitions';
 
 const initialState = {
-  items: {},
-  ids: [],
+  byId: {},
+  allIds: [],
   isFetching: false,
   isRequestFailed: false,
   isInitialized: false,
@@ -29,8 +29,8 @@ const ids = [1, 2];
 
 const initializedState = {
   ...initialState,
-  ids,
-  items,
+  byId: items,
+  allIds: ids,
   isInitialized: true,
 };
 

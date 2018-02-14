@@ -49,7 +49,10 @@ export const fetchTable = ({
   }).then(json => (
     dispatch(fetchTableSuccess({
       id: tableId,
-      table: json,
+      table: {
+        competitionId,
+        ...json,
+      },
     }))
   )).catch((error) => {
     dispatch(fetchTableFailure({

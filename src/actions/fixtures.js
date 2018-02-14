@@ -19,7 +19,7 @@ const fetchFixturesFailure = () => ({
 export const fetchFixtures = () => (dispatch, getState) => {
   const currentState = getState().fixtures;
 
-  if (currentState.isInitialized || currentState.isFetching) {
+  if (currentState.isFetching) {
     return Promise.resolve();
   }
 

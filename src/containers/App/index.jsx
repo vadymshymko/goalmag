@@ -39,17 +39,19 @@ class App extends Component {
       <div className="App">
         <AppHeader />
 
-        {isCompetitionsInitialized ? (
-          <div className="App__content">
-            <Container>
-              <AppNav competitions={competitions} />
+        <div className="App__content">
+          <Container>
+            <AppNav competitions={competitions} />
 
-              {children}
-            </Container>
-          </div>
-        ) : (
-          'Loading...'
-        )}
+            {isCompetitionsInitialized ? (
+              children
+            ) : (
+              <span className="App__loader">
+                Loading...
+              </span>
+            )}
+          </Container>
+        </div>
 
       </div>
     );

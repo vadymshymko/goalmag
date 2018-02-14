@@ -9,8 +9,8 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 const initialStore = {
   competitions: {
-    ids: [],
-    items: {},
+    byId: {},
+    allIds: [],
     isFetching: false,
     isRequestFailed: false,
     isInitialized: false,

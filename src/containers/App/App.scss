@@ -5,6 +5,22 @@
 
   &__content {
     margin-bottom: 30px;
+    min-height: calc(100vh - 150px);
+    position: relative;
+    width: 100%;
+  }
+
+  &__loader {
+    align-items: center;
+    background-color: rgba(255, 255, 255, .5);
+    display: flex;
+    height: calc(100% + 60px);
+    justify-content: center;
+    left: 0;
+    letter-spacing: 10px;
+    position: absolute;
+    text-align: center;
+    top: -30px;
     width: 100%;
   }
 

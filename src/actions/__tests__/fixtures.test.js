@@ -9,8 +9,8 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 const initialStore = {
   fixtures: {
-    ids: [],
-    items: {},
+    byId: {},
+    allIds: [],
     isFetching: false,
     isRequestFailed: false,
     isInitialized: false,
@@ -110,21 +110,6 @@ describe('fixtures actions', () => {
     });
 
     return store.dispatch(actions.fetchFixtures()).catch(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
-  });
-
-  it('should not create any actions if fixtures isInitialized', () => {
-    const store = mockStore({
-      ...initialStore,
-      fixtures: {
-        ...initialStore.fixtures,
-        isInitialized: true,
-      },
-    });
-    const expectedActions = [];
-
-    return store.dispatch(actions.fetchFixtures()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });

@@ -1,12 +1,20 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import rootReducer from 'reducers';
-// import { getDataFromLocalStorage } from 'utils';
+import { getDataFromLocalStorage } from 'utils';
 
 const devTools = '__REDUX_DEVTOOLS_EXTENSION__';
 
-// const preloadedStore = getDataFromLocalStorage('store') || {};
-const preloadedStore = {};
+const {
+  lastUpdated: localStorageLastUpdatedDate,
+  ...localStorageData
+} = getDataFromLocalStorage('store');
+
+const preloadedStore = localStorageLastUpdatedDate && (
+  Date.now() - localStorageLastUpdatedDate <= 86400000
+)
+  ? localStorageData
+  : {};
 
 const composeEnhancers = () => {
   if (process.env.NODE_ENV === 'production' || !window || !window[devTools]) {

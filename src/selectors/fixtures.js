@@ -1,7 +1,7 @@
 export const getFixtures = state => (
-  state.fixtures.ids.map(id => ({
-    ...state.fixtures.items[id],
-  }))
+  state.fixtures.allIds.map(id => (
+    state.fixtures.byId[id]
+  ))
 );
 
 export const getFixturesCompetitionsIds = state => (
@@ -19,7 +19,7 @@ export const getFixturesByCompetitionId = (state, competitionId = 0) => (
 );
 
 export const getFixture = (state, id = 0) => (
-  state.fixtures.items[id]
+  state.fixtures.byId[id]
 );
 
 export const getIsFixturesInitialized = state => (

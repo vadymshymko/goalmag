@@ -22,6 +22,7 @@ store.subscribe(() => {
   } = store.getState();
 
   saveDataToLocalStorage('store', {
+    lastUpdated: Date.now(),
     competitions: competitions.isInitialized
       ? competitions
       : undefined,

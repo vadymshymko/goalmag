@@ -3,7 +3,7 @@ export const getDataFromLocalStorage = (dataKey) => {
     const localStorageData = JSON.parse(localStorage.getItem(dataKey));
     return localStorageData;
   } catch (error) {
-    throw new Error('Invalid Data to parse', error);
+    return undefined;
   }
 };
 
