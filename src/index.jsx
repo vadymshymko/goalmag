@@ -16,9 +16,9 @@ const store = configureStore();
 
 store.subscribe(() => {
   const {
-    competitions = {},
-    teams = {},
-    tables = {},
+    competitions,
+    teams,
+    tables,
   } = store.getState();
 
   saveDataToLocalStorage('store', {
@@ -26,26 +26,38 @@ store.subscribe(() => {
     competitions: competitions.isInitialized
       ? competitions
       : undefined,
-    teams: Object.keys(teams).reduce((result, teamId) => {
-      if (!teams[teamId].isInitialized) {
-        return result;
-      }
+    teams: {
+      ...teams,
+      allIds: teams.allIds.filter(id => (
+        teams.byId[id].isInitialized
+      )),
+      byId: teams.allIds.reduce((result, id) => {
+        if (!teams.byId[id].isInitialized) {
+          return result;
+        }
 
-      return {
-        ...result,
-        [teamId]: teams[teamId],
-      };
-    }, {}),
-    tables: Object.keys(tables).reduce((result, tableId) => {
-      if (!tables[tableId].isInitialized) {
-        return result;
-      }
+        return {
+          ...result,
+          [id]: teams.byId[id],
+        };
+      }, {}),
+    },
+    tables: {
+      ...tables,
+      allIds: tables.allIds.filter(id => (
+        tables.byId[id].isInitialized
+      )),
+      byId: tables.allIds.reduce((result, id) => {
+        if (!tables.byId[id].isInitialized) {
+          return result;
+        }
 
-      return {
-        ...result,
-        [tableId]: tables[tableId],
-      };
-    }, {}),
+        return {
+          ...result,
+          [id]: tables.byId[id],
+        };
+      }, {}),
+    },
   });
 });
 
