@@ -4,6 +4,7 @@ import reducer from '../fixtures';
 const initialState = {
   byId: [],
   allIds: [],
+  initializedFilters: [],
   isFetching: false,
   isRequestFailed: false,
   isInitialized: false,

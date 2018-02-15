@@ -6,8 +6,10 @@ import AppPage from 'components/AppPage';
 import AppPageTitle from 'components/AppPageTitle';
 import AppPageContent from 'components/AppPageContent';
 import CompetitionTable from 'components/CompetitionTable';
+import Alert from 'components/Alert';
+import FixturesList from 'components/FixturesList';
 
-import { getCompetition, getTable } from 'selectors';
+import { getCompetition, getTable, getFixturesByCompetitionId, getIsFixturesFetching } from 'selectors';
 
 import { fetchTable } from 'actions';
 
@@ -23,15 +25,18 @@ class CompetitionPage extends Component {
       isInitialized: PropTypes.bool,
       standing: PropTypes.array,
     }),
+    fixtures: PropTypes.arrayOf(PropTypes.object),
     history: PropTypes.shape({
       replace: PropTypes.func,
     }).isRequired,
+    isFixturesFetching: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
     competitionName: '',
     competitionMatchday: null,
     competitionTable: {},
+    fixtures: [],
   }
 
   componentDidMount() {
@@ -78,6 +83,8 @@ class CompetitionPage extends Component {
     const {
       competitionName,
       competitionTable,
+      fixtures,
+      isFixturesFetching,
     } = this.props;
 
     return (
@@ -89,9 +96,15 @@ class CompetitionPage extends Component {
         <AppPageContent>
           <div className="CompetitionInfo">
             <section className="CompetitionInfo__section">
-              <h3 className="CompetitionInfo__title">Fixtures:</h3>
+              <h3 className="CompetitionInfo__title">Match Center:</h3>
 
+              {!isFixturesFetching && fixtures.length === 0 && (
+                <Alert>:( There are no matches</Alert>
+              )}
 
+              {fixtures.length > 0 && (
+                <FixturesList fixtures={fixtures} />
+              )}
             </section>
 
             <section className="CompetitionInfo__section">
@@ -124,6 +137,8 @@ const mapStateToProps = (state, {
     competitionName,
     competitionMatchday,
     competitionTable: getTable(state, `${competitionId}-${competitionMatchday}`),
+    fixtures: getFixturesByCompetitionId(state, competitionId),
+    isFixturesFetching: getIsFixturesFetching(state),
   };
 };
 

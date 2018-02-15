@@ -4,6 +4,10 @@ export const getFixtures = state => (
   ))
 );
 
+export const getFixture = (state, id = 0) => (
+  state.fixtures.byId[id]
+);
+
 export const getFixturesCompetitionsIds = state => (
   [
     ...new Set(getFixtures(state).map(fixture => (
@@ -18,10 +22,10 @@ export const getFixturesByCompetitionId = (state, competitionId = 0) => (
   ))
 );
 
-export const getFixture = (state, id = 0) => (
-  state.fixtures.byId[id]
+export const getFixturesInitializedFilters = state => (
+  state.fixtures.initializedFilters
 );
 
-export const getIsFixturesInitialized = state => (
-  state.fixtures.isInitialized
+export const getIsFixturesFetching = state => (
+  state.fixtures.isFetching
 );
