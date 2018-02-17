@@ -1,20 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import TeamLink from 'components/TeamLink';
+
 import './FixtureTeam.scss';
 
 const FixtureTeam = ({
+  id,
   name,
   type,
 }) => (
   <span className={`FixtureTeam FixtureTeam--type--${type}`}>
-    <span className="FixtureTeam__name">
+    <TeamLink
+      id={id}
+      name={name}
+      className="FixtureTeam__link"
+    >
       {name}
-    </span>
+    </TeamLink>
   </span>
 );
 
 FixtureTeam.propTypes = {
+  id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   type: PropTypes.oneOf([
     'home',

@@ -2,25 +2,37 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import DocumentTitle from 'react-document-title';
 
+import AppPageTitle from 'components/AppPageTitle';
+import AppPageContent from 'components/AppPageContent';
+
 import './AppPage.scss';
 
 const AppPage = ({
   title,
   children,
+  className,
 }) => (
   <DocumentTitle title={title}>
-    <main className="AppPage">
-      {children}
+    <main className={`AppPage ${className}`}>
+      <AppPageTitle>
+        {title}
+      </AppPageTitle>
+
+      <AppPageContent>
+        {children}
+      </AppPageContent>
     </main>
   </DocumentTitle>
 );
 
 AppPage.propTypes = {
   title: PropTypes.string,
+  className: PropTypes.string,
   children: PropTypes.node,
 };
 
 AppPage.defaultProps = {
+  className: '',
   title: '',
   children: null,
 };

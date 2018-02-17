@@ -19,20 +19,38 @@ store.subscribe(() => {
     competitions,
     teams,
     tables,
+    fixtures,
   } = store.getState();
 
   saveDataToLocalStorage('store', {
     lastUpdated: Date.now(),
-    competitions: competitions.isInitialized
+    competitions: competitions.isInitialized && !competitions.isRequestFailed
       ? competitions
+      : undefined,
+    fixtures: fixtures.isInitialized && !fixtures.isRequestFailed && !fixtures.isFetching
+      ? {
+        byId: fixtures.allIds.filter(id => (
+          fixtures.byId[id].status && (fixtures.byId[id].status.toLowerCase() === 'finished')
+        )).reduce((result, id) => ({
+          ...result,
+          [id]: fixtures.byId[id],
+        }), {}),
+        allIds: fixtures.allIds.filter(id => (
+          fixtures.byId[id].status && (fixtures.byId[id].status.toLowerCase() === 'finished')
+        )),
+        initializedFilters: fixtures.initializedFilters,
+        isFetching: false,
+        isRequestFailed: false,
+        isInitialized: true,
+      }
       : undefined,
     teams: {
       ...teams,
       allIds: teams.allIds.filter(id => (
-        teams.byId[id].isInitialized
+        teams.byId[id].isInitialized && !teams.byId[id].isRequestFailed
       )),
       byId: teams.allIds.reduce((result, id) => {
-        if (!teams.byId[id].isInitialized) {
+        if (!teams.byId[id].isInitialized || teams.byId[id].isRequestFailed) {
           return result;
         }
 
@@ -45,10 +63,10 @@ store.subscribe(() => {
     tables: {
       ...tables,
       allIds: tables.allIds.filter(id => (
-        tables.byId[id].isInitialized
+        tables.byId[id].isInitialized && !tables.byId[id].isRequestFailed
       )),
       byId: tables.allIds.reduce((result, id) => {
-        if (!tables.byId[id].isInitialized) {
+        if (!tables.byId[id].isInitialized || tables.byId[id].isRequestFailed) {
           return result;
         }
 

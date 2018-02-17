@@ -30,7 +30,7 @@ class AppNav extends Component {
           <NavLink
             className="AppNav__link"
             activeClassName="AppNav__link--active"
-            to={`/competitions/${competition.id}`}
+            to={`/competition/${competition.id}`}
             exact
             title={competition.caption}
           >
@@ -56,15 +56,15 @@ class AppNav extends Component {
           </NavLink>
         </div>
 
-        {/* <div className="AppNav__section">
+        <div className="AppNav__section">
           {this.renderCompetitionsList(['CL'])}
-        </div> */}
+        </div>
 
-        {/* <div className="AppNav__section">
+        <div className="AppNav__section">
           <span className="AppNav__title">Australia</span>
 
           {this.renderCompetitionsList(['AAL'])}
-        </div> */}
+        </div>
 
         <div className="AppNav__section">
           <span className="AppNav__title">England</span>
@@ -90,11 +90,11 @@ class AppNav extends Component {
           {this.renderCompetitionsList(['SA', 'SB'])}
         </div>
 
-        {/* <div className="AppNav__section">
+        <div className="AppNav__section">
           <span className="AppNav__title">Portugal</span>
 
           {this.renderCompetitionsList(['PPL'])}
-        </div> */}
+        </div>
 
         <div className="AppNav__section">
           <span className="AppNav__title">Spain</span>

@@ -4,16 +4,16 @@ import { fixtures as types } from 'types';
 import { getIsFixturesFetching, getFixturesInitializedFilters } from 'selectors';
 import { callApi } from 'utils';
 
-const fetchFixturesRequest = () => ({
+export const fetchFixturesRequest = () => ({
   type: types.FETCH_FIXTURES_REQUEST,
 });
 
-const fetchFixturesSuccess = payload => ({
+export const fetchFixturesSuccess = payload => ({
   type: types.FETCH_FIXTURES_SUCCESS,
   payload,
 });
 
-const fetchFixturesFailure = () => ({
+export const fetchFixturesFailure = () => ({
   type: types.FETCH_FIXTURES_FAILURE,
 });
 

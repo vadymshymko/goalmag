@@ -110,7 +110,7 @@ describe('fixtures actions', () => {
     nock(`https:${config.apiRoot}competitions`).get('/1/fixtures?&matchday=1').reply(
       200,
       mockResponse,
-    ).log(console.log);
+    );
 
     return store.dispatch(actions.fetchFixtures({
       competitionId: 1,
