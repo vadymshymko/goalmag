@@ -18,7 +18,7 @@ const team = (state = {}, action) => {
     case types.FETCH_TEAM_SUCCESS:
       return {
         ...state,
-        ...action.payload.info,
+        ...action.payload,
         isFetching: false,
         isInitialized: true,
       };

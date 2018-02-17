@@ -1,5 +1,5 @@
-export const getTeamState = (state, id) => (
+export const getTeam = (state, id) => (
   state.teams.byId[id]
 );
 
-export default getTeamState;
+export default getTeam;
