@@ -7,10 +7,7 @@ import AppHeader from 'components/AppHeader';
 import AppNav from 'components/AppNav';
 import Container from 'components/Container';
 
-import {
-  fetchCompetitions,
-  fetchFixtures,
-} from 'actions';
+import { fetchCompetitions } from 'actions';
 
 import {
   getCompetitions,
@@ -22,7 +19,6 @@ import './App.scss';
 class App extends Component {
   static propTypes = {
     fetchCompetitions: PropTypes.func.isRequired,
-    fetchFixtures: PropTypes.func.isRequired,
     competitions: PropTypes.arrayOf(PropTypes.object).isRequired,
     isCompetitionsInitialized: PropTypes.bool.isRequired,
     children: PropTypes.node,
@@ -33,14 +29,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const currentDate = new Date().toISOString().split('T')[0];
-
     this.props.fetchCompetitions();
-
-    this.props.fetchFixtures({
-      dateFrom: currentDate,
-      dateTo: currentDate,
-    });
   }
 
   render() {
@@ -80,7 +69,6 @@ const mapStateToProps = state => ({
 
 const actions = {
   fetchCompetitions,
-  fetchFixtures,
 };
 
 export default withRouter(connect(mapStateToProps, actions)(App));

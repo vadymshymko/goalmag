@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-
-import { getFixtures } from 'selectors';
 
 import FixturesList from 'components/FixturesList';
 
 import './MatchCenterCompetition.scss';
 
-class MatchCenterCompetition extends Component {
+export default class MatchCenterCompetition extends Component {
   static propTypes = {
     competitionName: PropTypes.string.isRequired,
     competitionFixtures: PropTypes.arrayOf(PropTypes.object),
@@ -61,11 +58,3 @@ class MatchCenterCompetition extends Component {
     );
   }
 }
-
-const mapStateToProps = (state, props) => ({
-  competitionFixtures: getFixtures(state).filter(item => (
-    parseInt(item.competitionId, 10) === parseInt(props.competitionId, 10)
-  )),
-});
-
-export default connect(mapStateToProps)(MatchCenterCompetition);

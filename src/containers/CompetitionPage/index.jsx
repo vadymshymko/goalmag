@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import AppPage from 'components/AppPage';
+import AppPageHeader from 'components/AppPageHeader';
+import AppPageTitle from 'components/AppPageTitle';
+import AppPageContent from 'components/AppPageContent';
 import CompetitionTable from 'components/CompetitionTable';
 import Alert from 'components/Alert';
 import FixturesList from 'components/FixturesList';
@@ -95,25 +98,33 @@ class CompetitionPage extends Component {
         title={competitionName}
         className="CompetitionPage"
       >
-        <div className="CompetitionInfo">
-          <section className="CompetitionInfo__section">
-            <h3 className="CompetitionInfo__title">Match Center:</h3>
+        <AppPageHeader>
+          <AppPageTitle>
+            CompetitionPage
+          </AppPageTitle>
+        </AppPageHeader>
 
-            {!isFixturesFetching && competitionFixtures.length === 0 && (
-              <Alert>:( There are no matches</Alert>
-            )}
+        <AppPageContent>
+          <div className="CompetitionInfo">
+            <section className="CompetitionInfo__section">
+              <h3 className="CompetitionInfo__title">Match Center:</h3>
 
-            {competitionFixtures.length > 0 && (
-              <FixturesList fixtures={competitionFixtures} />
-            )}
-          </section>
+              {!isFixturesFetching && competitionFixtures.length === 0 && (
+                <Alert>:( There are no matches</Alert>
+              )}
 
-          <section className="CompetitionInfo__section">
-            <h3 className="CompetitionInfo__title">Standings:</h3>
+              {competitionFixtures.length > 0 && (
+                <FixturesList fixtures={competitionFixtures} />
+              )}
+            </section>
 
-            <CompetitionTable standing={competitionTable.standing} />
-          </section>
-        </div>
+            <section className="CompetitionInfo__section">
+              <h3 className="CompetitionInfo__title">Standings:</h3>
+
+              <CompetitionTable standing={competitionTable.standing} />
+            </section>
+          </div>
+        </AppPageContent>
       </AppPage>
     );
   }

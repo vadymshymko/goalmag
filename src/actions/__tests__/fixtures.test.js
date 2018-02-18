@@ -86,8 +86,7 @@ describe('fixtures actions', () => {
     );
 
     return store.dispatch(actions.fetchFixtures({
-      dateFrom: '2018-02-28',
-      dateTo: '2018-02-28',
+      date: '2018-02-28',
     })).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
@@ -107,7 +106,7 @@ describe('fixtures actions', () => {
       },
     ];
 
-    nock(`https:${config.apiRoot}competitions`).get('/1/fixtures?&matchday=1').reply(
+    nock(`https:${config.apiRoot}`).get('/competitions/1/fixtures?&matchday=1').reply(
       200,
       mockResponse,
     );
@@ -153,8 +152,7 @@ describe('fixtures actions', () => {
     );
 
     return store.dispatch(actions.fetchFixtures({
-      dateFrom: '2018-02-28',
-      dateTo: '2018-02-28',
+      date: '2018-02-28',
     })).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
@@ -174,8 +172,7 @@ describe('fixtures actions', () => {
     });
 
     return store.dispatch(actions.fetchFixtures({
-      dateFrom: '2018-02-28',
-      dateTo: '2018-02-28',
+      date: '2018-02-28',
     })).catch(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
@@ -192,8 +189,7 @@ describe('fixtures actions', () => {
     const expectedActions = [];
 
     return store.dispatch(actions.fetchFixtures({
-      dateFrom: '2018-02-28',
-      dateTo: '2018-02-28',
+      date: '2018-02-28',
     })).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
@@ -210,8 +206,7 @@ describe('fixtures actions', () => {
     const expectedActions = [];
 
     return store.dispatch(actions.fetchFixtures({
-      dateFrom: '2018-02-28',
-      dateTo: '2018-02-28',
+      date: '2018-02-28',
     })).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });

@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { normalize } from 'normalizr';
 import { fixtures as schema } from 'schemas';
 import { fixtures as types } from 'types';
@@ -20,11 +21,10 @@ export const fetchFixturesFailure = () => ({
 export const fetchFixtures = ({
   competitionId,
   matchday,
-  dateFrom,
-  dateTo,
+  date,
 } = {}) => (dispatch, getState) => {
-  if (!(competitionId && matchday) && !(dateFrom && dateTo)) {
-    throw new Error('Invalid arguments passed');
+  if (!competitionId && !date) {
+    throw new Error('invalid arguments');
   }
 
   const state = getState();
@@ -37,8 +37,9 @@ export const fetchFixtures = ({
   const requestMatchdayFilter = competitionId && matchday
     ? `&matchday=${matchday}`
     : '';
-  const requestDateFilter = (dateFrom && dateTo)
-    ? `&timeFrameStart=${dateFrom}&timeFrameEnd=${dateTo}`
+
+  const requestDateFilter = date
+    ? `&timeFrameStart=${moment(date).format('YYYY-MM-DD')}&timeFrameEnd=${moment(date).format('YYYY-MM-DD')}`
     : '';
   const requestFilter = `${requestPathFilter}${requestMatchdayFilter}${requestDateFilter}`;
 
@@ -64,7 +65,9 @@ export const fetchFixtures = ({
 
     return dispatch(fetchFixturesSuccess({
       items,
-      ids,
+      ids: ids.filter(id => (
+        state.fixtures.allIds.indexOf(id) < 0
+      )),
       filter: notFinishedItemsCount > 0
         ? ''
         : requestFilter,

@@ -12,6 +12,9 @@ import {
 } from 'actions';
 
 import AppPage from 'components/AppPage';
+import AppPageHeader from 'components/AppPageHeader';
+import AppPageTitle from 'components/AppPageTitle';
+import AppPageContent from 'components/AppPageContent';
 import SquadTable from 'components/SquadTable';
 
 class TeamPage extends Component {
@@ -41,7 +44,6 @@ class TeamPage extends Component {
     const {
       teamInfo: {
         name = '',
-        crestUrl: icon = '',
       },
       teamSquad: {
         players = [],
@@ -51,9 +53,17 @@ class TeamPage extends Component {
     return (
       <AppPage
         title={name}
-        titleIcon={icon}
+        className="TeamPage"
       >
-        <SquadTable players={players} />
+        <AppPageHeader>
+          <AppPageTitle>
+            {name}
+          </AppPageTitle>
+        </AppPageHeader>
+
+        <AppPageContent>
+          <SquadTable players={players} />
+        </AppPageContent>
       </AppPage>
     );
   }

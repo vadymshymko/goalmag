@@ -2,4 +2,24 @@
   &__header {
     justify-content: space-between;
   }
+
+  &__competitionsList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__competitionsItem {
+    margin-bottom: 45px;
+  }
+
+  &__fixturesFilters {
+    display: flex;
+  }
+
+  &__fixturesFilter {
+    &:not(:last-child) {
+      padding-right: 15px;
+    }
+  }
 }

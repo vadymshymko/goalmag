@@ -2,9 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import DocumentTitle from 'react-document-title';
 
-import AppPageTitle from 'components/AppPageTitle';
-import AppPageContent from 'components/AppPageContent';
-
 import './AppPage.scss';
 
 const AppPage = ({
@@ -14,13 +11,7 @@ const AppPage = ({
 }) => (
   <DocumentTitle title={title}>
     <main className={`AppPage ${className}`}>
-      <AppPageTitle>
-        {title}
-      </AppPageTitle>
-
-      <AppPageContent>
-        {children}
-      </AppPageContent>
+      {children}
     </main>
   </DocumentTitle>
 );

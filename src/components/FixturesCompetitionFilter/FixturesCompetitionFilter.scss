@@ -1,0 +1,14 @@
+.FixturesCompetitionFilter {
+  font-size: 14px;
+
+  &__label {
+    line-height: 24px;
+    padding-right: 5px;
+  }
+
+  &__field {
+    border: 0;
+    height: 24px;
+    outline: none;
+  }
+}
