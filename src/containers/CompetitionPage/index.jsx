@@ -10,7 +10,7 @@ import FixturesList from 'components/FixturesList';
 import {
   getCompetition,
   getTable,
-  getFixturesByCompetitionId,
+  getFixtures,
   getIsFixturesFetching,
 } from 'selectors';
 
@@ -28,7 +28,7 @@ class CompetitionPage extends Component {
       isInitialized: PropTypes.bool,
       standing: PropTypes.array,
     }),
-    fixtures: PropTypes.arrayOf(PropTypes.object),
+    competitionFixtures: PropTypes.arrayOf(PropTypes.object),
     history: PropTypes.shape({
       replace: PropTypes.func,
     }).isRequired,
@@ -39,7 +39,7 @@ class CompetitionPage extends Component {
     competitionName: '',
     competitionMatchday: null,
     competitionTable: {},
-    fixtures: [],
+    competitionFixtures: [],
   }
 
   componentDidMount() {
@@ -86,7 +86,7 @@ class CompetitionPage extends Component {
     const {
       competitionName,
       competitionTable,
-      fixtures,
+      competitionFixtures,
       isFixturesFetching,
     } = this.props;
 
@@ -99,12 +99,12 @@ class CompetitionPage extends Component {
           <section className="CompetitionInfo__section">
             <h3 className="CompetitionInfo__title">Match Center:</h3>
 
-            {!isFixturesFetching && fixtures.length === 0 && (
+            {!isFixturesFetching && competitionFixtures.length === 0 && (
               <Alert>:( There are no matches</Alert>
             )}
 
-            {fixtures.length > 0 && (
-              <FixturesList fixtures={fixtures} />
+            {competitionFixtures.length > 0 && (
+              <FixturesList fixtures={competitionFixtures} />
             )}
           </section>
 
@@ -136,7 +136,9 @@ const mapStateToProps = (state, {
     competitionName,
     competitionMatchday,
     competitionTable: getTable(state, `${competitionId}-${competitionMatchday}`),
-    fixtures: getFixturesByCompetitionId(state, competitionId),
+    competitionFixtures: getFixtures(state).filter(item => (
+      parseInt(item.competitionId, 10) === parseInt(competitionId, 10)
+    )),
     isFixturesFetching: getIsFixturesFetching(state),
   };
 };

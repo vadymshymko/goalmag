@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getFixturesByCompetitionId } from 'selectors';
+import { getFixtures } from 'selectors';
 
 import FixturesList from 'components/FixturesList';
 
@@ -63,7 +63,9 @@ class MatchCenterCompetition extends Component {
 }
 
 const mapStateToProps = (state, props) => ({
-  competitionFixtures: getFixturesByCompetitionId(state, props.competitionId),
+  competitionFixtures: getFixtures(state).filter(item => (
+    parseInt(item.competitionId, 10) === parseInt(props.competitionId, 10)
+  )),
 });
 
 export default connect(mapStateToProps)(MatchCenterCompetition);

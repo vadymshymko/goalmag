@@ -7,7 +7,7 @@ import MatchCenterCompetitionsList from 'components/MatchCenterCompetitionsList'
 import Alert from 'components/Alert';
 
 import {
-  getFixturesCompetitionsIds,
+  getFixtures,
   getCompetition,
   getIsFixturesFetching,
 } from 'selectors';
@@ -40,9 +40,11 @@ MatchCenterPage.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  fixturesCompetitions: getFixturesCompetitionsIds(state).map(competitionId => (
-    getCompetition(state, competitionId)
-  )),
+  fixturesCompetitions: [
+    ...new Set(getFixtures(state).map(fixture => (
+      getCompetition(state, fixture.competitionId)
+    ))),
+  ],
   isFixturesFetching: getIsFixturesFetching(state),
 });
 
