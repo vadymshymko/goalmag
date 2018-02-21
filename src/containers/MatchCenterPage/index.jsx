@@ -61,6 +61,7 @@ class MatchCenterPage extends Component {
   getCompetitionFixtures = competitionId => (
     this.props.fixtures.filter(fixture => (
       fixture.competitionId === competitionId
+      && moment(fixture.date).startOf('day').format('YYYY-MM-DD') === this.props.searchParams.date
     ))
   )
 

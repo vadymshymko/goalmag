@@ -37,7 +37,7 @@ const FixturesCompetitionFilter = ({
 );
 
 FixturesCompetitionFilter.propTypes = {
-  value: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
   competitions: PropTypes.arrayOf(PropTypes.object).isRequired,
   className: PropTypes.string,
