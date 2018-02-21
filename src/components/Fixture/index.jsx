@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 import FixtureTeam from 'components/FixtureTeam';
-
-import { getFormattedDatetimeByDatetime } from 'utils';
 
 import './Fixture.scss';
 
@@ -37,7 +36,7 @@ const Fixture = ({
 }) => (
   <article className="Fixture">
     <span className="Fixture__date">
-      {getFormattedDatetimeByDatetime(date)}
+      {moment(date).format('HH:mm')}
     </span>
 
     <span className="Fixture__main-info">

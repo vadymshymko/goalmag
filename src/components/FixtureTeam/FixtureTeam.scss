@@ -5,6 +5,12 @@
   justify-content: flex-end;
   position: relative;
 
+  &--type {
+    &--home {
+      text-align: right;
+    }
+  }
+
   .FixtureScore + & {
     justify-content: flex-start;
   }
@@ -19,6 +25,17 @@
     .FixtureTeam__name + & {
       margin-right: 0;
       margin-left: 5px;
+    }
+  }
+
+  &__link {
+    border-radius: 3px;
+    color: #0f0f0f;
+    padding: 0 5px;
+    text-decoration: none;
+
+    &:hover {
+      background-color: #f0f0f0;
     }
   }
 }

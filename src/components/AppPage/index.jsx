@@ -7,9 +7,10 @@ import './AppPage.scss';
 const AppPage = ({
   title,
   children,
+  className,
 }) => (
   <DocumentTitle title={title}>
-    <main className="AppPage">
+    <main className={`AppPage ${className}`}>
       {children}
     </main>
   </DocumentTitle>
@@ -17,10 +18,12 @@ const AppPage = ({
 
 AppPage.propTypes = {
   title: PropTypes.string,
+  className: PropTypes.string,
   children: PropTypes.node,
 };
 
 AppPage.defaultProps = {
+  className: '',
   title: '',
   children: null,
 };

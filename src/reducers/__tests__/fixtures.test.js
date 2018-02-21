@@ -2,8 +2,9 @@ import { fixtures as types } from 'types';
 import reducer from '../fixtures';
 
 const initialState = {
-  byId: [],
+  byId: {},
   allIds: [],
+  initializedFilters: [],
   isFetching: false,
   isRequestFailed: false,
   isInitialized: false,

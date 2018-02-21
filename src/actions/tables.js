@@ -18,8 +18,8 @@ export const fetchTableFailure = payload => ({
 });
 
 export const fetchTable = ({
-  matchday,
   competitionId,
+  matchday,
 } = {}) => (dispatch, getState) => {
   const state = getState();
   const tableCompetition = getCompetition(state, competitionId);

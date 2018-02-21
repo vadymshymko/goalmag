@@ -54,3 +54,13 @@ table {
 th {
   text-align: inherit;
 }
+
+input[type=date]::-webkit-inner-spin-button,
+input[type=date]::-webkit-outer-spin-button,
+input[type="date"]::-webkit-clear-button {
+  -webkit-appearance: none;
+}
+
+input[type="date"]::-ms-clear {
+ display: none;
+}

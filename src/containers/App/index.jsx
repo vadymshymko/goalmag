@@ -8,7 +8,11 @@ import AppNav from 'components/AppNav';
 import Container from 'components/Container';
 
 import { fetchCompetitions } from 'actions';
-import { getCompetitions, getIsCompetitionsInitialized } from 'selectors';
+
+import {
+  getCompetitions,
+  getIsCompetitionsInitialized,
+} from 'selectors';
 
 import './App.scss';
 

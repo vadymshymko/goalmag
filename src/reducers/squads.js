@@ -1,13 +1,13 @@
-import { teams as types } from 'types';
+import { squads as types } from 'types';
 
 const initialState = {
   byId: {},
   allIds: [],
 };
 
-const team = (state = {}, action) => {
+const squad = (state = {}, action) => {
   switch (action.type) {
-    case types.FETCH_TEAM_REQUEST:
+    case types.FETCH_SQUAD_REQUEST:
       return {
         ...state,
         isFetching: true,
@@ -15,7 +15,7 @@ const team = (state = {}, action) => {
         isRequestFailed: false,
       };
 
-    case types.FETCH_TEAM_SUCCESS:
+    case types.FETCH_SQUAD_SUCCESS:
       return {
         ...state,
         ...action.payload,
@@ -23,7 +23,7 @@ const team = (state = {}, action) => {
         isInitialized: true,
       };
 
-    case types.FETCH_TEAM_FAILURE:
+    case types.FETCH_SQUAD_FAILURE:
       return {
         ...state,
         isFetching: false,
@@ -36,14 +36,14 @@ const team = (state = {}, action) => {
   }
 };
 
-const teams = (state = initialState, action) => {
+const squads = (state = initialState, action) => {
   switch (action.type) {
-    case types.FETCH_TEAM_REQUEST:
+    case types.FETCH_SQUAD_REQUEST:
       return {
         ...state,
         byId: {
           ...state.byId,
-          [action.payload.id]: team(state[action.payload.id], action),
+          [action.payload.id]: squad(state[action.payload.id], action),
         },
         allIds: [
           ...state.allIds,
@@ -51,21 +51,21 @@ const teams = (state = initialState, action) => {
         ],
       };
 
-    case types.FETCH_TEAM_SUCCESS:
+    case types.FETCH_SQUAD_SUCCESS:
       return {
         ...state,
         byId: {
           ...state.byId,
-          [action.payload.id]: team(state[action.payload.id], action),
+          [action.payload.id]: squad(state[action.payload.id], action),
         },
       };
 
-    case types.FETCH_TEAM_FAILURE:
+    case types.FETCH_SQUAD_FAILURE:
       return {
         ...state,
         byId: {
           ...state.byId,
-          [action.payload.id]: team(state[action.payload.id], action),
+          [action.payload.id]: squad(state[action.payload.id], action),
         },
       };
 
@@ -74,4 +74,4 @@ const teams = (state = initialState, action) => {
   }
 };
 
-export default teams;
+export default squads;
