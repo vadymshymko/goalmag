@@ -18,7 +18,6 @@ import { fetchFixtures } from 'actions';
 import {
   getCompetitions,
   getFixtures,
-  getCompetition,
   getIsFixturesFetching,
 } from 'selectors';
 
@@ -29,10 +28,9 @@ class MatchCenterPage extends Component {
     fetchFixtures: PropTypes.func.isRequired,
     competitions: PropTypes.arrayOf(PropTypes.object).isRequired,
     fixtures: PropTypes.arrayOf(PropTypes.object).isRequired,
-    fixturesCompetitions: PropTypes.arrayOf(PropTypes.object).isRequired,
     isFixturesFetching: PropTypes.bool.isRequired,
     searchParams: PropTypes.shape({
-      competitionId: PropTypes.string,
+      competitionId: PropTypes.number,
       date: PropTypes.string,
     }).isRequired,
     history: PropTypes.shape({
@@ -41,33 +39,27 @@ class MatchCenterPage extends Component {
   }
 
   componentDidMount() {
-    const {
-      competitionId,
-      date,
-    } = this.props.searchParams;
-
-    this.props.fetchFixtures({
-      competitionId: parseInt(competitionId, 10),
-      date: moment(date || Date.now()).format('YYYY-MM-DD'),
-    });
+    this.props.fetchFixtures(this.props.searchParams);
   }
 
   componentWillReceiveProps(nextProps) {
     if (stringify(nextProps.searchParams) !== stringify(this.props.searchParams)) {
-      const {
-        competitionId,
-        date,
-      } = nextProps.searchParams;
-
-      this.props.fetchFixtures({
-        competitionId: parseInt(competitionId, 10),
-        date,
-      });
+      this.props.fetchFixtures(nextProps.searchParams);
     }
   }
 
-  getCompetitionFixtures = (fixtures, competitionId) => (
-    fixtures.filter(fixture => (
+  getFixturesCompetitions = () => (
+    this.props.competitions.filter(competition => (
+      (
+        !this.props.searchParams.competitionId
+        || this.props.searchParams.competitionId === competition.id
+      )
+      && this.getCompetitionFixtures(competition.id).length > 0
+    ))
+  )
+
+  getCompetitionFixtures = competitionId => (
+    this.props.fixtures.filter(fixture => (
       fixture.competitionId === competitionId
     ))
   )
@@ -93,14 +85,22 @@ class MatchCenterPage extends Component {
   render() {
     const {
       competitions,
-      fixtures,
-      fixturesCompetitions,
       isFixturesFetching,
       searchParams: {
-        competitionId = '',
+        competitionId,
         date,
       },
     } = this.props;
+
+    const fixturesCompetitions = this.getFixturesCompetitions();
+    const showEmptyMessage = (
+      !isFixturesFetching
+      && (
+        competitionId
+          ? this.getCompetitionFixtures(competitionId).length === 0
+          : fixturesCompetitions.length === 0
+      )
+    );
 
     return (
       <AppPage
@@ -133,11 +133,7 @@ class MatchCenterPage extends Component {
         <AppPageContent>
           <ul className="MatchCenterPage__competitionsList">
             {fixturesCompetitions.map((competition) => {
-              const competitionFixtures = this.getCompetitionFixtures(fixtures, competition.id);
-
-              if (competitionFixtures.length === 0) {
-                return null;
-              }
+              const competitionFixtures = this.getCompetitionFixtures(competition.id);
 
               return (
                 <li
@@ -153,7 +149,7 @@ class MatchCenterPage extends Component {
             })}
           </ul>
 
-          {!isFixturesFetching && fixtures.length === 0 && (
+          {showEmptyMessage && (
             <Alert>:( There are no matches</Alert>
           )}
         </AppPageContent>
@@ -167,35 +163,19 @@ const mapStateToProps = (state, {
     search,
   },
 }) => {
-  const searchParams = { ...parse(search) };
-
-  const fixtures = getFixtures(state);
-  const competitions = getCompetitions(state);
-
-  const fixturesCompetitionsIds = searchParams.competitionId
-    ? [
-      parseInt(searchParams.competitionId, 10),
-    ]
-    : [
-      ...new Set(fixtures.map(fixture => (
-        fixture.competitionId
-      ))),
-    ];
-
-  const fixturesCompetitions = fixturesCompetitionsIds.map(id => (
-    getCompetition(state, id)
-  ));
-
-  const fixturesToShow = fixtures.filter(item => (
-    fixturesCompetitionsIds.indexOf(item.competitionId) >= 0
-  ));
+  const {
+    competitionId,
+    date,
+  } = parse(search);
 
   return {
-    fixtures: fixturesToShow,
+    fixtures: getFixtures(state),
     isFixturesFetching: getIsFixturesFetching(state),
-    competitions,
-    fixturesCompetitions,
-    searchParams,
+    competitions: getCompetitions(state),
+    searchParams: {
+      competitionId: parseInt(competitionId || 0, 10),
+      date: moment(date || Date.now()).format('YYYY-MM-DD'),
+    },
   };
 };
 
