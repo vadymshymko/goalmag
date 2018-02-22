@@ -1,2 +1,2 @@
-# react-football
+# GoalMag
 https://goalmag.herokuapp.com sources
