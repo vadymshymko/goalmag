@@ -20,11 +20,10 @@ export const fetchFixturesFailure = () => ({
 
 export const fetchFixtures = ({
   competitionId,
-  matchday,
   date,
 } = {}) => (dispatch, getState) => {
-  if (!competitionId && !date) {
-    throw new Error('invalid arguments');
+  if (!date) {
+    throw new Error('invalid date');
   }
 
   const state = getState();
@@ -34,14 +33,9 @@ export const fetchFixtures = ({
   const requestPathFilter = competitionId
     ? `competitions/${competitionId}/fixtures?`
     : 'fixtures?';
-  const requestMatchdayFilter = competitionId && matchday
-    ? `&matchday=${matchday}`
-    : '';
 
-  const requestDateFilter = date
-    ? `&timeFrameStart=${moment(date).format('YYYY-MM-DD')}&timeFrameEnd=${moment(date).format('YYYY-MM-DD')}`
-    : '';
-  const requestFilter = `${requestPathFilter}${requestMatchdayFilter}${requestDateFilter}`;
+  const requestDateFilter = `&timeFrameStart=${moment(date).format('YYYY-MM-DD')}&timeFrameEnd=${moment(date).format('YYYY-MM-DD')}`;
+  const requestFilter = `${requestPathFilter}${requestDateFilter}`;
 
   const isRequestFilterInitialized = initializedFilters.indexOf(requestFilter) >= 0;
 

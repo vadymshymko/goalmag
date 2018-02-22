@@ -66,6 +66,72 @@ describe('fixtures actions', () => {
     nock.cleanAll();
   });
 
+  it('should be rejected if date not passed', () => {
+    const store = mockStore(initialStore);
+    const expectedActions = [];
+
+    return store.dispatch(actions.fetchFixtures({
+      date: '2018-02-28',
+    })).catch((error) => {
+      expect(store.getActions()).toEqual(expectedActions);
+      expect(error).toBe('invalid date');
+    });
+  });
+
+  it('should not create any actions if fixtures isFetching', () => {
+    const store = mockStore({
+      ...initialStore,
+      fixtures: {
+        ...initialStore.fixtures,
+        isFetching: true,
+      },
+    });
+    const expectedActions = [];
+
+    return store.dispatch(actions.fetchFixtures({
+      date: '2018-02-28',
+    })).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+
+  it('should not create any actions if request path is initialized', () => {
+    const store = mockStore({
+      ...initialStore,
+      fixtures: {
+        ...initialStore.fixtures,
+        initializedFilters: ['fixtures?&timeFrameStart=2018-02-28&timeFrameEnd=2018-02-28'],
+      },
+    });
+    const expectedActions = [];
+
+    return store.dispatch(actions.fetchFixtures({
+      date: '2018-02-28',
+    })).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+
+  it('should create FETCH_FIXTURES_FAILURE', () => {
+    const store = mockStore(initialStore);
+    const expectedActions = [
+      { type: types.FETCH_FIXTURES_REQUEST },
+      { type: types.FETCH_FIXTURES_FAILURE },
+    ];
+
+    nock(`https:${config.apiRoot}`).get('/fixtures?&timeFrameStart=2018-02-28&timeFrameEnd=2018-02-28').replyWithError({
+      message: 'Some Error',
+      code: 'AWFUL_ERROR',
+      statusCode: '500',
+    });
+
+    return store.dispatch(actions.fetchFixtures({
+      date: '2018-02-28',
+    })).catch(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+
   it('should create FETCH_FIXTURES_SUCCESS with empty filter', () => {
     const store = mockStore(initialStore);
     const expectedActions = [
@@ -106,14 +172,14 @@ describe('fixtures actions', () => {
       },
     ];
 
-    nock(`https:${config.apiRoot}`).get('/competitions/1/fixtures?&matchday=1').reply(
+    nock(`https:${config.apiRoot}`).get('/competitions/1/fixtures?&timeFrameStart=2018-02-28&timeFrameEnd=2018-02-28').reply(
       200,
       mockResponse,
     );
 
     return store.dispatch(actions.fetchFixtures({
       competitionId: 1,
-      matchday: 1,
+      date: '2018-02-28',
     })).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
@@ -150,60 +216,6 @@ describe('fixtures actions', () => {
         ],
       },
     );
-
-    return store.dispatch(actions.fetchFixtures({
-      date: '2018-02-28',
-    })).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
-  });
-
-  it('should create FETCH_FIXTURES_FAILURE', () => {
-    const store = mockStore(initialStore);
-    const expectedActions = [
-      { type: types.FETCH_FIXTURES_REQUEST },
-      { type: types.FETCH_FIXTURES_FAILURE },
-    ];
-
-    nock(`https:${config.apiRoot}`).get('/fixtures?&timeFrameStart=2018-02-28&timeFrameEnd=2018-02-28').replyWithError({
-      message: 'Some Error',
-      code: 'AWFUL_ERROR',
-      statusCode: '500',
-    });
-
-    return store.dispatch(actions.fetchFixtures({
-      date: '2018-02-28',
-    })).catch(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
-  });
-
-  it('should not create any actions if fixtures isFetching', () => {
-    const store = mockStore({
-      ...initialStore,
-      fixtures: {
-        ...initialStore.fixtures,
-        isFetching: true,
-      },
-    });
-    const expectedActions = [];
-
-    return store.dispatch(actions.fetchFixtures({
-      date: '2018-02-28',
-    })).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
-  });
-
-  it('should not create any actions if request path is initialized', () => {
-    const store = mockStore({
-      ...initialStore,
-      fixtures: {
-        ...initialStore.fixtures,
-        initializedFilters: ['fixtures?&timeFrameStart=2018-02-28&timeFrameEnd=2018-02-28'],
-      },
-    });
-    const expectedActions = [];
 
     return store.dispatch(actions.fetchFixtures({
       date: '2018-02-28',
