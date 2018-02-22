@@ -1,2 +1,2 @@
 # react-football
-Simple React App
+https://goalmag.herokuapp.com sources
