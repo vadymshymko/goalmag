@@ -120,36 +120,6 @@ describe('squads actions', () => {
     });
   });
 
-  it('should create FETCH_SQUAD_REQUEST && FETCH_SQUAD_SUCCESS if squad is defined in store but it is previously requestFailed', () => {
-    const store = mockStore(initializedState);
-    const expectedActions = [
-      {
-        type: types.FETCH_SQUAD_REQUEST,
-        payload: {
-          id: 4,
-        },
-      },
-      {
-        type: types.FETCH_SQUAD_SUCCESS,
-        payload: {
-          id: 4,
-          players: mockResponse,
-        },
-      },
-    ];
-
-    nock(`https:${config.apiRoot}`).get('/teams/4/players').reply(
-      200,
-      {
-        players: mockResponse,
-      },
-    );
-
-    return store.dispatch(actions.fetchSquad(4)).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
-  });
-
   it('should create FETCH_SQUAD_REQUEST && FETCH_SQUAD_SUCCESS if squad is not defined in store', () => {
     const store = mockStore(initializedState);
     const expectedActions = [

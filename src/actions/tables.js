@@ -1,5 +1,5 @@
 import { tables as types } from 'types';
-import { getCompetition, getTable } from 'selectors';
+import { getTable } from 'selectors';
 import { callApi } from 'utils';
 
 export const fetchTableRequest = payload => ({
@@ -21,17 +21,13 @@ export const fetchTable = ({
   competitionId,
   matchday,
 } = {}) => (dispatch, getState) => {
-  const state = getState();
-  const tableCompetition = getCompetition(state, competitionId);
-
-  if (!tableCompetition) {
-    throw new Error('invalid competition id');
+  if (!competitionId || !matchday) {
+    throw new Error('invalid competitionId or matchday');
   }
 
-  const requestCompetitionId = tableCompetition.id;
-  const requestMatchday = matchday || tableCompetition.currentMatchday;
+  const state = getState();
 
-  const tableId = `${requestCompetitionId}-${requestMatchday}`;
+  const tableId = `${competitionId}-${matchday}`;
   const table = getTable(state, tableId);
 
   if (table && (!table.isRequestFailed || table.isFetching)) {
@@ -42,7 +38,7 @@ export const fetchTable = ({
     id: tableId,
   }));
 
-  return callApi(`competitions/${competitionId}/leagueTable?matchday=${requestMatchday}`, {
+  return callApi(`competitions/${competitionId}/leagueTable?matchday=${matchday}`, {
     headers: {
       'X-Response-Control': 'full',
     },
