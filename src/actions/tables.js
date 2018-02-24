@@ -34,7 +34,7 @@ export const fetchTable = ({
   const tableId = `${requestCompetitionId}-${requestMatchday}`;
   const table = getTable(state, tableId);
 
-  if ((table && !table.isRequestFailed) || (table && table.isFetching)) {
+  if (table && (!table.isRequestFailed || table.isFetching)) {
     return Promise.resolve();
   }
 
