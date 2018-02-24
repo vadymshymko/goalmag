@@ -1,8 +1,8 @@
 import { teams as types } from 'types';
 
 const initialState = {
-  byId: {},
-  allIds: [],
+  entities: {},
+  ids: [],
 };
 
 const team = (state = {}, action) => {
@@ -41,12 +41,12 @@ const teams = (state = initialState, action) => {
     case types.FETCH_TEAM_REQUEST:
       return {
         ...state,
-        byId: {
-          ...state.byId,
+        entities: {
+          ...state.entities,
           [action.payload.id]: team(state[action.payload.id], action),
         },
-        allIds: [
-          ...state.allIds,
+        ids: [
+          ...state.ids,
           action.payload.id,
         ],
       };
@@ -54,8 +54,8 @@ const teams = (state = initialState, action) => {
     case types.FETCH_TEAM_SUCCESS:
       return {
         ...state,
-        byId: {
-          ...state.byId,
+        entities: {
+          ...state.entities,
           [action.payload.id]: team(state[action.payload.id], action),
         },
       };
@@ -63,8 +63,8 @@ const teams = (state = initialState, action) => {
     case types.FETCH_TEAM_FAILURE:
       return {
         ...state,
-        byId: {
-          ...state.byId,
+        entities: {
+          ...state.entities,
           [action.payload.id]: team(state[action.payload.id], action),
         },
       };

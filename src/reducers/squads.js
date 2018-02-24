@@ -1,8 +1,8 @@
 import { squads as types } from 'types';
 
 const initialState = {
-  byId: {},
-  allIds: [],
+  entities: {},
+  ids: [],
 };
 
 const squad = (state = {}, action) => {
@@ -41,12 +41,12 @@ const squads = (state = initialState, action) => {
     case types.FETCH_SQUAD_REQUEST:
       return {
         ...state,
-        byId: {
-          ...state.byId,
+        entities: {
+          ...state.entities,
           [action.payload.id]: squad(state[action.payload.id], action),
         },
-        allIds: [
-          ...state.allIds,
+        ids: [
+          ...state.ids,
           action.payload.id,
         ],
       };
@@ -54,8 +54,8 @@ const squads = (state = initialState, action) => {
     case types.FETCH_SQUAD_SUCCESS:
       return {
         ...state,
-        byId: {
-          ...state.byId,
+        entities: {
+          ...state.entities,
           [action.payload.id]: squad(state[action.payload.id], action),
         },
       };
@@ -63,8 +63,8 @@ const squads = (state = initialState, action) => {
     case types.FETCH_SQUAD_FAILURE:
       return {
         ...state,
-        byId: {
-          ...state.byId,
+        entities: {
+          ...state.entities,
           [action.payload.id]: squad(state[action.payload.id], action),
         },
       };

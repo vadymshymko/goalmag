@@ -1,8 +1,8 @@
 import { fixtures as types } from 'types';
 
 const initialState = {
-  byId: {},
-  allIds: [],
+  entities: {},
+  ids: [],
   initializedEndpoints: [],
   isFetching: false,
   isRequestFailed: false,
@@ -21,13 +21,13 @@ const fixtures = (state = initialState, action) => {
     case types.FETCH_FIXTURES_SUCCESS:
       return {
         ...state,
-        byId: {
-          ...state.byId,
-          ...action.payload.items,
+        entities: {
+          ...state.entities,
+          ...action.payload.entities,
         },
-        allIds: [
+        ids: [
           ...new Set([
-            ...state.allIds,
+            ...state.ids,
             ...action.payload.ids,
           ]),
         ],

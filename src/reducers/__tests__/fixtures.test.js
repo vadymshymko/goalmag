@@ -2,8 +2,8 @@ import { fixtures as types } from 'types';
 import reducer from '../fixtures';
 
 const initialState = {
-  byId: {},
-  allIds: [],
+  entities: {},
+  ids: [],
   initializedEndpoints: [],
   isFetching: false,
   isRequestFailed: false,
@@ -15,7 +15,7 @@ const fetchingState = {
   isFetching: true,
 };
 
-const items = {
+const entities = {
   1: {
     id: 1,
     key: 'value 1',
@@ -30,8 +30,8 @@ const ids = [1, 2];
 
 const initializedState = {
   ...initialState,
-  byId: items,
-  allIds: ids,
+  entities,
+  ids,
   isInitialized: true,
 };
 
@@ -56,7 +56,7 @@ describe('fixtures reducer', () => {
     expect(reducer(undefined, {
       type: types.FETCH_FIXTURES_SUCCESS,
       payload: {
-        items,
+        entities,
         ids,
       },
     })).toEqual(initializedState);

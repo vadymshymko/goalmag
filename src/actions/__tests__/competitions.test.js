@@ -1,16 +1,18 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import nock from 'nock';
+
 import config from 'config';
+
 import { competitions as types } from 'types';
 import * as actions from '../competitions';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-const initialStore = {
+const initialState = {
   competitions: {
-    byId: {},
-    allIds: [],
+    entities: {},
+    ids: [],
     isFetching: false,
     isRequestFailed: false,
     isInitialized: false,
@@ -28,7 +30,7 @@ const mockResponse = [
   },
 ];
 
-const items = {
+const entities = {
   1: {
     id: 1,
     caption: '1 caption',
@@ -47,13 +49,13 @@ describe('competitions actions', () => {
   });
 
   it('should create FETCH_COMPETITIONS_SUCCESS (empty response)', () => {
-    const store = mockStore(initialStore);
+    const store = mockStore(initialState);
     const expectedActions = [
       { type: types.FETCH_COMPETITIONS_REQUEST },
       {
         type: types.FETCH_COMPETITIONS_SUCCESS,
         payload: {
-          items: {},
+          entities: {},
           ids: [],
         },
       },
@@ -70,13 +72,13 @@ describe('competitions actions', () => {
   });
 
   it('should create FETCH_COMPETITIONS_SUCCESS', () => {
-    const store = mockStore(initialStore);
+    const store = mockStore(initialState);
     const expectedActions = [
       { type: types.FETCH_COMPETITIONS_REQUEST },
       {
         type: types.FETCH_COMPETITIONS_SUCCESS,
         payload: {
-          items,
+          entities,
           ids,
         },
       },
@@ -93,7 +95,7 @@ describe('competitions actions', () => {
   });
 
   it('should create FETCH_COMPETITIONS_FAILURE', () => {
-    const store = mockStore(initialStore);
+    const store = mockStore(initialState);
     const expectedActions = [
       { type: types.FETCH_COMPETITIONS_REQUEST },
       { type: types.FETCH_COMPETITIONS_FAILURE },
@@ -112,9 +114,9 @@ describe('competitions actions', () => {
 
   it('should not create any actions if competitions isInitialized', () => {
     const store = mockStore({
-      ...initialStore,
+      ...initialState,
       competitions: {
-        ...initialStore.competitions,
+        ...initialState.competitions,
         isInitialized: true,
       },
     });
@@ -127,9 +129,9 @@ describe('competitions actions', () => {
 
   it('should not create any actions if competitions isFetching', () => {
     const store = mockStore({
-      ...initialStore,
+      ...initialState,
       competitions: {
-        ...initialStore.competitions,
+        ...initialState.competitions,
         isFetching: true,
       },
     });

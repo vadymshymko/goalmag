@@ -2,8 +2,8 @@ import moment from 'moment';
 import { createSelector } from 'reselect';
 
 export const getAllFixtures = state => (
-  state.fixtures.allIds.map(id => (
-    state.fixtures.byId[id]
+  state.fixtures.ids.map(id => (
+    state.fixtures.entities[id]
   ))
 );
 
@@ -25,7 +25,7 @@ export const getFixtures = createSelector(
 );
 
 export const getFixture = (state, id = 0) => (
-  state.fixtures.byId[id]
+  state.fixtures.entities[id]
 );
 
 export const getFixturesInitializedEndpoints = state => (

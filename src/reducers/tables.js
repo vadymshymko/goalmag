@@ -1,8 +1,8 @@
 import { tables as types } from 'types';
 
 const initialState = {
-  byId: {},
-  allIds: [],
+  entities: {},
+  ids: [],
 };
 
 export const table = (state = {}, action) => {
@@ -41,12 +41,12 @@ const tables = (state = initialState, action) => {
     case types.FETCH_TABLE_REQUEST:
       return {
         ...state,
-        byId: {
-          ...state.byId,
+        entities: {
+          ...state.entities,
           [action.payload.id]: table(state[action.payload.id], action),
         },
-        allIds: [
-          ...state.allIds,
+        ids: [
+          ...state.ids,
           action.payload.id,
         ],
       };
@@ -54,8 +54,8 @@ const tables = (state = initialState, action) => {
     case types.FETCH_TABLE_SUCCESS:
       return {
         ...state,
-        byId: {
-          ...state.byId,
+        entities: {
+          ...state.entities,
           [action.payload.id]: table(state[action.payload.id], action),
         },
       };
@@ -63,8 +63,8 @@ const tables = (state = initialState, action) => {
     case types.FETCH_TABLE_FAILURE:
       return {
         ...state,
-        byId: {
-          ...state.byId,
+        entities: {
+          ...state.entities,
           [action.payload.id]: table(state[action.payload.id], action),
         },
       };

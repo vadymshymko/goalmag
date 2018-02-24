@@ -50,7 +50,7 @@ export const fetchFixtures = ({
   return callApi(endpoint).then((json) => {
     const {
       entities: {
-        fixtures: items = {},
+        fixtures: entities = {},
       },
       result: ids = [],
     } = normalize(json.fixtures, schema);
@@ -60,7 +60,7 @@ export const fetchFixtures = ({
     )).length === 0;
 
     return dispatch(fetchFixturesSuccess({
-      items,
+      entities,
       ids,
       endpoint,
       isEndpointInitialized,
