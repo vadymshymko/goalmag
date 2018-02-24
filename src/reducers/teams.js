@@ -10,6 +10,7 @@ const team = (state = {}, action) => {
     case types.FETCH_TEAM_REQUEST:
       return {
         ...state,
+        id: action.payload.id,
         isFetching: true,
         isInitialized: false,
         isRequestFailed: false,

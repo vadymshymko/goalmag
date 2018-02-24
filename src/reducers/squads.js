@@ -10,6 +10,7 @@ const squad = (state = {}, action) => {
     case types.FETCH_SQUAD_REQUEST:
       return {
         ...state,
+        id: action.payload.id,
         isFetching: true,
         isInitialized: false,
         isRequestFailed: false,
@@ -18,7 +19,7 @@ const squad = (state = {}, action) => {
     case types.FETCH_SQUAD_SUCCESS:
       return {
         ...state,
-        ...action.payload,
+        players: action.payload.players,
         isFetching: false,
         isInitialized: true,
       };

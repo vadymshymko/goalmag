@@ -10,6 +10,7 @@ export const table = (state = {}, action) => {
     case types.FETCH_TABLE_REQUEST:
       return {
         ...state,
+        id: action.payload.id,
         isFetching: true,
         isRequestFailed: false,
         isInitialized: false,
