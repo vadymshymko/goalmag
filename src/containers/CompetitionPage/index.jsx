@@ -16,8 +16,8 @@ import TableMatchdayFilter from 'components/TableMatchdayFilter';
 
 import {
   getCompetition,
-  getTable,
   getFixtures,
+  getTable,
   getIsFixturesFetching,
 } from 'selectors';
 
@@ -59,11 +59,12 @@ class CompetitionPage extends Component {
   componentDidMount() {
     const {
       competitionId,
+      competitionName,
       fixturesDate,
       tableMatchday,
     } = this.props;
 
-    if (!competitionId) {
+    if (!competitionId || !competitionName) {
       this.props.history.replace('/');
     } else {
       this.props.fetchTable({
@@ -205,17 +206,18 @@ class CompetitionPage extends Component {
 const mapStateToProps = (state, {
   match: {
     params: {
-      id: competitionId,
+      id,
     },
   },
   location: {
     search,
   },
 }) => {
+  const competitionId = parseInt(id, 10);
   const {
-    caption: competitionName,
-    currentMatchday: competitionMatchday,
-  } = getCompetition(state, competitionId);
+    caption: competitionName = '',
+    currentMatchday: competitionMatchday = 0,
+  } = getCompetition(state, competitionId) || {};
 
   const {
     fixturesDate,
@@ -225,17 +227,17 @@ const mapStateToProps = (state, {
   const fixturesDateValue = moment(fixturesDate || Date.now()).format('YYYY-MM-DD');
 
   return {
-    competitionId: parseInt(competitionId, 10),
+    competitionId,
     competitionName,
-    currentCompetitionMatchday: competitionMatchday,
-    competitionTable: getTable(state, `${competitionId}-${tableMatchday}`),
-    competitionFixtures: getFixtures(state).filter(item => (
-      parseInt(item.competitionId, 10) === parseInt(competitionId, 10)
-      && moment(item.date).startOf('day').format('YYYY-MM-DD') === fixturesDateValue
-    )),
-    isFixturesFetching: getIsFixturesFetching(state),
     fixturesDate: fixturesDateValue,
+    competitionFixtures: getFixtures(state, {
+      competitionId,
+      date: fixturesDateValue,
+    }),
+    isFixturesFetching: getIsFixturesFetching(state),
+    currentCompetitionMatchday: competitionMatchday,
     tableMatchday: parseInt(tableMatchday, 10),
+    competitionTable: getTable(state, `${competitionId}-${tableMatchday}`),
   };
 };
 
