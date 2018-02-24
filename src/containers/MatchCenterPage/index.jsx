@@ -4,6 +4,14 @@ import { connect } from 'react-redux';
 import { stringify, parse } from 'query-string';
 import moment from 'moment';
 
+import { fetchFixtures } from 'actions';
+
+import {
+  getCompetitions,
+  getFixtures,
+  getIsFixturesFetching,
+} from 'selectors';
+
 import AppPage from 'components/AppPage';
 import AppPageHeader from 'components/AppPageHeader';
 import AppPageTitle from 'components/AppPageTitle';
@@ -13,26 +21,18 @@ import Alert from 'components/Alert';
 import FixturesDateFilter from 'components/FixturesDateFilter';
 import FixturesCompetitionFilter from 'components/FixturesCompetitionFilter';
 
-import { fetchFixtures } from 'actions';
-
-import {
-  getCompetitions,
-  getFixtures,
-  getIsFixturesFetching,
-} from 'selectors';
-
 import './MatchCenterPage.scss';
 
 class MatchCenterPage extends Component {
   static propTypes = {
     fetchFixtures: PropTypes.func.isRequired,
-    competitions: PropTypes.arrayOf(PropTypes.object).isRequired,
-    fixtures: PropTypes.arrayOf(PropTypes.object).isRequired,
-    isFixturesFetching: PropTypes.bool.isRequired,
     searchParams: PropTypes.shape({
       competitionId: PropTypes.number,
       date: PropTypes.string,
     }).isRequired,
+    fixtures: PropTypes.arrayOf(PropTypes.object).isRequired,
+    isFixturesFetching: PropTypes.bool.isRequired,
+    competitions: PropTypes.arrayOf(PropTypes.object).isRequired,
     history: PropTypes.shape({
       push: PropTypes.func,
     }).isRequired,
@@ -48,20 +48,9 @@ class MatchCenterPage extends Component {
     }
   }
 
-  getFixturesCompetitions = () => (
-    this.props.competitions.filter(competition => (
-      (
-        !this.props.searchParams.competitionId
-        || this.props.searchParams.competitionId === competition.id
-      )
-      && this.getCompetitionFixtures(competition.id).length > 0
-    ))
-  )
-
   getCompetitionFixtures = competitionId => (
     this.props.fixtures.filter(fixture => (
       fixture.competitionId === competitionId
-      && moment(fixture.date).startOf('day').format('YYYY-MM-DD') === this.props.searchParams.date
     ))
   )
 
@@ -86,6 +75,7 @@ class MatchCenterPage extends Component {
   render() {
     const {
       competitions,
+      fixtures,
       isFixturesFetching,
       searchParams: {
         competitionId,
@@ -93,14 +83,9 @@ class MatchCenterPage extends Component {
       },
     } = this.props;
 
-    const fixturesCompetitions = this.getFixturesCompetitions();
     const showEmptyMessage = (
       !isFixturesFetching
-      && (
-        competitionId
-          ? this.getCompetitionFixtures(competitionId).length === 0
-          : fixturesCompetitions.length === 0
-      )
+      && fixtures.length === 0
     );
 
     return (
@@ -133,8 +118,12 @@ class MatchCenterPage extends Component {
 
         <AppPageContent>
           <ul className="MatchCenterPage__competitionsList">
-            {fixturesCompetitions.map((competition) => {
+            {competitions.map((competition) => {
               const competitionFixtures = this.getCompetitionFixtures(competition.id);
+
+              if (competitionFixtures.length === 0) {
+                return null;
+              }
 
               return (
                 <li
@@ -169,14 +158,20 @@ const mapStateToProps = (state, {
     date,
   } = parse(search);
 
+  const searchParams = {
+    competitionId: parseInt(competitionId || 0, 10),
+    date: moment(date || Date.now()).format('YYYY-MM-DD'),
+  };
+
+  const fixtures = getFixtures(state, { ...searchParams });
+  const isFixturesFetching = getIsFixturesFetching(state);
+  const competitions = getCompetitions(state);
+
   return {
-    fixtures: getFixtures(state),
-    isFixturesFetching: getIsFixturesFetching(state),
-    competitions: getCompetitions(state),
-    searchParams: {
-      competitionId: parseInt(competitionId || 0, 10),
-      date: moment(date || Date.now()).format('YYYY-MM-DD'),
-    },
+    searchParams,
+    fixtures,
+    isFixturesFetching,
+    competitions,
   };
 };
 

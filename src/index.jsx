@@ -24,21 +24,33 @@ store.subscribe(() => {
 
   saveDataToLocalStorage('store', {
     lastUpdated: Date.now(),
-    competitions: competitions.isInitialized && !competitions.isRequestFailed
+    competitions: (
+      competitions.isInitialized
+      && !competitions.isRequestFailed
+      && !competitions.isFetching
+    )
       ? competitions
       : undefined,
     fixtures: fixtures.isInitialized && !fixtures.isRequestFailed && !fixtures.isFetching
       ? {
-        byId: fixtures.allIds.filter(id => (
-          fixtures.byId[id].status && (fixtures.byId[id].status.toLowerCase() === 'finished')
-        )).reduce((result, id) => ({
-          ...result,
-          [id]: fixtures.byId[id],
-        }), {}),
-        allIds: fixtures.allIds.filter(id => (
-          fixtures.byId[id].status && (fixtures.byId[id].status.toLowerCase() === 'finished')
+        entities: fixtures.ids.reduce((result, id) => {
+          if (
+            !fixtures.entities[id]
+            || !fixtures.entities[id].status
+            || !(fixtures.entities[id].status.toLowerCase() === 'finished')
+          ) {
+            return result;
+          }
+
+          return {
+            ...result,
+            [id]: fixtures.entities[id],
+          };
+        }, {}),
+        ids: fixtures.ids.filter(id => (
+          fixtures.entities[id].status && (fixtures.entities[id].status.toLowerCase() === 'finished')
         )),
-        initializedFilters: fixtures.initializedFilters,
+        initializedEndpoints: fixtures.initializedEndpoints,
         isFetching: false,
         isRequestFailed: false,
         isInitialized: true,
@@ -46,35 +58,35 @@ store.subscribe(() => {
       : undefined,
     teams: {
       ...teams,
-      allIds: teams.allIds.filter(id => (
-        teams.byId[id].isInitialized && !teams.byId[id].isRequestFailed
-      )),
-      byId: teams.allIds.reduce((result, id) => {
-        if (!teams.byId[id].isInitialized || teams.byId[id].isRequestFailed) {
+      entities: teams.ids.reduce((result, id) => {
+        if (!teams.entities[id].isInitialized || teams.entities[id].isRequestFailed) {
           return result;
         }
 
         return {
           ...result,
-          [id]: teams.byId[id],
+          [id]: teams.entities[id],
         };
       }, {}),
+      ids: teams.ids.filter(id => (
+        teams.entities[id].isInitialized && !teams.entities[id].isRequestFailed
+      )),
     },
     tables: {
       ...tables,
-      allIds: tables.allIds.filter(id => (
-        tables.byId[id].isInitialized && !tables.byId[id].isRequestFailed
-      )),
-      byId: tables.allIds.reduce((result, id) => {
-        if (!tables.byId[id].isInitialized || tables.byId[id].isRequestFailed) {
+      entities: tables.ids.reduce((result, id) => {
+        if (!tables.entities[id].isInitialized || tables.entities[id].isRequestFailed) {
           return result;
         }
 
         return {
           ...result,
-          [id]: tables.byId[id],
+          [id]: tables.entities[id],
         };
       }, {}),
+      ids: tables.ids.filter(id => (
+        tables.entities[id].isInitialized && !tables.entities[id].isRequestFailed
+      )),
     },
   });
 });

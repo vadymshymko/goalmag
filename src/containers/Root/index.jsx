@@ -13,7 +13,6 @@ import App from 'containers/App';
 import MatchCenterPage from 'containers/MatchCenterPage';
 import CompetitionPage from 'containers/CompetitionPage';
 import TeamPage from 'containers/TeamPage';
-// import PlayerPage from 'containers/PlayerPage';
 
 const Root = ({
   history,
@@ -40,28 +39,6 @@ const Root = ({
             path="/team/:id"
             component={TeamPage}
           />
-
-          {/* <Route
-            exact
-            path="/players/:id"
-            component={PlayerPage}
-          /> */}
-
-          {/* <Route
-            exact
-            path="/example/:id/:id"
-            component={() => (
-              <div>Example Page with id from id in match params</div>
-            )}
-          /> */}
-
-          {/* <Route
-            exact
-            path="/"
-            component={() => (
-              <div>Default Page</div>
-            )}
-          /> */}
 
           <Redirect to="/match-center" />
         </Switch>

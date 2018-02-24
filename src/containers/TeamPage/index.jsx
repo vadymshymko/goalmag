@@ -6,6 +6,7 @@ import {
   getTeam,
   getSquad,
 } from 'selectors';
+
 import {
   fetchTeam,
   fetchSquad,
@@ -21,7 +22,7 @@ class TeamPage extends Component {
   static propTypes = {
     fetchTeam: PropTypes.func.isRequired,
     fetchSquad: PropTypes.func.isRequired,
-    id: PropTypes.number.isRequired,
+    teamId: PropTypes.number.isRequired,
     teamInfo: PropTypes.shape({
       name: PropTypes.string,
     }),
@@ -36,8 +37,25 @@ class TeamPage extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchTeam(this.props.id);
-    this.props.fetchSquad(this.props.id);
+    const { teamId } = this.props;
+
+    this.props.fetchTeam(teamId);
+    this.props.fetchSquad(teamId);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {
+      teamId,
+    } = this.props;
+
+    const {
+      teamId: nextTeamId,
+    } = nextProps;
+
+    if (nextTeamId !== teamId) {
+      this.props.fetchTeam(nextTeamId);
+      this.props.fetchSquad(nextTeamId);
+    }
   }
 
   render() {
@@ -76,7 +94,7 @@ const mapStateToProps = (state, {
     },
   },
 }) => ({
-  id: parseInt(id, 10),
+  teamId: parseInt(id, 10),
   teamInfo: getTeam(state, id),
   teamSquad: getSquad(state, id),
 });

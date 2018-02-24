@@ -2,7 +2,10 @@ import moment from 'moment';
 import { normalize } from 'normalizr';
 import { fixtures as schema } from 'schemas';
 import { fixtures as types } from 'types';
-import { getIsFixturesFetching, getFixturesInitializedFilters } from 'selectors';
+import {
+  getIsFixturesFetching,
+  getFixturesInitializedEndpoints,
+} from 'selectors';
 import { callApi } from 'utils';
 
 export const fetchFixturesRequest = () => ({
@@ -20,57 +23,47 @@ export const fetchFixturesFailure = () => ({
 
 export const fetchFixtures = ({
   competitionId,
-  matchday,
   date,
 } = {}) => (dispatch, getState) => {
-  if (!competitionId && !date) {
-    throw new Error('invalid arguments');
+  if (!date) {
+    throw new Error('invalid date');
   }
 
   const state = getState();
-  const isCurrentlyFetching = getIsFixturesFetching(state);
-  const initializedFilters = getFixturesInitializedFilters(state);
 
-  const requestPathFilter = competitionId
+  const isFetching = getIsFixturesFetching(state);
+  const initializedEndpoints = getFixturesInitializedEndpoints(state);
+
+  const requestPath = competitionId
     ? `competitions/${competitionId}/fixtures?`
     : 'fixtures?';
-  const requestMatchdayFilter = competitionId && matchday
-    ? `&matchday=${matchday}`
-    : '';
+  const requestDateParams = `&timeFrameStart=${moment(date).format('YYYY-MM-DD')}&timeFrameEnd=${moment(date).format('YYYY-MM-DD')}`;
 
-  const requestDateFilter = date
-    ? `&timeFrameStart=${moment(date).format('YYYY-MM-DD')}&timeFrameEnd=${moment(date).format('YYYY-MM-DD')}`
-    : '';
-  const requestFilter = `${requestPathFilter}${requestMatchdayFilter}${requestDateFilter}`;
+  const endpoint = `${requestPath}${requestDateParams}`;
 
-  const isRequestFilterInitialized = initializedFilters.indexOf(requestFilter) >= 0;
-
-  if (isCurrentlyFetching || isRequestFilterInitialized) {
+  if (isFetching || initializedEndpoints.indexOf(endpoint) >= 0) {
     return Promise.resolve();
   }
 
   dispatch(fetchFixturesRequest());
 
-  return callApi(requestFilter).then((json) => {
+  return callApi(endpoint).then((json) => {
     const {
       entities: {
-        fixtures: items = {},
+        fixtures: entities = {},
       },
       result: ids = [],
     } = normalize(json.fixtures, schema);
 
-    const notFinishedItemsCount = json.fixtures.filter(item => (
+    const isEndpointInitialized = json.fixtures.filter(item => (
       item.status.toLowerCase() !== 'finished'
-    )).length;
+    )).length === 0;
 
     return dispatch(fetchFixturesSuccess({
-      items,
-      ids: ids.filter(id => (
-        state.fixtures.allIds.indexOf(id) < 0
-      )),
-      filter: notFinishedItemsCount > 0
-        ? ''
-        : requestFilter,
+      entities,
+      ids,
+      endpoint,
+      isEndpointInitialized,
     }));
   }).catch((error) => {
     dispatch(fetchFixturesFailure());

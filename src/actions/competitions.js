@@ -1,6 +1,10 @@
 import { normalize } from 'normalizr';
 import { competitions as schema } from 'schemas';
 import { competitions as types } from 'types';
+import {
+  getIsCompetitionsInitialized,
+  getIsCompetitionsFetching,
+} from 'selectors';
 import { callApi } from 'utils';
 
 export const fetchCompetitionsRequest = () => ({
@@ -17,9 +21,12 @@ export const fetchCompetitionsFailure = () => ({
 });
 
 export const fetchCompetitions = () => (dispatch, getState) => {
-  const currentState = getState().competitions;
+  const state = getState();
 
-  if (currentState.isInitialized || currentState.isFetching) {
+  const isFetching = getIsCompetitionsFetching(state);
+  const isInitialized = getIsCompetitionsInitialized(state);
+
+  if (isInitialized || isFetching) {
     return Promise.resolve();
   }
 
@@ -28,13 +35,13 @@ export const fetchCompetitions = () => (dispatch, getState) => {
   return callApi('competitions').then((json) => {
     const {
       entities: {
-        competitions: items = {},
+        competitions: entities = {},
       },
       result: ids = [],
     } = normalize(json, schema);
 
     return dispatch(fetchCompetitionsSuccess({
-      items,
+      entities,
       ids,
     }));
   }).catch((error) => {

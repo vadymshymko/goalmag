@@ -4,6 +4,18 @@ import { connect } from 'react-redux';
 import { stringify, parse } from 'query-string';
 import moment from 'moment';
 
+import {
+  getCompetition,
+  getFixtures,
+  getTable,
+  getIsFixturesFetching,
+} from 'selectors';
+
+import {
+  fetchTable,
+  fetchFixtures,
+} from 'actions';
+
 import AppPage from 'components/AppPage';
 import AppPageHeader from 'components/AppPageHeader';
 import AppPageTitle from 'components/AppPageTitle';
@@ -13,18 +25,6 @@ import Alert from 'components/Alert';
 import FixturesList from 'components/FixturesList';
 import FixturesDateFilter from 'components/FixturesDateFilter';
 import TableMatchdayFilter from 'components/TableMatchdayFilter';
-
-import {
-  getCompetition,
-  getTable,
-  getFixtures,
-  getIsFixturesFetching,
-} from 'selectors';
-
-import {
-  fetchTable,
-  fetchFixtures,
-} from 'actions';
 
 import './CompetitionPage.scss';
 
@@ -59,11 +59,12 @@ class CompetitionPage extends Component {
   componentDidMount() {
     const {
       competitionId,
+      competitionName,
       fixturesDate,
       tableMatchday,
     } = this.props;
 
-    if (!competitionId) {
+    if (!competitionId || !competitionName) {
       this.props.history.replace('/');
     } else {
       this.props.fetchTable({
@@ -91,30 +92,24 @@ class CompetitionPage extends Component {
       tableMatchday: nextTableMatchday,
     } = nextProps;
 
-    if (!nextCompetitionId) {
-      this.props.history.replace('/');
-    } else {
-      if (
-        nextCompetitionId !== competitionId
+    if (
+      nextCompetitionId !== competitionId
         || tableMatchday !== nextTableMatchday
-      ) {
-        this.props.fetchTable({
-          competitionId: nextCompetitionId,
-          matchday: nextTableMatchday,
-        });
-      }
+    ) {
+      this.props.fetchTable({
+        competitionId: nextCompetitionId,
+        matchday: nextTableMatchday,
+      });
+    }
 
-      if (
-        nextCompetitionId !== competitionId
-        || (
-          fixturesDate !== nextFixturesDate
-        )
-      ) {
-        this.props.fetchFixtures({
-          competitionId: nextCompetitionId,
-          date: nextFixturesDate,
-        });
-      }
+    if (
+      nextCompetitionId !== competitionId
+        || fixturesDate !== nextFixturesDate
+    ) {
+      this.props.fetchFixtures({
+        competitionId: nextCompetitionId,
+        date: nextFixturesDate,
+      });
     }
   }
 
@@ -205,17 +200,18 @@ class CompetitionPage extends Component {
 const mapStateToProps = (state, {
   match: {
     params: {
-      id: competitionId,
+      id,
     },
   },
   location: {
     search,
   },
 }) => {
+  const competitionId = parseInt(id, 10);
   const {
-    caption: competitionName,
-    currentMatchday: competitionMatchday,
-  } = getCompetition(state, competitionId);
+    caption: competitionName = '',
+    currentMatchday: competitionMatchday = 0,
+  } = getCompetition(state, competitionId) || {};
 
   const {
     fixturesDate,
@@ -225,17 +221,17 @@ const mapStateToProps = (state, {
   const fixturesDateValue = moment(fixturesDate || Date.now()).format('YYYY-MM-DD');
 
   return {
-    competitionId: parseInt(competitionId, 10),
+    competitionId,
     competitionName,
-    currentCompetitionMatchday: competitionMatchday,
-    competitionTable: getTable(state, `${competitionId}-${tableMatchday}`),
-    competitionFixtures: getFixtures(state).filter(item => (
-      parseInt(item.competitionId, 10) === parseInt(competitionId, 10)
-      && moment(item.date).startOf('day').format('YYYY-MM-DD') === fixturesDateValue
-    )),
-    isFixturesFetching: getIsFixturesFetching(state),
     fixturesDate: fixturesDateValue,
+    competitionFixtures: getFixtures(state, {
+      competitionId,
+      date: fixturesDateValue,
+    }),
+    isFixturesFetching: getIsFixturesFetching(state),
+    currentCompetitionMatchday: competitionMatchday,
     tableMatchday: parseInt(tableMatchday, 10),
+    competitionTable: getTable(state, `${competitionId}-${tableMatchday}`),
   };
 };
 

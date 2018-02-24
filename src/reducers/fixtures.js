@@ -1,9 +1,9 @@
 import { fixtures as types } from 'types';
 
 const initialState = {
-  byId: {},
-  allIds: [],
-  initializedFilters: [],
+  entities: {},
+  ids: [],
+  initializedEndpoints: [],
   isFetching: false,
   isRequestFailed: false,
   isInitialized: false,
@@ -21,20 +21,22 @@ const fixtures = (state = initialState, action) => {
     case types.FETCH_FIXTURES_SUCCESS:
       return {
         ...state,
-        byId: {
-          ...state.byId,
-          ...action.payload.items,
+        entities: {
+          ...state.entities,
+          ...action.payload.entities,
         },
-        allIds: [
-          ...state.allIds,
-          ...action.payload.ids,
+        ids: [
+          ...new Set([
+            ...state.ids,
+            ...action.payload.ids,
+          ]),
         ],
-        initializedFilters: action.payload.filter
+        initializedEndpoints: action.payload.isEndpointInitialized
           ? [
-            ...state.initializedFilters,
-            action.payload.filter,
+            ...state.initializedEndpoints,
+            action.payload.endpoint,
           ]
-          : state.initializedFilters,
+          : state.initializedEndpoints,
         isFetching: false,
         isInitialized: true,
       };

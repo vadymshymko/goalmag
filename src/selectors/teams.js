@@ -1,5 +1,5 @@
 export const getTeam = (state, id) => (
-  state.teams.byId[id]
+  state.teams.entities[id]
 );
 
 export default getTeam;

@@ -1,5 +1,5 @@
-import { squads as types } from 'types';
 import { callApi } from 'utils';
+import { squads as types } from 'types';
 import { getSquad } from 'selectors';
 
 export const fetchSquadRequest = id => ({
@@ -26,9 +26,10 @@ export const fetchSquad = teamId => (dispatch, getState) => {
     throw new Error('Invalid team id');
   }
 
-  const currentState = getSquad(getState(), teamId);
+  const state = getState();
+  const squad = getSquad(state, teamId);
 
-  if (currentState && (currentState.isInitialized || currentState.isFetching)) {
+  if (squad && (!squad.isRequestFailed || squad.isFetching)) {
     return Promise.resolve();
   }
 
