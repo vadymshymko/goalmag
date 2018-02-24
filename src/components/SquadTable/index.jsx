@@ -42,10 +42,7 @@ const SquadTable = ({ players }) => (
 );
 
 SquadTable.propTypes = {
-  players: PropTypes.arrayOf(PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ])),
+  players: PropTypes.arrayOf(PropTypes.object),
 };
 
 SquadTable.defaultProps = {
