@@ -2,7 +2,10 @@ import moment from 'moment';
 import { normalize } from 'normalizr';
 import { fixtures as schema } from 'schemas';
 import { fixtures as types } from 'types';
-import { getIsFixturesFetching, getFixturesInitializedFilters } from 'selectors';
+import {
+  getIsFixturesFetching,
+  getFixturesInitializedFilters,
+} from 'selectors';
 import { callApi } from 'utils';
 
 export const fetchFixturesRequest = () => ({
