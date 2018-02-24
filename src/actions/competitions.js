@@ -22,6 +22,7 @@ export const fetchCompetitionsFailure = () => ({
 
 export const fetchCompetitions = () => (dispatch, getState) => {
   const state = getState();
+
   const isFetching = getIsCompetitionsFetching(state);
   const isInitialized = getIsCompetitionsInitialized(state);
 

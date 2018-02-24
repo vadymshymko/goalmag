@@ -11,7 +11,7 @@ const initialStore = {
   fixtures: {
     byId: {},
     allIds: [],
-    initializedFilters: [],
+    initializedEndpoints: [],
     isFetching: false,
     isRequestFailed: false,
     isInitialized: false,
@@ -100,7 +100,7 @@ describe('fixtures actions', () => {
       ...initialStore,
       fixtures: {
         ...initialStore.fixtures,
-        initializedFilters: ['fixtures?&timeFrameStart=2018-02-28&timeFrameEnd=2018-02-28'],
+        initializedEndpoints: ['fixtures?&timeFrameStart=2018-02-28&timeFrameEnd=2018-02-28'],
       },
     });
     const expectedActions = [];
@@ -132,7 +132,7 @@ describe('fixtures actions', () => {
     });
   });
 
-  it('should create FETCH_FIXTURES_SUCCESS with empty filter', () => {
+  it('should create FETCH_FIXTURES_SUCCESS with isEndpointInitialized key to be falsy when not all fixtures are finished', () => {
     const store = mockStore(initialStore);
     const expectedActions = [
       { type: types.FETCH_FIXTURES_REQUEST },
@@ -141,7 +141,8 @@ describe('fixtures actions', () => {
         payload: {
           items,
           ids,
-          filter: '',
+          endpoint: 'fixtures?&timeFrameStart=2018-02-28&timeFrameEnd=2018-02-28',
+          isEndpointInitialized: false,
         },
       },
     ];
@@ -158,7 +159,7 @@ describe('fixtures actions', () => {
     });
   });
 
-  it('should create FETCH_FIXTURES_SUCCESS with empty filter', () => {
+  it('should create FETCH_FIXTURES_SUCCESS with isEndpointInitialized key to be falsy when not all competition fixtures are finished', () => {
     const store = mockStore(initialStore);
     const expectedActions = [
       { type: types.FETCH_FIXTURES_REQUEST },
@@ -167,7 +168,8 @@ describe('fixtures actions', () => {
         payload: {
           items,
           ids,
-          filter: '',
+          endpoint: 'competitions/1/fixtures?&timeFrameStart=2018-02-28&timeFrameEnd=2018-02-28',
+          isEndpointInitialized: false,
         },
       },
     ];
@@ -185,7 +187,7 @@ describe('fixtures actions', () => {
     });
   });
 
-  it('should create FETCH_FIXTURES_SUCCESS with filter', () => {
+  it('should create FETCH_FIXTURES_SUCCESS with isEndpointInitialized key to be truthy if all fixtures are finished', () => {
     const store = mockStore(initialStore);
     const expectedActions = [
       { type: types.FETCH_FIXTURES_REQUEST },
@@ -194,7 +196,8 @@ describe('fixtures actions', () => {
         payload: {
           items: finishedItems,
           ids,
-          filter: 'fixtures?&timeFrameStart=2018-02-28&timeFrameEnd=2018-02-28',
+          endpoint: 'fixtures?&timeFrameStart=2018-02-28&timeFrameEnd=2018-02-28',
+          isEndpointInitialized: true,
         },
       },
     ];

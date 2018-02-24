@@ -3,7 +3,7 @@ import { fixtures as types } from 'types';
 const initialState = {
   byId: {},
   allIds: [],
-  initializedFilters: [],
+  initializedEndpoints: [],
   isFetching: false,
   isRequestFailed: false,
   isInitialized: false,
@@ -26,15 +26,17 @@ const fixtures = (state = initialState, action) => {
           ...action.payload.items,
         },
         allIds: [
-          ...state.allIds,
-          ...action.payload.ids,
+          ...new Set([
+            ...state.allIds,
+            ...action.payload.ids,
+          ]),
         ],
-        initializedFilters: action.payload.filter
+        initializedEndpoints: action.payload.isEndpointInitialized
           ? [
-            ...state.initializedFilters,
-            action.payload.filter,
+            ...state.initializedEndpoints,
+            action.payload.endpoint,
           ]
-          : state.initializedFilters,
+          : state.initializedEndpoints,
         isFetching: false,
         isInitialized: true,
       };

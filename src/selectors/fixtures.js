@@ -28,8 +28,8 @@ export const getFixture = (state, id = 0) => (
   state.fixtures.byId[id]
 );
 
-export const getFixturesInitializedFilters = state => (
-  state.fixtures.initializedFilters
+export const getFixturesInitializedEndpoints = state => (
+  state.fixtures.initializedEndpoints
 );
 
 export const getIsFixturesFetching = state => (

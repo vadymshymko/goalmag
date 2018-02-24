@@ -38,7 +38,7 @@ store.subscribe(() => {
         allIds: fixtures.allIds.filter(id => (
           fixtures.byId[id].status && (fixtures.byId[id].status.toLowerCase() === 'finished')
         )),
-        initializedFilters: fixtures.initializedFilters,
+        initializedEndpoints: fixtures.initializedEndpoints,
         isFetching: false,
         isRequestFailed: false,
         isInitialized: true,
