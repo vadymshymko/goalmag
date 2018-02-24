@@ -3,16 +3,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import AppHeader from 'components/AppHeader';
-import AppNav from 'components/AppNav';
-import Container from 'components/Container';
-
 import { fetchCompetitions } from 'actions';
 
 import {
   getCompetitions,
   getIsCompetitionsInitialized,
 } from 'selectors';
+
+import AppHeader from 'components/AppHeader';
+import AppNav from 'components/AppNav';
+import Container from 'components/Container';
 
 import './App.scss';
 

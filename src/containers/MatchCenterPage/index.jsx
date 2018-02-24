@@ -4,6 +4,14 @@ import { connect } from 'react-redux';
 import { stringify, parse } from 'query-string';
 import moment from 'moment';
 
+import { fetchFixtures } from 'actions';
+
+import {
+  getCompetitions,
+  getFixtures,
+  getIsFixturesFetching,
+} from 'selectors';
+
 import AppPage from 'components/AppPage';
 import AppPageHeader from 'components/AppPageHeader';
 import AppPageTitle from 'components/AppPageTitle';
@@ -12,14 +20,6 @@ import MatchCenterCompetition from 'components/MatchCenterCompetition';
 import Alert from 'components/Alert';
 import FixturesDateFilter from 'components/FixturesDateFilter';
 import FixturesCompetitionFilter from 'components/FixturesCompetitionFilter';
-
-import { fetchFixtures } from 'actions';
-
-import {
-  getCompetitions,
-  getFixtures,
-  getIsFixturesFetching,
-} from 'selectors';
 
 import './MatchCenterPage.scss';
 
