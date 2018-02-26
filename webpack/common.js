@@ -1,18 +1,11 @@
 const path = require('path');
-const merge = require('webpack-merge');
-const webpackEnvConfig = require('./webpack');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const webpackCommonConfig = {
-  devServer: {
-    contentBase: path.join(__dirname, 'dist'),
-    historyApiFallback: true,
-    open: true,
-    port: 8080,
-  },
+module.exports = {
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, '../dist'),
     publicPath: '/',
   },
   resolve: {
@@ -23,6 +16,9 @@ const webpackCommonConfig = {
     ],
   },
   plugins: [
+    new CleanWebpackPlugin('dist', {
+      root: path.resolve(__dirname, '../'),
+    }),
     new HtmlWebpackPlugin({
       template: './src/assets/index.html',
     }),
@@ -48,5 +44,3 @@ const webpackCommonConfig = {
     ],
   },
 };
-
-module.exports = merge(webpackCommonConfig, webpackEnvConfig);

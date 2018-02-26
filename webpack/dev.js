@@ -1,8 +1,15 @@
 const webpack = require('webpack');
+const webpackMerge = require('webpack-merge');
 
-module.exports = {
+const commonConfig = require('./common.js');
+
+module.exports = webpackMerge(commonConfig, {
   devServer: {
+    historyApiFallback: true,
     hot: true,
+    open: true,
+    host: '0.0.0.0',
+    port: 8080,
   },
   entry: [
     'babel-polyfill',
@@ -41,4 +48,4 @@ module.exports = {
       },
     ],
   },
-};
+});
