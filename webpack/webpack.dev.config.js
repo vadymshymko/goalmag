@@ -2,7 +2,11 @@ const webpack = require('webpack');
 
 module.exports = {
   devServer: {
+    historyApiFallback: true,
     hot: true,
+    open: true,
+    host: '0.0.0.0',
+    port: 8080,
   },
   entry: [
     'babel-polyfill',

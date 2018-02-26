@@ -5,12 +5,6 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const webpackCommonConfig = {
-  devServer: {
-    contentBase: path.join(__dirname, 'dist'),
-    historyApiFallback: true,
-    open: true,
-    port: 8080,
-  },
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
