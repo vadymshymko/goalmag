@@ -4,9 +4,9 @@
   "description": "Simple React/Redux App for my simple football scores site",
   "main": "index.js",
   "scripts": {
-    "start": "export NODE_ENV=development && webpack-dev-server",
-    "build": "export NODE_ENV=production && webpack -p --progress",
-    "test": "export NODE_ENV=test jest --no-cache",
+    "start": "webpack-dev-server --config webpack/dev.js",
+    "build": "webpack -p --progress --config webpack/prod.js",
+    "test": "NODE_ENV=test jest --no-cache",
     "test-coverage": "NODE_ENV=test jest --coverage --no-cache",
     "heroku-postbuild": "npm run build"
   },

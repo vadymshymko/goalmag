@@ -1,6 +1,9 @@
 const webpack = require('webpack');
+const webpackMerge = require('webpack-merge');
 
-module.exports = {
+const commonConfig = require('./common.js');
+
+module.exports = webpackMerge(commonConfig, {
   devServer: {
     historyApiFallback: true,
     hot: true,
@@ -45,4 +48,4 @@ module.exports = {
       },
     ],
   },
-};
+});
