@@ -14,7 +14,6 @@ const FixtureTeam = ({
     <TeamLink
       id={id}
       name={name}
-      className="FixtureTeam__link"
     >
       {name}
     </TeamLink>

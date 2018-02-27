@@ -18,6 +18,8 @@ import AppPageTitle from 'components/AppPageTitle';
 import AppPageContent from 'components/AppPageContent';
 import SquadTable from 'components/SquadTable';
 
+import './TeamPage.scss';
+
 class TeamPage extends Component {
   static propTypes = {
     fetchTeam: PropTypes.func.isRequired,
@@ -25,6 +27,7 @@ class TeamPage extends Component {
     teamId: PropTypes.number.isRequired,
     teamInfo: PropTypes.shape({
       name: PropTypes.string,
+      crestUrl: PropTypes.string,
     }),
     teamSquad: PropTypes.shape({
       players: PropTypes.arrayOf(PropTypes.object),
@@ -62,6 +65,7 @@ class TeamPage extends Component {
     const {
       teamInfo: {
         name = '',
+        crestUrl = '',
       },
       teamSquad: {
         players = [],
@@ -74,6 +78,15 @@ class TeamPage extends Component {
         className="TeamPage"
       >
         <AppPageHeader>
+          {crestUrl && (
+            <img
+              className="TeamPage__logo"
+              src={crestUrl}
+              alt={name}
+              title={name}
+            />
+          )}
+
           <AppPageTitle>
             {name}
           </AppPageTitle>
