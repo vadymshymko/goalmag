@@ -22,7 +22,9 @@ const SquadTable = ({ players }) => (
     </thead>
 
     <tbody>
-      {players.map(item => (
+      {[...players].sort((a, b) => (
+        a.jerseyNumber - b.jerseyNumber
+      )).map(item => (
         <tr key={item.id}>
           <td>{item.jerseyNumber}</td>
 
