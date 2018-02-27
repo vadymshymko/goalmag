@@ -1,3 +1,4 @@
+const path = require('path');
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 
@@ -11,6 +12,7 @@ module.exports = webpackMerge(commonConfig, {
     host: '0.0.0.0',
     port: 8080,
   },
+  devtool: 'inline-source-map',
   entry: [
     'babel-polyfill',
     'react-hot-loader/patch',
@@ -43,6 +45,9 @@ module.exports = webpackMerge(commonConfig, {
           'css-loader',
           'sass-loader',
           'postcss-loader',
+        ],
+        include: [
+          path.resolve(__dirname, '../src'),
         ],
         exclude: /node_modules/,
       },
