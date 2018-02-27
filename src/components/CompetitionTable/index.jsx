@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import TeamLink from 'components/TeamLink';
+
 import './CompetitionTable.scss';
 
 const CompetitionTable = ({
@@ -59,7 +61,12 @@ const CompetitionTable = ({
           </td>
 
           <td>
-            {item.teamName}
+            <TeamLink
+              id={item.links.team.href.substr(item.links.team.href.lastIndexOf('/') + 1)}
+              name={item.teamName}
+            >
+              {item.teamName}
+            </TeamLink>
           </td>
 
           <td>

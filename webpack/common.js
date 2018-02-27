@@ -1,5 +1,4 @@
 const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -11,14 +10,11 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx'],
     modules: [
-      'src',
+      path.resolve(__dirname, '../src'),
       'node_modules',
     ],
   },
   plugins: [
-    new CleanWebpackPlugin('dist', {
-      root: path.resolve(__dirname, '../'),
-    }),
     new HtmlWebpackPlugin({
       template: './src/assets/index.html',
     }),
@@ -39,6 +35,9 @@ module.exports = {
       {
         test: /\.jsx?$/,
         use: 'babel-loader',
+        include: [
+          path.resolve(__dirname, '../src'),
+        ],
         exclude: /node_modules/,
       },
     ],
