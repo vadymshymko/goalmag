@@ -9,7 +9,6 @@ import {
 } from 'react-router-dom';
 
 import App from 'containers/App';
-
 import MatchCenterPage from 'containers/MatchCenterPage';
 import CompetitionPage from 'containers/CompetitionPage';
 import TeamPage from 'containers/TeamPage';

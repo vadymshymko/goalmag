@@ -40,7 +40,12 @@ module.exports = webpackMerge(commonConfig, {
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
-            'css-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                minimize: true,
+              },
+            },
             'postcss-loader',
           ],
         }),
@@ -50,7 +55,12 @@ module.exports = webpackMerge(commonConfig, {
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
-            'css-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                minimize: true,
+              },
+            },
             'sass-loader',
             'postcss-loader',
           ],

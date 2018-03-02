@@ -1,10 +1,10 @@
 .TeamLink {
   border-radius: 3px;
-  color: #343a40;
+  color: #212529;
   padding: 0 5px;
   text-decoration: none;
 
   &:hover {
-    background-color: #f8f9fa;
+    text-decoration: underline;
   }
 }

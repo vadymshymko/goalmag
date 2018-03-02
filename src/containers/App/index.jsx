@@ -11,20 +11,23 @@ import {
 } from 'selectors';
 
 import AppHeader from 'components/AppHeader';
-import AppNav from 'components/AppNav';
 import Container from 'components/Container';
+import AppNav from 'components/AppNav';
+import AppInner from 'components/AppInner';
 
 import './App.scss';
 
 class App extends Component {
   static propTypes = {
     fetchCompetitions: PropTypes.func.isRequired,
-    competitions: PropTypes.arrayOf(PropTypes.object).isRequired,
+    locationPathname: PropTypes.string.isRequired,
     isCompetitionsInitialized: PropTypes.bool.isRequired,
+    competitions: PropTypes.arrayOf(PropTypes.object),
     children: PropTypes.node,
   }
 
   static defaultProps = {
+    competitions: [],
     children: null,
   }
 
@@ -34,9 +37,10 @@ class App extends Component {
 
   render() {
     const {
-      children,
+      locationPathname,
       competitions,
       isCompetitionsInitialized,
+      children,
     } = this.props;
 
     return (
@@ -45,15 +49,14 @@ class App extends Component {
 
         <div className="App__content">
           <Container>
-            <AppNav competitions={competitions} />
+            <AppNav
+              locationPathname={locationPathname}
+              competitions={competitions}
+            />
 
-            {isCompetitionsInitialized ? (
-              children
-            ) : (
-              <span className="App__loader">
-                Loading...
-              </span>
-            )}
+            <AppInner isCompetitionsInitialized={isCompetitionsInitialized}>
+              {children}
+            </AppInner>
           </Container>
         </div>
 
@@ -62,9 +65,10 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  competitions: getCompetitions(state),
+const mapStateToProps = (state, props) => ({
+  locationPathname: props.location.pathname,
   isCompetitionsInitialized: getIsCompetitionsInitialized(state),
+  competitions: getCompetitions(state),
 });
 
 const actions = {

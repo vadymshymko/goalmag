@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import DocumentTitle from 'react-document-title';
 
-import './AppPage.scss';
-
 const AppPage = ({
   title,
   children,
