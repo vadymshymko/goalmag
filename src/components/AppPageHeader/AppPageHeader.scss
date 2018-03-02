@@ -2,6 +2,12 @@
   align-items: flex-start;
   border-bottom: 1px solid #f8f9fa;
   display: flex;
+  flex-flow: column;
   padding: 45px 30px;
   width: 100%;
+
+  @media (min-width: 1200px) {
+    align-items: center;
+    flex-flow: row;
+  }
 }

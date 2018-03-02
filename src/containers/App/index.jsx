@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { fetchCompetitions } from 'actions';
 
 import {
-  getCompetitions,
+  getCompetitionsNav,
   getIsCompetitionsInitialized,
 } from 'selectors';
 
@@ -20,14 +20,13 @@ import './App.scss';
 class App extends Component {
   static propTypes = {
     fetchCompetitions: PropTypes.func.isRequired,
-    locationPathname: PropTypes.string.isRequired,
     isCompetitionsInitialized: PropTypes.bool.isRequired,
-    competitions: PropTypes.arrayOf(PropTypes.object),
+    navSections: PropTypes.arrayOf(PropTypes.object),
     children: PropTypes.node,
   }
 
   static defaultProps = {
-    competitions: [],
+    navSections: [],
     children: null,
   }
 
@@ -37,8 +36,7 @@ class App extends Component {
 
   render() {
     const {
-      locationPathname,
-      competitions,
+      navSections,
       isCompetitionsInitialized,
       children,
     } = this.props;
@@ -49,10 +47,7 @@ class App extends Component {
 
         <div className="App__content">
           <Container>
-            <AppNav
-              locationPathname={locationPathname}
-              competitions={competitions}
-            />
+            <AppNav navSections={navSections} />
 
             <AppInner isCompetitionsInitialized={isCompetitionsInitialized}>
               {children}
@@ -65,11 +60,26 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state, props) => ({
-  locationPathname: props.location.pathname,
-  isCompetitionsInitialized: getIsCompetitionsInitialized(state),
-  competitions: getCompetitions(state),
-});
+const mapStateToProps = (state, props) => {
+  const locationPathname = props.location.pathname;
+
+  return {
+    isCompetitionsInitialized: getIsCompetitionsInitialized(state),
+    navSections: [
+      {
+        title: '',
+        links: [
+          {
+            to: '/match-center',
+            title: 'Match Center',
+          },
+        ],
+        isActive: locationPathname === '/match-center',
+      },
+      ...getCompetitionsNav(state, locationPathname),
+    ],
+  };
+};
 
 const actions = {
   fetchCompetitions,
