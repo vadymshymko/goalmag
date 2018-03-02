@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { fetchCompetitions } from 'actions';
 
 import {
-  getCompetitionsLinks,
+  getCompetitionsNav,
   getIsCompetitionsInitialized,
 } from 'selectors';
 
@@ -16,57 +16,6 @@ import AppNav from 'components/AppNav';
 import AppInner from 'components/AppInner';
 
 import './App.scss';
-
-const COMPETITION_COUNTRIES = [
-  {
-    title: 'International',
-    leagueCodes: ['CL'],
-    links: [],
-    isActive: false,
-  },
-  {
-    title: 'England',
-    leagueCodes: ['PL', 'ELC', 'EL1', 'EL2'],
-    links: [],
-    isActive: false,
-  },
-  {
-    title: 'France',
-    leagueCodes: ['FL1', 'FL2'],
-    links: [],
-    isActive: false,
-  },
-  {
-    title: 'Germany',
-    leagueCodes: ['BL1', 'BL2'],
-    links: [],
-    isActive: false,
-  },
-  {
-    title: 'Italy',
-    leagueCodes: ['SA', 'SB'],
-    links: [],
-    isActive: false,
-  },
-  {
-    title: 'Netherlands',
-    leagueCodes: ['DED'],
-    links: [],
-    isActive: false,
-  },
-  {
-    title: 'Portugal',
-    leagueCodes: ['PPL'],
-    links: [],
-    isActive: false,
-  },
-  {
-    title: 'Spain',
-    leagueCodes: ['PD'],
-    links: [],
-    isActive: false,
-  },
-];
 
 class App extends Component {
   static propTypes = {
@@ -115,7 +64,6 @@ const mapStateToProps = (state, props) => {
   const locationPathname = props.location.pathname;
 
   return {
-    locationPathname,
     isCompetitionsInitialized: getIsCompetitionsInitialized(state),
     navSections: [
       {
@@ -128,18 +76,7 @@ const mapStateToProps = (state, props) => {
         ],
         isActive: locationPathname === '/match-center',
       },
-      ...COMPETITION_COUNTRIES.map((country) => {
-        const links = getCompetitionsLinks(state, country.leagueCodes);
-        const isActive = !!links.find(link => (
-          link.to === locationPathname
-        ));
-
-        return ({
-          ...country,
-          links,
-          isActive,
-        });
-      }),
+      ...getCompetitionsNav(state, locationPathname),
     ],
   };
 };

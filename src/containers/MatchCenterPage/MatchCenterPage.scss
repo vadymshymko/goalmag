@@ -17,9 +17,23 @@
     display: flex;
   }
 
+  &__fixturesFilters {
+    padding-top: 15px;
+
+    @media (min-width: 1200px) {
+      padding-top: 0;
+    }
+  }
+
   &__fixturesFilter {
-    &:not(:last-child) {
-      padding-right: 15px;
+    &:not(:first-child) {
+      padding-left: 15px;
+    }
+
+    @media (min-width: 1200px) {
+      &:first-child {
+        padding-left: 15px;
+      }
     }
   }
 }
