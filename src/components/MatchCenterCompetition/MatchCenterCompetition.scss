@@ -1,26 +1,8 @@
 .MatchCenterCompetition {
   &__title {
-    border-bottom: 1px solid #f8f9fa;
-    font-size: 14px;
-    font-weight: 700;
-    margin: 0;
-    padding-bottom: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 0 15px;
     text-align: center;
-  }
-
-  &__toggle-fixtures-btn {
-    background-color: transparent;
-    border: 0;
-    cursor: pointer;
-    font-weight: 700;
-    padding: 0;
-
-    &:focus {
-      outline: none;
-    }
-  }
-
-  &__fixtures {
-    overflow: hidden;
   }
 }

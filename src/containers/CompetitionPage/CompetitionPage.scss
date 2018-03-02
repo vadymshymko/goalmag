@@ -1,19 +1,18 @@
 .CompetitionInfo {
-  &__title {
+  &:first-child {
+    margin-bottom: 30px;
+  }
+
+  &__header {
     border-bottom: 1px solid #f8f9fa;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0 15px;
+    width: 100%;
+  }
+
+  &__title {
     font-size: 16px;
     margin: 0;
-    padding: 0 0 15px;
-    text-align: center;
-  }
-
-  &__section:not(:last-child) {
-    margin-bottom: 45px;
-  }
-
-  &__fixturesFilter {
-    background-color: #f8f9fa;
-    padding: 5px;
-    text-align: center;
   }
 }

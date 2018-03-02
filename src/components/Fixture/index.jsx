@@ -16,9 +16,9 @@ const getFixtureScoreColorByStatus = (status = '') => {
 
 const getFixtureScoreBgColorByStatus = (status = '') => {
   if (status === 'finished') {
-    return 'red';
+    return '#dc3545';
   } else if (status === 'in_play') {
-    return 'green';
+    return '#28a745';
   }
 
   return null;

@@ -3,12 +3,12 @@
 
   &__label {
     line-height: 24px;
-    padding-right: 5px;
+    padding-right: 10px;
   }
 
   &__field {
+    background-color: #f8f9fa;
     border: 0;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
     height: 24px;
     outline: none;
   }

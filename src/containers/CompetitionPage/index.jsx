@@ -59,24 +59,19 @@ class CompetitionPage extends Component {
   componentDidMount() {
     const {
       competitionId,
-      competitionName,
       fixturesDate,
       tableMatchday,
     } = this.props;
 
-    if (!competitionId || !competitionName) {
-      this.props.history.replace('/');
-    } else {
-      this.props.fetchTable({
-        competitionId,
-        matchday: tableMatchday,
-      });
+    this.props.fetchTable({
+      competitionId,
+      matchday: tableMatchday,
+    });
 
-      this.props.fetchFixtures({
-        competitionId,
-        date: fixturesDate,
-      });
-    }
+    this.props.fetchFixtures({
+      competitionId,
+      date: fixturesDate,
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -153,32 +148,34 @@ class CompetitionPage extends Component {
         </AppPageHeader>
 
         <AppPageContent>
-          <div className="CompetitionInfo">
-            <section className="CompetitionInfo__section">
+          <section className="CompetitionInfo">
+            <header className="CompetitionInfo__header">
               <h3 className="CompetitionInfo__title">Match Center:</h3>
 
               <FixturesDateFilter
                 label="Date:"
-                className="CompetitionInfo__fixturesFilter"
+                className="CompetitionInfo__filter"
                 value={fixturesDate}
                 onChange={this.handleDateFilterChange}
               />
+            </header>
 
-              {!isFixturesFetching && competitionFixtures.length === 0 && (
-                <Alert>:( There are no matches</Alert>
-              )}
+            {!isFixturesFetching && competitionFixtures.length === 0 && (
+              <Alert>:( There are no matches</Alert>
+            )}
 
-              {competitionFixtures.length > 0 && (
-                <FixturesList fixtures={competitionFixtures} />
-              )}
-            </section>
+            {competitionFixtures.length > 0 && (
+              <FixturesList fixtures={competitionFixtures} />
+            )}
+          </section>
 
-            <section className="CompetitionInfo__section">
+          <section className="CompetitionInfo">
+            <header className="CompetitionInfo__header">
               <h3 className="CompetitionInfo__title">Standings:</h3>
 
               <TableMatchdayFilter
                 label="Matchday:"
-                className="CompetitionInfo__fixturesFilter"
+                className="CompetitionInfo__filter"
                 value={tableMatchday}
                 matchdays={Array.from({
                   length: currentCompetitionMatchday,
@@ -187,10 +184,10 @@ class CompetitionPage extends Component {
                 ))}
                 onChange={this.handleTableMatchdayFilterChange}
               />
+            </header>
 
-              <CompetitionTable standing={competitionTable.standing} />
-            </section>
-          </div>
+            <CompetitionTable standing={competitionTable.standing} />
+          </section>
         </AppPageContent>
       </AppPage>
     );
