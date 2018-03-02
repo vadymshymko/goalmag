@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { fetchCompetitions } from 'actions';
 
 import {
-  getCompetitions,
+  getCompetitionsLinks,
   getIsCompetitionsInitialized,
 } from 'selectors';
 
@@ -17,17 +17,67 @@ import AppInner from 'components/AppInner';
 
 import './App.scss';
 
+const COMPETITION_COUNTRIES = [
+  {
+    title: 'International',
+    leagueCodes: ['CL'],
+    links: [],
+    isActive: false,
+  },
+  {
+    title: 'England',
+    leagueCodes: ['PL', 'ELC', 'EL1', 'EL2'],
+    links: [],
+    isActive: false,
+  },
+  {
+    title: 'France',
+    leagueCodes: ['FL1', 'FL2'],
+    links: [],
+    isActive: false,
+  },
+  {
+    title: 'Germany',
+    leagueCodes: ['BL1', 'BL2'],
+    links: [],
+    isActive: false,
+  },
+  {
+    title: 'Italy',
+    leagueCodes: ['SA', 'SB'],
+    links: [],
+    isActive: false,
+  },
+  {
+    title: 'Netherlands',
+    leagueCodes: ['DED'],
+    links: [],
+    isActive: false,
+  },
+  {
+    title: 'Portugal',
+    leagueCodes: ['PPL'],
+    links: [],
+    isActive: false,
+  },
+  {
+    title: 'Spain',
+    leagueCodes: ['PD'],
+    links: [],
+    isActive: false,
+  },
+];
+
 class App extends Component {
   static propTypes = {
     fetchCompetitions: PropTypes.func.isRequired,
-    locationPathname: PropTypes.string.isRequired,
     isCompetitionsInitialized: PropTypes.bool.isRequired,
-    competitions: PropTypes.arrayOf(PropTypes.object),
+    navSections: PropTypes.arrayOf(PropTypes.object),
     children: PropTypes.node,
   }
 
   static defaultProps = {
-    competitions: [],
+    navSections: [],
     children: null,
   }
 
@@ -37,8 +87,7 @@ class App extends Component {
 
   render() {
     const {
-      locationPathname,
-      competitions,
+      navSections,
       isCompetitionsInitialized,
       children,
     } = this.props;
@@ -49,10 +98,7 @@ class App extends Component {
 
         <div className="App__content">
           <Container>
-            <AppNav
-              locationPathname={locationPathname}
-              competitions={competitions}
-            />
+            <AppNav navSections={navSections} />
 
             <AppInner isCompetitionsInitialized={isCompetitionsInitialized}>
               {children}
@@ -65,11 +111,38 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state, props) => ({
-  locationPathname: props.location.pathname,
-  isCompetitionsInitialized: getIsCompetitionsInitialized(state),
-  competitions: getCompetitions(state),
-});
+const mapStateToProps = (state, props) => {
+  const locationPathname = props.location.pathname;
+
+  return {
+    locationPathname,
+    isCompetitionsInitialized: getIsCompetitionsInitialized(state),
+    navSections: [
+      {
+        title: '',
+        links: [
+          {
+            to: '/match-center',
+            title: 'Match Center',
+          },
+        ],
+        isActive: locationPathname === '/match-center',
+      },
+      ...COMPETITION_COUNTRIES.map((country) => {
+        const links = getCompetitionsLinks(state, country.leagueCodes);
+        const isActive = !!links.find(link => (
+          link.to === locationPathname
+        ));
+
+        return ({
+          ...country,
+          links,
+          isActive,
+        });
+      }),
+    ],
+  };
+};
 
 const actions = {
   fetchCompetitions,
