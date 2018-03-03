@@ -1,19 +1,10 @@
 .SquadTable {
-  font-size: 14px;
-  table-layout: auto;
-  width: 100%;
-
-  tr {
-    border-bottom: 1px solid #f8f9fa;
-  }
-
-  td,
-  th {
-    padding: 10px 15px;
-    white-space: nowrap;
-  }
-
   th:nth-child(2) {
     width: 100%;
+  }
+
+  th:first-child,
+  td:first-child {
+    padding-right: 0;
   }
 }

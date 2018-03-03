@@ -23,8 +23,8 @@ import AppPageContent from 'components/AppPageContent';
 import CompetitionTable from 'components/CompetitionTable';
 import Alert from 'components/Alert';
 import FixturesList from 'components/FixturesList';
-import FixturesDateFilter from 'components/FixturesDateFilter';
-import TableMatchdayFilter from 'components/TableMatchdayFilter';
+import Dropdown from 'components/Dropdown';
+import DateInput from 'components/DateInput';
 
 import './CompetitionPage.scss';
 
@@ -47,6 +47,7 @@ class CompetitionPage extends Component {
     isFixturesFetching: PropTypes.bool.isRequired,
     fixturesDate: PropTypes.string.isRequired,
     tableMatchday: PropTypes.number.isRequired,
+    lastUpdated: PropTypes.string,
   }
 
   static defaultProps = {
@@ -54,6 +55,7 @@ class CompetitionPage extends Component {
     competitionTable: {},
     competitionFixtures: [],
     currentCompetitionMatchday: 0,
+    lastUpdated: null,
   }
 
   componentDidMount() {
@@ -111,7 +113,12 @@ class CompetitionPage extends Component {
   handleDateFilterChange = (event) => {
     this.props.history.push({
       search: stringify({
-        fixturesDate: event.target.value,
+        tableMatchday: this.props.tableMatchday === this.props.currentCompetitionMatchday
+          ? undefined
+          : this.props.tableMatchday,
+        fixturesDate: event.target.value === moment(Date.now()).format('YYYY-MM-DD')
+          ? undefined
+          : event.target.value,
       }),
     });
   }
@@ -119,8 +126,12 @@ class CompetitionPage extends Component {
   handleTableMatchdayFilterChange = (event) => {
     this.props.history.push({
       search: stringify({
-        fixturesDate: this.props.fixturesDate,
-        tableMatchday: event.target.value,
+        fixturesDate: this.props.fixturesDate === moment(Date.now()).format('YYYY-MM-DD')
+          ? undefined
+          : this.props.fixturesDate,
+        tableMatchday: parseInt(event.target.value, 10) === this.props.currentCompetitionMatchday
+          ? undefined
+          : event.target.value,
       }),
     });
   }
@@ -134,6 +145,7 @@ class CompetitionPage extends Component {
       isFixturesFetching,
       fixturesDate,
       tableMatchday,
+      lastUpdated,
     } = this.props;
 
     return (
@@ -145,6 +157,10 @@ class CompetitionPage extends Component {
           <AppPageTitle>
             {competitionName}
           </AppPageTitle>
+
+          <span className="CompetitionPage__lastUpdated">
+            Last Updated {moment(lastUpdated).fromNow()}
+          </span>
         </AppPageHeader>
 
         <AppPageContent>
@@ -152,7 +168,7 @@ class CompetitionPage extends Component {
             <header className="CompetitionInfo__header">
               <h3 className="CompetitionInfo__title">Match Center:</h3>
 
-              <FixturesDateFilter
+              <DateInput
                 label="Date:"
                 className="CompetitionInfo__filter"
                 value={fixturesDate}
@@ -161,7 +177,7 @@ class CompetitionPage extends Component {
             </header>
 
             {!isFixturesFetching && competitionFixtures.length === 0 && (
-              <Alert>:( There are no matches</Alert>
+              <Alert>:( There are no games by selected date</Alert>
             )}
 
             {competitionFixtures.length > 0 && (
@@ -173,15 +189,16 @@ class CompetitionPage extends Component {
             <header className="CompetitionInfo__header">
               <h3 className="CompetitionInfo__title">Standings:</h3>
 
-              <TableMatchdayFilter
+              <Dropdown
                 label="Matchday:"
                 className="CompetitionInfo__filter"
                 value={tableMatchday}
-                matchdays={Array.from({
+                options={Array.from({
                   length: currentCompetitionMatchday,
-                }).map((item, index) => (
-                  index + 1
-                ))}
+                }).map((item, index) => ({
+                  value: index + 1,
+                  label: index + 1,
+                }))}
                 onChange={this.handleTableMatchdayFilterChange}
               />
             </header>
@@ -208,6 +225,7 @@ const mapStateToProps = (state, {
   const {
     caption: competitionName = '',
     currentMatchday: competitionMatchday = 0,
+    lastUpdated,
   } = getCompetition(state, competitionId) || {};
 
   const {
@@ -220,6 +238,7 @@ const mapStateToProps = (state, {
   return {
     competitionId,
     competitionName,
+    lastUpdated,
     fixturesDate: fixturesDateValue,
     competitionFixtures: getFixtures(state, {
       competitionId,

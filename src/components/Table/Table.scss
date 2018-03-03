@@ -1,0 +1,43 @@
+.Table {
+  font-size: 14px;
+  table-layout: auto;
+  width: 100%;
+
+  tr {
+    border-bottom: 1px solid #f8f9fa;
+  }
+
+  td,
+  th, {
+    padding: 15px 30px;
+    white-space: nowrap;
+  }
+
+  th:last-child,
+  td:last-child {
+    padding-right: 15px;
+  }
+
+  th {
+    cursor: pointer;
+  }
+
+  &__heading {
+    display: inline-block;
+    position: relative;
+  }
+
+  &__sortIcon {
+    display: none;
+    height: 8px;
+    left: -15px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+
+    th:hover & {
+      display: block;
+    }
+  }
+}

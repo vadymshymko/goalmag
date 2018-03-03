@@ -18,8 +18,8 @@ import AppPageTitle from 'components/AppPageTitle';
 import AppPageContent from 'components/AppPageContent';
 import MatchCenterCompetition from 'components/MatchCenterCompetition';
 import Alert from 'components/Alert';
-import FixturesDateFilter from 'components/FixturesDateFilter';
-import FixturesCompetitionFilter from 'components/FixturesCompetitionFilter';
+import Dropdown from 'components/Dropdown';
+import DateInput from 'components/DateInput';
 
 import './MatchCenterPage.scss';
 
@@ -58,7 +58,10 @@ class MatchCenterPage extends Component {
     this.props.history.push({
       search: stringify({
         ...this.props.searchParams,
-        competitionId: event.target.value,
+        date: this.props.searchParams.date === moment(Date.now()).format('YYYY-MM-DD')
+          ? undefined
+          : this.props.searchParams.date,
+        competitionId: event.target.value || undefined,
       }),
     });
   }
@@ -67,7 +70,10 @@ class MatchCenterPage extends Component {
     this.props.history.push({
       search: stringify({
         ...this.props.searchParams,
-        date: event.target.value,
+        competitionId: this.props.searchParams.competitionId || undefined,
+        date: event.target.value === moment(Date.now()).format('YYYY-MM-DD')
+          ? undefined
+          : event.target.value,
       }),
     });
   }
@@ -99,15 +105,24 @@ class MatchCenterPage extends Component {
           </AppPageTitle>
 
           <div className="MatchCenterPage__fixturesFilters">
-            <FixturesCompetitionFilter
+            <Dropdown
               label="Competition:"
               className="MatchCenterPage__fixturesFilter"
               value={competitionId}
-              competitions={competitions}
+              options={[
+                {
+                  label: 'All',
+                  value: '',
+                },
+                ...competitions.map(competition => ({
+                  value: competition.id,
+                  label: competition.caption,
+                })),
+              ]}
               onChange={this.handleCompetitionFilterChange}
             />
 
-            <FixturesDateFilter
+            <DateInput
               label="Date:"
               className="MatchCenterPage__fixturesFilter"
               value={moment(date || Date.now()).format('YYYY-MM-DD')}
@@ -131,6 +146,7 @@ class MatchCenterPage extends Component {
                   key={competition.id}
                 >
                   <MatchCenterCompetition
+                    competitionId={competition.id}
                     competitionName={competition.caption}
                     competitionFixtures={competitionFixtures}
                   />
@@ -140,7 +156,7 @@ class MatchCenterPage extends Component {
           </ul>
 
           {showEmptyMessage && (
-            <Alert>:( There are no matches</Alert>
+            <Alert>:( There are no games by selected date</Alert>
           )}
         </AppPageContent>
       </AppPage>
@@ -163,9 +179,9 @@ const mapStateToProps = (state, {
     date: moment(date || Date.now()).format('YYYY-MM-DD'),
   };
 
+  const competitions = getCompetitions(state);
   const fixtures = getFixtures(state, { ...searchParams });
   const isFixturesFetching = getIsFixturesFetching(state);
-  const competitions = getCompetitions(state);
 
   return {
     searchParams,

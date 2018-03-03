@@ -1,117 +1,101 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import Table from 'components/Table';
 import TeamLink from 'components/TeamLink';
 
 import './CompetitionTable.scss';
 
-const CompetitionTable = ({
-  standing,
-}) => (
-  <table className="CompetitionTable">
-    <thead>
-      <tr>
-        <th>
-          #
-        </th>
+export default class CompetitionTable extends Component {
+  static propTypes = {
+    standing: PropTypes.arrayOf(PropTypes.object),
+  }
 
-        <th>
-          Team
-        </th>
+  static defaultProps = {
+    standing: [],
+  }
 
-        <th>
-          Pl
-        </th>
+  state = {
+    sortBy: 'position',
+    ascendingSort: true,
+  }
 
-        <th>
-          W
-        </th>
+  setSortProp = (sortBy) => {
+    this.setState(state => ({
+      sortBy,
+      ascendingSort: state.sortBy !== sortBy || !state.ascendingSort,
+    }));
+  }
 
-        <th>
-          D
-        </th>
+  render() {
+    const { standing } = this.props;
 
-        <th>
-          L
-        </th>
-
-        <th>
-          F
-        </th>
-
-        <th>
-          A
-        </th>
-
-        <th>
-          GD
-        </th>
-
-        <th>
-          Pts
-        </th>
-      </tr>
-    </thead>
-
-    <tbody>
-      {standing.map(item => (
-        <tr key={item.position}>
-          <td>
-            {item.position}
-          </td>
-
-          <td>
-            <TeamLink
-              id={item.links.team.href.substr(item.links.team.href.lastIndexOf('/') + 1)}
-              name={item.teamName}
-            >
-              {item.teamName}
-            </TeamLink>
-          </td>
-
-          <td>
-            {item.playedGames}
-          </td>
-
-          <td>
-            {item.wins}
-          </td>
-
-          <td>
-            {item.draws}
-          </td>
-
-          <td>
-            {item.losses}
-          </td>
-
-          <td>
-            {item.goals}
-          </td>
-
-          <td>
-            {item.goalsAgainst}
-          </td>
-
-          <td>
-            {item.goalDifference}
-          </td>
-
-          <td>
-            {item.points}
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-);
-
-CompetitionTable.propTypes = {
-  standing: PropTypes.arrayOf(PropTypes.object),
-};
-
-CompetitionTable.defaultProps = {
-  standing: [],
-};
-
-export default CompetitionTable;
+    return (
+      <Table
+        className="CompetitionTable"
+        headings={[
+          {
+            key: 'position',
+            label: '#',
+          },
+          {
+            key: 'teamName',
+            label: 'Team',
+          },
+          {
+            key: 'playedGames',
+            label: 'Pl',
+          },
+          {
+            key: 'wins',
+            label: 'W',
+          },
+          {
+            key: 'draws',
+            label: 'D',
+          },
+          {
+            key: 'losses',
+            label: 'L',
+          },
+          {
+            key: 'goals',
+            label: 'F',
+          },
+          {
+            key: 'goalsAgainst',
+            label: 'A',
+          },
+          {
+            key: 'goalDifference',
+            label: 'GD',
+          },
+          {
+            key: 'points',
+            label: 'Pts',
+          },
+        ]}
+        rows={[
+          ...standing.map((item, index) => ({
+            ...item,
+            id: index,
+            teamName: {
+              label: (
+                <TeamLink
+                  id={parseInt(item.links.team.href.substr(item.links.team.href.lastIndexOf('/') + 1), 10)}
+                  name={item.teamName}
+                >
+                  {item.teamName}
+                </TeamLink>
+              ),
+              value: item.teamName,
+            },
+          })),
+        ]}
+        onRequestSort={this.setSortProp}
+        sortBy={this.state.sortBy}
+        ascendingSort={this.state.ascendingSort}
+      />
+    );
+  }
+}

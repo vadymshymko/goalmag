@@ -78,16 +78,16 @@ class TeamPage extends Component {
         className="TeamPage"
       >
         <AppPageHeader>
-          {crestUrl && (
-            <img
-              className="TeamPage__logo"
-              src={crestUrl}
-              alt={name}
-              title={name}
-            />
-          )}
-
           <AppPageTitle>
+            {crestUrl && (
+              <img
+                className="TeamPage__logo"
+                src={crestUrl}
+                alt={name}
+                title={name}
+              />
+            )}
+
             {name}
           </AppPageTitle>
         </AppPageHeader>

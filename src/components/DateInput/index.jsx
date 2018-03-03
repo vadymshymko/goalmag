@@ -1,21 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './FixturesDateFilter.scss';
+import './DateInput.scss';
 
-const FixturesDateFilter = ({
+const DateInput = ({
   className,
   label,
   value,
   onChange,
 }) => (
-  <div className={`FixturesDateFilter ${className}`}>
+  <div className={`DateInput ${className}`}>
     {label && (
-      <span className="FixturesDateFilter__label">{label}</span>
+      <span className="DateInput__label">{label}</span>
     )}
 
     <input
-      className="FixturesDateFilter__field"
+      className="DateInput__field"
       type="date"
       value={value}
       onChange={onChange}
@@ -23,16 +23,16 @@ const FixturesDateFilter = ({
   </div>
 );
 
-FixturesDateFilter.propTypes = {
+DateInput.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   className: PropTypes.string,
   label: PropTypes.node,
 };
 
-FixturesDateFilter.defaultProps = {
+DateInput.defaultProps = {
   className: '',
   label: null,
 };
 
-export default FixturesDateFilter;
+export default DateInput;

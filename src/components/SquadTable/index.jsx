@@ -1,54 +1,66 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
+import Table from 'components/Table';
 
 import './SquadTable.scss';
 
-const SquadTable = ({ players }) => (
-  <table className="SquadTable">
-    <thead>
-      <tr>
-        <th>№</th>
+export default class SquadTable extends Component {
+  static propTypes = {
+    players: PropTypes.arrayOf(PropTypes.object),
+  }
 
-        <th>Name</th>
+  static defaultProps = {
+    players: [],
+  }
 
-        <th>Position</th>
+  state = {
+    sortBy: 'jerseyNumber',
+    ascendingSort: true,
+  }
 
-        <th>Date of Birth</th>
+  setSortProp = (sortBy) => {
+    this.setState(state => ({
+      sortBy,
+      ascendingSort: state.sortBy !== sortBy || !state.ascendingSort,
+    }));
+  }
 
-        <th>Contract Until</th>
-
-        <th>Nationality</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      {[...players].sort((a, b) => (
-        a.jerseyNumber - b.jerseyNumber
-      )).map(item => (
-        <tr key={item.id}>
-          <td>{item.jerseyNumber}</td>
-
-          <td>{item.name}</td>
-
-          <td>{item.position}</td>
-
-          <td>{item.dateOfBirth}</td>
-
-          <td>{item.contractUntil}</td>
-
-          <td>{item.nationality}</td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-);
-
-SquadTable.propTypes = {
-  players: PropTypes.arrayOf(PropTypes.object),
-};
-
-SquadTable.defaultProps = {
-  players: [],
-};
-
-export default SquadTable;
+  render() {
+    return (
+      <Table
+        className="SquadTable"
+        headings={[
+          {
+            key: 'jerseyNumber',
+            label: '№',
+          },
+          {
+            key: 'name',
+            label: 'Name',
+          },
+          {
+            key: 'position',
+            label: 'Position',
+          },
+          {
+            key: 'dateOfBirth',
+            label: 'Date of Birth',
+          },
+          {
+            key: 'contractUntil',
+            label: 'Contract Until',
+          },
+          {
+            key: 'nationality',
+            label: 'Nationality',
+          },
+        ]}
+        rows={this.props.players}
+        onRequestSort={this.setSortProp}
+        sortBy={this.state.sortBy}
+        ascendingSort={this.state.ascendingSort}
+      />
+    );
+  }
+}
