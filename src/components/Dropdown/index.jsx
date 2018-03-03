@@ -45,7 +45,10 @@ Dropdown.propTypes = {
       PropTypes.string,
       PropTypes.number,
     ]),
-    label: PropTypes.string,
+    label: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+    ]),
   })),
   className: PropTypes.string,
   label: PropTypes.node,
