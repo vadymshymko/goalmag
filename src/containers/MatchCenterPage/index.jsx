@@ -155,7 +155,7 @@ class MatchCenterPage extends Component {
           </ul>
 
           {showEmptyMessage && (
-            <Alert>:( There are no matches</Alert>
+            <Alert>:( There are no games by selected date</Alert>
           )}
         </AppPageContent>
       </AppPage>

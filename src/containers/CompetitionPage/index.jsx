@@ -170,7 +170,7 @@ class CompetitionPage extends Component {
             </header>
 
             {!isFixturesFetching && competitionFixtures.length === 0 && (
-              <Alert>:( There are no matches</Alert>
+              <Alert>:( There are no games by selected date</Alert>
             )}
 
             {competitionFixtures.length > 0 && (

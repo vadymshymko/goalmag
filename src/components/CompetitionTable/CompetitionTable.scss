@@ -1,26 +1,12 @@
 .CompetitionTable {
-  font-size: 14px;
-  table-layout: auto;
-  width: 100%;
-
-  tr {
-    border-bottom: 1px solid #f8f9fa;
-  }
-
   td,
-  th, {
-    padding: 10px 15px;
+  th {
     text-align: right;
   }
 
   td:first-child,
   th:first-child, {
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-  td:last-child,
-  th:last-child, {
+    padding-left: 15px;
     padding-right: 0;
   }
 
