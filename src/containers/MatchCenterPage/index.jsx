@@ -70,7 +70,10 @@ class MatchCenterPage extends Component {
     this.props.history.push({
       search: stringify({
         ...this.props.searchParams,
-        date: event.target.value,
+        competitionId: this.props.searchParams.competitionId || undefined,
+        date: event.target.value === moment(Date.now()).format('YYYY-MM-DD')
+          ? undefined
+          : event.target.value,
       }),
     });
   }

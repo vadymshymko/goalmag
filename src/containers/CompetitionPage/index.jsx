@@ -111,7 +111,12 @@ class CompetitionPage extends Component {
   handleDateFilterChange = (event) => {
     this.props.history.push({
       search: stringify({
-        fixturesDate: event.target.value,
+        tableMatchday: this.props.tableMatchday === this.props.currentCompetitionMatchday
+          ? undefined
+          : this.props.tableMatchday,
+        fixturesDate: event.target.value === moment(Date.now()).format('YYYY-MM-DD')
+          ? undefined
+          : event.target.value,
       }),
     });
   }
@@ -119,8 +124,12 @@ class CompetitionPage extends Component {
   handleTableMatchdayFilterChange = (event) => {
     this.props.history.push({
       search: stringify({
-        fixturesDate: this.props.fixturesDate,
-        tableMatchday: event.target.value,
+        fixturesDate: this.props.fixturesDate === moment(Date.now()).format('YYYY-MM-DD')
+          ? undefined
+          : this.props.fixturesDate,
+        tableMatchday: parseInt(event.target.value, 10) === this.props.currentCompetitionMatchday
+          ? undefined
+          : event.target.value,
       }),
     });
   }

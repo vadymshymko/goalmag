@@ -62,7 +62,7 @@ const CompetitionTable = ({
 
           <td>
             <TeamLink
-              id={item.links.team.href.substr(item.links.team.href.lastIndexOf('/') + 1)}
+              id={parseInt(item.links.team.href.substr(item.links.team.href.lastIndexOf('/') + 1), 10)}
               name={item.teamName}
             >
               {item.teamName}

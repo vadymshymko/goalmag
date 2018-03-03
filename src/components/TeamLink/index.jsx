@@ -16,7 +16,7 @@ const TeamLink = ({
     href={`/team/${id}`}
     title={name}
   >
-    {children}
+    {children || name}
   </Link>
 );
 
