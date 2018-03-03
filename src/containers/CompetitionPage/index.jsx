@@ -23,8 +23,8 @@ import AppPageContent from 'components/AppPageContent';
 import CompetitionTable from 'components/CompetitionTable';
 import Alert from 'components/Alert';
 import FixturesList from 'components/FixturesList';
-import FixturesDateFilter from 'components/FixturesDateFilter';
-import TableMatchdayFilter from 'components/TableMatchdayFilter';
+import Dropdown from 'components/Dropdown';
+import DateInput from 'components/DateInput';
 
 import './CompetitionPage.scss';
 
@@ -152,7 +152,7 @@ class CompetitionPage extends Component {
             <header className="CompetitionInfo__header">
               <h3 className="CompetitionInfo__title">Match Center:</h3>
 
-              <FixturesDateFilter
+              <DateInput
                 label="Date:"
                 className="CompetitionInfo__filter"
                 value={fixturesDate}
@@ -173,15 +173,16 @@ class CompetitionPage extends Component {
             <header className="CompetitionInfo__header">
               <h3 className="CompetitionInfo__title">Standings:</h3>
 
-              <TableMatchdayFilter
+              <Dropdown
                 label="Matchday:"
                 className="CompetitionInfo__filter"
                 value={tableMatchday}
-                matchdays={Array.from({
+                options={Array.from({
                   length: currentCompetitionMatchday,
-                }).map((item, index) => (
-                  index + 1
-                ))}
+                }).map((item, index) => ({
+                  value: index + 1,
+                  label: index + 1,
+                }))}
                 onChange={this.handleTableMatchdayFilterChange}
               />
             </header>

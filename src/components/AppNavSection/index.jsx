@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
+import Icon from 'components/Icon';
+
 import './AppNavSection.scss';
 
 export default class AppNavSection extends Component {
@@ -13,7 +15,7 @@ export default class AppNavSection extends Component {
 
   static defaultProps = {
     title: null,
-    links: null,
+    links: [],
   }
 
   state = {
@@ -40,10 +42,6 @@ export default class AppNavSection extends Component {
       links,
     } = this.props;
 
-    if (!links || links.length === 0) {
-      return null;
-    }
-
     return (
       <div className="AppNavSection">
         {title && (
@@ -53,35 +51,35 @@ export default class AppNavSection extends Component {
               type="button"
               onClick={this.toggleContent}
             >
-              <svg
-                preserveAspectRatio="xMidYMid meet"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+              <Icon
+                className="AppNavSection__contentToggleIcon"
                 viewBox="0 0 24 24"
+                fill="none"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 stroke="currentColor"
-                className="AppNavSection__contentToggleIcon"
               >
-                <g>
-                  {this.state.showContent ? (
-                    <polyline points="6 9 12 15 18 9" />
-                  ) : (
-                    <polyline points="9 18 15 12 9 6" />
-                  )}
-                </g>
-              </svg>
+                {this.state.showContent ? (
+                  <polyline points="6 9 12 15 18 9" />
+                ) : (
+                  <polyline points="9 18 15 12 9 6" />
+                )}
+              </Icon>
             </button>
 
-            <NavLink
-              className="AppNavSection__title"
-              to={links[0].to}
-              exact
-              title={links[0].title}
-            >
-              {title}
-            </NavLink>
+            {links[0] ? (
+              <NavLink
+                className="AppNavSection__title"
+                to={links[0].to}
+                exact
+                title={links[0].title}
+              >
+                {title}
+              </NavLink>
+            ) : (
+              <span className="AppNavSection__title">{title}</span>
+            )}
           </div>
         )}
 
