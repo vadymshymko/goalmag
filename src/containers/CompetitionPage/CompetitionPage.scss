@@ -16,3 +16,15 @@
     margin: 0;
   }
 }
+
+.CompetitionPage {
+  &__lastUpdated {
+    font-size: 14px;
+    opacity: .5;
+    padding-top: 15px;
+
+    @media(min-width: 1200px) {
+      padding-top: 0;
+    }
+  }
+}

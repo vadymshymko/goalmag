@@ -146,6 +146,7 @@ class MatchCenterPage extends Component {
                   key={competition.id}
                 >
                   <MatchCenterCompetition
+                    competitionId={competition.id}
                     competitionName={competition.caption}
                     competitionFixtures={competitionFixtures}
                   />

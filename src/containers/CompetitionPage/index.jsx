@@ -47,6 +47,7 @@ class CompetitionPage extends Component {
     isFixturesFetching: PropTypes.bool.isRequired,
     fixturesDate: PropTypes.string.isRequired,
     tableMatchday: PropTypes.number.isRequired,
+    lastUpdated: PropTypes.string,
   }
 
   static defaultProps = {
@@ -54,6 +55,7 @@ class CompetitionPage extends Component {
     competitionTable: {},
     competitionFixtures: [],
     currentCompetitionMatchday: 0,
+    lastUpdated: null,
   }
 
   componentDidMount() {
@@ -143,6 +145,7 @@ class CompetitionPage extends Component {
       isFixturesFetching,
       fixturesDate,
       tableMatchday,
+      lastUpdated,
     } = this.props;
 
     return (
@@ -154,6 +157,10 @@ class CompetitionPage extends Component {
           <AppPageTitle>
             {competitionName}
           </AppPageTitle>
+
+          <span className="CompetitionPage__lastUpdated">
+            Last Updated {moment(lastUpdated).fromNow()}
+          </span>
         </AppPageHeader>
 
         <AppPageContent>
@@ -218,6 +225,7 @@ const mapStateToProps = (state, {
   const {
     caption: competitionName = '',
     currentMatchday: competitionMatchday = 0,
+    lastUpdated,
   } = getCompetition(state, competitionId) || {};
 
   const {
@@ -230,6 +238,7 @@ const mapStateToProps = (state, {
   return {
     competitionId,
     competitionName,
+    lastUpdated,
     fixturesDate: fixturesDateValue,
     competitionFixtures: getFixtures(state, {
       competitionId,
