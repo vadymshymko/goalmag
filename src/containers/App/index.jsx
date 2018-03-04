@@ -83,19 +83,17 @@ class App extends Component {
       <div className="App">
         <AppHeader onRequestShowNav={this.showAppNav} />
 
-        <div className="App__content">
-          <Container>
-            <AppNav
-              showContent={this.state.showAppNav}
-              navSections={navSections}
-              onRequestHide={this.hideAppNav}
-            />
+        <Container>
+          <AppNav
+            showContent={this.state.showAppNav}
+            navSections={navSections}
+            onRequestHide={this.hideAppNav}
+          />
 
-            <AppInner showContent={showContent}>
-              {children}
-            </AppInner>
-          </Container>
-        </div>
+          <AppInner showContent={showContent}>
+            {children}
+          </AppInner>
+        </Container>
 
       </div>
     );

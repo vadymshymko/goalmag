@@ -1,10 +1,16 @@
 .AppHeader {
   background-color: #fff;
   box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
+  left: 0;
   padding: 15px 0;
-  position: relative;
+  position: fixed;
+  top: 0;
   width: 100%;
   z-index: 1;
+
+  @media (min-width: 768px) {
+    position: relative;
+  }
 
   &__showNavBtn {
     background-color: rgba(0, 0, 0, 0);
