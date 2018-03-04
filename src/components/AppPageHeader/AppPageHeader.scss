@@ -7,8 +7,12 @@
   padding: 30px 15px;
   width: 100%;
 
-  @media (min-width: 768px) {
+  @media (min-width: 480px) {
     padding: 45px 30px;
+  }
+
+  @media (min-width: 970px) {
+    padding: 45px 60px;
   }
 
   @media (min-width: 1200px) {

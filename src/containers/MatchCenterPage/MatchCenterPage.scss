@@ -46,4 +46,15 @@
       }
     }
   }
+
+  .Dropdown__label,
+  .DateInput__label {
+    display: block;
+    width: 100%;
+
+    @media (min-width: 768px) {
+      display: inline;
+      width: auto;
+    }
+  }
 }

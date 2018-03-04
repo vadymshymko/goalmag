@@ -10,12 +10,10 @@
   &__date {
     font-size: 13px;
     font-weight: 100;
-    margin-bottom: 5px;
     order: 1;
     width: 50%;
 
     @media(min-width: 970px) {
-      margin-bottom: 0;
       width: 60px;
     }
   }
@@ -23,13 +21,11 @@
   &__status {
     font-size: 13px;
     font-weight: 100;
-    margin-bottom: 5px;
     order: 2;
     text-align: right;
     width: 50%;
 
     @media(min-width: 970px) {
-      margin-bottom: 0;
       order: 3;
       width: 60px;
     }
@@ -40,9 +36,11 @@
     flex: 1;
     justify-content: space-around;
     order: 3;
+    padding-top: 10px;
 
     @media(min-width: 970px) {
       order: 2;
+      padding-top: 0;
     }
   }
 
