@@ -1,10 +1,12 @@
 .AppInner {
-  background-color: #fff;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  margin-top: 60px;
   min-height: calc(100vh - 90px);
   width: 100%;
 
   @media(min-width: 768px) {
+    background-color: #fff;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    margin-top: 0;
     width: calc(100% - 290px);
   }
 }

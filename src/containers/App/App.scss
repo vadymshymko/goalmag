@@ -3,11 +3,8 @@
   flex-flow: column wrap;
   min-height: 100vh;
 
-  &__content {
-    margin-bottom: 30px;
-    min-height: calc(100vh - 90px);
-    position: relative;
-    width: 100%;
+  @media(min-width: 768px) {
+    padding-bottom: 30px;
   }
 
   &__loader {
