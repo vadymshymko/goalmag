@@ -41,57 +41,59 @@ const Table = ({
   sortBy,
   ascendingSort,
 }) => (
-  <table className={`Table ${className}`}>
-    <thead>
-      <tr>
-        {headings.map(heading => (
-          <th
-            key={heading.key}
-            onClick={() => { onRequestSort(heading.key); }}
-          >
-            <span className="Table__heading">
-              <Icon
-                viewBox="0 0 8 6"
-                className="Table__sortIcon"
-              >
-                {sortBy && ascendingSort ? (
-                  <polygon
-                    points="0,6 4,0 8,6"
-                    style={{
-                      fill: '#212529',
-                      stroke: 'none',
-                    }}
-                  />
-                ) : (
-                  <polygon
-                    points="0,0 4,6 8,0"
-                    style={{
-                      fill: '#212529',
-                      stroke: 'none',
-                    }}
-                  />
-                )}
-              </Icon>
-
-              {heading.label}
-            </span>
-          </th>
-        ))}
-      </tr>
-    </thead>
-
-    <tbody>
-      {getSortedRows(rows, sortBy, ascendingSort).map(row => (
-        <tr key={row.id}>
+  <div className="TableContainer">
+    <table className={`Table ${className}`}>
+      <thead>
+        <tr>
           {headings.map(heading => (
-            <td key={heading.key}>
-              {row[heading.key].label || row[heading.key]}
-            </td>
+            <th
+              key={heading.key}
+              onClick={() => { onRequestSort(heading.key); }}
+            >
+              <span className="Table__heading">
+                <Icon
+                  viewBox="0 0 8 6"
+                  className="Table__sortIcon"
+                >
+                  {sortBy && ascendingSort ? (
+                    <polygon
+                      points="0,6 4,0 8,6"
+                      style={{
+                        fill: '#212529',
+                        stroke: 'none',
+                      }}
+                    />
+                  ) : (
+                    <polygon
+                      points="0,0 4,6 8,0"
+                      style={{
+                        fill: '#212529',
+                        stroke: 'none',
+                      }}
+                    />
+                  )}
+                </Icon>
+
+                {heading.label}
+              </span>
+            </th>
           ))}
         </tr>
-      ))}
-    </tbody>
-  </table>
+      </thead>
+
+      <tbody>
+        {getSortedRows(rows, sortBy, ascendingSort).map(row => (
+          <tr key={row.id}>
+            {headings.map(heading => (
+              <td key={heading.key}>
+                {row[heading.key].label || row[heading.key]}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
 );
 
 Table.propTypes = {

@@ -5,15 +5,15 @@ import './AppInner.scss';
 
 const AppInner = ({
   children,
-  isCompetitionsInitialized,
+  showContent,
 }) => (
   <div className="AppInner">
-    {isCompetitionsInitialized && children}
+    {showContent && children}
   </div>
 );
 
 AppInner.propTypes = {
-  isCompetitionsInitialized: PropTypes.bool.isRequired,
+  showContent: PropTypes.bool.isRequired,
   children: PropTypes.node,
 };
 

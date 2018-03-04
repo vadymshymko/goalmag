@@ -1,7 +1,11 @@
 .Table {
-  font-size: 14px;
   table-layout: auto;
   width: 100%;
+
+  &Container {
+    overflow-x: auto;
+    width: 100%;
+  }
 
   tr {
     border-bottom: 1px solid #f8f9fa;

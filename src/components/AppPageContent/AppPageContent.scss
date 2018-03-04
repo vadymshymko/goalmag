@@ -1,3 +1,12 @@
 .AppPageContent {
-  padding: 30px;
+  font-size: 14px;
+  padding: 30px 15px;
+
+  @media(min-width: 480px) {
+    padding: 45px 30px;
+  }
+
+  @media(min-width: 970px) {
+    padding: 45px 60px;
+  }
 }

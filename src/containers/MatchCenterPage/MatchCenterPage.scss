@@ -15,10 +15,12 @@
 
   &__fixturesFilters {
     display: flex;
-  }
+    flex-flow: row wrap;
 
-  &__fixturesFilters {
-    padding-top: 15px;
+    @media (min-width: 970px) {
+      flex-flow: row nowrap;
+      padding-top: 15px;
+    }
 
     @media (min-width: 1200px) {
       padding-top: 0;
@@ -26,14 +28,33 @@
   }
 
   &__fixturesFilter {
-    &:not(:first-child) {
-      padding-left: 15px;
+    padding-top: 15px;
+    width: 100%;
+
+    @media (min-width: 970px) {
+      padding-top: 0;
+      width: auto;
+
+      &:not(:first-child) {
+        padding-left: 15px;
+      }
     }
 
     @media (min-width: 1200px) {
       &:first-child {
         padding-left: 15px;
       }
+    }
+  }
+
+  .Dropdown__label,
+  .DateInput__label {
+    display: block;
+    width: 100%;
+
+    @media (min-width: 768px) {
+      display: inline;
+      width: auto;
     }
   }
 }
