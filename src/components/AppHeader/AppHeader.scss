@@ -6,6 +6,31 @@
   width: 100%;
   z-index: 1;
 
+  &__showNavBtn {
+    background-color: rgba(0, 0, 0, 0);
+    border: 0;
+    box-shadow: none;
+    cursor: pointer;
+    height: 30px;
+    margin-right: 15px;
+    outline: none;
+    padding: 3px;
+    width: 30px;
+
+    @media (min-width: 768px) {
+      display: none;
+    }
+  }
+
+  &__showNavIcon {
+    height: 24px;
+    width: 24px;
+
+    @media (min-width: 768px) {
+      display: none;
+    }
+  }
+
   &__link {
     color: #212529;
     display: inline-flex;

@@ -1,30 +1,54 @@
 .Fixture {
   align-items: center;
   display: flex;
+  flex-flow: row wrap;
+
+  @media(min-width: 970px) {
+    flex-flow: row nowrap;
+  }
 
   &__date {
     font-size: 13px;
     font-weight: 100;
-    width: 120px;
+    margin-bottom: 5px;
+    order: 1;
+    width: 50%;
+
+    @media(min-width: 970px) {
+      margin-bottom: 0;
+      width: 60px;
+    }
   }
 
   &__status {
     font-size: 13px;
     font-weight: 100;
+    margin-bottom: 5px;
+    order: 2;
     text-align: right;
-    width: 120px;
+    width: 50%;
+
+    @media(min-width: 970px) {
+      margin-bottom: 0;
+      order: 3;
+      width: 60px;
+    }
   }
 
   &__main-info {
     display: flex;
     flex: 1;
     justify-content: space-around;
+    order: 3;
+
+    @media(min-width: 970px) {
+      order: 2;
+    }
   }
 
   &__score {
     align-items: center;
     display: inline-flex;
-    font-size: 14px;
     padding: 0 10px;
   }
 

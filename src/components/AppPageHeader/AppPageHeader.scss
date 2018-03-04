@@ -4,8 +4,12 @@
   display: flex;
   flex-flow: column;
   justify-content: space-between;
-  padding: 45px 30px;
+  padding: 30px 15px;
   width: 100%;
+
+  @media (min-width: 768px) {
+    padding: 45px 30px;
+  }
 
   @media (min-width: 1200px) {
     align-items: center;

@@ -1,6 +1,10 @@
 .AppInner {
   background-color: #fff;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-  flex: 1 0 290px;
   min-height: calc(100vh - 90px);
+  width: 100%;
+
+  @media(min-width: 768px) {
+    width: calc(100% - 290px);
+  }
 }

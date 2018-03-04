@@ -20,36 +20,78 @@ import './App.scss';
 class App extends Component {
   static propTypes = {
     fetchCompetitions: PropTypes.func.isRequired,
-    isCompetitionsInitialized: PropTypes.bool.isRequired,
-    navSections: PropTypes.arrayOf(PropTypes.object),
+    showContent: PropTypes.bool.isRequired,
+    locationPathname: PropTypes.string.isRequired,
+    competitionsNav: PropTypes.arrayOf(PropTypes.object),
     children: PropTypes.node,
   }
 
   static defaultProps = {
-    navSections: [],
+    competitionsNav: [],
     children: null,
+  }
+
+  state = {
+    showAppNav: false,
   }
 
   componentDidMount() {
     this.props.fetchCompetitions();
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.locationPathname !== this.props.locationPathname && this.state.showAppNav) {
+      this.hideAppNav();
+    }
+  }
+
+  showAppNav = () => {
+    this.setState(() => ({
+      showAppNav: true,
+    }));
+  }
+
+  hideAppNav = () => {
+    this.setState(() => ({
+      showAppNav: false,
+    }));
+  }
+
   render() {
     const {
-      navSections,
-      isCompetitionsInitialized,
+      competitionsNav,
+      showContent,
+      locationPathname,
       children,
     } = this.props;
 
+    const navSections = [
+      {
+        title: '',
+        links: [
+          {
+            to: '/match-center',
+            title: 'Match Center',
+          },
+        ],
+        isActive: locationPathname === '/match-center',
+      },
+      ...competitionsNav,
+    ];
+
     return (
       <div className="App">
-        <AppHeader />
+        <AppHeader onRequestShowNav={this.showAppNav} />
 
         <div className="App__content">
           <Container>
-            <AppNav navSections={navSections} />
+            <AppNav
+              showContent={this.state.showAppNav}
+              navSections={navSections}
+              onRequestHide={this.hideAppNav}
+            />
 
-            <AppInner isCompetitionsInitialized={isCompetitionsInitialized}>
+            <AppInner showContent={showContent}>
               {children}
             </AppInner>
           </Container>
@@ -64,20 +106,9 @@ const mapStateToProps = (state, props) => {
   const locationPathname = props.location.pathname;
 
   return {
-    isCompetitionsInitialized: getIsCompetitionsInitialized(state),
-    navSections: [
-      {
-        title: '',
-        links: [
-          {
-            to: '/match-center',
-            title: 'Match Center',
-          },
-        ],
-        isActive: locationPathname === '/match-center',
-      },
-      ...getCompetitionsNav(state, locationPathname),
-    ],
+    locationPathname,
+    showContent: getIsCompetitionsInitialized(state),
+    competitionsNav: getCompetitionsNav(state, locationPathname),
   };
 };
 
