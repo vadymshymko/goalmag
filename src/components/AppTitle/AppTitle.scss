@@ -1,0 +1,15 @@
+.AppTitle {
+  align-items: center;
+  display: inline-flex;
+  font-size: 27px;
+  font-weight: 500;
+  line-height: 30px;
+  margin: 0;
+
+  &__link {
+    align-items: center;
+    color: #212529;
+    display: inline-flex;
+    text-decoration: none;
+  }
+}

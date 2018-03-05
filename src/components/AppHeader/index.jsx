@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 
 import Container from 'components/Container';
-import AppLogo from 'components/AppLogo';
+import AppTitle from 'components/AppTitle';
 
 import './AppHeader.scss';
 
@@ -31,14 +30,7 @@ const AppHeader = ({ onRequestShowNav }) => (
         </svg>
       </button>
 
-      <Link
-        className="AppHeader__link"
-        to="/"
-        href="/"
-        title="Go To Homepage"
-      >
-        <AppLogo />
-      </Link>
+      <AppTitle />
     </Container>
   </header>
 );
