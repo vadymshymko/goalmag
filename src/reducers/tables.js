@@ -1,3 +1,4 @@
+import { createReducer } from 'utils';
 import { tables as types } from 'types';
 
 const initialState = {
@@ -5,74 +6,58 @@ const initialState = {
   ids: [],
 };
 
-export const table = (state = {}, action) => {
-  switch (action.type) {
-    case types.FETCH_TABLE_REQUEST:
-      return {
-        ...state,
-        id: action.payload.id,
-        isFetching: true,
-        isRequestFailed: false,
-        isInitialized: false,
-      };
+const table = createReducer({}, {
+  [types.FETCH_TABLE_REQUEST]: (state, action) => ({
+    ...state,
+    id: action.payload.id,
+    isFetching: true,
+    isInitialized: false,
+    isRequestFailed: false,
+  }),
 
-    case types.FETCH_TABLE_SUCCESS:
-      return {
-        ...state,
-        ...action.payload.table,
-        isFetching: false,
-        isInitialized: true,
-      };
+  [types.FETCH_TABLE_SUCCESS]: (state, action) => ({
+    ...state,
+    ...action.payload.table,
+    isFetching: false,
+    isInitialized: true,
+  }),
 
-    case types.FETCH_TABLE_FAILURE:
-      return {
-        ...state,
-        isFetching: false,
-        isRequestFailed: true,
-        isInitialized: true,
-      };
+  [types.FETCH_TABLE_FAILURE]: state => ({
+    ...state,
+    isFetching: false,
+    isInitialized: true,
+    isRequestFailed: true,
+  }),
+});
 
-    default:
-      return state;
-  }
-};
+const tables = createReducer(initialState, {
+  [types.FETCH_TABLE_REQUEST]: (state, action) => ({
+    ...state,
+    entities: {
+      ...state.entities,
+      [action.payload.id]: table(state[action.payload.id], action),
+    },
+    ids: [
+      ...state.ids,
+      action.payload.id,
+    ],
+  }),
 
-const tables = (state = initialState, action) => {
-  switch (action.type) {
-    case types.FETCH_TABLE_REQUEST:
-      return {
-        ...state,
-        entities: {
-          ...state.entities,
-          [action.payload.id]: table(state[action.payload.id], action),
-        },
-        ids: [
-          ...state.ids,
-          action.payload.id,
-        ],
-      };
+  [types.FETCH_TABLE_SUCCESS]: (state, action) => ({
+    ...state,
+    entities: {
+      ...state.entities,
+      [action.payload.id]: table(state[action.payload.id], action),
+    },
+  }),
 
-    case types.FETCH_TABLE_SUCCESS:
-      return {
-        ...state,
-        entities: {
-          ...state.entities,
-          [action.payload.id]: table(state[action.payload.id], action),
-        },
-      };
-
-    case types.FETCH_TABLE_FAILURE:
-      return {
-        ...state,
-        entities: {
-          ...state.entities,
-          [action.payload.id]: table(state[action.payload.id], action),
-        },
-      };
-
-    default:
-      return state;
-  }
-};
+  [types.FETCH_TABLE_FAILURE]: (state, action) => ({
+    ...state,
+    entities: {
+      ...state.entities,
+      [action.payload.id]: table(state[action.payload.id], action),
+    },
+  }),
+});
 
 export default tables;
