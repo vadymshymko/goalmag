@@ -1,3 +1,4 @@
+import { createReducer } from 'utils';
 import { squads as types } from 'types';
 
 const initialState = {
@@ -5,74 +6,58 @@ const initialState = {
   ids: [],
 };
 
-const squad = (state = {}, action) => {
-  switch (action.type) {
-    case types.FETCH_SQUAD_REQUEST:
-      return {
-        ...state,
-        id: action.payload.id,
-        isFetching: true,
-        isInitialized: false,
-        isRequestFailed: false,
-      };
+const squad = createReducer({}, {
+  [types.FETCH_SQUAD_REQUEST]: (state, action) => ({
+    ...state,
+    id: action.payload.id,
+    isFetching: true,
+    isInitialized: false,
+    isRequestFailed: false,
+  }),
 
-    case types.FETCH_SQUAD_SUCCESS:
-      return {
-        ...state,
-        players: action.payload.players,
-        isFetching: false,
-        isInitialized: true,
-      };
+  [types.FETCH_SQUAD_SUCCESS]: (state, action) => ({
+    ...state,
+    players: action.payload.players,
+    isFetching: false,
+    isInitialized: true,
+  }),
 
-    case types.FETCH_SQUAD_FAILURE:
-      return {
-        ...state,
-        isFetching: false,
-        isInitialized: true,
-        isRequestFailed: true,
-      };
+  [types.FETCH_SQUAD_FAILURE]: state => ({
+    ...state,
+    isFetching: false,
+    isInitialized: true,
+    isRequestFailed: true,
+  }),
+});
 
-    default:
-      return state;
-  }
-};
+const squads = createReducer(initialState, {
+  [types.FETCH_SQUAD_REQUEST]: (state, action) => ({
+    ...state,
+    entities: {
+      ...state.entities,
+      [action.payload.id]: squad(state[action.payload.id], action),
+    },
+    ids: [
+      ...state.ids,
+      action.payload.id,
+    ],
+  }),
 
-const squads = (state = initialState, action) => {
-  switch (action.type) {
-    case types.FETCH_SQUAD_REQUEST:
-      return {
-        ...state,
-        entities: {
-          ...state.entities,
-          [action.payload.id]: squad(state[action.payload.id], action),
-        },
-        ids: [
-          ...state.ids,
-          action.payload.id,
-        ],
-      };
+  [types.FETCH_SQUAD_SUCCESS]: (state, action) => ({
+    ...state,
+    entities: {
+      ...state.entities,
+      [action.payload.id]: squad(state[action.payload.id], action),
+    },
+  }),
 
-    case types.FETCH_SQUAD_SUCCESS:
-      return {
-        ...state,
-        entities: {
-          ...state.entities,
-          [action.payload.id]: squad(state[action.payload.id], action),
-        },
-      };
-
-    case types.FETCH_SQUAD_FAILURE:
-      return {
-        ...state,
-        entities: {
-          ...state.entities,
-          [action.payload.id]: squad(state[action.payload.id], action),
-        },
-      };
-
-    default:
-      return state;
-  }
-};
+  [types.FETCH_SQUAD_FAILURE]: (state, action) => ({
+    ...state,
+    entities: {
+      ...state.entities,
+      [action.payload.id]: squad(state[action.payload.id], action),
+    },
+  }),
+});
 
 export default squads;

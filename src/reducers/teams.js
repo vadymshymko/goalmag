@@ -1,3 +1,4 @@
+import { createReducer } from 'utils';
 import { teams as types } from 'types';
 
 const initialState = {
@@ -5,74 +6,58 @@ const initialState = {
   ids: [],
 };
 
-const team = (state = {}, action) => {
-  switch (action.type) {
-    case types.FETCH_TEAM_REQUEST:
-      return {
-        ...state,
-        id: action.payload.id,
-        isFetching: true,
-        isInitialized: false,
-        isRequestFailed: false,
-      };
+const team = createReducer({}, {
+  [types.FETCH_TEAM_REQUEST]: (state, action) => ({
+    ...state,
+    id: action.payload.id,
+    isFetching: true,
+    isInitialized: false,
+    isRequestFailed: false,
+  }),
 
-    case types.FETCH_TEAM_SUCCESS:
-      return {
-        ...state,
-        ...action.payload,
-        isFetching: false,
-        isInitialized: true,
-      };
+  [types.FETCH_TEAM_SUCCESS]: (state, action) => ({
+    ...state,
+    ...action.payload,
+    isFetching: false,
+    isInitialized: true,
+  }),
 
-    case types.FETCH_TEAM_FAILURE:
-      return {
-        ...state,
-        isFetching: false,
-        isInitialized: true,
-        isRequestFailed: true,
-      };
+  [types.FETCH_TEAM_FAILURE]: state => ({
+    ...state,
+    isFetching: false,
+    isInitialized: true,
+    isRequestFailed: true,
+  }),
+});
 
-    default:
-      return state;
-  }
-};
+const teams = createReducer(initialState, {
+  [types.FETCH_TEAM_REQUEST]: (state, action) => ({
+    ...state,
+    entities: {
+      ...state.entities,
+      [action.payload.id]: team(state[action.payload.id], action),
+    },
+    ids: [
+      ...state.ids,
+      action.payload.id,
+    ],
+  }),
 
-const teams = (state = initialState, action) => {
-  switch (action.type) {
-    case types.FETCH_TEAM_REQUEST:
-      return {
-        ...state,
-        entities: {
-          ...state.entities,
-          [action.payload.id]: team(state[action.payload.id], action),
-        },
-        ids: [
-          ...state.ids,
-          action.payload.id,
-        ],
-      };
+  [types.FETCH_TEAM_SUCCESS]: (state, action) => ({
+    ...state,
+    entities: {
+      ...state.entities,
+      [action.payload.id]: team(state[action.payload.id], action),
+    },
+  }),
 
-    case types.FETCH_TEAM_SUCCESS:
-      return {
-        ...state,
-        entities: {
-          ...state.entities,
-          [action.payload.id]: team(state[action.payload.id], action),
-        },
-      };
-
-    case types.FETCH_TEAM_FAILURE:
-      return {
-        ...state,
-        entities: {
-          ...state.entities,
-          [action.payload.id]: team(state[action.payload.id], action),
-        },
-      };
-
-    default:
-      return state;
-  }
-};
+  [types.FETCH_TEAM_FAILURE]: (state, action) => ({
+    ...state,
+    entities: {
+      ...state.entities,
+      [action.payload.id]: team(state[action.payload.id], action),
+    },
+  }),
+});
 
 export default teams;
