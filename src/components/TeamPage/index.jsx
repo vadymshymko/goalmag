@@ -1,16 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-
-import {
-  getTeam,
-  getSquad,
-} from 'selectors';
-
-import {
-  fetchTeam,
-  fetchSquad,
-} from 'actions';
 
 import AppPage from 'components/AppPage';
 import AppPageHeader from 'components/AppPageHeader';
@@ -20,7 +9,7 @@ import SquadTable from 'components/SquadTable';
 
 import './TeamPage.scss';
 
-class TeamPage extends Component {
+export default class TeamPage extends Component {
   static propTypes = {
     fetchTeam: PropTypes.func.isRequired,
     fetchSquad: PropTypes.func.isRequired,
@@ -99,22 +88,3 @@ class TeamPage extends Component {
     );
   }
 }
-
-const mapStateToProps = (state, {
-  match: {
-    params: {
-      id,
-    },
-  },
-}) => ({
-  teamId: parseInt(id, 10),
-  teamInfo: getTeam(state, id),
-  teamSquad: getSquad(state, id),
-});
-
-const actions = {
-  fetchTeam,
-  fetchSquad,
-};
-
-export default connect(mapStateToProps, actions)(TeamPage);

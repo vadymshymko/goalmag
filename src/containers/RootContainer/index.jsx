@@ -8,10 +8,10 @@ import {
   Switch,
 } from 'react-router-dom';
 
-import App from 'containers/App';
-import MatchCenterPage from 'containers/MatchCenterPage';
-import CompetitionPage from 'containers/CompetitionPage';
-import TeamPage from 'containers/TeamPage';
+import AppContainer from 'containers/AppContainer';
+import MatchCenterPageContainer from 'containers/MatchCenterPageContainer';
+import CompetitionPageContainer from 'containers/CompetitionPageContainer';
+import TeamPageContainer from 'containers/TeamPageContainer';
 
 const Root = ({
   history,
@@ -19,29 +19,31 @@ const Root = ({
 }) => (
   <Provider store={store}>
     <Router history={history}>
-      <App>
+      <AppContainer>
+
         <Switch>
           <Route
             exact
             path="/match-center"
-            component={MatchCenterPage}
+            component={MatchCenterPageContainer}
           />
 
           <Route
             exact
             path="/competition/:id"
-            component={CompetitionPage}
+            component={CompetitionPageContainer}
           />
 
           <Route
             exact
             path="/team/:id"
-            component={TeamPage}
+            component={TeamPageContainer}
           />
 
           <Redirect to="/match-center" />
         </Switch>
-      </App>
+
+      </AppContainer>
     </Router>
   </Provider>
 );
