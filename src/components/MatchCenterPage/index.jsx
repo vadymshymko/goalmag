@@ -1,16 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { stringify, parse } from 'query-string';
+import { stringify } from 'query-string';
 import moment from 'moment';
-
-import { fetchFixtures } from 'actions';
-
-import {
-  getCompetitions,
-  getFixtures,
-  getIsFixturesFetching,
-} from 'selectors';
 
 import AppPage from 'components/AppPage';
 import AppPageHeader from 'components/AppPageHeader';
@@ -23,7 +14,7 @@ import DateInput from 'components/DateInput';
 
 import './MatchCenterPage.scss';
 
-class MatchCenterPage extends Component {
+export default class MatchCenterPage extends Component {
   static propTypes = {
     fetchFixtures: PropTypes.func.isRequired,
     searchParams: PropTypes.shape({
@@ -163,36 +154,3 @@ class MatchCenterPage extends Component {
     );
   }
 }
-
-const mapStateToProps = (state, {
-  location: {
-    search,
-  },
-}) => {
-  const {
-    competitionId,
-    date,
-  } = parse(search);
-
-  const searchParams = {
-    competitionId: parseInt(competitionId || 0, 10),
-    date: moment(date || Date.now()).format('YYYY-MM-DD'),
-  };
-
-  const competitions = getCompetitions(state);
-  const fixtures = getFixtures(state, { ...searchParams });
-  const isFixturesFetching = getIsFixturesFetching(state);
-
-  return {
-    searchParams,
-    fixtures,
-    isFixturesFetching,
-    competitions,
-  };
-};
-
-const actions = {
-  fetchFixtures,
-};
-
-export default connect(mapStateToProps, actions)(MatchCenterPage);
