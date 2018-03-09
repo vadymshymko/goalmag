@@ -34,7 +34,9 @@ const fixtures = createReducer(initialState, {
         ...state.initializedEndpoints,
         action.payload.endpoint,
       ]
-      : state.initializedEndpoints,
+      : [
+        ...state.initializedEndpoints,
+      ],
     isFetching: false,
     isInitialized: true,
   }),

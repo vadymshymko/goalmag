@@ -19,8 +19,13 @@ const getSortedRows = (rows, sortBy, ascendingSort) => {
         ? b
         : a;
 
-      const firstValue = first[sortBy].value || first[sortBy];
-      const secondValue = second[sortBy].value || second[sortBy];
+      const firstValue = first[sortBy]
+        ? first[sortBy].value || first[sortBy]
+        : null;
+
+      const secondValue = second[sortBy]
+        ? second[sortBy].value || second[sortBy]
+        : null;
 
       if (firstValue < secondValue) {
         return -1;
@@ -86,7 +91,10 @@ const Table = ({
           <tr key={row.id}>
             {headings.map(heading => (
               <td key={heading.key}>
-                {row[heading.key].label || row[heading.key]}
+                {row[heading.key]
+                  ? row[heading.key].label || row[heading.key]
+                  : null
+                }
               </td>
             ))}
           </tr>
