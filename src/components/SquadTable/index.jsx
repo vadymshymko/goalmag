@@ -40,10 +40,6 @@ export default class SquadTable extends Component {
             label: 'Name',
           },
           {
-            key: 'position',
-            label: 'Position',
-          },
-          {
             key: 'dateOfBirth',
             label: 'Date of Birth',
           },
@@ -54,6 +50,10 @@ export default class SquadTable extends Component {
           {
             key: 'nationality',
             label: 'Nationality',
+          },
+          {
+            key: 'position',
+            label: 'Position',
           },
         ]}
         rows={this.props.players}

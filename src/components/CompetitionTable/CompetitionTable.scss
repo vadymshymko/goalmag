@@ -1,22 +1,26 @@
 .CompetitionTable {
   td,
   th {
-    text-align: right;
+    padding: 15px;
+    text-align: center;
   }
 
   td:first-child,
-  th:first-child, {
-    padding-left: 15px;
-    padding-right: 0;
+  th:first-child {
+    padding-left: 0;
+    text-align: left;
   }
 
   th:nth-child(2),
   td:nth-child(2) {
+    padding-left: 0;
+    text-align: left;
     width: 100%;
   }
 
-  th:nth-child(2),
-  td:nth-child(2) {
-    text-align: left;
+  td:last-child,
+  th:last-child {
+    padding-right: 0;
+    text-align: right;
   }
 }
