@@ -34,7 +34,6 @@ export default class CompetitionPage extends Component {
     isFixturesFetching: PropTypes.bool.isRequired,
     fixturesDate: PropTypes.string.isRequired,
     tableMatchday: PropTypes.number.isRequired,
-    lastUpdated: PropTypes.string,
   }
 
   static defaultProps = {
@@ -42,7 +41,6 @@ export default class CompetitionPage extends Component {
     competitionTable: {},
     competitionFixtures: [],
     currentCompetitionMatchday: 0,
-    lastUpdated: null,
   }
 
   componentDidMount() {
@@ -132,7 +130,6 @@ export default class CompetitionPage extends Component {
       isFixturesFetching,
       fixturesDate,
       tableMatchday,
-      lastUpdated,
     } = this.props;
 
     return (
@@ -144,10 +141,6 @@ export default class CompetitionPage extends Component {
           <AppPageTitle>
             {competitionName}
           </AppPageTitle>
-
-          <span className="CompetitionPage__lastUpdated">
-            Last Updated {moment(lastUpdated).fromNow()}
-          </span>
         </AppPageHeader>
 
         <AppPageContent>
@@ -172,26 +165,28 @@ export default class CompetitionPage extends Component {
             )}
           </section>
 
-          <section className="CompetitionInfo">
-            <header className="CompetitionInfo__header">
-              <h3 className="CompetitionInfo__title">Standings:</h3>
+          {competitionTable.standing && competitionTable.standing.length > 0 && (
+            <section className="CompetitionInfo">
+              <header className="CompetitionInfo__header">
+                <h3 className="CompetitionInfo__title">Standings:</h3>
 
-              <Dropdown
-                label="Matchday:"
-                className="CompetitionInfo__filter"
-                value={tableMatchday}
-                options={Array.from({
-                  length: currentCompetitionMatchday,
-                }).map((item, index) => ({
-                  value: index + 1,
-                  label: index + 1,
-                }))}
-                onChange={this.handleTableMatchdayFilterChange}
-              />
-            </header>
+                <Dropdown
+                  label="Matchday:"
+                  className="CompetitionInfo__filter"
+                  value={tableMatchday}
+                  options={Array.from({
+                    length: currentCompetitionMatchday,
+                  }).map((item, index) => ({
+                    value: index + 1,
+                    label: index + 1,
+                  }))}
+                  onChange={this.handleTableMatchdayFilterChange}
+                />
+              </header>
 
-            <CompetitionTable standing={competitionTable.standing} />
-          </section>
+              <CompetitionTable standing={competitionTable.standing} />
+            </section>
+          )}
         </AppPageContent>
       </AppPage>
     );

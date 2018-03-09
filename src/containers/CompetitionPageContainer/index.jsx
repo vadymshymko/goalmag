@@ -30,7 +30,6 @@ const mapStateToProps = (state, {
   const {
     caption: competitionName = '',
     currentMatchday: competitionMatchday = 0,
-    lastUpdated,
   } = getCompetition(state, competitionId) || {};
 
   const {
@@ -43,7 +42,6 @@ const mapStateToProps = (state, {
   return {
     competitionId,
     competitionName,
-    lastUpdated,
     fixturesDate: fixturesDateValue,
     competitionFixtures: getFixtures(state, {
       competitionId,
