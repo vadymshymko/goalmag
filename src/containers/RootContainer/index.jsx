@@ -4,14 +4,15 @@ import { Provider } from 'react-redux';
 import {
   Router,
   Route,
-  Redirect,
   Switch,
+  Redirect,
 } from 'react-router-dom';
 
 import AppContainer from 'containers/AppContainer';
 import MatchCenterPageContainer from 'containers/MatchCenterPageContainer';
 import CompetitionPageContainer from 'containers/CompetitionPageContainer';
 import TeamPageContainer from 'containers/TeamPageContainer';
+import NotFoundPage from 'components/NotFoundPage';
 
 const Root = ({
   history,
@@ -22,25 +23,37 @@ const Root = ({
       <AppContainer>
 
         <Switch>
+          <Redirect
+            exact
+            from="/"
+            to="/match-center"
+          />
+
           <Route
+            strict
             exact
             path="/match-center"
             component={MatchCenterPageContainer}
           />
 
           <Route
+            strict
             exact
             path="/competition/:id"
             component={CompetitionPageContainer}
           />
 
           <Route
+            strict
             exact
             path="/team/:id"
             component={TeamPageContainer}
           />
 
-          <Redirect to="/match-center" />
+          <Route
+            path="*"
+            component={NotFoundPage}
+          />
         </Switch>
 
       </AppContainer>
