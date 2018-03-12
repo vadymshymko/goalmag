@@ -114,6 +114,8 @@ describe('tables actions', () => {
       },
     ];
 
+    Date.now = jest.fn(() => 1000);
+
     nock(`https:${config.apiRoot}`).get('/competitions/3/leagueTable?matchday=1').reply(
       200,
       mockResponse,
@@ -148,6 +150,8 @@ describe('tables actions', () => {
       },
     ];
 
+    Date.now = jest.fn(() => 1000);
+
     nock(`https:${config.apiRoot}`).get('/competitions/4/leagueTable?matchday=1').reply(
       200,
       mockResponse,
@@ -177,6 +181,8 @@ describe('tables actions', () => {
         },
       },
     ];
+
+    Date.now = jest.fn(() => 1000);
 
     nock(`https:${config.apiRoot}`).get('/competitions/5/leagueTable?matchday=1').replyWithError({
       message: 'Some Error',

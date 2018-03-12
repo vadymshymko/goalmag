@@ -39,18 +39,21 @@ const mapStateToProps = (state, {
 
   const fixturesDateValue = moment(fixturesDate || Date.now()).format('YYYY-MM-DD');
 
+  const competitionFixtures = getFixtures(state, {
+    competitionId,
+    date: fixturesDateValue,
+  });
+  const competitionTable = getTable(state, `${competitionId}-${tableMatchday}`);
+
   return {
     competitionId,
     competitionName,
+    competitionTable,
+    competitionFixtures,
     fixturesDate: fixturesDateValue,
-    competitionFixtures: getFixtures(state, {
-      competitionId,
-      date: fixturesDateValue,
-    }),
     isFixturesFetching: getIsFixturesFetching(state),
     currentCompetitionMatchday: competitionMatchday,
     tableMatchday: parseInt(tableMatchday, 10),
-    competitionTable: getTable(state, `${competitionId}-${tableMatchday}`),
   };
 };
 

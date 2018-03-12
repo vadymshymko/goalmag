@@ -13,8 +13,6 @@ import App from 'components/App';
 const mapStateToProps = (state, props) => {
   const locationPathname = props.location.pathname;
 
-  console.log(props);
-
   return {
     locationPathname,
     showContent: getIsCompetitionsInitialized(state),

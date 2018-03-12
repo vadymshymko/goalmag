@@ -16,8 +16,9 @@ export const fetchCompetitionsSuccess = payload => ({
   payload,
 });
 
-export const fetchCompetitionsFailure = () => ({
+export const fetchCompetitionsFailure = payload => ({
   type: types.FETCH_COMPETITIONS_FAILURE,
+  payload,
 });
 
 export const fetchCompetitions = () => (dispatch, getState) => {
@@ -43,9 +44,12 @@ export const fetchCompetitions = () => (dispatch, getState) => {
     return dispatch(fetchCompetitionsSuccess({
       entities,
       ids,
+      lastUpdated: Date.now(),
     }));
   }).catch((error) => {
-    dispatch(fetchCompetitionsFailure());
+    dispatch(fetchCompetitionsFailure({
+      lastUpdated: Date.now(),
+    }));
     throw error;
   });
 };

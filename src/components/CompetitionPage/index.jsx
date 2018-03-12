@@ -50,15 +50,21 @@ export default class CompetitionPage extends Component {
       tableMatchday,
     } = this.props;
 
-    this.props.fetchTable({
-      competitionId,
-      matchday: tableMatchday,
-    });
+    if (competitionId) {
+      if (tableMatchday) {
+        this.props.fetchTable({
+          competitionId,
+          matchday: tableMatchday,
+        });
+      }
 
-    this.props.fetchFixtures({
-      competitionId,
-      date: fixturesDate,
-    });
+      if (fixturesDate) {
+        this.props.fetchFixtures({
+          competitionId,
+          date: fixturesDate,
+        });
+      }
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -75,8 +81,12 @@ export default class CompetitionPage extends Component {
     } = nextProps;
 
     if (
-      nextCompetitionId !== competitionId
+      (
+        nextCompetitionId !== competitionId
         || tableMatchday !== nextTableMatchday
+      )
+      && !!nextCompetitionId
+      && !!nextTableMatchday
     ) {
       this.props.fetchTable({
         competitionId: nextCompetitionId,
@@ -85,8 +95,12 @@ export default class CompetitionPage extends Component {
     }
 
     if (
-      nextCompetitionId !== competitionId
+      (
+        nextCompetitionId !== competitionId
         || fixturesDate !== nextFixturesDate
+      )
+      && !!nextCompetitionId
+      && !!nextFixturesDate
     ) {
       this.props.fetchFixtures({
         competitionId: nextCompetitionId,
