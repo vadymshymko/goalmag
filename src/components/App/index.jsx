@@ -11,7 +11,6 @@ import './App.scss';
 export default class App extends Component {
   static propTypes = {
     fetchCompetitions: PropTypes.func.isRequired,
-    showContent: PropTypes.bool.isRequired,
     locationPathname: PropTypes.string.isRequired,
     competitionsNav: PropTypes.arrayOf(PropTypes.object),
     children: PropTypes.node,
@@ -51,7 +50,6 @@ export default class App extends Component {
   render() {
     const {
       competitionsNav,
-      showContent,
       locationPathname,
       children,
     } = this.props;
@@ -81,7 +79,7 @@ export default class App extends Component {
             onRequestHide={this.hideAppNav}
           />
 
-          <AppInner showContent={showContent}>
+          <AppInner>
             {children}
           </AppInner>
         </Container>

@@ -64,6 +64,7 @@ export default class TeamPage extends Component {
     return (
       <AppPage
         title={name}
+        description={`Team squad, players and fixtures - ${name}`}
         className="TeamPage"
       >
         <AppPageHeader>

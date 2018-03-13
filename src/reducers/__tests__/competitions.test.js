@@ -6,7 +6,7 @@ const initialState = {
   ids: [],
   isFetching: false,
   isRequestFailed: false,
-  isInitialized: false,
+  lastUpdated: 0,
 };
 
 const fetchingState = {
@@ -31,12 +31,12 @@ const initializedState = {
   ...initialState,
   entities,
   ids,
-  isInitialized: true,
+  lastUpdated: 1000,
 };
 
 const failureState = {
   ...initialState,
-  isInitialized: true,
+  lastUpdated: 1000,
   isRequestFailed: true,
 };
 
@@ -57,6 +57,7 @@ describe('competitions reducer', () => {
       payload: {
         entities,
         ids,
+        lastUpdated: 1000,
       },
     })).toEqual(initializedState);
   });
@@ -64,6 +65,9 @@ describe('competitions reducer', () => {
   it('should return failureState', () => {
     expect(reducer(undefined, {
       type: types.FETCH_COMPETITIONS_FAILURE,
+      payload: {
+        lastUpdated: 1000,
+      },
     })).toEqual(failureState);
   });
 });

@@ -15,7 +15,7 @@ const initialState = {
     ids: [],
     isFetching: false,
     isRequestFailed: false,
-    isInitialized: false,
+    lastUpdated: 0,
   },
 };
 
@@ -57,9 +57,12 @@ describe('competitions actions', () => {
         payload: {
           entities: {},
           ids: [],
+          lastUpdated: 1000,
         },
       },
     ];
+
+    Date.now = jest.fn(() => 1000);
 
     nock(`https:${config.apiRoot}`).get('/competitions').reply(
       200,
@@ -80,9 +83,12 @@ describe('competitions actions', () => {
         payload: {
           entities,
           ids,
+          lastUpdated: 1000,
         },
       },
     ];
+
+    Date.now = jest.fn(() => 1000);
 
     nock(`https:${config.apiRoot}`).get('/competitions').reply(
       200,
@@ -98,8 +104,15 @@ describe('competitions actions', () => {
     const store = mockStore(initialState);
     const expectedActions = [
       { type: types.FETCH_COMPETITIONS_REQUEST },
-      { type: types.FETCH_COMPETITIONS_FAILURE },
+      {
+        type: types.FETCH_COMPETITIONS_FAILURE,
+        payload: {
+          lastUpdated: 1000,
+        },
+      },
     ];
+
+    Date.now = jest.fn(() => 1000);
 
     nock(`https:${config.apiRoot}`).get('/competitions').replyWithError({
       message: 'Some Error',
@@ -112,12 +125,12 @@ describe('competitions actions', () => {
     });
   });
 
-  it('should not create any actions if competitions isInitialized', () => {
+  it('should not create any actions if competitions lastUpdated param > 0', () => {
     const store = mockStore({
       ...initialState,
       competitions: {
         ...initialState.competitions,
-        isInitialized: true,
+        lastUpdated: 1000,
       },
     });
     const expectedActions = [];

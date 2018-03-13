@@ -106,5 +106,5 @@ export const getIsCompetitionsFetching = state => (
 );
 
 export const getIsCompetitionsInitialized = state => (
-  state.competitions.isInitialized
+  state.competitions.lastUpdated > 0
 );

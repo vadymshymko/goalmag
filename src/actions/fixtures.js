@@ -26,7 +26,7 @@ export const fetchFixtures = ({
   date,
 } = {}) => (dispatch, getState) => {
   if (!date) {
-    throw new Error('invalid date');
+    return Promise.reject(new Error('invalid date'));
   }
 
   const state = getState();

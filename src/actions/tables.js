@@ -22,7 +22,7 @@ export const fetchTable = ({
   matchday,
 } = {}) => (dispatch, getState) => {
   if (!competitionId || !matchday) {
-    throw new Error('invalid competitionId or matchday');
+    return Promise.reject(new Error('invalid competitionId or matchday'));
   }
 
   const state = getState();

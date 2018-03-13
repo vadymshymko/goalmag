@@ -23,7 +23,7 @@ export const fetchSquadFailure = id => ({
 
 export const fetchSquad = teamId => (dispatch, getState) => {
   if (!teamId) {
-    throw new Error('Invalid team id');
+    return Promise.reject(new Error('Invalid team id'));
   }
 
   const state = getState();

@@ -5,15 +5,13 @@ import './AppInner.scss';
 
 const AppInner = ({
   children,
-  showContent,
 }) => (
   <div className="AppInner">
-    {showContent && children}
+    {children}
   </div>
 );
 
 AppInner.propTypes = {
-  showContent: PropTypes.bool.isRequired,
   children: PropTypes.node,
 };
 
