@@ -38,8 +38,8 @@ const AppPage = ({
       <meta name="og:url" content="https://goalmag.herokuapp.com" />
       <meta name="og:site_name" content="Goal Magazine" />
       <meta name="og:locale" content="en_US" />
-      <meta name="fb:admins" content="1234567890" />
-      <meta name="fb:app_id" content="1234567890" />
+      <meta name="fb:admins" content="100002165463093" />
+      <meta name="fb:app_id" content="2048470848761820" />
       <meta name="og:type" content="website" />
     </Helmet>
 
