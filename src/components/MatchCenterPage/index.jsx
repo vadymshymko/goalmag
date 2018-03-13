@@ -88,6 +88,7 @@ export default class MatchCenterPage extends Component {
     return (
       <AppPage
         title="Match Center"
+        description="Live fixtures across all competitions && dates - Goal Magazine"
         className="MatchCenterPage"
       >
         <AppPageHeader className="MatchCenterPage__header">

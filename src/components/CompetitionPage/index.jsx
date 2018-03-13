@@ -149,6 +149,7 @@ export default class CompetitionPage extends Component {
     return (
       <AppPage
         title={competitionName}
+        description={`Fixtures, teams, squads and standings - ${competitionName}`}
         className="CompetitionPage"
       >
         <AppPageHeader>

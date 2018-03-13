@@ -3,10 +3,7 @@ import { withRouter } from 'react-router-dom';
 
 import { fetchCompetitions } from 'actions';
 
-import {
-  getCompetitionsNav,
-  getIsCompetitionsInitialized,
-} from 'selectors';
+import { getCompetitionsNav } from 'selectors';
 
 import App from 'components/App';
 
@@ -15,7 +12,6 @@ const mapStateToProps = (state, props) => {
 
   return {
     locationPathname,
-    showContent: getIsCompetitionsInitialized(state),
     competitionsNav: getCompetitionsNav(state, locationPathname),
   };
 };
