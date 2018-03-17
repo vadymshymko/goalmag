@@ -4,7 +4,7 @@ import thunkMiddleware from 'redux-thunk';
 const devTools = '__REDUX_DEVTOOLS_EXTENSION__';
 
 const composeEnhancers = () => {
-  if (process.env.NODE_ENV === 'production' || !window || !window[devTools]) {
+  if (process.env.NODE_ENV === 'production' || typeof window === 'undefined' || !window || !window[devTools]) {
     return compose(applyMiddleware(thunkMiddleware));
   }
 
