@@ -11,7 +11,7 @@ const commonConfig = require('./common.js');
 module.exports = webpackMerge(commonConfig, {
   entry: [
     'babel-polyfill',
-    './src/index.jsx',
+    './index.js',
   ],
   devtool: 'source-map',
   plugins: [
@@ -69,9 +69,6 @@ module.exports = webpackMerge(commonConfig, {
             'postcss-loader',
           ],
         }),
-        include: [
-          path.resolve(__dirname, '../src'),
-        ],
         exclude: /node_modules/,
       },
     ],

@@ -1,6 +1,6 @@
-const path = require('path');
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const commonConfig = require('./common.js');
 
@@ -17,7 +17,7 @@ module.exports = webpackMerge(commonConfig, {
     'babel-polyfill',
     'react-hot-loader/patch',
     'webpack-dev-server/client?http://localhost:8080',
-    './src/index.jsx',
+    './index.js',
   ],
   plugins: [
     new webpack.NamedModulesPlugin(),
@@ -26,6 +26,9 @@ module.exports = webpackMerge(commonConfig, {
       'process.env': {
         NODE_ENV: JSON.stringify('development'),
       },
+    }),
+    new HtmlWebpackPlugin({
+      template: './common/assets/index.html',
     }),
   ],
   module: {
@@ -45,9 +48,6 @@ module.exports = webpackMerge(commonConfig, {
           'css-loader',
           'sass-loader',
           'postcss-loader',
-        ],
-        include: [
-          path.resolve(__dirname, '../src'),
         ],
         exclude: /node_modules/,
       },

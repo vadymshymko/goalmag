@@ -1,6 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import {
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
 
+import MatchCenterPageContainer from 'containers/MatchCenterPageContainer';
+import CompetitionPageContainer from 'containers/CompetitionPageContainer';
+import TeamPageContainer from 'containers/TeamPageContainer';
+import NotFoundPage from 'components/NotFoundPage';
 import AppHeader from 'components/AppHeader';
 import Container from 'components/Container';
 import AppNav from 'components/AppNav';
@@ -13,12 +22,10 @@ export default class App extends Component {
     fetchCompetitions: PropTypes.func.isRequired,
     locationPathname: PropTypes.string.isRequired,
     competitionsNav: PropTypes.arrayOf(PropTypes.object),
-    children: PropTypes.node,
   }
 
   static defaultProps = {
     competitionsNav: [],
-    children: null,
   }
 
   state = {
@@ -51,7 +58,6 @@ export default class App extends Component {
     const {
       competitionsNav,
       locationPathname,
-      children,
     } = this.props;
 
     const navSections = [
@@ -80,10 +86,41 @@ export default class App extends Component {
           />
 
           <AppInner>
-            {children}
+            <Switch>
+              <Redirect
+                exact
+                from="/"
+                to="/match-center"
+              />
+
+              <Route
+                strict
+                exact
+                path="/match-center"
+                component={MatchCenterPageContainer}
+              />
+
+              <Route
+                strict
+                exact
+                path="/competition/:id"
+                component={CompetitionPageContainer}
+              />
+
+              <Route
+                strict
+                exact
+                path="/team/:id"
+                component={TeamPageContainer}
+              />
+
+              <Route
+                path="*"
+                component={NotFoundPage}
+              />
+            </Switch>
           </AppInner>
         </Container>
-
       </div>
     );
   }
