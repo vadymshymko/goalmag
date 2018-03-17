@@ -6,6 +6,11 @@ require('babel-register')({
         extensions: ['.scss', '.css'],
       },
     ],
+    [
+      'babel-plugin-module-resolver', {
+        root: ['common'],
+      },
+    ],
   ],
 });
 require('babel-polyfill');

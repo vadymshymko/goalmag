@@ -6,6 +6,9 @@ import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router-dom';
 
 import rootReducer from 'reducers';
+import composeEnhancers from 'composeEnhancers';
+
+import { fetchCompetitions } from 'actions';
 
 import AppContainer from 'containers/AppContainer';
 
@@ -79,7 +82,7 @@ const renderFullPage = ({
 `);
 
 const handleRender = (req, res) => {
-  const store = createStore(rootReducer);
+  const store = createStore(rootReducer, composeEnhancers());
   const preloadedState = store.getState();
   const html = renderToString((
     <Provider store={store}>
@@ -92,6 +95,8 @@ const handleRender = (req, res) => {
     </Provider>
   ));
 
+  store.dispatch(fetchCompetitions);
+
   res.send(renderFullPage({
     title: 'Title',
     description: 'description',
@@ -100,7 +105,7 @@ const handleRender = (req, res) => {
   }));
 };
 
-app.use(Express.static('dist'));
+app.use(Express.static('dist/assets'));
 app.use(Express.static('static'));
 
 app.use(handleRender);
