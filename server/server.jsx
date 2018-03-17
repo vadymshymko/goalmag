@@ -28,12 +28,12 @@ const renderFullPage = ({
       <title>"${title} - Goal Magazine"</title>
       <meta name="description" content="${description}" />
 
-      <meta name="image" content="https://goalmag.herokuapp.com/logo.svg" />
+      <meta name="image" content="/logo.svg" />
 
       <!-- Schema.org for Google -->
       <meta itemProp="name" content="${title} - Goal Magazine" />
       <meta itemProp="description" content="${description}" />
-      <meta itemProp="image" content="https://goalmag.herokuapp.com/logo.svg" />
+      <meta itemProp="image" content="/logo.svg" />
 
       <!-- Twitter -->
       <meta name="twitter:card" content="summary" />
@@ -41,12 +41,12 @@ const renderFullPage = ({
       <meta name="twitter:description" content="${description}" />
       <meta name="twitter:site" content="@vadymshymko" />
       <meta name="twitter:creator" content="@vadymshymko" />
-      <meta name="twitter:image:src" content="https://goalmag.herokuapp.com/logo.svg" />
+      <meta name="twitter:image:src" content="/logo.svg" />
 
       <!-- Open Graph general (Facebook, Pinterest & Google+) -->
       <meta name="og:title" content="${title} - Goal Magazine" />
       <meta name="og:description" content="${description}" />
-      <meta name="og:image" content="https://goalmag.herokuapp.com/logo.svg" />
+      <meta name="og:image" content="/logo.svg" />
       <meta name="og:url" content="https://goalmag.herokuapp.com" />
       <meta name="og:site_name" content="Goal Magazine" />
       <meta name="og:locale" content="en_US" />
@@ -54,7 +54,7 @@ const renderFullPage = ({
       <meta name="fb:app_id" content="2048470848761820" />
       <meta name="og:type" content="website" />
 
-      <link href="/dist/bundle.css" rel="stylesheet" />
+      <link href="/bundle.css" rel="stylesheet" />
       <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" />
 
       <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -73,7 +73,7 @@ const renderFullPage = ({
         window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
       </script>
 
-      <script src="/dist/bundle.js"></script>
+      <script src="/bundle.js"></script>
     </body>
   </html>
 `);
@@ -100,7 +100,9 @@ const handleRender = (req, res) => {
   }));
 };
 
-app.use('/dist', Express.static('dist'));
+app.use(Express.static('dist'));
+app.use(Express.static('static'));
+
 app.use(handleRender);
 app.listen(port);
 
