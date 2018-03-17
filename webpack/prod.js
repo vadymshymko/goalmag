@@ -4,7 +4,6 @@ const webpackMerge = require('webpack-merge');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const TransferWebpackPlugin = require('transfer-webpack-plugin');
 
 const commonConfig = require('./common.js');
 
@@ -21,9 +20,6 @@ module.exports = webpackMerge(commonConfig, {
         root: path.resolve(__dirname, '../'),
       },
     ),
-    new TransferWebpackPlugin([
-      { from: 'static' },
-    ]),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),

@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, '../dist'),
+    path: path.resolve(__dirname, '../dist/assets'),
     publicPath: '/',
   },
   resolve: {
@@ -29,9 +29,6 @@ module.exports = {
       {
         test: /\.jsx?$/,
         use: 'babel-loader',
-        include: [
-          path.resolve(__dirname, '../'),
-        ],
         exclude: /node_modules/,
       },
     ],
