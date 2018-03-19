@@ -27,59 +27,63 @@ const app = Express();
 const port = process.env.PORT || 8080;
 
 const handleRequest = (req, res) => {
-  const store = createStore(rootReducer, composeEnhancers());
-  const activeRoute = routes.find(route => (
-    matchPath(req.path, route)
-  ));
-  const params = activeRoute
-    ? matchPath(req.path, activeRoute).params || {}
-    : {};
+  if (req.path === '/') {
+    res.redirect(301, '/match-center');
+  } else {
+    const store = createStore(rootReducer, composeEnhancers());
+    const activeRoute = routes.find(route => (
+      matchPath(req.path, route)
+    ));
+    const params = activeRoute
+      ? matchPath(req.path, activeRoute).params || {}
+      : {};
 
-  const context = {};
-  const InitialComponent = (
-    <Provider store={store}>
-      <StaticRouter
-        location={req.url}
-        context={context}
-      >
-        <AppContainer />
-      </StaticRouter>
-    </Provider>
-  );
+    const context = {};
+    const InitialComponent = (
+      <Provider store={store}>
+        <StaticRouter
+          location={req.url}
+          context={context}
+        >
+          <AppContainer />
+        </StaticRouter>
+      </Provider>
+    );
 
-  const promises = [
-    store.dispatch(fetchCompetitions()),
-    ...(
-      activeRoute && activeRoute.path === '/team/:id' && params.id
-        ? [
-          store.dispatch(fetchTeam(params.id)),
-          store.dispatch(fetchSquad(params.id)),
-        ]
-        : []
-    ),
-  ];
+    const promises = [
+      store.dispatch(fetchCompetitions()),
+      ...(
+        activeRoute && activeRoute.path === '/team/:id' && params.id
+          ? [
+            store.dispatch(fetchTeam(params.id)),
+            store.dispatch(fetchSquad(params.id)),
+          ]
+          : []
+      ),
+    ];
 
-  Promise.all(promises).then(() => {
-    const innerHTML = renderToString(InitialComponent);
-    const helmet = Helmet.renderStatic();
+    Promise.all(promises).then(() => {
+      const innerHTML = renderToString(InitialComponent);
+      const helmet = Helmet.renderStatic();
 
-    res.send(renderHTML({
-      innerHTML,
-      title: helmet.title.toString(),
-      meta: helmet.meta.toString(),
-      preloadedState: store.getState(),
-    }));
-  }).catch(() => {
-    const innerHTML = renderToString(InitialComponent);
-    const helmet = Helmet.renderStatic();
+      res.send(renderHTML({
+        innerHTML,
+        title: helmet.title.toString(),
+        meta: helmet.meta.toString(),
+        preloadedState: store.getState(),
+      }));
+    }).catch(() => {
+      const innerHTML = renderToString(InitialComponent);
+      const helmet = Helmet.renderStatic();
 
-    res.send(renderHTML({
-      innerHTML,
-      title: helmet.title.toString(),
-      meta: helmet.meta.toString(),
-      preloadedState: store.getState(),
-    }));
-  });
+      res.send(renderHTML({
+        innerHTML,
+        title: helmet.title.toString(),
+        meta: helmet.meta.toString(),
+        preloadedState: store.getState(),
+      }));
+    });
+  }
 };
 
 app.use(Express.static('dist/assets'));
