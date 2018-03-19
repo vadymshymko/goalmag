@@ -86,4 +86,4 @@ app.use(Express.static('dist/assets'));
 app.use(Express.static('static'));
 app.use(handleRequest);
 
-app.listen(port, '0.0.0.0');
+app.listen(port);
