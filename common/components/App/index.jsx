@@ -86,13 +86,15 @@ export default class App extends Component {
           />
 
           <AppInner>
-            <Switch>
-              <Redirect
-                exact
-                from="/"
-                to="/match-center"
-              />
+            <Route
+              exact
+              path="/"
+              render={() => (
+                <Redirect to="match-center" />
+              )}
+            />
 
+            <Switch>
               <Route
                 strict
                 exact
