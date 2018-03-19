@@ -86,4 +86,6 @@ app.use(Express.static('dist/assets'));
 app.use(Express.static('static'));
 app.use(handleRequest);
 
-app.listen(port);
+app.listen(port, () => {
+  console.log(`listening on port ${port}`)
+});
