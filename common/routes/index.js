@@ -5,12 +5,6 @@ import NotFoundPage from 'components/NotFoundPage';
 
 const routes = [
   {
-    redirect: {
-      from: '/',
-      to: '/match-center',
-    },
-  },
-  {
     path: '/match-center',
     component: MatchCenterPageContainer,
     strict: true,
