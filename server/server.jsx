@@ -24,7 +24,7 @@ import {
 import renderHTML from './html';
 
 const app = Express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
 
 const handleRequest = (req, res) => {
   const store = createStore(rootReducer, composeEnhancers());
