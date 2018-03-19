@@ -25,6 +25,7 @@ import renderHTML from './html';
 
 const app = Express();
 const port = process.env.PORT || 3000;
+const host = process.env.HOST || '0.0.0.0';
 
 const handleRequest = (req, res) => {
   const store = createStore(rootReducer, composeEnhancers());
@@ -86,4 +87,4 @@ app.use(Express.static('dist/assets'));
 app.use(Express.static('static'));
 app.use(handleRequest);
 
-app.listen(port);
+app.listen(port, host);
