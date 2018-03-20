@@ -4,13 +4,17 @@ import PropTypes from 'prop-types';
 import './Dropdown.scss';
 
 const Dropdown = ({
+  fieldId,
   className,
   label,
   options,
   value,
   onChange,
 }) => (
-  <div className={`Dropdown ${className}`}>
+  <label
+    className={`Dropdown ${className}`}
+    htmlFor={fieldId}
+  >
     {label && (
       <span className="Dropdown__label">
         {label}
@@ -21,6 +25,7 @@ const Dropdown = ({
       className="Dropdown__field"
       value={value}
       onChange={onChange}
+      id={fieldId}
     >
       {options.map(option => (
         <option
@@ -31,10 +36,11 @@ const Dropdown = ({
         </option>
       ))}
     </select>
-  </div>
+  </label>
 );
 
 Dropdown.propTypes = {
+  fieldId: PropTypes.string,
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
@@ -55,6 +61,7 @@ Dropdown.propTypes = {
 };
 
 Dropdown.defaultProps = {
+  fieldId: null,
   className: '',
   label: null,
   options: [],

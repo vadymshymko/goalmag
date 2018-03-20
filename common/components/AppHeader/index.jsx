@@ -12,8 +12,9 @@ const AppHeader = ({ onRequestShowNav }) => (
       <button
         className="AppHeader__showNavBtn"
         type="button"
-        title="Show Nav"
+        title="Show Navigation"
         onClick={onRequestShowNav}
+        aria-label="Show Navigation"
       >
         <svg
           fill="none"

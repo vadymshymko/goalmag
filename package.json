@@ -4,12 +4,15 @@
   "description": "Simple React/Redux App for my simple football scores site",
   "main": "index.js",
   "scripts": {
-    "start": "babel-node server/index.js",
-    "start:local": "webpack-dev-server --config webpack/dev.js",
-    "serve": "NODE_ENV=production && node dist/server.js",
+    "start": "NODE_ENV=production && node dist/server.js",
+    "start-express-dev-server": "babel-node server/index.js",
+    "start-webpack-dev-server": "webpack-dev-server --config webpack/dev.js",
     "build": "npm run build:client && npm run build:server",
-    "build:server": "webpack --progress --colors --profile --config webpack/server.js",
-    "build:client": "webpack --progress --colors --profile --config webpack/prod.js",
+    "build:server": "webpack --progress --colors --profile --config webpack/server.prod.js",
+    "build:client": "webpack --progress --colors --profile --config webpack/client.prod.js",
+    "build:dev": "npm run build:client:dev && npm run build:server:dev",
+    "build:server:dev": "webpack --progress --colors --profile --config webpack/server.dev.js",
+    "build:client:dev": "webpack --progress --colors --profile --config webpack/client.dev.js",
     "test": "jest --no-cache",
     "test-coverage": "jest --coverage --no-cache",
     "heroku-postbuild": "npm run build"
@@ -37,6 +40,7 @@
   },
   "homepage": "https://github.com/vadymshymko/react-football-app#readme",
   "dependencies": {
+    "compression": "^1.7.2",
     "express": "^4.16.2",
     "history": "^4.7.2",
     "humps": "^2.0.1",

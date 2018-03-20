@@ -23,7 +23,8 @@ const AppNav = ({
           className="AppNavHide__btn"
           type="button"
           onClick={onRequestHide}
-          title="Hide Nav"
+          title="Hide Navigation"
+          aria-label="Hide Navigation"
         >
           <svg
             fill="none"

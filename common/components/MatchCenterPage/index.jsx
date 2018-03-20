@@ -98,6 +98,7 @@ export default class MatchCenterPage extends Component {
 
           <div className="MatchCenterPage__fixturesFilters">
             <Dropdown
+              fieldId="MatchCenterPageCompetitionFilter"
               label="Competition:"
               className="MatchCenterPage__fixturesFilter"
               value={competitionId}
@@ -115,6 +116,7 @@ export default class MatchCenterPage extends Component {
             />
 
             <DateInput
+              fieldId="MatchCenterPageFixturesDateFilter"
               label="Date:"
               className="MatchCenterPage__fixturesFilter"
               value={moment(date || Date.now()).format('YYYY-MM-DD')}

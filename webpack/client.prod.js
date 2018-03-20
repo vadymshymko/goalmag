@@ -5,7 +5,7 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-const commonConfig = require('./common.js');
+const commonConfig = require('./client.common.js');
 
 module.exports = webpackMerge(commonConfig, {
   entry: [

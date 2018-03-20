@@ -1,5 +1,8 @@
 .Dropdown {
+  display: block;
   font-size: 14px;
+  font-weight: 400;
+  margin: 0;
 
   &__label {
     line-height: 30px;

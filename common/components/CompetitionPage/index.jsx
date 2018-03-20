@@ -164,6 +164,7 @@ export default class CompetitionPage extends Component {
               <h3 className="CompetitionInfo__title">Match Center:</h3>
 
               <DateInput
+                fieldId="CompetitionInfoFixturesDateFilter"
                 label="Date:"
                 className="CompetitionInfo__filter"
                 value={fixturesDate}
@@ -186,6 +187,7 @@ export default class CompetitionPage extends Component {
                 <h3 className="CompetitionInfo__title">Standings:</h3>
 
                 <Dropdown
+                  fieldId="CompetitionInfoTableMatchdayFilter"
                   label="Matchday:"
                   className="CompetitionInfo__filter"
                   value={tableMatchday}
