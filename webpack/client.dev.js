@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const commonConfig = require('./common.js');
+const commonConfig = require('./client.common.js');
 
 module.exports = webpackMerge(commonConfig, {
   devServer: {

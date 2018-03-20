@@ -1,5 +1,4 @@
 const path = require('path');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const NodeExternals = require('webpack-node-externals');
 
 module.exports = {
@@ -21,9 +20,6 @@ module.exports = {
   },
   target: 'node',
   externals: [new NodeExternals()],
-  plugins: [
-    new UglifyJSPlugin(),
-  ],
   module: {
     rules: [
       {
