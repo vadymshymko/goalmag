@@ -50,6 +50,8 @@ export default class AppNavSection extends Component {
               className="AppNavSection__contentToggle"
               type="button"
               onClick={this.toggleContent}
+              title={`Show ${title} competitions navigation`}
+              aria-label={`Show ${title} competitions navigation`}
             >
               <Icon
                 className="AppNavSection__contentToggleIcon"
