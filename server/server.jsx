@@ -25,20 +25,25 @@ const compression = new Compression();
 
 const handleRequest = (req, res) => {
   const location = req.url;
+  const requestPath = req.path;
+  const isNotHTTPS = req.header('x-forwarded-proto') && (req.header('x-forwarded-proto') !== 'https');
 
-  if (req.header('x-forwarded-proto') && (req.header('x-forwarded-proto') !== 'https')) {
-    res.redirect(`https://${req.header('host')}${location}`);
-  } else if (req.path === '/') {
+  if (isNotHTTPS) {
+    res.redirect(301, `https://${req.header('host')}${requestPath === '/'
+      ? '/match-center'
+      : location
+    }`);
+  } else if (requestPath === '/') {
     res.redirect(301, '/match-center');
   } else {
     const store = createStore(rootReducer, composeEnhancers());
     const context = {};
 
     const activeRoute = routes.find(route => (
-      matchPath(req.path, route)
+      matchPath(requestPath, route)
     ));
     const params = activeRoute
-      ? matchPath(req.path, activeRoute).params || {}
+      ? matchPath(requestPath, activeRoute).params || {}
       : {};
 
     const promises = [
