@@ -15,7 +15,6 @@ const renderHTML = ({
       ${meta}
 
       <link href="/bundle.css" rel="stylesheet" />
-      <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" />
 
       <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
       <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -29,11 +28,35 @@ const renderHTML = ({
     <body>
       <div class="root" id="root">${innerHTML}</div>
 
+      <noscript id="deferred-styles">
+        <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" />
+      </noscript>
+
       <script>
         window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
       </script>
 
-      <script src="/bundle.js"></script>
+      <script>
+        var loadDeferredStyles = function() {
+          var addStylesNode = document.getElementById("deferred-styles");
+          var replacement = document.createElement("div");
+          replacement.innerHTML = addStylesNode.textContent;
+          document.body.appendChild(replacement)
+          addStylesNode.parentElement.removeChild(addStylesNode);
+        };
+
+        var raf = (
+          window.requestAnimationFrame
+          || window.mozRequestAnimationFrame
+          || window.webkitRequestAnimationFrame
+          || window.msRequestAnimationFrame
+        );
+
+        if (raf) raf(function() { window.setTimeout(loadDeferredStyles, 0); });
+        else window.addEventListener('load', loadDeferredStyles);
+      </script>
+
+      <script src="/bundle.js" async></script>
     </body>
   </html>
 `);
