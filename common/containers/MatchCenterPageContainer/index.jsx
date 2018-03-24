@@ -8,6 +8,7 @@ import {
   getCompetitions,
   getFixtures,
   getIsFixturesFetching,
+  getIsFixturesInitialized,
 } from 'selectors';
 
 import MatchCenterPage from 'components/MatchCenterPage';
@@ -30,11 +31,13 @@ const mapStateToProps = (state, {
   const competitions = getCompetitions(state);
   const fixtures = getFixtures(state, { ...searchParams });
   const isFixturesFetching = getIsFixturesFetching(state);
+  const isFixturesInitialized = getIsFixturesInitialized(state);
 
   return {
     searchParams,
     fixtures,
     isFixturesFetching,
+    isFixturesInitialized,
     competitions,
   };
 };

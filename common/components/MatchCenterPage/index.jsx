@@ -23,6 +23,7 @@ export default class MatchCenterPage extends Component {
     }).isRequired,
     fixtures: PropTypes.arrayOf(PropTypes.object).isRequired,
     isFixturesFetching: PropTypes.bool.isRequired,
+    isFixturesInitialized: PropTypes.bool.isRequired,
     competitions: PropTypes.arrayOf(PropTypes.object).isRequired,
     history: PropTypes.shape({
       push: PropTypes.func,
@@ -74,6 +75,7 @@ export default class MatchCenterPage extends Component {
       competitions,
       fixtures,
       isFixturesFetching,
+      isFixturesInitialized,
       searchParams: {
         competitionId,
         date,
@@ -81,7 +83,8 @@ export default class MatchCenterPage extends Component {
     } = this.props;
 
     const showEmptyMessage = (
-      !isFixturesFetching
+      isFixturesInitialized
+      && !isFixturesFetching
       && fixtures.length === 0
     );
 

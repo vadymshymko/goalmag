@@ -35,3 +35,7 @@ export const getFixturesInitializedEndpoints = state => (
 export const getIsFixturesFetching = state => (
   state.fixtures.isFetching
 );
+
+export const getIsFixturesInitialized = state => (
+  state.fixtures.isInitialized
+);

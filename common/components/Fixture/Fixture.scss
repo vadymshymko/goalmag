@@ -21,11 +21,13 @@
   &__status {
     font-size: 13px;
     font-weight: 100;
+    min-width: 50%;
     order: 2;
     text-align: right;
     width: 50%;
 
     @media(min-width: 970px) {
+      min-width: 60px;
       order: 3;
       width: 60px;
     }
