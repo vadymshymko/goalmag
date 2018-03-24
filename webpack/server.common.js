@@ -4,7 +4,7 @@ const NodeExternals = require('webpack-node-externals');
 module.exports = {
   entry: [
     'babel-polyfill',
-    './server/server.jsx',
+    './server/index.jsx',
   ],
   output: {
     filename: 'server.js',

@@ -6,16 +6,36 @@ import {
   Redirect,
 } from 'react-router-dom';
 
-import MatchCenterPageContainer from 'containers/MatchCenterPageContainer';
-import CompetitionPageContainer from 'containers/CompetitionPageContainer';
-import TeamPageContainer from 'containers/TeamPageContainer';
-import NotFoundPage from 'components/NotFoundPage';
 import AppHeader from 'components/AppHeader';
 import Container from 'components/Container';
 import AppNav from 'components/AppNav';
 import AppInner from 'components/AppInner';
 
+import Loadable from 'react-loadable';
+
 import './App.scss';
+
+const Loading = () => <div>Loading...</div>;
+
+const MatchCenterPage = Loadable({
+  loader: () => import('containers/MatchCenterPageContainer'),
+  loading: Loading,
+});
+
+const CompetitionPage = Loadable({
+  loader: () => import('containers/CompetitionPageContainer'),
+  loading: Loading,
+});
+
+const TeamPage = Loadable({
+  loader: () => import('containers/TeamPageContainer'),
+  loading: Loading,
+});
+
+const NotFoundPage = Loadable({
+  loader: () => import('components/NotFoundPage'),
+  loading: Loading,
+});
 
 export default class App extends Component {
   static propTypes = {
@@ -99,21 +119,21 @@ export default class App extends Component {
                 strict
                 exact
                 path="/match-center"
-                component={MatchCenterPageContainer}
+                component={MatchCenterPage}
               />
 
               <Route
                 strict
                 exact
                 path="/competition/:id"
-                component={CompetitionPageContainer}
+                component={CompetitionPage}
               />
 
               <Route
                 strict
                 exact
                 path="/team/:id"
-                component={TeamPageContainer}
+                component={TeamPage}
               />
 
               <Route

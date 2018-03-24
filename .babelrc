@@ -12,6 +12,7 @@
     "stage-0",
   ],
   "plugins": [
+    "react-loadable/babel",
     "react-hot-loader/babel",
     "transform-decorators-legacy"
   ]

@@ -1,8 +1,12 @@
 const path = require('path');
+const webpack = require('webpack');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const TransferWebpackPlugin = require('transfer-webpack-plugin');
+const { ReactLoadablePlugin } = require('react-loadable/webpack');
 
 module.exports = {
   output: {
-    filename: 'bundle.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, '../dist/assets'),
     publicPath: '/',
   },
@@ -13,6 +17,26 @@ module.exports = {
       'node_modules',
     ],
   },
+  plugins: [
+    new CleanWebpackPlugin(
+      ['dist'],
+      {
+        root: path.resolve(__dirname, '../'),
+      },
+    ),
+    new TransferWebpackPlugin([
+      {
+        from: 'static',
+      },
+    ]),
+    new ReactLoadablePlugin({
+      filename: './dist/react-loadable.json',
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'manifest',
+      minChunks: Infinity,
+    }),
+  ],
   module: {
     rules: [
       {
