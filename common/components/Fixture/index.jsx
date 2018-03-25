@@ -6,7 +6,7 @@ import FixtureTeam from 'components/FixtureTeam';
 
 import './Fixture.scss';
 
-const getFixtureScoreColorByStatus = (status = '') => {
+const getScoreColorByStatus = (status = '') => {
   if (status === 'finished' || status === 'in_play') {
     return 'white';
   }
@@ -14,7 +14,7 @@ const getFixtureScoreColorByStatus = (status = '') => {
   return null;
 };
 
-const getFixtureScoreBgColorByStatus = (status = '') => {
+const getScoreBgColorByStatus = (status = '') => {
   if (status === 'finished') {
     return '#dc3545';
   } else if (status === 'in_play') {
@@ -39,49 +39,37 @@ const Fixture = ({
       {moment(date).format('HH:mm')}
     </span>
 
-    <span className="Fixture__main-info">
+    <div className="Fixture__mainInfo">
       <FixtureTeam
         id={homeTeamId}
         name={homeTeamName}
         type="home"
+        score={(status === 'in_play' || status === 'finished')
+          ? goalsHomeTeam || 0
+          : goalsHomeTeam || '-'
+        }
+        scoreStyle={{
+          color: getScoreColorByStatus(status),
+          backgroundColor: getScoreBgColorByStatus(status),
+        }}
       />
 
-      <strong className="Fixture__score FixtureScore">
-        <span
-          className="FixtureScore__goals-count"
-          style={{
-            backgroundColor: getFixtureScoreBgColorByStatus(status),
-            color: getFixtureScoreColorByStatus(status),
-          }}
-        >
-          {(status === 'in_play' || status === 'finished')
-            ? goalsHomeTeam || 0
-            : goalsHomeTeam || '-'
-          }
-        </span>
-
-        <span className="FixtureScore__separator">:</span>
-
-        <span
-          className="FixtureScore__goals-count"
-          style={{
-            backgroundColor: getFixtureScoreBgColorByStatus(status),
-            color: getFixtureScoreColorByStatus(status),
-          }}
-        >
-          {(status === 'in_play' || status === 'finished')
-            ? goalsAwayTeam || 0
-            : goalsAwayTeam || '-'
-          }
-        </span>
-      </strong>
+      <span className="Fixture__separator" />
 
       <FixtureTeam
         id={awayTeamId}
         name={awayTeamName}
         type="away"
+        score={(status === 'in_play' || status === 'finished')
+          ? goalsAwayTeam || 0
+          : goalsAwayTeam || '-'
+        }
+        scoreStyle={{
+          color: getScoreColorByStatus(status),
+          backgroundColor: getScoreBgColorByStatus(status),
+        }}
       />
-    </span>
+    </div>
 
     <span className="Fixture__status">
       {status}

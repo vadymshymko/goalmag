@@ -3,28 +3,42 @@
   display: flex;
   flex: 1;
   justify-content: flex-end;
+  max-width: 50%;
   position: relative;
+
+  @media(min-width: 768px) {
+    padding: 0 10px;
+  }
 
   &--type {
     &--home {
-      text-align: right;
+      justify-content: flex-end;
+      padding-right: 10px;
+
+      .FixtureTeam__score {
+        margin-left: 10px;
+      }
+    }
+
+    &--away {
+      justify-content: flex-start;
+      padding-left: 10px;
+
+      .FixtureTeam__score {
+        margin-right: 10px;
+      }
     }
   }
 
-  .FixtureScore + & {
-    justify-content: flex-start;
+  &__score {
+    min-width: 24px;
+    padding: 0 5px;
+    text-align: center;
   }
 
-  &__icon {
-    height: 20px;
-    font-size: 0;
+  &__link {
     overflow: hidden;
-    margin-right: 5px;
-    width: auto;
-
-    .FixtureTeam__name + & {
-      margin-right: 0;
-      margin-left: 5px;
-    }
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }

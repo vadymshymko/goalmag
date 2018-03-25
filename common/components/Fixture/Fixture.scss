@@ -1,64 +1,61 @@
 .Fixture {
   align-items: center;
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column;
+  justify-content: center;
 
-  @media(min-width: 970px) {
+  @media(min-width: 768px) {
     flex-flow: row nowrap;
   }
 
-  &__date {
-    font-size: 13px;
-    font-weight: 100;
-    order: 1;
-    width: 50%;
-
-    @media(min-width: 970px) {
-      width: 60px;
-    }
-  }
-
+  &__date,
   &__status {
-    font-size: 13px;
-    font-weight: 100;
-    min-width: 50%;
-    order: 2;
-    text-align: right;
-    width: 50%;
+    font-size: 14px;
+    text-align: center;
 
-    @media(min-width: 970px) {
+    @media(min-width: 768px) {
       min-width: 60px;
-      order: 3;
       width: 60px;
     }
   }
 
-  &__main-info {
+  @media(min-width: 768px) {
+    &__date {
+      text-align: left;
+    }
+
+    &__status {
+      text-align: right;
+    }
+  }
+
+  &__mainInfo {
     display: flex;
     flex: 1;
-    justify-content: space-around;
-    order: 3;
-    padding-top: 10px;
+    justify-content: center;
+    min-width: 100%;
+    padding: 5px 0;
+    width: 100%;
 
-    @media(min-width: 970px) {
-      order: 2;
-      padding-top: 0;
+    @media(min-width: 768px) {
+      max-width: calc(100% - 120px);
+      min-width: 0;
+      padding: 0;
+      width: calc(100% - 120px);
     }
   }
 
-  &__score {
-    align-items: center;
-    display: inline-flex;
-    padding: 0 10px;
-  }
+  &__separator {
+    position: relative;
+    text-align: center;
+    width: 0;
 
-  &Score {
-    &__goals-count {
-      padding: 0 5px;
-    }
-
-    &__separator {
-      margin: 0 5px;
+    &::before {
+      content: ":";
+      left: 50%;
+      position: absolute;
+      top: 50%;
+      transform: translateX(-50%) translateY(-50%);
     }
   }
 }
