@@ -23,6 +23,8 @@ import {
 
 import stats from '../dist/react-loadable.json';
 
+import criticalCSS from './criticalCSS';
+
 const app = new Express();
 const port = process.env.PORT || 8080;
 const compression = new Compression();
@@ -43,6 +45,10 @@ const HTML = ({
 
       ${title}
       ${meta}
+
+      <style>
+        ${criticalCSS}
+      </style>
 
       ${styles.map(style => `<link href="/dist/${style.file}" rel="stylesheet"/>`.join('\n'))}
 
