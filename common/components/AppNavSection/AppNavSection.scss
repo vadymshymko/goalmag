@@ -28,6 +28,14 @@
     }
   }
 
+  &__content {
+    display: none;
+
+    &--visible {
+      display: block;
+    }
+  }
+
   &__list {
     list-style: none;
     margin: 0;

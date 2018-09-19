@@ -1,51 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Route,
-  Switch,
-  Redirect,
-} from 'react-router-dom';
 
 import AppHeader from 'components/AppHeader';
 import Container from 'components/Container';
 import AppNav from 'components/AppNav';
 import AppInner from 'components/AppInner';
 
-import Loadable from 'react-loadable';
-
 import './App.scss';
-
-const Loading = () => <div>Loading...</div>;
-
-const MatchCenterPage = Loadable({
-  loader: () => import('containers/MatchCenterPageContainer'),
-  loading: Loading,
-});
-
-const CompetitionPage = Loadable({
-  loader: () => import('containers/CompetitionPageContainer'),
-  loading: Loading,
-});
-
-const TeamPage = Loadable({
-  loader: () => import('containers/TeamPageContainer'),
-  loading: Loading,
-});
-
-const NotFoundPage = Loadable({
-  loader: () => import('components/NotFoundPage'),
-  loading: Loading,
-});
 
 export default class App extends Component {
   static propTypes = {
     fetchCompetitions: PropTypes.func.isRequired,
-    locationPathname: PropTypes.string.isRequired,
-    competitionsNav: PropTypes.arrayOf(PropTypes.object),
+    competitions: PropTypes.arrayOf(PropTypes.object),
+    location: PropTypes.shape({
+      pathname: PropTypes.PropTypes.string,
+    }).isRequired,
   }
 
   static defaultProps = {
-    competitionsNav: [],
+    competitions: [],
   }
 
   state = {
@@ -54,12 +27,6 @@ export default class App extends Component {
 
   componentDidMount() {
     this.props.fetchCompetitions();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.locationPathname !== this.props.locationPathname && this.state.showAppNav) {
-      this.hideAppNav();
-    }
   }
 
   showAppNav = () => {
@@ -76,23 +43,11 @@ export default class App extends Component {
 
   render() {
     const {
-      competitionsNav,
-      locationPathname,
-    } = this.props;
-
-    const navSections = [
-      {
-        title: '',
-        links: [
-          {
-            to: '/match-center',
-            title: 'Match Center',
-          },
-        ],
-        isActive: locationPathname === '/match-center',
+      competitions,
+      location: {
+        pathname,
       },
-      ...competitionsNav,
-    ];
+    } = this.props;
 
     return (
       <div className="App">
@@ -100,48 +55,13 @@ export default class App extends Component {
 
         <Container>
           <AppNav
+            activePathname={pathname}
+            competitions={competitions}
             showContent={this.state.showAppNav}
-            navSections={navSections}
             onRequestHide={this.hideAppNav}
           />
 
-          <AppInner>
-            <Route
-              exact
-              path="/"
-              render={() => (
-                <Redirect to="match-center" />
-              )}
-            />
-
-            <Switch>
-              <Route
-                strict
-                exact
-                path="/match-center"
-                component={MatchCenterPage}
-              />
-
-              <Route
-                strict
-                exact
-                path="/competition/:id"
-                component={CompetitionPage}
-              />
-
-              <Route
-                strict
-                exact
-                path="/team/:id"
-                component={TeamPage}
-              />
-
-              <Route
-                path="*"
-                component={NotFoundPage}
-              />
-            </Switch>
-          </AppInner>
+          <AppInner />
         </Container>
       </div>
     );

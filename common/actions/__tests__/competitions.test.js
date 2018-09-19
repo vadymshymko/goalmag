@@ -19,16 +19,18 @@ const initialState = {
   },
 };
 
-const mockResponse = [
-  {
-    id: 1,
-    caption: '1 caption',
-  },
-  {
-    id: 2,
-    caption: '2 caption',
-  },
-];
+const mockResponse = {
+  competitions: [
+    {
+      id: 1,
+      caption: '1 caption',
+    },
+    {
+      id: 2,
+      caption: '2 caption',
+    },
+  ],
+};
 
 const entities = {
   1: {
@@ -64,7 +66,7 @@ describe('competitions actions', () => {
 
     Date.now = jest.fn(() => 1000);
 
-    nock(`https:${config.apiRoot}`).get('/competitions').reply(
+    nock(`https:${config.apiRoot}`).get('/competitions?plan=TIER_ONE').reply(
       200,
       [],
     );
@@ -90,7 +92,7 @@ describe('competitions actions', () => {
 
     Date.now = jest.fn(() => 1000);
 
-    nock(`https:${config.apiRoot}`).get('/competitions').reply(
+    nock(`https:${config.apiRoot}`).get('/competitions?plan=TIER_ONE').reply(
       200,
       mockResponse,
     );
@@ -114,7 +116,7 @@ describe('competitions actions', () => {
 
     Date.now = jest.fn(() => 1000);
 
-    nock(`https:${config.apiRoot}`).get('/competitions').replyWithError({
+    nock(`https:${config.apiRoot}`).get('/competitions?plan=TIER_ONE').replyWithError({
       message: 'Some Error',
       code: 'AWFUL_ERROR',
       statusCode: '500',

@@ -8,14 +8,15 @@ import './AppNavSection.scss';
 
 export default class AppNavSection extends Component {
   static propTypes = {
-    title: PropTypes.node,
-    links: PropTypes.arrayOf(PropTypes.object),
-    isActive: PropTypes.bool.isRequired,
+    name: PropTypes.node,
+    competitions: PropTypes.arrayOf(PropTypes.object),
+    isActive: PropTypes.bool,
   }
 
   static defaultProps = {
-    title: null,
-    links: [],
+    name: null,
+    competitions: [],
+    isActive: false,
   }
 
   state = {
@@ -38,20 +39,20 @@ export default class AppNavSection extends Component {
 
   render() {
     const {
-      title,
-      links,
+      name,
+      competitions,
     } = this.props;
 
     return (
       <div className="AppNavSection">
-        {title && (
+        {name && (
           <div className="AppNavSection__header">
             <button
               className="AppNavSection__contentToggle"
               type="button"
               onClick={this.toggleContent}
-              title={`Show ${title} competitions navigation`}
-              aria-label={`Show ${title} competitions navigation`}
+              title={`Show ${name} competitions navigation`}
+              aria-label={`Show ${name} competitions navigation`}
             >
               <Icon
                 className="AppNavSection__contentToggleIcon"
@@ -70,40 +71,48 @@ export default class AppNavSection extends Component {
               </Icon>
             </button>
 
-            {links[0] ? (
+            {competitions[0] ? (
               <NavLink
                 className="AppNavSection__title"
-                to={links[0].to}
+                to={competitions[0].url}
                 exact
-                title={links[0].title}
+                title={competitions[0].name}
               >
-                {title}
+                {name}
               </NavLink>
             ) : (
-              <span className="AppNavSection__title">{title}</span>
+              <span className="AppNavSection__title">{name}</span>
             )}
           </div>
         )}
 
-        {(this.state.showContent || !title) && (
-          <div className="AppNavSection__content">
+        {competitions.length > 0 && (
+          <div
+            className={`
+              AppNavSection__content
+              ${this.state.showContent || !name
+                ? 'AppNavSection__content--visible'
+                : ''
+              }
+            `}
+          >
             <ul className="AppNavSection__list">
-              {links.map(link => (
+              {competitions.map(competition => (
                 <li
                   className="AppNavSection__item"
-                  key={link.to}
+                  key={competition.id}
                 >
                   <NavLink
                     className="AppNavSection__link"
                     activeClassName="AppNavSection__link--active"
-                    to={link.to}
+                    to={competition.url}
                     exact
-                    title={link.title}
+                    title={competition.name}
                   >
-                    {link.title}
+                    {competition.name}
                   </NavLink>
                 </li>
-              ))}
+                ))}
             </ul>
           </div>
         )}
