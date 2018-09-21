@@ -42,7 +42,7 @@ export default class MatchCenterPage extends Component {
 
   getCompetitionFixtures = competitionId => (
     this.props.fixtures.filter(fixture => (
-      fixture.competitionId === competitionId
+      fixture.competition.id === competitionId
     ))
   )
 
@@ -144,7 +144,7 @@ export default class MatchCenterPage extends Component {
                 >
                   <MatchCenterCompetition
                     competitionId={competition.id}
-                    competitionName={competition.caption}
+                    competitionName={competition.name}
                     competitionFixtures={competitionFixtures}
                   />
                 </li>

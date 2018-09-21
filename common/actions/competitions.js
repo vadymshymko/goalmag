@@ -38,20 +38,15 @@ export const fetchCompetitions = () => (dispatch, getState) => {
       entities: {
         competitions: entities = {},
       },
-      result: {
-        competitions: ids = [],
-      },
-    } = normalize(json, schema);
+      result: ids = [],
+    } = normalize(json.competitions, schema);
 
     return dispatch(fetchCompetitionsSuccess({
       entities,
       ids,
-      lastUpdated: Date.now(),
     }));
   }).catch((error) => {
-    dispatch(fetchCompetitionsFailure({
-      lastUpdated: Date.now(),
-    }));
+    dispatch(fetchCompetitionsFailure());
     throw error;
   });
 };

@@ -1,5 +1,5 @@
 export * from './competitions';
 export * from './teams';
 export * from './fixtures';
-export * from './tables';
+export * from './standings';
 export * from './squads';

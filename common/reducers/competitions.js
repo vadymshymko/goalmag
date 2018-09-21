@@ -6,7 +6,7 @@ const initialState = {
   ids: [],
   isFetching: false,
   isRequestFailed: false,
-  lastUpdated: 0,
+  isInitialized: false,
 };
 
 const competitions = createReducer(initialState, {
@@ -27,14 +27,14 @@ const competitions = createReducer(initialState, {
       ...action.payload.ids,
     ],
     isFetching: false,
-    lastUpdated: action.payload.lastUpdated,
+    isInitialized: true,
   }),
 
-  [types.FETCH_COMPETITIONS_FAILURE]: (state, action) => ({
+  [types.FETCH_COMPETITIONS_FAILURE]: state => ({
     ...state,
     isFetching: false,
     isRequestFailed: true,
-    lastUpdated: action.payload.lastUpdated,
+    isInitialized: true,
   }),
 });
 

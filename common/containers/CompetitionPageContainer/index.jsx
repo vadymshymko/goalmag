@@ -3,62 +3,54 @@ import { parse } from 'query-string';
 import moment from 'moment';
 
 import {
-  getCompetition,
+  getCompetitionName,
+  getCompetitionCurrentMatchDay,
   getFixtures,
-  getTable,
+  getStandings,
   getIsFixturesFetching,
 } from 'selectors';
 
 import {
-  fetchTable,
+  fetchStandings,
   fetchFixtures,
 } from 'actions';
 
 import CompetitionPage from 'components/CompetitionPage';
 
 const mapStateToProps = (state, {
-  match: {
-    params: {
-      id,
-    },
-  },
+  match,
   location: {
     search,
   },
 }) => {
-  const competitionId = parseInt(id, 10);
-  const {
-    caption: competitionName = '',
-    currentMatchday: competitionMatchday = 0,
-  } = getCompetition(state, competitionId) || {};
+  const id = parseInt(match.params.id, 10);
+  const name = getCompetitionName(state, id);
+  const currentMatchday = getCompetitionCurrentMatchDay(state, id);
 
   const {
-    fixturesDate,
-    tableMatchday = competitionMatchday,
+    fixturesDate = Date.now(),
+    standingsMatchday = currentMatchday,
   } = parse(search);
 
-  const fixturesDateValue = moment(fixturesDate || Date.now()).format('YYYY-MM-DD');
+  const fixturesDateValue = moment(fixturesDate).format('YYYY-MM-DD');
+  const fixtures = getFixtures(state, `competitions/${id}/matches?dateFrom=${fixturesDateValue}&dateTo=${fixturesDateValue}`);
 
-  const competitionFixtures = getFixtures(state, {
-    competitionId,
-    date: fixturesDateValue,
-  });
-  const competitionTable = getTable(state, `${competitionId}-${tableMatchday}`);
+  // const standings = getStandings(state, `${id}-${standingsMatchday}`);
 
   return {
-    competitionId,
-    competitionName,
-    competitionTable,
-    competitionFixtures,
+    id,
+    name,
+    standings: [],
+    standingsMatchday: parseInt(standingsMatchday, 10),
+    fixtures,
     fixturesDate: fixturesDateValue,
     isFixturesFetching: getIsFixturesFetching(state),
-    currentCompetitionMatchday: competitionMatchday,
-    tableMatchday: parseInt(tableMatchday, 10),
+    currentMatchday,
   };
 };
 
 const actions = {
-  fetchTable,
+  fetchStandings,
   fetchFixtures,
 };
 

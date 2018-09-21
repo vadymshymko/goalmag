@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 import Fixture from 'components/Fixture';
 
@@ -15,14 +16,14 @@ const FixturesList = ({
         key={item.id}
       >
         <Fixture
-          awayTeamId={item.awayTeamId}
-          awayTeamName={item.awayTeamName}
-          homeTeamId={item.homeTeamId}
-          homeTeamName={item.homeTeamName}
-          goalsAwayTeam={item.result.goalsAwayTeam}
-          goalsHomeTeam={item.result.goalsHomeTeam}
+          awayTeamId={item.awayTeam.id}
+          awayTeamName={item.awayTeam.name}
+          homeTeamId={item.homeTeam.id}
+          homeTeamName={item.homeTeam.name}
+          goalsAwayTeam={item.score.fullTime.awayTeam}
+          goalsHomeTeam={item.score.fullTime.homeTeam}
           status={(item.status || '').toLowerCase()}
-          date={item.date}
+          date={moment.utc(item.utcDate).local()}
         />
       </li>
     ))}

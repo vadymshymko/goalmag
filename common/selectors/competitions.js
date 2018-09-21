@@ -19,7 +19,28 @@ export const getCompetitions = createSelector(
 );
 
 export const getCompetition = (state, id = 0) => (
-  state.competitions.entities[id]
+  state.competitions.entities[id] || {}
+);
+
+export const getCompetitionName = createSelector(
+  getCompetition,
+  competition => (
+    competition.name || ''
+  ),
+);
+
+export const getCompetitionCurrentSeason = createSelector(
+  getCompetition,
+  competition => (
+    competition.currentSeason || {}
+  ),
+);
+
+export const getCompetitionCurrentMatchDay = createSelector(
+  getCompetitionCurrentSeason,
+  currentSeason => (
+    currentSeason.currentMatchday || 0
+  ),
 );
 
 export const getIsCompetitionsFetching = state => (
@@ -27,5 +48,5 @@ export const getIsCompetitionsFetching = state => (
 );
 
 export const getIsCompetitionsInitialized = state => (
-  state.competitions.lastUpdated > 0
+  state.competitions.isInitialized
 );

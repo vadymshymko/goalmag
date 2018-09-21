@@ -9,16 +9,25 @@ class AppNav extends Component {
   static propTypes = {
     onRequestHide: PropTypes.func.isRequired,
     showContent: PropTypes.bool.isRequired,
+    fetchCompetitions: PropTypes.func.isRequired,
     competitions: PropTypes.arrayOf(PropTypes.object).isRequired,
-    activePathname: PropTypes.string.isRequired,
+    location: PropTypes.shape({
+      pathname: PropTypes.PropTypes.string,
+    }).isRequired,
+  }
+
+  componentDidMount() {
+    this.props.fetchCompetitions();
   }
 
   getIsActiveCompetition = (competition) => {
     const {
-      activePathname,
+      location: {
+        pathname,
+      },
     } = this.props;
 
-    return competition.url === activePathname;
+    return competition.url === pathname;
   }
 
   getCompetitionsByArea = competitions => (

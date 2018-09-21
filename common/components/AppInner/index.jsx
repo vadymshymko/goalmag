@@ -11,25 +11,25 @@ import './AppInner.scss';
 
 const Loading = () => <div>Loading...</div>;
 
-// const MatchCenterPage = Loadable({
-//   loader: () => import('containers/MatchCenterPageContainer'),
-//   loading: Loading,
-// });
-
-// const CompetitionPage = Loadable({
-//   loader: () => import('containers/CompetitionPageContainer'),
-//   loading: Loading,
-// });
-
-const TeamPage = Loadable({
-  loader: () => import('containers/TeamPageContainer'),
+const MatchCenterPage = Loadable({
+  loader: () => import('containers/MatchCenterPageContainer'),
   loading: Loading,
 });
 
-const NotFoundPage = Loadable({
-  loader: () => import('components/NotFoundPage'),
+const CompetitionPage = Loadable({
+  loader: () => import('containers/CompetitionPageContainer'),
   loading: Loading,
 });
+
+// const TeamPage = Loadable({
+//   loader: () => import('containers/TeamPageContainer'),
+//   loading: Loading,
+// });
+//
+// const NotFoundPage = Loadable({
+//   loader: () => import('components/NotFoundPage'),
+//   loading: Loading,
+// });
 
 const AppInner = () => (
   <div className="AppInner">
@@ -38,32 +38,32 @@ const AppInner = () => (
         strict
         exact
         path="/match-center"
-        component={() => (
-          <div>Match Center Page</div>
-        )}
+        component={MatchCenterPage}
       />
 
       <Route
         strict
         exact
         path="/competition/:id"
-        component={() => (
-          <div>Competition Page</div>
-        )}
+        component={CompetitionPage}
       />
 
       <Route
         strict
         exact
         path="/team/:id"
-        component={TeamPage}
+        component={() => (
+          <div>Team Page</div>
+        )}
       />
 
       <Redirect from="/" to="/match-center" />
 
       <Route
         path="*"
-        component={NotFoundPage}
+        component={() => (
+          <div>Not found Page</div>
+        )}
       />
     </Switch>
   </div>

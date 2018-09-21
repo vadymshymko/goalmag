@@ -15,7 +15,7 @@ const initialState = {
     ids: [],
     isFetching: false,
     isRequestFailed: false,
-    lastUpdated: 0,
+    isInitialized: false,
   },
 };
 
@@ -59,7 +59,6 @@ describe('competitions actions', () => {
         payload: {
           entities: {},
           ids: [],
-          lastUpdated: 1000,
         },
       },
     ];
@@ -85,7 +84,6 @@ describe('competitions actions', () => {
         payload: {
           entities,
           ids,
-          lastUpdated: 1000,
         },
       },
     ];
@@ -106,12 +104,7 @@ describe('competitions actions', () => {
     const store = mockStore(initialState);
     const expectedActions = [
       { type: types.FETCH_COMPETITIONS_REQUEST },
-      {
-        type: types.FETCH_COMPETITIONS_FAILURE,
-        payload: {
-          lastUpdated: 1000,
-        },
-      },
+      { type: types.FETCH_COMPETITIONS_FAILURE },
     ];
 
     Date.now = jest.fn(() => 1000);
@@ -127,12 +120,12 @@ describe('competitions actions', () => {
     });
   });
 
-  it('should not create any actions if competitions lastUpdated param > 0', () => {
+  it('should not create any actions if competitions is isInitialized', () => {
     const store = mockStore({
       ...initialState,
       competitions: {
         ...initialState.competitions,
-        lastUpdated: 1000,
+        isInitialized: true,
       },
     });
     const expectedActions = [];
