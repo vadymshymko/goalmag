@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 
 import FixtureTeam from 'components/FixtureTeam';
 
@@ -36,7 +35,7 @@ const Fixture = ({
 }) => (
   <article className="Fixture">
     <span className="Fixture__date">
-      {moment(date).format('HH:mm')}
+      {date}
     </span>
 
     <div className="Fixture__mainInfo">
@@ -85,13 +84,7 @@ Fixture.propTypes = {
   goalsHomeTeam: PropTypes.number,
   homeTeamId: PropTypes.number,
   homeTeamName: PropTypes.string,
-  status: PropTypes.oneOf([
-    'timed',
-    'in_play',
-    'finished',
-    'postponed',
-    'scheduled',
-  ]),
+  status: PropTypes.string,
 };
 
 Fixture.defaultProps = {

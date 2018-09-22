@@ -8,11 +8,11 @@ import './CompetitionTable.scss';
 
 export default class CompetitionTable extends Component {
   static propTypes = {
-    standing: PropTypes.arrayOf(PropTypes.object),
+    table: PropTypes.arrayOf(PropTypes.object),
   }
 
   static defaultProps = {
-    standing: [],
+    table: [],
   }
 
   state = {
@@ -28,7 +28,7 @@ export default class CompetitionTable extends Component {
   }
 
   render() {
-    const { standing } = this.props;
+    const { table } = this.props;
 
     return (
       <Table
@@ -47,19 +47,19 @@ export default class CompetitionTable extends Component {
             label: 'Pl',
           },
           {
-            key: 'wins',
+            key: 'won',
             label: 'W',
           },
           {
-            key: 'draws',
+            key: 'draw',
             label: 'D',
           },
           {
-            key: 'losses',
+            key: 'lost',
             label: 'L',
           },
           {
-            key: 'goals',
+            key: 'goalsFor',
             label: 'F',
           },
           {
@@ -76,16 +76,16 @@ export default class CompetitionTable extends Component {
           },
         ]}
         rows={[
-          ...standing.map((item, index) => ({
+          ...table.map(item => ({
             ...item,
-            id: index,
+            id: item.team.id,
             teamName: {
               label: (
                 <TeamLink
-                  id={parseInt(item.links.team.href.substr(item.links.team.href.lastIndexOf('/') + 1), 10)}
-                  name={item.teamName}
+                  id={item.team.id}
+                  name={item.team.name}
                 >
-                  {item.teamName}
+                  {item.team.name}
                 </TeamLink>
               ),
               value: item.teamName,

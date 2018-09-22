@@ -93,7 +93,7 @@ const Table = ({
               <td key={heading.key}>
                 {row[heading.key]
                   ? row[heading.key].label || row[heading.key]
-                  : null
+                  : 0
                 }
               </td>
             ))}

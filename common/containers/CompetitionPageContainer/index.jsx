@@ -6,8 +6,9 @@ import {
   getCompetitionName,
   getCompetitionCurrentMatchDay,
   getFixtures,
-  getStandings,
   getIsFixturesFetching,
+  getStandingsTable,
+  getIsStandingsInitialized,
 } from 'selectors';
 
 import {
@@ -17,35 +18,34 @@ import {
 
 import CompetitionPage from 'components/CompetitionPage';
 
-const mapStateToProps = (state, {
-  match,
-  location: {
-    search,
-  },
-}) => {
-  const id = parseInt(match.params.id, 10);
+const mapStateToProps = (state, props) => {
+  const id = parseInt(props.match.params.id, 10);
   const name = getCompetitionName(state, id);
   const currentMatchday = getCompetitionCurrentMatchDay(state, id);
 
   const {
     fixturesDate = Date.now(),
     standingsMatchday = currentMatchday,
-  } = parse(search);
+  } = parse(props.location.search);
 
   const fixturesDateValue = moment(fixturesDate).format('YYYY-MM-DD');
-  const fixtures = getFixtures(state, `competitions/${id}/matches?dateFrom=${fixturesDateValue}&dateTo=${fixturesDateValue}`);
+  const fixturesStateId = `${id}-${fixturesDateValue}`;
+  const fixtures = getFixtures(state, fixturesStateId);
 
-  // const standings = getStandings(state, `${id}-${standingsMatchday}`);
+  const standingsId = `${id}-${standingsMatchday}`;
+  const standingsTable = getStandingsTable(state, standingsId);
+  const isStandingsInitialized = getIsStandingsInitialized(state, standingsId);
 
   return {
     id,
     name,
-    standings: [],
-    standingsMatchday: parseInt(standingsMatchday, 10),
+    currentMatchday,
     fixtures,
     fixturesDate: fixturesDateValue,
     isFixturesFetching: getIsFixturesFetching(state),
-    currentMatchday,
+    standingsMatchday: parseInt(standingsMatchday, 10),
+    standingsTable,
+    isStandingsInitialized,
   };
 };
 

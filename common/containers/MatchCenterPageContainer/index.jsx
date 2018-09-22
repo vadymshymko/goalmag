@@ -13,30 +13,23 @@ import {
 
 import MatchCenterPage from 'components/MatchCenterPage';
 
-const mapStateToProps = (state, {
-  location: {
-    search,
-  },
-}) => {
-  const {
-    competition,
-    date,
-  } = parse(search);
+const mapStateToProps = (state, props) => {
+  const { search } = props.location;
+  const searchQuery = parse(search);
 
-  const searchParams = {
-    competitionId: parseInt(competition || 0, 10),
-    date: moment(date || Date.now()).format('YYYY-MM-DD'),
-  };
+  const competitionId = parseInt(searchQuery.competition || 0, 10);
+  const date = moment(searchQuery.date || Date.now()).format('YYYY-MM-DD');
 
   const competitions = getCompetitions(state);
-  const requestPath = `${searchParams.competitionId ? `competitions/${searchParams.competitionId}` : ''}/matches?dateFrom=${searchParams.date}&dateTo=${searchParams.date}`;
-  const fixtures = getFixtures(state, requestPath);
-  const isFixturesFetching = getIsFixturesFetching(state, requestPath);
-  const isFixturesInitialized = getIsFixturesInitialized(state, requestPath);
+  const fixturesStateId = `${competitionId || 'all'}-${date}`;
+  const fixtures = getFixtures(state, fixturesStateId);
+  const isFixturesFetching = getIsFixturesFetching(state, fixturesStateId);
+  const isFixturesInitialized = getIsFixturesInitialized(state, fixturesStateId);
 
   return {
     competitions,
-    searchParams,
+    competitionId,
+    date,
     fixtures,
     isFixturesFetching,
     isFixturesInitialized,

@@ -17,10 +17,8 @@ import './MatchCenterPage.scss';
 export default class MatchCenterPage extends Component {
   static propTypes = {
     fetchFixtures: PropTypes.func.isRequired,
-    searchParams: PropTypes.shape({
-      competitionId: PropTypes.number,
-      date: PropTypes.string,
-    }).isRequired,
+    competitionId: PropTypes.number.isRequired,
+    date: PropTypes.string.isRequired,
     fixtures: PropTypes.arrayOf(PropTypes.object).isRequired,
     isFixturesFetching: PropTypes.bool.isRequired,
     isFixturesInitialized: PropTypes.bool.isRequired,
@@ -31,14 +29,42 @@ export default class MatchCenterPage extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchFixtures(this.props.searchParams);
+    const {
+      competitionId,
+      date,
+    } = this.props;
+
+    this.props.fetchFixtures({
+      competitionId,
+      date,
+    });
   }
 
   componentWillReceiveProps(nextProps) {
-    if (stringify(nextProps.searchParams) !== stringify(this.props.searchParams)) {
-      this.props.fetchFixtures(nextProps.searchParams);
+    const {
+      competitionId,
+      date,
+    } = this.props;
+
+    const {
+      competitionId: nextCompetitionId,
+      date: nextDate,
+    } = nextProps;
+
+    if (
+      nextCompetitionId !== competitionId
+      || nextDate !== date
+    ) {
+      this.props.fetchFixtures({
+        competitionId: nextCompetitionId,
+        date: nextDate,
+      });
     }
   }
+
+  getCurrentDate = () => (
+    moment(Date.now()).format('YYYY-MM-DD')
+  )
 
   getCompetitionFixtures = competitionId => (
     this.props.fixtures.filter(fixture => (
@@ -47,25 +73,41 @@ export default class MatchCenterPage extends Component {
   )
 
   handleCompetitionFilterChange = (event) => {
+    const {
+      value: competitionId,
+    } = event.target;
+
+    const {
+      date,
+    } = this.props;
+    const currentDate = this.getCurrentDate();
+
     this.props.history.push({
       search: stringify({
-        ...this.props.searchParams,
-        date: this.props.searchParams.date === moment(Date.now()).format('YYYY-MM-DD')
+        date: date === currentDate
           ? undefined
-          : this.props.searchParams.date,
-        competitionId: event.target.value || undefined,
+          : date,
+        competition: competitionId || undefined,
       }),
     });
   }
 
   handleDateFilterChange = (event) => {
+    const {
+      value: date,
+    } = event.target;
+    const currentDate = this.getCurrentDate();
+
+    const {
+      competitionId,
+    } = this.props;
+
     this.props.history.push({
       search: stringify({
-        ...this.props.searchParams,
-        competitionId: this.props.searchParams.competitionId || undefined,
-        date: event.target.value === moment(Date.now()).format('YYYY-MM-DD')
+        competition: competitionId || undefined,
+        date: date === currentDate
           ? undefined
-          : event.target.value,
+          : date,
       }),
     });
   }
@@ -73,13 +115,11 @@ export default class MatchCenterPage extends Component {
   render() {
     const {
       competitions,
+      competitionId,
+      date,
       fixtures,
       isFixturesFetching,
       isFixturesInitialized,
-      searchParams: {
-        competitionId,
-        date,
-      },
     } = this.props;
 
     const showEmptyMessage = (
@@ -112,7 +152,7 @@ export default class MatchCenterPage extends Component {
                 },
                 ...competitions.map(competition => ({
                   value: competition.id,
-                  label: competition.caption,
+                  label: competition.name,
                 })),
               ]}
               onChange={this.handleCompetitionFilterChange}

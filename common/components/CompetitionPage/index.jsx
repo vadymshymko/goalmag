@@ -21,26 +21,26 @@ export default class CompetitionPage extends Component {
     fetchFixtures: PropTypes.func.isRequired,
     id: PropTypes.number.isRequired,
     name: PropTypes.string,
-    standings: PropTypes.shape({
-      isInitialized: PropTypes.bool,
-      standing: PropTypes.array,
-    }),
-    fixtures: PropTypes.arrayOf(PropTypes.object),
     currentMatchday: PropTypes.number,
+    isStandingsInitialized: PropTypes.bool,
+    standingsTable: PropTypes.arrayOf(PropTypes.object),
+    standingsMatchday: PropTypes.number.isRequired,
+    fixturesDate: PropTypes.string.isRequired,
+    fixtures: PropTypes.arrayOf(PropTypes.object),
+    isFixturesFetching: PropTypes.bool.isRequired,
     history: PropTypes.shape({
       replace: PropTypes.func,
       push: PropTypes.func,
     }).isRequired,
-    isFixturesFetching: PropTypes.bool.isRequired,
-    fixturesDate: PropTypes.string.isRequired,
-    standingsMatchday: PropTypes.number.isRequired,
   }
 
   static defaultProps = {
     name: '',
-    standings: {},
-    fixtures: [],
     currentMatchday: 0,
+    standingsTable: [],
+    isStandingsInitialized: false,
+    fixtures: [],
+
   }
 
   componentDidMount() {
@@ -52,7 +52,7 @@ export default class CompetitionPage extends Component {
 
     if (standingsMatchday) {
       this.props.fetchStandings({
-        id,
+        competitionId: id,
         matchday: standingsMatchday,
       });
     }
@@ -159,11 +159,12 @@ export default class CompetitionPage extends Component {
     const {
       name,
       currentMatchday,
-      standings,
+      fixturesDate,
       fixtures,
       isFixturesFetching,
-      fixturesDate,
+      standingsTable,
       standingsMatchday,
+      isStandingsInitialized,
     } = this.props;
 
     return (
@@ -201,7 +202,7 @@ export default class CompetitionPage extends Component {
             )}
           </section>
 
-          {/* {table.standing && table.standing.length > 0 && (
+          {isStandingsInitialized && (
             <section className="CompetitionInfo">
               <header className="CompetitionInfo__header">
                 <h3 className="CompetitionInfo__title">Standings:</h3>
@@ -221,9 +222,9 @@ export default class CompetitionPage extends Component {
                 />
               </header>
 
-              <CompetitionTable standing={table.standing} />
+              <CompetitionTable table={standingsTable} />
             </section>
-          )} */}
+          )}
         </AppPageContent>
       </AppPage>
     );

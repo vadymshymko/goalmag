@@ -23,7 +23,7 @@ const FixturesList = ({
           goalsAwayTeam={item.score.fullTime.awayTeam}
           goalsHomeTeam={item.score.fullTime.homeTeam}
           status={(item.status || '').toLowerCase()}
-          date={moment.utc(item.utcDate).local()}
+          date={moment.utc(item.utcDate).local().format('HH:mm')}
         />
       </li>
     ))}

@@ -1,6 +1,6 @@
 import { normalize } from 'normalizr';
 import { standings as types } from 'types';
-import { getStandings } from 'selectors';
+import { getIsStandingsFetching } from 'selectors';
 import { callApi } from 'utils';
 import { standings as schema } from 'schemas';
 
@@ -22,25 +22,25 @@ export const fetchStandingsFailure = payload => ({
 export const fetchStandings = ({
   competitionId,
   matchday,
-} = {}) => (dispatch, getState) =>
-  // if (!competitionId || !matchday) {
-  //   return Promise.reject(new Error('invalid competitionId or matchday'));
-  // }
-  //
-  // const state = getState();
-  //
-  // const tableId = `${competitionId}-${matchday}`;
-  // const table = getStandings(state, tableId);
-  //
-  // if (table && (!table.isRequestFailed || table.isFetching)) {
-  //   return Promise.resolve();
-  // }
-  //
-  // dispatch(fetchStandingsRequest({
-  //   id: tableId,
-  // }));
+} = {}) => (dispatch, getState) => {
+  if (!competitionId || !matchday) {
+    return Promise.reject(new Error('invalid competitionId or matchday'));
+  }
 
-  callApi(`competitions/${competitionId}/standings?matchday=${matchday}`, {
+  const state = getState();
+
+  const standingsId = `${competitionId}-${matchday}`;
+  const isFetching = getIsStandingsFetching(state, standingsId);
+
+  if (isFetching) {
+    return Promise.resolve();
+  }
+
+  dispatch(fetchStandingsRequest({
+    id: standingsId,
+  }));
+
+  return callApi(`competitions/${competitionId}/standings?matchday=${matchday}`, {
     headers: {
       'X-Response-Control': 'full',
     },
@@ -51,21 +51,17 @@ export const fetchStandings = ({
       },
       result: ids = [],
     } = normalize(json.standings, schema);
-    console.log({
+
+    return dispatch(fetchStandingsSuccess({
+      id: standingsId,
       entities,
       ids,
-    });
-    // dispatch(fetchStandingsSuccess({
-    //   id: tableId,
-    //   table: {
-    //     competitionId,
-    //     standing: json.standings[0].table,
-    //   },
-    // }))
+    }));
   }).catch((error) => {
-    // dispatch(fetchStandingsFailure({
-    //   id: tableId,
-    // }));
-    //
-    // throw error;
+    dispatch(fetchStandingsFailure({
+      id: standingsId,
+    }));
+
+    throw error;
   });
+};

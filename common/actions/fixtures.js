@@ -32,34 +32,49 @@ export const fetchFixtures = ({
   }
 
   const state = getState();
-  const requestDate = moment(date).format('YYYY-MM-DD');
-  const requestPath = `${competitionId ? `competitions/${competitionId}` : ''}/matches?dateFrom=${requestDate}&dateTo=${requestDate}`;
-  const isFetching = getIsFixturesFetching(state, requestPath);
-  const isInitialized = getIsFixturesInitialized(state, requestPath);
+
+  const id = `${competitionId || 'all'}-${date}`;
+
+  const isFetching = getIsFixturesFetching(state, id);
+  const isInitialized = getIsFixturesInitialized(state, id);
 
   if (isFetching || isInitialized) {
     return Promise.resolve();
   }
 
+  const requestDate = moment(date).format('YYYY-MM-DD');
+  const requestCompetitionFilter = competitionId ? `competitions/${competitionId}` : '';
+  const requestPath = `${requestCompetitionFilter}/matches?dateFrom=${requestDate}&dateTo=${requestDate}`;
+
   dispatch(fetchFixturesRequest({
-    requestPath,
+    id,
   }));
 
   return callApi(requestPath).then((json) => {
+    const response = json.matches.map(item => ({
+      ...item,
+      competition: {
+        ...(item.competition || {}),
+        id: competitionId,
+      },
+    }));
+
+    const isAllItemsFinished = response.filter(match => (
+      match.status.toLowerCase() === 'finished'
+    )).length === json.matches.length;
+
     const {
       entities: {
         fixtures: entities = {},
       },
       result: ids = [],
-    } = normalize(json.matches, schema);
-
-    const isRequestPathInitialized = json.matches.filter(match => match.status.toLowerCase() === 'finished').length === json.matches.length;
+    } = normalize(response, schema);
 
     return dispatch(fetchFixturesSuccess({
       entities,
       ids,
-      requestPath,
-      isInitialized: isRequestPathInitialized,
+      id,
+      isInitialized: isAllItemsFinished,
     }));
   }).catch((error) => {
     dispatch(fetchFixturesFailure({

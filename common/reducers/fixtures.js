@@ -3,44 +3,44 @@ import { fixtures as types } from 'types';
 
 const initialState = {};
 
+const fixturesItem = createReducer({}, {
+  [types.FETCH_FIXTURES_REQUEST]: (state = {}, action) => ({
+    ...state,
+    ...action.payload,
+    isFetching: true,
+    isRequestFailed: false,
+  }),
+
+  [types.FETCH_FIXTURES_SUCCESS]: (state = {}, action) => ({
+    ...state,
+    ...action.payload,
+    isFetching: false,
+    isInitialized: true,
+  }),
+
+  [types.FETCH_FIXTURES_FAILURE]: (state = {}, action) => ({
+    ...state,
+    ...action.payload,
+    isFetching: false,
+    isRequestFailed: true,
+    isInitialized: true,
+  }),
+});
+
 const fixtures = createReducer(initialState, {
   [types.FETCH_FIXTURES_REQUEST]: (state, action) => ({
     ...state,
-    [action.payload.requestPath]: {
-      ...(state[action.payload.requestPath] || {}),
-      isFetching: true,
-      isRequestFailed: false,
-      isInitialized: false,
-    },
+    [action.payload.id]: fixturesItem(state[action.payload.id], action),
   }),
 
   [types.FETCH_FIXTURES_SUCCESS]: (state, action) => ({
     ...state,
-    [action.payload.requestPath]: {
-      ...state[action.payload.requestPath],
-      entities: {
-        ...(state[action.payload.requestPath].entities || {}),
-        ...action.payload.entities,
-      },
-      ids: [
-        ...new Set([
-          ...(state[action.payload.requestPath].ids || []),
-          ...action.payload.ids,
-        ]),
-      ],
-      isFetching: false,
-      isInitialized: action.payload.isInitialized,
-    },
+    [action.payload.id]: fixturesItem(state[action.payload.id], action),
   }),
 
-  [types.FETCH_FIXTURES_FAILURE]: (state, action) => ({
+  [types.FETCH_STANDINGS_FAILURE]: (state, action) => ({
     ...state,
-    [action.payload.requestPath]: {
-      ...(state[action.payload.requestPath] || {}),
-      isFetching: false,
-      isRequestFailed: true,
-      isInitialized: false,
-    },
+    [action.payload.id]: fixturesItem(state[action.payload.id], action),
   }),
 });
 
