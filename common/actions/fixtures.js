@@ -4,7 +4,7 @@ import { fixtures as schema } from 'schemas';
 import { fixtures as types } from 'types';
 import {
   getIsFixturesFetching,
-  getIsFixturesInitialized,
+  getIsFixturesAllItemsFinished,
 } from 'selectors';
 import { callApi } from 'utils';
 
@@ -36,9 +36,9 @@ export const fetchFixtures = ({
   const id = `${competitionId || 'all'}-${date}`;
 
   const isFetching = getIsFixturesFetching(state, id);
-  const isInitialized = getIsFixturesInitialized(state, id);
+  const isAllItemsFinished = getIsFixturesAllItemsFinished(state, id);
 
-  if (isFetching || isInitialized) {
+  if (isFetching || isAllItemsFinished) {
     return Promise.resolve();
   }
 
@@ -54,10 +54,6 @@ export const fetchFixtures = ({
   }));
 
   return callApi(requestPath).then((json) => {
-    const isAllItemsFinished = json.matches.filter(match => (
-      match.status.toLowerCase() === 'finished'
-    )).length === json.matches.length;
-
     const {
       entities: {
         fixtures: entities = {},
@@ -69,7 +65,7 @@ export const fetchFixtures = ({
       entities,
       ids,
       id,
-      isInitialized: isAllItemsFinished,
+      isAllItemsFinished: !json.matches.find(item => item.status.toLowerCase() !== 'finished'),
     }));
   }).catch((error) => {
     dispatch(fetchFixturesFailure({

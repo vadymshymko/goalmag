@@ -21,15 +21,15 @@ const CompetitionPage = Loadable({
   loading: Loading,
 });
 
-// const TeamPage = Loadable({
-//   loader: () => import('containers/TeamPageContainer'),
-//   loading: Loading,
-// });
-//
-// const NotFoundPage = Loadable({
-//   loader: () => import('components/NotFoundPage'),
-//   loading: Loading,
-// });
+const TeamPage = Loadable({
+  loader: () => import('containers/TeamPageContainer'),
+  loading: Loading,
+});
+
+const NotFoundPage = Loadable({
+  loader: () => import('components/NotFoundPage'),
+  loading: Loading,
+});
 
 const AppInner = () => (
   <div className="AppInner">
@@ -52,18 +52,19 @@ const AppInner = () => (
         strict
         exact
         path="/team/:id"
-        component={() => (
-          <div>Team Page</div>
-        )}
+        component={TeamPage}
       />
 
-      <Redirect from="/" to="/match-center" />
+      <Redirect
+        strict
+        exact
+        from="/"
+        to="/match-center"
+      />
 
       <Route
         path="*"
-        component={() => (
-          <div>Not found Page</div>
-        )}
+        component={NotFoundPage}
       />
     </Switch>
   </div>

@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import Table from 'components/Table';
 
-import './SquadTable.scss';
+import './SquadPlayersTable.scss';
 
-export default class SquadTable extends Component {
+export default class SquadPlayersTable extends Component {
   static propTypes = {
     players: PropTypes.arrayOf(PropTypes.object),
   }
@@ -15,7 +15,7 @@ export default class SquadTable extends Component {
   }
 
   state = {
-    sortBy: 'jerseyNumber',
+    sortBy: null,
     ascendingSort: true,
   }
 
@@ -27,14 +27,14 @@ export default class SquadTable extends Component {
   }
 
   render() {
+    const {
+      players,
+    } = this.props;
+
     return (
       <Table
-        className="SquadTable"
+        className="SquadPlayersTable"
         headings={[
-          {
-            key: 'jerseyNumber',
-            label: '№',
-          },
           {
             key: 'name',
             label: 'Name',
@@ -42,10 +42,6 @@ export default class SquadTable extends Component {
           {
             key: 'dateOfBirth',
             label: 'Date of Birth',
-          },
-          {
-            key: 'contractUntil',
-            label: 'Contract Until',
           },
           {
             key: 'nationality',
@@ -56,7 +52,7 @@ export default class SquadTable extends Component {
             label: 'Position',
           },
         ]}
-        rows={this.props.players}
+        rows={players}
         onRequestSort={this.setSortProp}
         sortBy={this.state.sortBy}
         ascendingSort={this.state.ascendingSort}

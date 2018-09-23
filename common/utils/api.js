@@ -3,7 +3,6 @@ import { fetch } from 'utils';
 
 const CALL_API_HEADERS = {
   'X-Auth-Token': config.apiKey,
-  'X-Response-Control': 'minified',
 };
 
 export const callApi = (endpoint, {

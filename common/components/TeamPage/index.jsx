@@ -5,60 +5,50 @@ import AppPage from 'components/AppPage';
 import AppPageHeader from 'components/AppPageHeader';
 import AppPageTitle from 'components/AppPageTitle';
 import AppPageContent from 'components/AppPageContent';
-import SquadTable from 'components/SquadTable';
+import SquadPlayersTable from 'components/SquadPlayersTable';
 
 import './TeamPage.scss';
 
 export default class TeamPage extends Component {
   static propTypes = {
     fetchTeam: PropTypes.func.isRequired,
-    fetchSquad: PropTypes.func.isRequired,
-    teamId: PropTypes.number.isRequired,
-    teamInfo: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string,
+    logoURL: PropTypes.string,
+    players: PropTypes.arrayOf(PropTypes.object),
+    coach: PropTypes.shape({
       name: PropTypes.string,
-      crestUrl: PropTypes.string,
-    }),
-    teamSquad: PropTypes.shape({
-      players: PropTypes.arrayOf(PropTypes.object),
     }),
   }
 
   static defaultProps = {
-    teamInfo: {},
-    teamSquad: {},
+    name: '',
+    logoURL: null,
+    players: [],
+    coach: {},
   }
 
   componentDidMount() {
-    const { teamId } = this.props;
+    const { id } = this.props;
 
-    this.props.fetchTeam(teamId);
-    this.props.fetchSquad(teamId);
+    this.props.fetchTeam(id);
   }
 
   componentWillReceiveProps(nextProps) {
-    const {
-      teamId,
-    } = this.props;
+    const { id } = this.props;
+    const { id: nextId } = nextProps;
 
-    const {
-      teamId: nextTeamId,
-    } = nextProps;
-
-    if (nextTeamId !== teamId) {
-      this.props.fetchTeam(nextTeamId);
-      this.props.fetchSquad(nextTeamId);
+    if (nextId !== id) {
+      this.props.fetchTeam(nextId);
     }
   }
 
   render() {
     const {
-      teamInfo: {
-        name = '',
-        crestUrl = '',
-      },
-      teamSquad: {
-        players = [],
-      },
+      name,
+      logoURL,
+      players,
+      coach,
     } = this.props;
 
     return (
@@ -69,10 +59,10 @@ export default class TeamPage extends Component {
       >
         <AppPageHeader>
           <AppPageTitle>
-            {crestUrl && (
+            {logoURL && (
               <img
                 className="TeamPage__logo"
-                src={crestUrl}
+                src={logoURL}
                 alt={name}
                 title={name}
               />
@@ -83,7 +73,11 @@ export default class TeamPage extends Component {
         </AppPageHeader>
 
         <AppPageContent>
-          <SquadTable players={players} />
+          <SquadPlayersTable players={players} />
+
+          {coach && (
+            <p className="TeamCoach">Coach: {coach.name}</p>
+          )}
         </AppPageContent>
       </AppPage>
     );

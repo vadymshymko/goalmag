@@ -1,21 +1,18 @@
-.SquadTable {
+.SquadPlayersTable {
   td,
   th {
     padding: 15px;
-    text-align: center;
+    text-align: left;
   }
 
   td:first-child,
   th:first-child {
     padding-left: 0;
-    text-align: left;
   }
 
   th:nth-child(2),
   td:nth-child(2) {
     padding-left: 0;
-    text-align: left;
-    width: 100%;
   }
 
   td:last-child,

@@ -36,15 +36,13 @@ export const fetchStandings = ({
     return Promise.resolve();
   }
 
+  const requestPath = `competitions/${competitionId}/standings?matchday=${matchday}`;
+
   dispatch(fetchStandingsRequest({
     id: standingsId,
   }));
 
-  return callApi(`competitions/${competitionId}/standings?matchday=${matchday}`, {
-    headers: {
-      'X-Response-Control': 'full',
-    },
-  }).then((json) => {
+  return callApi(requestPath).then((json) => {
     const {
       entities: {
         standings: entities = {},

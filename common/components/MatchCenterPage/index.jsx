@@ -204,7 +204,7 @@ export default class MatchCenterPage extends Component {
                 key={id}
               >
                 <MatchCenterCompetition
-                  id={competitionId}
+                  id={id}
                   name={fixturesGroupedByCompetitionId[id].name}
                   fixtures={fixturesGroupedByCompetitionId[id].fixtures}
                 />

@@ -28,7 +28,10 @@ const MatchCenterCompetition = ({
 );
 
 MatchCenterCompetition.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+  ]).isRequired,
   name: PropTypes.string.isRequired,
   fixtures: PropTypes.arrayOf(PropTypes.object),
 };

@@ -1,32 +1,30 @@
 import { connect } from 'react-redux';
 
-import {
-  getTeam,
-  getSquad,
-} from 'selectors';
+import { fetchTeam } from 'actions';
 
 import {
-  fetchTeam,
-  fetchSquad,
-} from 'actions';
+  getTeamName,
+  getTeamLogoURL,
+  getTeamPlayers,
+  getTeamCoach,
+} from 'selectors';
 
 import TeamPage from 'components/TeamPage';
 
-const mapStateToProps = (state, {
-  match: {
-    params: {
-      id,
-    },
-  },
-}) => ({
-  teamId: parseInt(id, 10),
-  teamInfo: getTeam(state, id),
-  teamSquad: getSquad(state, id),
-});
+const mapStateToProps = (state, props) => {
+  const id = parseInt(props.match.params.id, 10);
+
+  return {
+    id: parseInt(id, 10),
+    name: getTeamName(state, id),
+    logoURL: getTeamLogoURL(state, id),
+    players: getTeamPlayers(state, id),
+    coach: getTeamCoach(state, id),
+  };
+};
 
 const actions = {
   fetchTeam,
-  fetchSquad,
 };
 
 export default connect(mapStateToProps, actions)(TeamPage);

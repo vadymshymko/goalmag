@@ -18,6 +18,13 @@ export const getIsFixturesInitialized = createSelector(
   ),
 );
 
+export const getIsFixturesAllItemsFinished = createSelector(
+  getFixturesState,
+  fixturesState => (
+    !!fixturesState.isAllItemsFinished
+  ),
+);
+
 export const getFixturesEntities = createSelector(
   getFixturesState,
   fixturesState => (

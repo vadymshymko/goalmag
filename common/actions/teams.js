@@ -29,7 +29,7 @@ export const fetchTeam = teamId => (dispatch, getState) => {
   const state = getState();
   const team = getTeam(state, teamId);
 
-  if (team && (!team.isRequestFailed || team.isFetching)) {
+  if (team.isFetching || team.isInitialized) {
     return Promise.resolve();
   }
 

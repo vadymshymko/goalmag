@@ -42,7 +42,7 @@ const mapStateToProps = (state, props) => {
     currentMatchday,
     fixtures,
     fixturesDate: fixturesDateValue,
-    isFixturesFetching: getIsFixturesFetching(state),
+    isFixturesFetching: getIsFixturesFetching(state, fixturesStateId),
     standingsMatchday: parseInt(standingsMatchday, 10),
     standingsTable,
     isStandingsInitialized,

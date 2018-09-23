@@ -1,24 +1,30 @@
 import { createReducer } from 'utils';
 import { fixtures as types } from 'types';
 
-const initialState = {};
+const fixturesInitialState = {};
+const fixturesItemInitialState = {
+  isAllItemsFinished: false,
+  isFetching: false,
+  isInitialized: false,
+  isRequestFailed: false,
+};
 
-const fixturesItem = createReducer({}, {
-  [types.FETCH_FIXTURES_REQUEST]: (state = {}, action) => ({
+const fixturesItem = createReducer(fixturesItemInitialState, {
+  [types.FETCH_FIXTURES_REQUEST]: (state, action) => ({
     ...state,
     ...action.payload,
     isFetching: true,
     isRequestFailed: false,
   }),
 
-  [types.FETCH_FIXTURES_SUCCESS]: (state = {}, action) => ({
+  [types.FETCH_FIXTURES_SUCCESS]: (state, action) => ({
     ...state,
     ...action.payload,
     isFetching: false,
     isInitialized: true,
   }),
 
-  [types.FETCH_FIXTURES_FAILURE]: (state = {}, action) => ({
+  [types.FETCH_FIXTURES_FAILURE]: (state, action) => ({
     ...state,
     ...action.payload,
     isFetching: false,
@@ -27,7 +33,7 @@ const fixturesItem = createReducer({}, {
   }),
 });
 
-const fixtures = createReducer(initialState, {
+const fixtures = createReducer(fixturesInitialState, {
   [types.FETCH_FIXTURES_REQUEST]: (state, action) => ({
     ...state,
     [action.payload.id]: fixturesItem(state[action.payload.id], action),
