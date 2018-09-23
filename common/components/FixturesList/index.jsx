@@ -10,20 +10,38 @@ const FixturesList = ({
   fixtures,
 }) => (
   <ul className="FixturesList">
-    {fixtures.map(item => (
+    {fixtures.map(({
+      id,
+      homeTeam: {
+        id: homeTeamId,
+        name: homeTeamName,
+      } = {},
+      awayTeam: {
+        id: awayTeamId,
+        name: awayTeamName,
+      } = {},
+      score: {
+        fullTime: {
+          awayTeam: awayTeamScore,
+          homeTeam: homeTeamScore,
+        } = {},
+      } = {},
+      status = '',
+      utcDate = Date.now(),
+    } = {}) => (
       <li
         className="FixturesList__item"
-        key={item.id}
+        key={id}
       >
         <Fixture
-          awayTeamId={item.awayTeam.id}
-          awayTeamName={item.awayTeam.name}
-          homeTeamId={item.homeTeam.id}
-          homeTeamName={item.homeTeam.name}
-          goalsAwayTeam={item.score.fullTime.awayTeam}
-          goalsHomeTeam={item.score.fullTime.homeTeam}
-          status={(item.status || '').toLowerCase()}
-          date={moment.utc(item.utcDate).local().format('HH:mm')}
+          homeTeamId={homeTeamId}
+          homeTeamName={homeTeamName}
+          homeTeamScore={homeTeamScore}
+          awayTeamId={awayTeamId}
+          awayTeamName={awayTeamName}
+          awayTeamScore={awayTeamScore}
+          status={status.toLowerCase()}
+          date={moment.utc(utcDate).local().format('HH:mm')}
         />
       </li>
     ))}

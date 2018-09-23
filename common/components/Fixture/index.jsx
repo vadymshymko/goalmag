@@ -24,14 +24,14 @@ const getScoreBgColorByStatus = (status = '') => {
 };
 
 const Fixture = ({
-  awayTeamId,
-  awayTeamName,
-  date,
-  goalsAwayTeam,
-  goalsHomeTeam,
   homeTeamId,
   homeTeamName,
+  homeTeamScore,
+  awayTeamId,
+  awayTeamName,
+  awayTeamScore,
   status,
+  date,
 }) => (
   <article className="Fixture">
     <span className="Fixture__date">
@@ -44,8 +44,8 @@ const Fixture = ({
         name={homeTeamName}
         type="home"
         score={(status === 'in_play' || status === 'finished')
-          ? goalsHomeTeam || 0
-          : goalsHomeTeam || '-'
+          ? homeTeamScore || 0
+          : homeTeamScore || '-'
         }
         scoreStyle={{
           color: getScoreColorByStatus(status),
@@ -60,8 +60,8 @@ const Fixture = ({
         name={awayTeamName}
         type="away"
         score={(status === 'in_play' || status === 'finished')
-          ? goalsAwayTeam || 0
-          : goalsAwayTeam || '-'
+          ? awayTeamScore || 0
+          : awayTeamScore || '-'
         }
         scoreStyle={{
           color: getScoreColorByStatus(status),
@@ -77,25 +77,25 @@ const Fixture = ({
 );
 
 Fixture.propTypes = {
-  awayTeamId: PropTypes.number,
-  awayTeamName: PropTypes.string,
-  date: PropTypes.string,
-  goalsAwayTeam: PropTypes.number,
-  goalsHomeTeam: PropTypes.number,
   homeTeamId: PropTypes.number,
   homeTeamName: PropTypes.string,
+  homeTeamScore: PropTypes.number,
+  awayTeamId: PropTypes.number,
+  awayTeamName: PropTypes.string,
+  awayTeamScore: PropTypes.number,
   status: PropTypes.string,
+  date: PropTypes.string,
 };
 
 Fixture.defaultProps = {
-  awayTeamId: null,
-  awayTeamName: '',
   homeTeamId: null,
   homeTeamName: '',
-  goalsAwayTeam: null,
-  goalsHomeTeam: null,
-  date: '',
+  homeTeamScore: null,
+  awayTeamId: null,
+  awayTeamName: '',
+  awayTeamScore: null,
   status: 'timed',
+  date: '',
 };
 
 export default Fixture;

@@ -66,6 +66,32 @@ export default class MatchCenterPage extends Component {
     moment(Date.now()).format('YYYY-MM-DD')
   )
 
+  getFixturesGroupedByCompetitionId = (fixtures = []) => (
+    fixtures.reduce((result, {
+      competition: {
+        id: competitionId,
+        name: competitionName,
+      },
+      ...item
+    }) => ({
+      ...result,
+      [competitionId]: {
+        id: competitionId,
+        name: competitionName,
+        fixtures: [
+          ...((result[competitionId] || {}).fixtures || []),
+          {
+            competition: {
+              id: competitionId,
+              name: competitionName,
+            },
+            ...item,
+          },
+        ],
+      },
+    }), {})
+  )
+
   getCompetitionFixtures = competitionId => (
     this.props.fixtures.filter(fixture => (
       fixture.competition.id === competitionId
@@ -122,6 +148,8 @@ export default class MatchCenterPage extends Component {
       isFixturesInitialized,
     } = this.props;
 
+    const fixturesGroupedByCompetitionId = this.getFixturesGroupedByCompetitionId(fixtures);
+
     const showEmptyMessage = (
       isFixturesInitialized
       && !isFixturesFetching
@@ -170,26 +198,18 @@ export default class MatchCenterPage extends Component {
 
         <AppPageContent>
           <ul className="MatchCenterPage__competitionsList">
-            {competitions.map((competition) => {
-              const competitionFixtures = this.getCompetitionFixtures(competition.id);
-
-              if (competitionFixtures.length === 0) {
-                return null;
-              }
-
-              return (
-                <li
-                  className="MatchCenterPage__competitionsItem"
-                  key={competition.id}
-                >
-                  <MatchCenterCompetition
-                    competitionId={competition.id}
-                    competitionName={competition.name}
-                    competitionFixtures={competitionFixtures}
-                  />
-                </li>
-              );
-            })}
+            {Object.keys(fixturesGroupedByCompetitionId).map(id => (
+              <li
+                className="MatchCenterPage__competitionsItem"
+                key={id}
+              >
+                <MatchCenterCompetition
+                  id={competitionId}
+                  name={fixturesGroupedByCompetitionId[id].name}
+                  fixtures={fixturesGroupedByCompetitionId[id].fixtures}
+                />
+              </li>
+            ))}
           </ul>
 
           {showEmptyMessage && (

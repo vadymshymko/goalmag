@@ -43,23 +43,18 @@ export const fetchFixtures = ({
   }
 
   const requestDate = moment(date).format('YYYY-MM-DD');
-  const requestCompetitionFilter = competitionId ? `competitions/${competitionId}` : '';
-  const requestPath = `${requestCompetitionFilter}/matches?dateFrom=${requestDate}&dateTo=${requestDate}`;
+  const requestDateFilter = `dateFrom=${requestDate}&dateTo=${requestDate}`;
+  const requestCompetitionFilter = competitionId
+    ? `competitions=${competitionId}`
+    : '';
+  const requestPath = `matches?${requestCompetitionFilter}&${requestDateFilter}`;
 
   dispatch(fetchFixturesRequest({
     id,
   }));
 
   return callApi(requestPath).then((json) => {
-    const response = json.matches.map(item => ({
-      ...item,
-      competition: {
-        ...(item.competition || {}),
-        id: competitionId,
-      },
-    }));
-
-    const isAllItemsFinished = response.filter(match => (
+    const isAllItemsFinished = json.matches.filter(match => (
       match.status.toLowerCase() === 'finished'
     )).length === json.matches.length;
 
@@ -68,7 +63,7 @@ export const fetchFixtures = ({
         fixtures: entities = {},
       },
       result: ids = [],
-    } = normalize(response, schema);
+    } = normalize(json.matches, schema);
 
     return dispatch(fetchFixturesSuccess({
       entities,
