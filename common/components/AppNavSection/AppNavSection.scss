@@ -1,5 +1,7 @@
 .AppNavSection {
-  padding-bottom: 15px;
+  &:not(:last-child) {
+    padding-bottom: 15px;
+  }
 
   &__contentToggle {
     background-color: transparent;
@@ -7,7 +9,9 @@
     cursor: pointer;
     display: inline-block;
     height: 34px;
-    margin-right: 5px;
+    margin-right: 15px;
+    min-width: 30px;
+    padding: 0;
     outline: none;
     width: 30px;
 
@@ -39,7 +43,7 @@
   &__list {
     list-style: none;
     margin: 0;
-    padding: 0 0 0 35px;
+    padding: 0 0 0 45px;
   }
 
   &__link {

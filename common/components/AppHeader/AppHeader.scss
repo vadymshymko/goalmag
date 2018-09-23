@@ -8,8 +8,8 @@
   width: 100%;
   z-index: 1;
 
-  @media (min-width: 768px) {
-    position: relative;
+  @media(min-width: 768px) {
+    z-index: 3;
   }
 
   &__showNavBtn {

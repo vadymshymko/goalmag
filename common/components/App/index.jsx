@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 
-import AppNavContainer from 'containers/AppNavContainer';
-
 import AppHeader from 'components/AppHeader';
 import Container from 'components/Container';
+import AppSidebar from 'components/AppSidebar';
 import AppInner from 'components/AppInner';
 
 import './App.scss';
@@ -31,7 +30,7 @@ export default class App extends Component {
         <AppHeader onRequestShowNav={this.showAppNav} />
 
         <Container>
-          <AppNavContainer
+          <AppSidebar
             showContent={this.state.showAppNav}
             onRequestHide={this.hideAppNav}
           />
