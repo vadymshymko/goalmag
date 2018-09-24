@@ -8,6 +8,13 @@ html(lang='en')
     !=title
     !=meta
     
+    script(async, src="https://www.googletagmanager.com/gtag/js?id=UA-42688866-6")
+    script.
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-42688866-6');
+    
     style(type="text/css").
       #{criticalCSS}
 
@@ -28,6 +35,8 @@ html(lang='en')
     meta(name="msapplication-TileColor", content="#ffffff")
     meta(name="msapplication-TileImage", content="/mstile-144x144.png")
     meta(name="theme-color", content="#ffffff")
+      
+    meta(name="google-site-verification", content="cySttcjM5zAsRGED5LSc0OdmgZTSwnzqtYAa3ytIfEs")
   body
     #root
       !=html
