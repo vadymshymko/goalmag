@@ -1,3 +1,4 @@
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { getIsCompetitionsInitialized } from 'selectors';
@@ -8,4 +9,4 @@ const mapStateToProps = state => ({
   isCompetitionsInitialized: getIsCompetitionsInitialized(state),
 });
 
-export default connect(mapStateToProps)(AppInner);
+export default withRouter(connect(mapStateToProps)(AppInner));
