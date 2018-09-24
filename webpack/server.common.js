@@ -1,3 +1,4 @@
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const NodeExternals = require('webpack-node-externals');
 
@@ -18,6 +19,14 @@ module.exports = {
       'node_modules',
     ],
   },
+  plugins: [
+    new CopyWebpackPlugin([
+      {
+        from: 'server/views',
+        to: 'views',
+      },
+    ]),
+  ],
   target: 'node',
   externals: [new NodeExternals()],
   module: {

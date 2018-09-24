@@ -4,12 +4,13 @@ import { fixtures as schema } from 'schemas';
 import { fixtures as types } from 'types';
 import {
   getIsFixturesFetching,
-  getFixturesInitializedEndpoints,
+  getIsFixturesAllItemsFinished,
 } from 'selectors';
 import { callApi } from 'utils';
 
-export const fetchFixturesRequest = () => ({
+export const fetchFixturesRequest = payload => ({
   type: types.FETCH_FIXTURES_REQUEST,
+  payload,
 });
 
 export const fetchFixturesSuccess = payload => ({
@@ -17,56 +18,56 @@ export const fetchFixturesSuccess = payload => ({
   payload,
 });
 
-export const fetchFixturesFailure = () => ({
+export const fetchFixturesFailure = payload => ({
   type: types.FETCH_FIXTURES_FAILURE,
+  payload,
 });
 
 export const fetchFixtures = ({
   competitionId,
   date,
 } = {}) => (dispatch, getState) => {
-  if (!date) {
-    return Promise.reject(new Error('invalid date'));
-  }
-
   const state = getState();
+  const requestDate = moment(date || Date.now()).format('YYYY-MM-DD');
 
-  const isFetching = getIsFixturesFetching(state);
-  const initializedEndpoints = getFixturesInitializedEndpoints(state);
+  const id = `${competitionId || 'all'}-${requestDate}`;
 
-  const requestPath = competitionId
-    ? `competitions/${competitionId}/fixtures?`
-    : 'fixtures?';
-  const requestDateParams = `&timeFrameStart=${moment(date).format('YYYY-MM-DD')}&timeFrameEnd=${moment(date).format('YYYY-MM-DD')}`;
+  const isFetching = getIsFixturesFetching(state, id);
+  const isAllItemsFinished = getIsFixturesAllItemsFinished(state, id);
 
-  const endpoint = `${requestPath}${requestDateParams}`;
-
-  if (isFetching || initializedEndpoints.indexOf(endpoint) >= 0) {
+  if (isFetching || isAllItemsFinished) {
     return Promise.resolve();
   }
 
-  dispatch(fetchFixturesRequest());
+  const requestDateFilter = `dateFrom=${requestDate}&dateTo=${requestDate}`;
+  const requestCompetitionFilter = competitionId
+    ? `competitions=${competitionId}`
+    : '';
+  const requestPath = `matches?${requestCompetitionFilter}&${requestDateFilter}`;
 
-  return callApi(endpoint).then((json) => {
+  dispatch(fetchFixturesRequest({
+    id,
+  }));
+
+  return callApi(requestPath).then((json) => {
     const {
       entities: {
         fixtures: entities = {},
       },
       result: ids = [],
-    } = normalize(json.fixtures, schema);
-
-    const isEndpointInitialized = json.fixtures.filter(item => (
-      item.status.toLowerCase() !== 'finished'
-    )).length === 0;
+    } = normalize(json.matches, schema);
 
     return dispatch(fetchFixturesSuccess({
       entities,
       ids,
-      endpoint,
-      isEndpointInitialized,
+      id,
+      isAllItemsFinished: !json.matches.find(item => item.status.toLowerCase() !== 'finished'),
     }));
   }).catch((error) => {
-    dispatch(fetchFixturesFailure());
+    dispatch(fetchFixturesFailure({
+      requestPath,
+    }));
+
     throw error;
   });
 };

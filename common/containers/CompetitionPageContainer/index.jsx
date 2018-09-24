@@ -1,65 +1,201 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { parse } from 'query-string';
 import moment from 'moment';
 
 import {
-  getCompetition,
+  getCompetitionName,
+  getCompetitionCurrentMatchDay,
   getFixtures,
-  getTable,
   getIsFixturesFetching,
+  getIsFixturesInitialized,
+  getStandingsTable,
+  getIsStandingsInitialized,
 } from 'selectors';
 
 import {
-  fetchTable,
+  fetchStandings,
   fetchFixtures,
 } from 'actions';
 
 import CompetitionPage from 'components/CompetitionPage';
 
-const mapStateToProps = (state, {
-  match: {
-    params: {
+class CompetitionPageContainer extends Component {
+  static propTypes = {
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    currentMatchday: PropTypes.number.isRequired,
+    standingsTable: PropTypes.arrayOf(PropTypes.object).isRequired,
+    standingsMatchday: PropTypes.string,
+    isStandingsInitialized: PropTypes.bool.isRequired,
+    fixtures: PropTypes.arrayOf(PropTypes.object).isRequired,
+    fixturesDate: PropTypes.string,
+    isFixturesFetching: PropTypes.bool.isRequired,
+    isFixturesInitialized: PropTypes.bool.isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func,
+    }).isRequired,
+    dispatch: PropTypes.func.isRequired,
+  }
+
+  static defaultProps = {
+    standingsMatchday: null,
+    fixturesDate: null,
+  }
+
+  static fetchData(dispatch, pathParams = {}, queryParams = {}) {
+    const {
       id,
-    },
-  },
-  location: {
-    search,
-  },
-}) => {
-  const competitionId = parseInt(id, 10);
+    } = pathParams;
+
+    const {
+      fixturesDate,
+      standingsMatchday,
+    } = queryParams;
+
+    return Promise.all([
+      dispatch(fetchStandings({
+        competitionId: id,
+        matchday: standingsMatchday,
+      })),
+      dispatch(fetchFixtures({
+        competitionId: id,
+        date: fixturesDate,
+      })),
+    ]);
+  }
+
+  componentDidMount() {
+    const {
+      id,
+      fixturesDate,
+      standingsMatchday,
+      dispatch,
+    } = this.props;
+
+    CompetitionPageContainer.fetchData(
+      dispatch,
+      { id },
+      {
+        fixturesDate,
+        standingsMatchday,
+      },
+    );
+  }
+
+  componentDidUpdate(prevProps) {
+    const {
+      id,
+      fixturesDate,
+      standingsMatchday,
+      dispatch,
+    } = this.props;
+
+    const {
+      id: prevId,
+      fixturesDate: prevFixturesDate,
+      standingsMatchday: prevStandingsMatchday,
+    } = prevProps;
+
+    const isNewCompetition = id !== prevId;
+    const isNewFixturesDate = fixturesDate !== prevFixturesDate;
+    const isNewStandingsMatchday = standingsMatchday !== prevStandingsMatchday;
+
+    if (
+      isNewCompetition
+      || isNewStandingsMatchday
+    ) {
+      dispatch(fetchStandings({
+        competitionId: id,
+        matchday: standingsMatchday,
+      }));
+    }
+
+    if (
+      isNewCompetition
+      || isNewFixturesDate
+    ) {
+      dispatch(fetchFixtures({
+        competitionId: id,
+        date: fixturesDate,
+      }));
+    }
+  }
+
+  render() {
+    const {
+      name,
+      currentMatchday,
+      standingsTable,
+      standingsMatchday,
+      isStandingsInitialized,
+      fixtures,
+      fixturesDate,
+      isFixturesFetching,
+      isFixturesInitialized,
+      history: {
+        push,
+      },
+    } = this.props;
+
+    return (
+      <CompetitionPage
+        name={name}
+        currentMatchday={currentMatchday}
+        standingsTable={standingsTable}
+        standingsMatchday={standingsMatchday}
+        isStandingsInitialized={isStandingsInitialized}
+        fixtures={fixtures}
+        fixturesDate={fixturesDate}
+        isFixturesFetching={isFixturesFetching}
+        isFixturesInitialized={isFixturesInitialized}
+        historyPush={push}
+      />
+    );
+  }
+}
+
+const mapStateToProps = (state, props) => {
   const {
-    caption: competitionName = '',
-    currentMatchday: competitionMatchday = 0,
-  } = getCompetition(state, competitionId) || {};
+    match: {
+      params: {
+        id,
+      },
+    },
+    location: {
+      search,
+    },
+  } = props;
+
+  const name = getCompetitionName(state, id);
+  const currentMatchday = getCompetitionCurrentMatchDay(state, id);
 
   const {
     fixturesDate,
-    tableMatchday = competitionMatchday,
+    standingsMatchday,
   } = parse(search);
 
   const fixturesDateValue = moment(fixturesDate || Date.now()).format('YYYY-MM-DD');
+  const fixturesStateId = `${id}-${fixturesDateValue}`;
+  const fixtures = getFixtures(state, fixturesStateId);
 
-  const competitionFixtures = getFixtures(state, {
-    competitionId,
-    date: fixturesDateValue,
-  });
-  const competitionTable = getTable(state, `${competitionId}-${tableMatchday}`);
+  const standingsId = `${id}-${standingsMatchday || currentMatchday}`;
+  const standingsTable = getStandingsTable(state, standingsId);
+  const isStandingsInitialized = getIsStandingsInitialized(state, standingsId);
 
   return {
-    competitionId,
-    competitionName,
-    competitionTable,
-    competitionFixtures,
-    fixturesDate: fixturesDateValue,
-    isFixturesFetching: getIsFixturesFetching(state),
-    currentCompetitionMatchday: competitionMatchday,
-    tableMatchday: parseInt(tableMatchday, 10),
+    id,
+    name,
+    fixtures,
+    fixturesDate,
+    isFixturesFetching: getIsFixturesFetching(state, fixturesStateId),
+    isFixturesInitialized: getIsFixturesInitialized(state, fixturesStateId),
+    standingsTable,
+    currentMatchday,
+    standingsMatchday,
+    isStandingsInitialized,
   };
 };
 
-const actions = {
-  fetchTable,
-  fetchFixtures,
-};
-
-export default connect(mapStateToProps, actions)(CompetitionPage);
+export default connect(mapStateToProps)(CompetitionPageContainer);

@@ -1,12 +1,18 @@
 import { createReducer } from 'utils';
 import { teams as types } from 'types';
 
-const initialState = {
+const teamsInitialState = {
   entities: {},
   ids: [],
 };
 
-const team = createReducer({}, {
+const teamInitialState = {
+  isFetching: false,
+  isInitialized: false,
+  isRequestFailed: false,
+};
+
+const team = createReducer(teamInitialState, {
   [types.FETCH_TEAM_REQUEST]: (state, action) => ({
     ...state,
     id: action.payload.id,
@@ -30,7 +36,7 @@ const team = createReducer({}, {
   }),
 });
 
-const teams = createReducer(initialState, {
+const teams = createReducer(teamsInitialState, {
   [types.FETCH_TEAM_REQUEST]: (state, action) => ({
     ...state,
     entities: {

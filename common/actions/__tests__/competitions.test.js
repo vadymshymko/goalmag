@@ -15,20 +15,22 @@ const initialState = {
     ids: [],
     isFetching: false,
     isRequestFailed: false,
-    lastUpdated: 0,
+    isInitialized: false,
   },
 };
 
-const mockResponse = [
-  {
-    id: 1,
-    caption: '1 caption',
-  },
-  {
-    id: 2,
-    caption: '2 caption',
-  },
-];
+const mockResponse = {
+  competitions: [
+    {
+      id: 1,
+      caption: '1 caption',
+    },
+    {
+      id: 2,
+      caption: '2 caption',
+    },
+  ],
+};
 
 const entities = {
   1: {
@@ -57,16 +59,15 @@ describe('competitions actions', () => {
         payload: {
           entities: {},
           ids: [],
-          lastUpdated: 1000,
         },
       },
     ];
 
-    Date.now = jest.fn(() => 1000);
-
-    nock(`https:${config.apiRoot}`).get('/competitions').reply(
+    nock(`https:${config.apiRoot}`).get('/competitions?plan=TIER_ONE').reply(
       200,
-      [],
+      {
+        competitions: [],
+      },
     );
 
     return store.dispatch(actions.fetchCompetitions()).then(() => {
@@ -83,14 +84,11 @@ describe('competitions actions', () => {
         payload: {
           entities,
           ids,
-          lastUpdated: 1000,
         },
       },
     ];
 
-    Date.now = jest.fn(() => 1000);
-
-    nock(`https:${config.apiRoot}`).get('/competitions').reply(
+    nock(`https:${config.apiRoot}`).get('/competitions?plan=TIER_ONE').reply(
       200,
       mockResponse,
     );
@@ -104,17 +102,12 @@ describe('competitions actions', () => {
     const store = mockStore(initialState);
     const expectedActions = [
       { type: types.FETCH_COMPETITIONS_REQUEST },
-      {
-        type: types.FETCH_COMPETITIONS_FAILURE,
-        payload: {
-          lastUpdated: 1000,
-        },
-      },
+      { type: types.FETCH_COMPETITIONS_FAILURE },
     ];
 
     Date.now = jest.fn(() => 1000);
 
-    nock(`https:${config.apiRoot}`).get('/competitions').replyWithError({
+    nock(`https:${config.apiRoot}`).get('/competitions?plan=TIER_ONE').replyWithError({
       message: 'Some Error',
       code: 'AWFUL_ERROR',
       statusCode: '500',
@@ -125,12 +118,12 @@ describe('competitions actions', () => {
     });
   });
 
-  it('should not create any actions if competitions lastUpdated param > 0', () => {
+  it('should not create any actions if competitions is isInitialized', () => {
     const store = mockStore({
       ...initialState,
       competitions: {
         ...initialState.competitions,
-        lastUpdated: 1000,
+        isInitialized: true,
       },
     });
     const expectedActions = [];

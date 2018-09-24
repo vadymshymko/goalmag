@@ -29,18 +29,18 @@ export const fetchTeam = teamId => (dispatch, getState) => {
   const state = getState();
   const team = getTeam(state, teamId);
 
-  if (team && (!team.isRequestFailed || team.isFetching)) {
+  if (team.isFetching || team.isInitialized) {
     return Promise.resolve();
   }
 
   dispatch(fetchTeamRequest(teamId));
 
-  return callApi(`teams/${teamId}`).then((json) => {
+  return callApi(`teams/${teamId}`).then(json => (
     dispatch(fetchTeamSuccess({
       ...json,
       crestUrl: (json.crestUrl || '').replace('http://', 'https://'),
-    }));
-  }).catch((error) => {
+    }))
+  )).catch((error) => {
     dispatch(fetchTeamFailure(teamId));
     throw error;
   });

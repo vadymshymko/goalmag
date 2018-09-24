@@ -1,24 +1,24 @@
-import MatchCenterPageContainer from 'containers/MatchCenterPageContainer';
-import CompetitionPageContainer from 'containers/CompetitionPageContainer';
-import TeamPageContainer from 'containers/TeamPageContainer';
-import NotFoundPage from 'components/NotFoundPage';
-
-const routes = [
+const getRoutes = ({
+  MatchCenterPage,
+  CompetitionPage,
+  TeamPage,
+  NotFoundPage,
+}) => ([
   {
     path: '/match-center',
-    component: MatchCenterPageContainer,
+    component: MatchCenterPage,
     strict: true,
     exact: true,
   },
   {
-    path: '/competition/:id',
-    component: CompetitionPageContainer,
+    path: '/competition/:id(\\d+)',
+    component: CompetitionPage,
     strict: true,
     exact: true,
   },
   {
-    path: '/team/:id',
-    component: TeamPageContainer,
+    path: '/team/:id(\\d+)',
+    component: TeamPage,
     strict: true,
     exact: true,
   },
@@ -26,6 +26,6 @@ const routes = [
     path: '*',
     component: NotFoundPage,
   },
-];
+]);
 
-export default routes;
+export default getRoutes;

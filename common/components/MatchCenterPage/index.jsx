@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { stringify } from 'query-string';
-import moment from 'moment';
+
+import { getFormattedDate } from 'utils';
 
 import AppPage from 'components/AppPage';
 import AppPageHeader from 'components/AppPageHeader';
@@ -16,56 +17,82 @@ import './MatchCenterPage.scss';
 
 export default class MatchCenterPage extends Component {
   static propTypes = {
-    fetchFixtures: PropTypes.func.isRequired,
-    searchParams: PropTypes.shape({
-      competitionId: PropTypes.number,
-      date: PropTypes.string,
-    }).isRequired,
+    competitionId: PropTypes.number,
+    date: PropTypes.string,
     fixtures: PropTypes.arrayOf(PropTypes.object).isRequired,
     isFixturesFetching: PropTypes.bool.isRequired,
     isFixturesInitialized: PropTypes.bool.isRequired,
     competitions: PropTypes.arrayOf(PropTypes.object).isRequired,
-    history: PropTypes.shape({
-      push: PropTypes.func,
-    }).isRequired,
+    historyPush: PropTypes.func.isRequired,
   }
 
-  componentDidMount() {
-    this.props.fetchFixtures(this.props.searchParams);
+  static defaultProps = {
+    competitionId: null,
+    date: null,
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (stringify(nextProps.searchParams) !== stringify(this.props.searchParams)) {
-      this.props.fetchFixtures(nextProps.searchParams);
-    }
-  }
+  getFixturesGroupedByCompetitionId = (fixtures = []) => (
+    fixtures.reduce((result, {
+      competition: {
+        id: competitionId,
+        name: competitionName,
+      },
+      ...item
+    }) => ({
+      ...result,
+      [competitionId]: {
+        id: competitionId,
+        name: competitionName,
+        fixtures: [
+          ...((result[competitionId] || {}).fixtures || []),
+          {
+            competition: {
+              id: competitionId,
+              name: competitionName,
+            },
+            ...item,
+          },
+        ],
+      },
+    }), {})
+  )
 
   getCompetitionFixtures = competitionId => (
     this.props.fixtures.filter(fixture => (
-      fixture.competitionId === competitionId
+      fixture.competition.id === competitionId
     ))
   )
 
   handleCompetitionFilterChange = (event) => {
-    this.props.history.push({
+    const {
+      value,
+    } = event.target;
+
+    const { date } = this.props;
+
+    this.props.historyPush({
       search: stringify({
-        ...this.props.searchParams,
-        date: this.props.searchParams.date === moment(Date.now()).format('YYYY-MM-DD')
+        date: !date || date === getFormattedDate()
           ? undefined
-          : this.props.searchParams.date,
-        competitionId: event.target.value || undefined,
+          : date,
+        competitionId: value || undefined,
       }),
     });
   }
 
   handleDateFilterChange = (event) => {
-    this.props.history.push({
+    const {
+      value,
+    } = event.target;
+
+    const { competitionId } = this.props;
+
+    this.props.historyPush({
       search: stringify({
-        ...this.props.searchParams,
-        competitionId: this.props.searchParams.competitionId || undefined,
-        date: event.target.value === moment(Date.now()).format('YYYY-MM-DD')
+        competitionId: competitionId || undefined,
+        date: value === getFormattedDate()
           ? undefined
-          : event.target.value,
+          : value,
       }),
     });
   }
@@ -73,14 +100,14 @@ export default class MatchCenterPage extends Component {
   render() {
     const {
       competitions,
+      competitionId,
+      date,
       fixtures,
       isFixturesFetching,
       isFixturesInitialized,
-      searchParams: {
-        competitionId,
-        date,
-      },
     } = this.props;
+
+    const fixturesGroupedByCompetitionId = this.getFixturesGroupedByCompetitionId(fixtures);
 
     const showEmptyMessage = (
       isFixturesInitialized
@@ -104,7 +131,7 @@ export default class MatchCenterPage extends Component {
               fieldId="MatchCenterPageCompetitionFilter"
               label="Competition:"
               className="MatchCenterPage__fixturesFilter"
-              value={competitionId}
+              value={competitionId || ''}
               options={[
                 {
                   label: 'All',
@@ -112,7 +139,7 @@ export default class MatchCenterPage extends Component {
                 },
                 ...competitions.map(competition => ({
                   value: competition.id,
-                  label: competition.caption,
+                  label: competition.name,
                 })),
               ]}
               onChange={this.handleCompetitionFilterChange}
@@ -122,7 +149,7 @@ export default class MatchCenterPage extends Component {
               fieldId="MatchCenterPageFixturesDateFilter"
               label="Date:"
               className="MatchCenterPage__fixturesFilter"
-              value={moment(date || Date.now()).format('YYYY-MM-DD')}
+              value={getFormattedDate(date)}
               onChange={this.handleDateFilterChange}
             />
           </div>
@@ -130,26 +157,18 @@ export default class MatchCenterPage extends Component {
 
         <AppPageContent>
           <ul className="MatchCenterPage__competitionsList">
-            {competitions.map((competition) => {
-              const competitionFixtures = this.getCompetitionFixtures(competition.id);
-
-              if (competitionFixtures.length === 0) {
-                return null;
-              }
-
-              return (
-                <li
-                  className="MatchCenterPage__competitionsItem"
-                  key={competition.id}
-                >
-                  <MatchCenterCompetition
-                    competitionId={competition.id}
-                    competitionName={competition.caption}
-                    competitionFixtures={competitionFixtures}
-                  />
-                </li>
-              );
-            })}
+            {Object.keys(fixturesGroupedByCompetitionId).map(id => (
+              <li
+                className="MatchCenterPage__competitionsItem"
+                key={id}
+              >
+                <MatchCenterCompetition
+                  id={id}
+                  name={fixturesGroupedByCompetitionId[id].name}
+                  fixtures={fixturesGroupedByCompetitionId[id].fixtures}
+                />
+              </li>
+            ))}
           </ul>
 
           {showEmptyMessage && (

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 import Fixture from 'components/Fixture';
 
@@ -9,20 +10,38 @@ const FixturesList = ({
   fixtures,
 }) => (
   <ul className="FixturesList">
-    {fixtures.map(item => (
+    {fixtures.map(({
+      id,
+      homeTeam: {
+        id: homeTeamId,
+        name: homeTeamName,
+      } = {},
+      awayTeam: {
+        id: awayTeamId,
+        name: awayTeamName,
+      } = {},
+      score: {
+        fullTime: {
+          awayTeam: awayTeamScore,
+          homeTeam: homeTeamScore,
+        } = {},
+      } = {},
+      status = '',
+      utcDate = Date.now(),
+    } = {}) => (
       <li
         className="FixturesList__item"
-        key={item.id}
+        key={id}
       >
         <Fixture
-          awayTeamId={item.awayTeamId}
-          awayTeamName={item.awayTeamName}
-          homeTeamId={item.homeTeamId}
-          homeTeamName={item.homeTeamName}
-          goalsAwayTeam={item.result.goalsAwayTeam}
-          goalsHomeTeam={item.result.goalsHomeTeam}
-          status={(item.status || '').toLowerCase()}
-          date={item.date}
+          homeTeamId={homeTeamId}
+          homeTeamName={homeTeamName}
+          homeTeamScore={homeTeamScore}
+          awayTeamId={awayTeamId}
+          awayTeamName={awayTeamName}
+          awayTeamScore={awayTeamScore}
+          status={status.toLowerCase()}
+          date={moment.utc(utcDate).local().format('HH:mm')}
         />
       </li>
     ))}

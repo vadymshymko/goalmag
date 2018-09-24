@@ -3,13 +3,11 @@ import { combineReducers } from 'redux';
 import competitions from './competitions';
 import fixtures from './fixtures';
 import teams from './teams';
-import tables from './tables';
-import squads from './squads';
+import standings from './standings';
 
 export default combineReducers({
   competitions,
   fixtures,
   teams,
-  tables,
-  squads,
+  standings,
 });

@@ -1,110 +1,52 @@
 import { createSelector } from 'reselect';
 
-const COMPETITION_COUNTRIES = [
-  {
-    title: 'International',
-    leagueCodes: ['CL'],
-    links: [],
-    isActive: false,
-  },
-  {
-    title: 'England',
-    leagueCodes: ['PL', 'ELC', 'EL1', 'EL2'],
-    links: [],
-    isActive: false,
-  },
-  {
-    title: 'France',
-    leagueCodes: ['FL1', 'FL2'],
-    links: [],
-    isActive: false,
-  },
-  {
-    title: 'Germany',
-    leagueCodes: ['BL1', 'BL2'],
-    links: [],
-    isActive: false,
-  },
-  {
-    title: 'Italy',
-    leagueCodes: ['SA', 'SB'],
-    links: [],
-    isActive: false,
-  },
-  {
-    title: 'Netherlands',
-    leagueCodes: ['DED'],
-    links: [],
-    isActive: false,
-  },
-  {
-    title: 'Portugal',
-    leagueCodes: ['PPL'],
-    links: [],
-    isActive: false,
-  },
-  {
-    title: 'Spain',
-    leagueCodes: ['PD'],
-    links: [],
-    isActive: false,
-  },
-];
-
-export const getCompetitions = state => (
-  state.competitions.ids.map(id => (
-    state.competitions.entities[id]
-  ))
+export const getCompetitionsIds = state => (
+  state.competitions.ids
 );
 
-export const getCompetitionsByLeagueCodes = createSelector(
-  getCompetitions,
-  (state, leagueCodes) => leagueCodes,
-  (competitions, leagueCodes) => (
-    competitions.filter(item => (
-      !!leagueCodes.find(leagueCode => (
-        item.league.toLowerCase() === leagueCode.toLowerCase()
-      ))
+export const getCompetitionsEntities = state => (
+  state.competitions.entities
+);
+
+export const getCompetitions = createSelector(
+  getCompetitionsIds,
+  getCompetitionsEntities,
+  (ids, entities) => (
+    ids.map(id => (
+      entities[id]
     ))
   ),
 );
 
-export const getCompetitionsLinks = createSelector(
-  getCompetitionsByLeagueCodes,
-  copetitions => (
-    copetitions.map(competition => ({
-      to: `/competition/${competition.id}`,
-      title: competition.caption,
-    }))
-  ),
-);
-
-export const getCompetitionsNav = createSelector(
-  (state, locationPathname) => (
-    COMPETITION_COUNTRIES.map((country) => {
-      const links = getCompetitionsLinks(state, country.leagueCodes);
-      const isActive = !!links.find(link => (
-        link.to === locationPathname
-      ));
-
-      return ({
-        ...country,
-        links,
-        isActive,
-      });
-    })
-  ),
-  navSections => navSections,
-);
-
 export const getCompetition = (state, id = 0) => (
-  state.competitions.entities[id]
+  state.competitions.entities[id] || {}
+);
+
+export const getCompetitionName = createSelector(
+  getCompetition,
+  competition => (
+    competition.name || ''
+  ),
+);
+
+export const getCompetitionCurrentSeason = createSelector(
+  getCompetition,
+  competition => (
+    competition.currentSeason || {}
+  ),
+);
+
+export const getCompetitionCurrentMatchDay = createSelector(
+  getCompetitionCurrentSeason,
+  currentSeason => (
+    currentSeason.currentMatchday || 0
+  ),
 );
 
 export const getIsCompetitionsFetching = state => (
-  state.competitions.isFetching
+  !!state.competitions.isFetching
 );
 
 export const getIsCompetitionsInitialized = state => (
-  state.competitions.lastUpdated > 0
+  !!state.competitions.isInitialized
 );

@@ -3,10 +3,7 @@ import { createStore } from 'redux';
 import rootReducer from 'reducers';
 import composeEnhancers from 'composeEnhancers';
 
-const preloadedState = window.__PRELOADED_STATE__ || {}; //eslint-disable-line
-delete window.__PRELOADED_STATE__; //eslint-disable-line
-
-const configureStore = () => (
+const configureStore = (preloadedState = {}) => (
   createStore(rootReducer, preloadedState, composeEnhancers())
 );
 

@@ -7,34 +7,37 @@ import FixturesList from 'components/FixturesList';
 import './MatchCenterCompetition.scss';
 
 const MatchCenterCompetition = ({
-  competitionFixtures,
-  competitionName,
-  competitionId,
+  id,
+  name,
+  fixtures,
 }) => (
   <article className="MatchCenterCompetition">
     <h3 className="MatchCenterCompetition__title">
       <Link
         className="MatchCenterCompetition__link"
-        href={`/competition/${competitionId}`}
-        to={`/competition/${competitionId}`}
-        title={competitionName}
+        href={`/competition/${id}`}
+        to={`/competition/${id}`}
+        title={name}
       >
-        {competitionName}
+        {name}
       </Link>
     </h3>
 
-    <FixturesList fixtures={competitionFixtures} />
+    <FixturesList fixtures={fixtures} />
   </article>
 );
 
 MatchCenterCompetition.propTypes = {
-  competitionId: PropTypes.number.isRequired,
-  competitionName: PropTypes.string.isRequired,
-  competitionFixtures: PropTypes.arrayOf(PropTypes.object),
+  id: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+  ]).isRequired,
+  name: PropTypes.string.isRequired,
+  fixtures: PropTypes.arrayOf(PropTypes.object),
 };
 
 MatchCenterCompetition.defaultProps = {
-  competitionFixtures: [],
+  fixtures: [],
 };
 
 export default MatchCenterCompetition;

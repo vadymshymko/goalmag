@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 
-import AppContainer from 'containers/AppContainer';
+import App from 'components/App';
 
 const Root = ({
   history,
@@ -11,7 +11,7 @@ const Root = ({
 }) => (
   <Provider store={store}>
     <Router history={history}>
-      <AppContainer />
+      <App />
     </Router>
   </Provider>
 );
