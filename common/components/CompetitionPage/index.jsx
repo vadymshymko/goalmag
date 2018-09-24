@@ -40,7 +40,12 @@ export default class CompetitionPage extends Component {
     standingsTable: [],
     isStandingsInitialized: false,
     fixtures: [],
+  }
 
+  static fetchData() {
+    console.log({
+      props: this.props,
+    });
   }
 
   componentDidMount() {

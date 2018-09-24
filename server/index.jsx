@@ -9,17 +9,21 @@ import Helmet from 'react-helmet';
 import Loadable from 'react-loadable';
 import { getBundles } from 'react-loadable/webpack';
 
-import AppContainer from 'containers/AppContainer';
+import App from 'components/App';
+import MatchCenterPageContainer from 'containers/MatchCenterPageContainer';
+import CompetitionPageContainer from 'containers/CompetitionPageContainer';
+import TeamPageContainer from 'containers/TeamPageContainer';
+import NotFoundPage from 'components/NotFoundPage';
 
 import rootReducer from 'reducers';
 import composeEnhancers from 'composeEnhancers';
-import routes from 'routes';
+import getRoutes from 'routes';
 
-import {
-  fetchCompetitions,
-  fetchTeam,
-  fetchSquad,
-} from 'actions';
+// import {
+//   fetchCompetitions,
+//   fetchTeam,
+//   fetchSquad,
+// } from 'actions';
 
 import stats from '../dist/react-loadable.json';
 
@@ -28,6 +32,13 @@ import criticalCSS from './criticalCSS';
 const app = new Express();
 const port = process.env.PORT || 8080;
 const compression = new Compression();
+
+const routes = getRoutes({
+  MatchCenterPage: MatchCenterPageContainer,
+  CompetitionPage: CompetitionPageContainer,
+  TeamPage: TeamPageContainer,
+  NotFoundPage,
+});
 
 const HTML = ({
   title = '',
@@ -179,7 +190,7 @@ const sendResponse = ({
         <Loadable.Capture
           report={moduleName => modules.push(moduleName)}
         >
-          <AppContainer />
+          <App />
         </Loadable.Capture>
       </StaticRouter>
     </Provider>
@@ -224,37 +235,38 @@ const handleRequest = (req, res) => {
     const activeRoute = routes.find(route => (
       matchPath(requestPath, route)
     ));
-    const params = activeRoute
-      ? matchPath(requestPath, activeRoute).params || {}
-      : {};
-
-    const promises = [
-      store.dispatch(fetchCompetitions()),
-      ...(
-        activeRoute && activeRoute.path === '/team/:id' && params.id
-          ? [
-            store.dispatch(fetchTeam(params.id)),
-            store.dispatch(fetchSquad(params.id)),
-          ]
-          : []
-      ),
-    ];
-
-    Promise.all(promises).then(() => {
-      sendResponse({
-        store,
-        location,
-        context,
-        res,
-      });
-    }).catch(() => {
-      sendResponse({
-        store,
-        location,
-        context,
-        res,
-      });
+    console.log(activeRoute);
+    // const params = activeRoute
+    //   ? matchPath(requestPath, activeRoute).params || {}
+    //   : {};
+    //
+    // const promises = [
+    //   store.dispatch(fetchCompetitions()),
+    //   ...(
+    //     activeRoute && activeRoute.path === '/team/:id' && params.id
+    //       ? [
+    //         store.dispatch(fetchTeam(params.id)),
+    //         store.dispatch(fetchSquad(params.id)),
+    //       ]
+    //       : []
+    //   ),
+    // ];
+    //
+    // Promise.all(promises).then(() => {
+    sendResponse({
+      store,
+      location,
+      context,
+      res,
     });
+    // }).catch(() => {
+    //   sendResponse({
+    //     store,
+    //     location,
+    //     context,
+    //     res,
+    //   });
+    // });
   }
 };
 

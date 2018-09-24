@@ -1,11 +1,12 @@
 import React from 'react';
 import Loadable from 'react-loadable';
-
 import {
   Route,
   Switch,
   Redirect,
 } from 'react-router-dom';
+
+import getRoutes from 'routes';
 
 import './AppInner.scss';
 
@@ -34,27 +35,6 @@ const NotFoundPage = Loadable({
 const AppInner = () => (
   <div className="AppInner">
     <Switch>
-      <Route
-        strict
-        exact
-        path="/match-center"
-        component={MatchCenterPage}
-      />
-
-      <Route
-        strict
-        exact
-        path="/competition/:id"
-        component={CompetitionPage}
-      />
-
-      <Route
-        strict
-        exact
-        path="/team/:id"
-        component={TeamPage}
-      />
-
       <Redirect
         strict
         exact
@@ -62,10 +42,17 @@ const AppInner = () => (
         to="/match-center"
       />
 
-      <Route
-        path="*"
-        component={NotFoundPage}
-      />
+      {getRoutes({
+        MatchCenterPage,
+        CompetitionPage,
+        TeamPage,
+        NotFoundPage,
+      }).map(routeProps => (
+        <Route
+          {...routeProps}
+          key={routeProps.path}
+        />
+      ))}
     </Switch>
   </div>
 );
