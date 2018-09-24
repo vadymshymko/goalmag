@@ -11,13 +11,13 @@ const getRoutes = ({
     exact: true,
   },
   {
-    path: '/competition/:id',
+    path: '/competition/:id(\\d+)',
     component: CompetitionPage,
     strict: true,
     exact: true,
   },
   {
-    path: '/team/:id',
+    path: '/team/:id(\\d+)',
     component: TeamPage,
     strict: true,
     exact: true,

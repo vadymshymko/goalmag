@@ -11,7 +11,7 @@ export const getTeamName = createSelector(
 
 export const getTeamLogoURL = createSelector(
   getTeam,
-  team => team.crestUrl,
+  team => team.crestUrl || '',
 );
 
 export const getTeamSquad = createSelector(
@@ -30,5 +30,5 @@ export const getTeamCoach = createSelector(
   getTeamSquad,
   squad => squad.find(item => (
     item.role.toLowerCase() === 'coach'
-  )),
+  )) || {},
 );

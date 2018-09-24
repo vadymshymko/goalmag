@@ -44,9 +44,9 @@ export const getCompetitionCurrentMatchDay = createSelector(
 );
 
 export const getIsCompetitionsFetching = state => (
-  state.competitions.isFetching
+  !!state.competitions.isFetching
 );
 
 export const getIsCompetitionsInitialized = state => (
-  state.competitions.isInitialized
+  !!state.competitions.isInitialized
 );

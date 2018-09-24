@@ -27,13 +27,10 @@ export const fetchFixtures = ({
   competitionId,
   date,
 } = {}) => (dispatch, getState) => {
-  if (!date) {
-    return Promise.reject(new Error('invalid date or competitionId'));
-  }
-
   const state = getState();
+  const requestDate = moment(date || Date.now()).format('YYYY-MM-DD');
 
-  const id = `${competitionId || 'all'}-${date}`;
+  const id = `${competitionId || 'all'}-${requestDate}`;
 
   const isFetching = getIsFixturesFetching(state, id);
   const isAllItemsFinished = getIsFixturesAllItemsFinished(state, id);
@@ -42,7 +39,6 @@ export const fetchFixtures = ({
     return Promise.resolve();
   }
 
-  const requestDate = moment(date).format('YYYY-MM-DD');
   const requestDateFilter = `dateFrom=${requestDate}&dateTo=${requestDate}`;
   const requestCompetitionFilter = competitionId
     ? `competitions=${competitionId}`

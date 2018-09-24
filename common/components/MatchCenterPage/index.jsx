@@ -16,54 +16,22 @@ import './MatchCenterPage.scss';
 
 export default class MatchCenterPage extends Component {
   static propTypes = {
-    fetchFixtures: PropTypes.func.isRequired,
-    competitionId: PropTypes.number.isRequired,
-    date: PropTypes.string.isRequired,
+    competitionId: PropTypes.number,
+    date: PropTypes.string,
     fixtures: PropTypes.arrayOf(PropTypes.object).isRequired,
     isFixturesFetching: PropTypes.bool.isRequired,
     isFixturesInitialized: PropTypes.bool.isRequired,
     competitions: PropTypes.arrayOf(PropTypes.object).isRequired,
-    history: PropTypes.shape({
-      push: PropTypes.func,
-    }).isRequired,
+    historyPush: PropTypes.func.isRequired,
   }
 
-  componentDidMount() {
-    const {
-      competitionId,
-      date,
-    } = this.props;
-
-    this.props.fetchFixtures({
-      competitionId,
-      date,
-    });
+  static defaultProps = {
+    competitionId: null,
+    date: null,
   }
 
-  componentWillReceiveProps(nextProps) {
-    const {
-      competitionId,
-      date,
-    } = this.props;
-
-    const {
-      competitionId: nextCompetitionId,
-      date: nextDate,
-    } = nextProps;
-
-    if (
-      nextCompetitionId !== competitionId
-      || nextDate !== date
-    ) {
-      this.props.fetchFixtures({
-        competitionId: nextCompetitionId,
-        date: nextDate,
-      });
-    }
-  }
-
-  getCurrentDate = () => (
-    moment(Date.now()).format('YYYY-MM-DD')
+  getFormattedDate = (date = Date.now()) => (
+    moment(date).format('YYYY-MM-DD')
   )
 
   getFixturesGroupedByCompetitionId = (fixtures = []) => (
@@ -100,40 +68,34 @@ export default class MatchCenterPage extends Component {
 
   handleCompetitionFilterChange = (event) => {
     const {
-      value: competitionId,
+      value,
     } = event.target;
 
-    const {
-      date,
-    } = this.props;
-    const currentDate = this.getCurrentDate();
+    const { date } = this.props;
 
-    this.props.history.push({
+    this.props.historyPush({
       search: stringify({
-        date: date === currentDate
+        date: date === this.getFormattedDate()
           ? undefined
           : date,
-        competition: competitionId || undefined,
+        competitionId: value || undefined,
       }),
     });
   }
 
   handleDateFilterChange = (event) => {
     const {
-      value: date,
+      value,
     } = event.target;
-    const currentDate = this.getCurrentDate();
 
-    const {
-      competitionId,
-    } = this.props;
+    const { competitionId } = this.props;
 
-    this.props.history.push({
+    this.props.historyPush({
       search: stringify({
-        competition: competitionId || undefined,
-        date: date === currentDate
+        competitionId: competitionId || undefined,
+        date: value === this.getFormattedDate()
           ? undefined
-          : date,
+          : value,
       }),
     });
   }
@@ -172,7 +134,7 @@ export default class MatchCenterPage extends Component {
               fieldId="MatchCenterPageCompetitionFilter"
               label="Competition:"
               className="MatchCenterPage__fixturesFilter"
-              value={competitionId}
+              value={competitionId || ''}
               options={[
                 {
                   label: 'All',
@@ -190,7 +152,7 @@ export default class MatchCenterPage extends Component {
               fieldId="MatchCenterPageFixturesDateFilter"
               label="Date:"
               className="MatchCenterPage__fixturesFilter"
-              value={moment(date || Date.now()).format('YYYY-MM-DD')}
+              value={this.getFormattedDate(date)}
               onChange={this.handleDateFilterChange}
             />
           </div>

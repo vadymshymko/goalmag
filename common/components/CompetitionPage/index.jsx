@@ -17,121 +17,44 @@ import './CompetitionPage.scss';
 
 export default class CompetitionPage extends Component {
   static propTypes = {
-    fetchStandings: PropTypes.func.isRequired,
-    fetchFixtures: PropTypes.func.isRequired,
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string,
-    currentMatchday: PropTypes.number,
-    isStandingsInitialized: PropTypes.bool,
-    standingsTable: PropTypes.arrayOf(PropTypes.object),
-    standingsMatchday: PropTypes.number.isRequired,
-    fixturesDate: PropTypes.string.isRequired,
-    fixtures: PropTypes.arrayOf(PropTypes.object),
+    name: PropTypes.string.isRequired,
+    currentMatchday: PropTypes.number.isRequired,
+    isStandingsInitialized: PropTypes.bool.isRequired,
+    standingsTable: PropTypes.arrayOf(PropTypes.object).isRequired,
+    standingsMatchday: PropTypes.number,
+    fixturesDate: PropTypes.string,
+    fixtures: PropTypes.arrayOf(PropTypes.object).isRequired,
     isFixturesFetching: PropTypes.bool.isRequired,
-    history: PropTypes.shape({
-      replace: PropTypes.func,
-      push: PropTypes.func,
-    }).isRequired,
+    isFixturesInitialized: PropTypes.bool.isRequired,
+    historyPush: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
-    name: '',
-    currentMatchday: 0,
-    standingsTable: [],
-    isStandingsInitialized: false,
-    fixtures: [],
+    standingsMatchday: null,
+    fixturesDate: null,
   }
 
-  static fetchData() {
-    console.log({
-      props: this.props,
-    });
-  }
-
-  componentDidMount() {
-    const {
-      id,
-      fixturesDate,
-      standingsMatchday,
-    } = this.props;
-
-    if (standingsMatchday) {
-      this.props.fetchStandings({
-        competitionId: id,
-        matchday: standingsMatchday,
-      });
-    }
-
-    if (fixturesDate) {
-      this.props.fetchFixtures({
-        competitionId: id,
-        date: fixturesDate,
-      });
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const {
-      id,
-      fixturesDate,
-      standingsMatchday,
-    } = this.props;
-
-    const {
-      id: nextId,
-      fixturesDate: nextFixturesDate,
-      standingsMatchday: nextStandingsMatchday,
-    } = nextProps;
-
-    if (
-      (
-        nextId !== id
-        || standingsMatchday !== nextStandingsMatchday
-      )
-      && !!nextId
-      && !!nextStandingsMatchday
-    ) {
-      this.props.fetchStandings({
-        competitionId: nextId,
-        matchday: nextStandingsMatchday,
-      });
-    }
-
-    if (
-      (
-        nextId !== id
-        || fixturesDate !== nextFixturesDate
-      )
-      && !!nextId
-      && !!nextFixturesDate
-    ) {
-      this.props.fetchFixtures({
-        competitionId: nextId,
-        date: nextFixturesDate,
-      });
-    }
-  }
+  getFormattedDate = (date = Date.now()) => (
+    moment(date).format('YYYY-MM-DD')
+  )
 
   handleDateFilterChange = (event) => {
     const {
       target: {
-        value: fixturesDate,
+        value,
       },
     } = event;
 
     const {
       standingsMatchday,
-      currentMatchday,
     } = this.props;
 
-    this.props.history.push({
+    this.props.historyPush({
       search: stringify({
-        standingsMatchday: standingsMatchday === currentMatchday
+        standingsMatchday: standingsMatchday || undefined,
+        fixturesDate: value === this.getFormattedDate()
           ? undefined
-          : standingsMatchday,
-        fixturesDate: fixturesDate === moment(Date.now()).format('YYYY-MM-DD')
-          ? undefined
-          : fixturesDate,
+          : value,
       }),
     });
   }
@@ -139,7 +62,7 @@ export default class CompetitionPage extends Component {
   handleTableMatchdayFilterChange = (event) => {
     const {
       target: {
-        value: standingsMatchday,
+        value,
       },
     } = event;
 
@@ -148,14 +71,14 @@ export default class CompetitionPage extends Component {
       currentMatchday,
     } = this.props;
 
-    this.props.history.push({
+    this.props.historyPush({
       search: stringify({
-        fixturesDate: fixturesDate === moment(Date.now()).format('YYYY-MM-DD')
+        standingsMatchday: parseInt(value, 10) === currentMatchday
+          ? undefined
+          : value,
+        fixturesDate: fixturesDate === this.getFormattedDate()
           ? undefined
           : fixturesDate,
-        standingsMatchday: parseInt(standingsMatchday, 10) === currentMatchday
-          ? undefined
-          : standingsMatchday,
       }),
     });
   }
@@ -166,9 +89,10 @@ export default class CompetitionPage extends Component {
       currentMatchday,
       fixturesDate,
       fixtures,
-      isFixturesFetching,
+      isFixturesInitialized,
       standingsTable,
       standingsMatchday,
+      isFixturesFetching,
       isStandingsInitialized,
     } = this.props;
 
@@ -193,12 +117,12 @@ export default class CompetitionPage extends Component {
                 fieldId="CompetitionInfoFixturesDateFilter"
                 label="Date:"
                 className="CompetitionInfo__filter"
-                value={fixturesDate}
+                value={this.getFormattedDate(fixturesDate)}
                 onChange={this.handleDateFilterChange}
               />
             </header>
 
-            {!isFixturesFetching && fixtures.length === 0 && (
+            {isFixturesInitialized && !isFixturesFetching && fixtures.length === 0 && (
               <Alert>:( There are no games by selected date</Alert>
             )}
 
@@ -216,7 +140,7 @@ export default class CompetitionPage extends Component {
                   fieldId="CompetitionInfoTableMatchdayFilter"
                   label="Matchday:"
                   className="CompetitionInfo__filter"
-                  value={standingsMatchday}
+                  value={standingsMatchday || currentMatchday}
                   options={Array.from({
                     length: currentMatchday,
                   }).map((item, index) => ({

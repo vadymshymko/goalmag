@@ -8,6 +8,7 @@ import { matchPath, StaticRouter } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import Loadable from 'react-loadable';
 import { getBundles } from 'react-loadable/webpack';
+import { parse } from 'query-string';
 
 import App from 'components/App';
 import MatchCenterPageContainer from 'containers/MatchCenterPageContainer';
@@ -19,11 +20,7 @@ import rootReducer from 'reducers';
 import composeEnhancers from 'composeEnhancers';
 import getRoutes from 'routes';
 
-// import {
-//   fetchCompetitions,
-//   fetchTeam,
-//   fetchSquad,
-// } from 'actions';
+import { fetchCompetitions } from 'actions';
 
 import stats from '../dist/react-loadable.json';
 
@@ -226,48 +223,40 @@ const handleRequest = (req, res) => {
       ? '/match-center'
       : location
     }`);
+
+    return true;
   } else if (requestPath === '/') {
     res.redirect(301, '/match-center');
-  } else {
-    const store = createStore(rootReducer, composeEnhancers());
-    const context = {};
 
-    const activeRoute = routes.find(route => (
-      matchPath(requestPath, route)
-    ));
-    console.log(activeRoute);
-    // const params = activeRoute
-    //   ? matchPath(requestPath, activeRoute).params || {}
-    //   : {};
-    //
-    // const promises = [
-    //   store.dispatch(fetchCompetitions()),
-    //   ...(
-    //     activeRoute && activeRoute.path === '/team/:id' && params.id
-    //       ? [
-    //         store.dispatch(fetchTeam(params.id)),
-    //         store.dispatch(fetchSquad(params.id)),
-    //       ]
-    //       : []
-    //   ),
-    // ];
-    //
-    // Promise.all(promises).then(() => {
-    sendResponse({
+    return true;
+  }
+
+  const store = createStore(rootReducer, composeEnhancers());
+  const context = {};
+
+  return store.dispatch(fetchCompetitions()).then(() => {
+    const promises = routes.reduce((result, route) => {
+      const match = matchPath(req.path, route);
+      const routeComponent = route.component;
+      const routeFetchData = routeComponent.fetchData;
+
+      if (!match || !routeComponent || !routeFetchData) {
+        return result;
+      }
+
+      return [
+        ...result,
+        routeFetchData(store.dispatch, match.params, parse(req.query || '')),
+      ];
+    }, []);
+
+    return Promise.all(promises).then(() => sendResponse({
       store,
       location,
       context,
       res,
-    });
-    // }).catch(() => {
-    //   sendResponse({
-    //     store,
-    //     location,
-    //     context,
-    //     res,
-    //   });
-    // });
-  }
+    }));
+  });
 };
 
 app.use(compression);

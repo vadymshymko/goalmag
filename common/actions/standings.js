@@ -1,6 +1,9 @@
 import { normalize } from 'normalizr';
 import { standings as types } from 'types';
-import { getIsStandingsFetching } from 'selectors';
+import {
+  getIsStandingsFetching,
+  getCompetitionCurrentMatchDay,
+} from 'selectors';
 import { callApi } from 'utils';
 import { standings as schema } from 'schemas';
 
@@ -23,20 +26,22 @@ export const fetchStandings = ({
   competitionId,
   matchday,
 } = {}) => (dispatch, getState) => {
-  if (!competitionId || !matchday) {
-    return Promise.reject(new Error('invalid competitionId or matchday'));
+  if (!competitionId) {
+    return Promise.reject(new Error('invalid competitionId'));
   }
 
   const state = getState();
 
-  const standingsId = `${competitionId}-${matchday}`;
+  const currentMatchday = getCompetitionCurrentMatchDay(state, competitionId);
+  const requestMatchday = matchday || currentMatchday;
+  const standingsId = `${competitionId}-${requestMatchday}`;
   const isFetching = getIsStandingsFetching(state, standingsId);
 
   if (isFetching) {
     return Promise.resolve();
   }
 
-  const requestPath = `competitions/${competitionId}/standings?matchday=${matchday}`;
+  const requestPath = `competitions/${competitionId}/standings?matchday=${requestMatchday}`;
 
   dispatch(fetchStandingsRequest({
     id: standingsId,
