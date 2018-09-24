@@ -23,13 +23,11 @@ import CompetitionPage from 'components/CompetitionPage';
 
 class CompetitionPageContainer extends Component {
   static propTypes = {
-    fetchStandings: PropTypes.func.isRequired,
-    fetchFixtures: PropTypes.func.isRequired,
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     currentMatchday: PropTypes.number.isRequired,
     standingsTable: PropTypes.arrayOf(PropTypes.object).isRequired,
-    standingsMatchday: PropTypes.number,
+    standingsMatchday: PropTypes.string,
     isStandingsInitialized: PropTypes.bool.isRequired,
     fixtures: PropTypes.arrayOf(PropTypes.object).isRequired,
     fixturesDate: PropTypes.string,
@@ -61,7 +59,6 @@ class CompetitionPageContainer extends Component {
         competitionId: id,
         matchday: standingsMatchday,
       })),
-
       dispatch(fetchFixtures({
         competitionId: id,
         date: fixturesDate,
@@ -92,6 +89,7 @@ class CompetitionPageContainer extends Component {
       id,
       fixturesDate,
       standingsMatchday,
+      dispatch,
     } = this.props;
 
     const {
@@ -108,20 +106,20 @@ class CompetitionPageContainer extends Component {
       isNewCompetition
       || isNewStandingsMatchday
     ) {
-      this.props.fetchStandings({
+      dispatch(fetchStandings({
         competitionId: id,
         matchday: standingsMatchday,
-      });
+      }));
     }
 
     if (
       isNewCompetition
       || isNewFixturesDate
     ) {
-      this.props.fetchFixtures({
+      dispatch(fetchFixtures({
         competitionId: id,
         date: fixturesDate,
-      });
+      }));
     }
   }
 
@@ -161,7 +159,9 @@ class CompetitionPageContainer extends Component {
 const mapStateToProps = (state, props) => {
   const {
     match: {
-      params: id,
+      params: {
+        id,
+      },
     },
     location: {
       search,
@@ -198,9 +198,4 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const actions = {
-  fetchStandings,
-  fetchFixtures,
-};
-
-export default connect(mapStateToProps, actions)(CompetitionPageContainer);
+export default connect(mapStateToProps)(CompetitionPageContainer);

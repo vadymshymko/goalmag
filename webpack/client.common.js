@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const TransferWebpackPlugin = require('transfer-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { ReactLoadablePlugin } = require('react-loadable/webpack');
 
 module.exports = {
@@ -24,7 +24,7 @@ module.exports = {
         root: path.resolve(__dirname, '../'),
       },
     ),
-    new TransferWebpackPlugin([
+    new CopyWebpackPlugin([
       {
         from: 'static',
       },

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Loadable from 'react-loadable';
 import {
   Route,
@@ -32,29 +33,39 @@ const NotFoundPage = Loadable({
   loading: Loading,
 });
 
-const AppInner = () => (
-  <div className="AppInner">
-    <Switch>
-      <Redirect
-        strict
-        exact
-        from="/"
-        to="/match-center"
-      />
+const AppInner = ({
+  isCompetitionsInitialized,
+}) => (
+  isCompetitionsInitialized
+    ? (
+      <div className="AppInner">
+        <Switch>
+          <Redirect
+            strict
+            exact
+            from="/"
+            to="/match-center"
+          />
 
-      {getRoutes({
-        MatchCenterPage,
-        CompetitionPage,
-        TeamPage,
-        NotFoundPage,
-      }).map(routeProps => (
-        <Route
-          {...routeProps}
-          key={routeProps.path}
-        />
-      ))}
-    </Switch>
-  </div>
+          {getRoutes({
+            MatchCenterPage,
+            CompetitionPage,
+            TeamPage,
+            NotFoundPage,
+          }).map(routeProps => (
+            <Route
+              {...routeProps}
+              key={routeProps.path}
+            />
+          ))}
+        </Switch>
+      </div>
+    )
+    : null
 );
+
+AppInner.propTypes = {
+  isCompetitionsInitialized: PropTypes.bool.isRequired,
+};
 
 export default AppInner;

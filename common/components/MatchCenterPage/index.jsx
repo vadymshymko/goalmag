@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { stringify } from 'query-string';
-import moment from 'moment';
+
+import { getFormattedDate } from 'utils';
 
 import AppPage from 'components/AppPage';
 import AppPageHeader from 'components/AppPageHeader';
@@ -29,10 +30,6 @@ export default class MatchCenterPage extends Component {
     competitionId: null,
     date: null,
   }
-
-  getFormattedDate = (date = Date.now()) => (
-    moment(date).format('YYYY-MM-DD')
-  )
 
   getFixturesGroupedByCompetitionId = (fixtures = []) => (
     fixtures.reduce((result, {
@@ -75,7 +72,7 @@ export default class MatchCenterPage extends Component {
 
     this.props.historyPush({
       search: stringify({
-        date: date === this.getFormattedDate()
+        date: !date || date === getFormattedDate()
           ? undefined
           : date,
         competitionId: value || undefined,
@@ -93,7 +90,7 @@ export default class MatchCenterPage extends Component {
     this.props.historyPush({
       search: stringify({
         competitionId: competitionId || undefined,
-        date: value === this.getFormattedDate()
+        date: value === getFormattedDate()
           ? undefined
           : value,
       }),
@@ -152,7 +149,7 @@ export default class MatchCenterPage extends Component {
               fieldId="MatchCenterPageFixturesDateFilter"
               label="Date:"
               className="MatchCenterPage__fixturesFilter"
-              value={this.getFormattedDate(date)}
+              value={getFormattedDate(date)}
               onChange={this.handleDateFilterChange}
             />
           </div>

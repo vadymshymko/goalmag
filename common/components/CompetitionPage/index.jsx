@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { stringify } from 'query-string';
-import moment from 'moment';
+
+import { getFormattedDate } from 'utils';
 
 import AppPage from 'components/AppPage';
 import AppPageHeader from 'components/AppPageHeader';
@@ -21,7 +22,7 @@ export default class CompetitionPage extends Component {
     currentMatchday: PropTypes.number.isRequired,
     isStandingsInitialized: PropTypes.bool.isRequired,
     standingsTable: PropTypes.arrayOf(PropTypes.object).isRequired,
-    standingsMatchday: PropTypes.number,
+    standingsMatchday: PropTypes.string,
     fixturesDate: PropTypes.string,
     fixtures: PropTypes.arrayOf(PropTypes.object).isRequired,
     isFixturesFetching: PropTypes.bool.isRequired,
@@ -33,10 +34,6 @@ export default class CompetitionPage extends Component {
     standingsMatchday: null,
     fixturesDate: null,
   }
-
-  getFormattedDate = (date = Date.now()) => (
-    moment(date).format('YYYY-MM-DD')
-  )
 
   handleDateFilterChange = (event) => {
     const {
@@ -52,7 +49,7 @@ export default class CompetitionPage extends Component {
     this.props.historyPush({
       search: stringify({
         standingsMatchday: standingsMatchday || undefined,
-        fixturesDate: value === this.getFormattedDate()
+        fixturesDate: value === getFormattedDate()
           ? undefined
           : value,
       }),
@@ -76,7 +73,7 @@ export default class CompetitionPage extends Component {
         standingsMatchday: parseInt(value, 10) === currentMatchday
           ? undefined
           : value,
-        fixturesDate: fixturesDate === this.getFormattedDate()
+        fixturesDate: !fixturesDate || fixturesDate === getFormattedDate()
           ? undefined
           : fixturesDate,
       }),
@@ -117,7 +114,7 @@ export default class CompetitionPage extends Component {
                 fieldId="CompetitionInfoFixturesDateFilter"
                 label="Date:"
                 className="CompetitionInfo__filter"
-                value={this.getFormattedDate(fixturesDate)}
+                value={getFormattedDate(fixturesDate)}
                 onChange={this.handleDateFilterChange}
               />
             </header>

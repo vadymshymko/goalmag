@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import AppHeader from 'components/AppHeader';
 import Container from 'components/Container';
 import AppSidebar from 'components/AppSidebar';
-import AppInner from 'components/AppInner';
+import AppInnerContainer from 'containers/AppInnerContainer';
 
 import './App.scss';
 
@@ -35,7 +35,7 @@ export default class App extends Component {
             onRequestHide={this.hideAppNav}
           />
 
-          <AppInner />
+          <AppInnerContainer />
         </Container>
       </div>
     );
