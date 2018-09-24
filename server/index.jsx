@@ -27,8 +27,6 @@ import stats from '../dist/react-loadable.json';
 
 import criticalCSS from './criticalCSS';
 
-const isProd = process.env.NODE_ENV === 'production';
-
 const app = express();
 const port = process.env.PORT || 8080;
 
@@ -65,10 +63,6 @@ const redirectMiddleware = (req, res, next) => {
 };
 
 const cacheMiddleware = (req, res, next) => {
-  if (!isProd) {
-    return next();
-  }
-
   try {
     const cachedResponse = cacheService.get(`page${req.path}`, true);
     return res.render('index', cachedResponse);
