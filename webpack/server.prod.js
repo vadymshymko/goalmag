@@ -9,6 +9,7 @@ module.exports = webpackMerge(commonConfig, {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
+        PORT: process.env.PORT,
       },
     }),
     new UglifyJSPlugin(),
