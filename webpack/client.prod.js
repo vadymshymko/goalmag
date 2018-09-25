@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
+const { GenerateSW } = require('workbox-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
@@ -24,6 +25,7 @@ module.exports = webpackMerge(commonConfig, {
       filename: 'bundle.css',
       allChunks: true,
     }),
+    new GenerateSW(),
   ],
   module: {
     rules: [
