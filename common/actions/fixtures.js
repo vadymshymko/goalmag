@@ -5,6 +5,7 @@ import { fixtures as types } from 'types';
 import {
   getIsFixturesFetching,
   getIsFixturesAllItemsFinished,
+  getFixturesLastUpdated,
 } from 'selectors';
 import { callApi } from 'utils';
 
@@ -28,14 +29,21 @@ export const fetchFixtures = ({
   date,
 } = {}) => (dispatch, getState) => {
   const state = getState();
-  const requestDate = moment(date || Date.now()).format('YYYY-MM-DD');
+  const currentDateTime = Date.now();
+  const requestDate = moment(date || currentDateTime).format('YYYY-MM-DD');
 
   const id = `${competitionId || 'all'}-${requestDate}`;
 
+  const lastUpdated = getFixturesLastUpdated(state, id);
   const isFetching = getIsFixturesFetching(state, id);
   const isAllItemsFinished = getIsFixturesAllItemsFinished(state, id);
+  const isNotNeedRequest = (
+    isFetching
+    || isAllItemsFinished
+    || currentDateTime - lastUpdated <= 60000
+  );
 
-  if (isFetching || isAllItemsFinished) {
+  if (isNotNeedRequest) {
     return Promise.resolve();
   }
 
@@ -62,10 +70,12 @@ export const fetchFixtures = ({
       ids,
       id,
       isAllItemsFinished: !json.matches.find(item => item.status.toLowerCase() !== 'finished'),
+      lastUpdated: Date.now(),
     }));
   }).catch((error) => {
     dispatch(fetchFixturesFailure({
-      requestPath,
+      id,
+      lastUpdated: Date.now(),
     }));
 
     throw error;

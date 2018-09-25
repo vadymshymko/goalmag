@@ -3,6 +3,7 @@ import { standings as types } from 'types';
 
 const standingsInitialState = {};
 const standingsItemInitialState = {
+  lastUpdated: 0,
   isFetching: false,
   isRequestFailed: false,
   isInitialized: false,

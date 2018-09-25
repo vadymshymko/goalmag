@@ -7,6 +7,7 @@ const fixturesItemInitialState = {
   isFetching: false,
   isInitialized: false,
   isRequestFailed: false,
+  lastUpdated: 0,
 };
 
 const fixturesItem = createReducer(fixturesItemInitialState, {

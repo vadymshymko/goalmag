@@ -4,6 +4,13 @@ export const getFixturesState = (state, id) => (
   state.fixtures[id] || {}
 );
 
+export const getFixturesLastUpdated = createSelector(
+  getFixturesState,
+  fixturesState => (
+    fixturesState.lastUpdated || 0
+  ),
+);
+
 export const getIsFixturesFetching = createSelector(
   getFixturesState,
   fixturesState => (

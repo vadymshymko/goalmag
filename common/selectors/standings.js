@@ -25,3 +25,10 @@ export const getIsStandingsInitialized = createSelector(
     !!standings.isInitialized
   ),
 );
+
+export const getStandingsLastUpdated = createSelector(
+  getStandings,
+  standings => (
+    standings.lastUpdated || 0
+  ),
+);

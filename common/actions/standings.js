@@ -3,6 +3,7 @@ import { standings as types } from 'types';
 import {
   getIsStandingsFetching,
   getCompetitionCurrentMatchDay,
+  getStandingsLastUpdated,
 } from 'selectors';
 import { callApi } from 'utils';
 import { standings as schema } from 'schemas';
@@ -36,8 +37,14 @@ export const fetchStandings = ({
   const requestMatchday = matchday || currentMatchday;
   const standingsId = `${competitionId}-${requestMatchday}`;
   const isFetching = getIsStandingsFetching(state, standingsId);
+  const lastUpdated = getStandingsLastUpdated(state, standingsId);
+  const currentDateTime = Date.now();
+  const isNotNeedRequest = (
+    isFetching
+    || currentDateTime - lastUpdated <= 60000
+  );
 
-  if (isFetching) {
+  if (isNotNeedRequest) {
     return Promise.resolve();
   }
 
@@ -59,10 +66,12 @@ export const fetchStandings = ({
       id: standingsId,
       entities,
       ids,
+      lastUpdated: Date.now(),
     }));
   }).catch((error) => {
     dispatch(fetchStandingsFailure({
       id: standingsId,
+      lastUpdated: Date.now(),
     }));
 
     throw error;
