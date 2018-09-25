@@ -156,23 +156,23 @@ export default class MatchCenterPage extends Component {
         </AppPageHeader>
 
         <AppPageContent>
-          <ul className="MatchCenterPage__competitionsList">
-            {Object.keys(fixturesGroupedByCompetitionId).map(id => (
-              <li
-                className="MatchCenterPage__competitionsItem"
-                key={id}
-              >
-                <MatchCenterCompetition
-                  id={id}
-                  name={fixturesGroupedByCompetitionId[id].name}
-                  fixtures={fixturesGroupedByCompetitionId[id].fixtures}
-                />
-              </li>
-            ))}
-          </ul>
-
-          {showEmptyMessage && (
+          {showEmptyMessage ? (
             <Alert>:( There are no games by selected date</Alert>
+          ) : (
+            <ul className="MatchCenterPage__competitionsList">
+              {Object.keys(fixturesGroupedByCompetitionId).map(id => (
+                <li
+                  className="MatchCenterPage__competitionsItem"
+                  key={id}
+                >
+                  <MatchCenterCompetition
+                    id={id}
+                    name={fixturesGroupedByCompetitionId[id].name}
+                    fixtures={fixturesGroupedByCompetitionId[id].fixtures}
+                  />
+                </li>
+              ))}
+            </ul>
           )}
         </AppPageContent>
       </AppPage>
