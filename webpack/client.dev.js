@@ -28,7 +28,7 @@ module.exports = webpackMerge(commonConfig, {
       },
     }),
     new HtmlWebpackPlugin({
-      template: './common/assets/index.html',
+      template: './src/common/assets/index.html',
     }),
   ],
   module: {

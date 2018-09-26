@@ -1,1 +1,1 @@
-export default from './client/index.jsx';
+export default from './src/client/index.jsx';
