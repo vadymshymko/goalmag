@@ -5,7 +5,7 @@ const NodeExternals = require('webpack-node-externals');
 module.exports = {
   entry: [
     'babel-polyfill',
-    './server/index.jsx',
+    './src/server/index.jsx',
   ],
   output: {
     filename: 'server.js',
@@ -15,14 +15,14 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx'],
     modules: [
-      path.resolve(__dirname, '../common'),
+      path.resolve(__dirname, '../src/common'),
       'node_modules',
     ],
   },
   plugins: [
     new CopyWebpackPlugin([
       {
-        from: 'server/views',
+        from: 'src/server/views',
         to: 'views',
       },
     ]),

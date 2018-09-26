@@ -11,7 +11,6 @@ module.exports = webpackMerge(commonConfig, {
     'babel-polyfill',
     './index.js',
   ],
-  // devtool: 'source-map',
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {

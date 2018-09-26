@@ -13,7 +13,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx'],
     modules: [
-      path.resolve(__dirname, '../common'),
+      path.resolve(__dirname, '../src/common'),
       'node_modules',
     ],
   },
@@ -26,7 +26,7 @@ module.exports = {
     ),
     new CopyWebpackPlugin([
       {
-        from: 'static',
+        from: 'src/common/static',
       },
     ]),
     new ReactLoadablePlugin({

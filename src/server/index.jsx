@@ -23,7 +23,7 @@ import getRoutes from 'routes';
 
 import { fetchCompetitions } from 'actions';
 
-import stats from '../dist/react-loadable.json';
+import stats from '../../dist/react-loadable.json';
 
 import criticalCSS from './criticalCSS';
 
