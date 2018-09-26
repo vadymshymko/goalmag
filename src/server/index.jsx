@@ -119,11 +119,6 @@ const getResponse = async (req) => {
   const title = helmet.title.toString();
   const meta = helmet.meta.toString();
 
-  const styles = bundles.filter(bundle => (
-    bundle.file.endsWith('.css')
-  )).map(style => (
-    `<link href="/dist/${style.file}" rel="stylesheet" />`.join('\n')
-  ));
   const scripts = bundles.filter(bundle => (
     bundle.file.endsWith('.js')
   )).map(script => (
@@ -133,7 +128,6 @@ const getResponse = async (req) => {
   return {
     title,
     meta,
-    styles,
     html,
     scripts,
     state: serialize(store.getState()),
