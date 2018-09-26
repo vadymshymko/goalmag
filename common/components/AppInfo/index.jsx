@@ -9,7 +9,7 @@ const AppInfo = () => (
     </p>
 
     <p className="AppInfo__item">
-      Football data provided by the <a className="AppInfo__link" href="//football-data.org" target="_blank" rel="noopener noreferrer" title="Football-Data.org">Football-Data.org API</a>
+      Football data provided by the <a className="AppInfo__link" href="//www.football-data.org" target="_blank" rel="noopener noreferrer" title="Football-Data.org">Football-Data.org API</a>
     </p>
   </div>
 );
