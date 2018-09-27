@@ -1,7 +1,7 @@
 {
     "name": "GoalMag",
     "short_name": "GoalMag",
-    "start_url": "/",
+    "start_url": "/match-center",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",
