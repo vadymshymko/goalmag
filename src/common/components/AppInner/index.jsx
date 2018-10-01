@@ -6,10 +6,11 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import getRoutes from 'routes';
 
-import './AppInner.scss';
+import styles from './AppInner.scss';
 
 const Loading = () => <div>Loading...</div>;
 
@@ -38,7 +39,7 @@ const AppInner = ({
 }) => (
   isCompetitionsInitialized
     ? (
-      <div className="AppInner">
+      <div className={styles.AppInner}>
         <Switch>
           <Redirect
             strict
@@ -68,4 +69,4 @@ AppInner.propTypes = {
   isCompetitionsInitialized: PropTypes.bool.isRequired,
 };
 
-export default AppInner;
+export default withStyles(styles)(AppInner);

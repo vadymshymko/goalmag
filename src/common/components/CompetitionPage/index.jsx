@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { stringify } from 'query-string';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import { getFormattedDate } from 'utils';
 
@@ -14,9 +15,9 @@ import FixturesList from 'components/FixturesList';
 import Dropdown from 'components/Dropdown';
 import DateInput from 'components/DateInput';
 
-import './CompetitionPage.scss';
+import styles from './CompetitionPage.scss';
 
-export default class CompetitionPage extends Component {
+class CompetitionPage extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
     currentMatchday: PropTypes.number.isRequired,
@@ -97,7 +98,7 @@ export default class CompetitionPage extends Component {
       <AppPage
         title={name}
         description={`Fixtures, teams, squads and standings - ${name}`}
-        className="CompetitionPage"
+        className={styles.CompetitionPage}
       >
         <AppPageHeader>
           <AppPageTitle>
@@ -106,14 +107,14 @@ export default class CompetitionPage extends Component {
         </AppPageHeader>
 
         <AppPageContent>
-          <section className="CompetitionInfo">
-            <header className="CompetitionInfo__header">
-              <h3 className="CompetitionInfo__title">Match Center:</h3>
+          <section className={styles.CompetitionInfo}>
+            <header className={styles.CompetitionInfo__header}>
+              <h3 className={styles.CompetitionInfo__title}>Match Center:</h3>
 
               <DateInput
                 fieldId="CompetitionInfoFixturesDateFilter"
                 label="Date:"
-                className="CompetitionInfo__filter"
+                className={styles.CompetitionInfo__filter}
                 value={getFormattedDate(fixturesDate)}
                 onChange={this.handleDateFilterChange}
               />
@@ -129,14 +130,14 @@ export default class CompetitionPage extends Component {
           </section>
 
           {isStandingsInitialized && (
-            <section className="CompetitionInfo">
-              <header className="CompetitionInfo__header">
-                <h3 className="CompetitionInfo__title">Standings:</h3>
+            <section className={styles.CompetitionInfo}>
+              <header className={styles.CompetitionInfo__header}>
+                <h3 className={styles.CompetitionInfo__title}>Standings:</h3>
 
                 <Dropdown
                   fieldId="CompetitionInfoTableMatchdayFilter"
                   label="Matchday:"
-                  className="CompetitionInfo__filter"
+                  className={styles.CompetitionInfo__filter}
                   value={standingsMatchday || currentMatchday}
                   options={Array.from({
                     length: currentMatchday,
@@ -156,3 +157,5 @@ export default class CompetitionPage extends Component {
     );
   }
 }
+
+export default withStyles(styles)(CompetitionPage);

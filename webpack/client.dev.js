@@ -31,26 +31,4 @@ module.exports = webpackMerge(commonConfig, {
       template: './src/common/assets/index.html',
     }),
   ],
-  module: {
-    rules: [
-      {
-        test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'postcss-loader',
-        ],
-      },
-      {
-        test: /\.scss/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader',
-          'postcss-loader',
-        ],
-        exclude: /node_modules/,
-      },
-    ],
-  },
 });

@@ -1,20 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import FixturesList from 'components/FixturesList';
 
-import './MatchCenterCompetition.scss';
+import styles from './MatchCenterCompetition.scss';
 
 const MatchCenterCompetition = ({
   id,
   name,
   fixtures,
 }) => (
-  <article className="MatchCenterCompetition">
-    <h3 className="MatchCenterCompetition__title">
+  <article className={styles.MatchCenterCompetition}>
+    <h3 className={styles.MatchCenterCompetition__title}>
       <Link
-        className="MatchCenterCompetition__link"
+        className={styles.MatchCenterCompetition__link}
         href={`/competition/${id}`}
         to={`/competition/${id}`}
         title={name}
@@ -40,4 +41,4 @@ MatchCenterCompetition.defaultProps = {
   fixtures: [],
 };
 
-export default MatchCenterCompetition;
+export default withStyles(styles)(MatchCenterCompetition);

@@ -40,6 +40,37 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.css$/,
+        use: [
+          'isomorphic-style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              modules: true,
+              minimize: true,
+            },
+          },
+          'postcss-loader',
+        ],
+      },
+      {
+        test: /\.scss/,
+        use: [
+          'isomorphic-style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2,
+              modules: true,
+              minimize: true,
+            },
+          },
+          'sass-loader',
+          'postcss-loader',
+        ],
+      },
+      {
         test: /\.(ttf|eot|woff(2)?)(\?[a-z0-9=&.]+)?$/,
         use: 'file-loader',
         exclude: /node_modules/,

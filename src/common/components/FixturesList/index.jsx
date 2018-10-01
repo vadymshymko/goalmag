@@ -1,15 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import Fixture from 'components/Fixture';
 
-import './FixturesList.scss';
+import styles from './FixturesList.scss';
 
 const FixturesList = ({
   fixtures,
 }) => (
-  <ul className="FixturesList">
+  <ul className={styles.FixturesList}>
     {fixtures.map(({
       id,
       homeTeam: {
@@ -30,7 +31,7 @@ const FixturesList = ({
       utcDate = Date.now(),
     } = {}) => (
       <li
-        className="FixturesList__item"
+        className={styles.FixturesList__item}
         key={id}
       >
         <Fixture
@@ -56,4 +57,4 @@ FixturesList.defaultProps = {
   fixtures: [],
 };
 
-export default FixturesList;
+export default withStyles(styles)(FixturesList);

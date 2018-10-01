@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
-import './Alert.scss';
+import styles from './Alert.scss';
 
 const Alert = ({ children }) => (
-  <p className="Alert">{children}</p>
+  <p className={styles.Alert}>{children}</p>
 );
 
 Alert.propTypes = {
@@ -15,4 +16,4 @@ Alert.defaultProps = {
   children: null,
 };
 
-export default Alert;
+export default withStyles(styles)(Alert);

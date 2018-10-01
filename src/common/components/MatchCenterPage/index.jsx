@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { stringify } from 'query-string';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import { getFormattedDate } from 'utils';
 
@@ -13,9 +14,9 @@ import Alert from 'components/Alert';
 import Dropdown from 'components/Dropdown';
 import DateInput from 'components/DateInput';
 
-import './MatchCenterPage.scss';
+import styles from './MatchCenterPage.scss';
 
-export default class MatchCenterPage extends Component {
+class MatchCenterPage extends Component {
   static propTypes = {
     competitionId: PropTypes.number,
     date: PropTypes.string,
@@ -119,18 +120,18 @@ export default class MatchCenterPage extends Component {
       <AppPage
         title="Match Center"
         description="Live fixtures across all competitions && dates - Goal Magazine"
-        className="MatchCenterPage"
+        className={styles.MatchCenterPage}
       >
-        <AppPageHeader className="MatchCenterPage__header">
-          <AppPageTitle className="MatchCenterPage__title">
+        <AppPageHeader className={styles.MatchCenterPage__header}>
+          <AppPageTitle className={styles.MatchCenterPage__title}>
             Match Center
           </AppPageTitle>
 
-          <div className="MatchCenterPage__fixturesFilters">
+          <div className={styles.MatchCenterPage__fixturesFilters}>
             <Dropdown
               fieldId="MatchCenterPageCompetitionFilter"
               label="Competition:"
-              className="MatchCenterPage__fixturesFilter"
+              className={styles.MatchCenterPage__fixturesFilter}
               value={competitionId || ''}
               options={[
                 {
@@ -148,7 +149,7 @@ export default class MatchCenterPage extends Component {
             <DateInput
               fieldId="MatchCenterPageFixturesDateFilter"
               label="Date:"
-              className="MatchCenterPage__fixturesFilter"
+              className={styles.MatchCenterPage__fixturesFilter}
               value={getFormattedDate(date)}
               onChange={this.handleDateFilterChange}
             />
@@ -159,10 +160,10 @@ export default class MatchCenterPage extends Component {
           {showEmptyMessage ? (
             <Alert>:( There are no games by selected date</Alert>
           ) : (
-            <ul className="MatchCenterPage__competitionsList">
+            <ul className={styles.MatchCenterPage__competitionsList}>
               {Object.keys(fixturesGroupedByCompetitionId).map(id => (
                 <li
-                  className="MatchCenterPage__competitionsItem"
+                  className={styles.MatchCenterPage__competitionsItem}
                   key={id}
                 >
                   <MatchCenterCompetition
@@ -179,3 +180,5 @@ export default class MatchCenterPage extends Component {
     );
   }
 }
+
+export default withStyles(styles)(MatchCenterPage);

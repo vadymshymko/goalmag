@@ -13,6 +13,8 @@ import serialize from 'serialize-javascript';
 
 import configureStore from 'store';
 
+import StylesProvider from 'contextProviders/StylesProvider';
+
 import App from 'components/App';
 import MatchCenterPageContainer from 'containers/MatchCenterPageContainer';
 import CompetitionPageContainer from 'containers/CompetitionPageContainer';
@@ -24,8 +26,6 @@ import getRoutes from 'routes';
 import { fetchCompetitions } from 'actions';
 
 import stats from '../../dist/react-loadable.json';
-
-import criticalCSS from './criticalCSS';
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -77,6 +77,17 @@ const getResponse = async (req) => {
   const modules = [];
   const location = req.url;
 
+  const css = new Set();
+  const stylesContext = {
+    insertCss: (...styles) => (
+      styles.forEach(style => (
+        /* eslint-disable */
+          css.add(style._getCss())
+          /* eslint-enable */
+      ))
+    ),
+  };
+
   await store.dispatch(fetchCompetitions());
 
   const promises = routes.reduce((result, route) => {
@@ -102,13 +113,15 @@ const getResponse = async (req) => {
         location={location}
         context={context}
       >
-        <Loadable.Capture
-          report={moduleName => (
-            modules.push(moduleName)
-          )}
-        >
-          <App />
-        </Loadable.Capture>
+        <StylesProvider context={stylesContext}>
+          <Loadable.Capture
+            report={moduleName => (
+              modules.push(moduleName)
+            )}
+          >
+            <App />
+          </Loadable.Capture>
+        </StylesProvider>
       </StaticRouter>
     </Provider>
   ));
@@ -131,7 +144,7 @@ const getResponse = async (req) => {
     html,
     scripts,
     state: serialize(store.getState()),
-    criticalCSS,
+    criticalCSS: [...css].join(''),
   };
 };
 

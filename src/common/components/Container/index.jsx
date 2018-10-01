@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
-import './Container.scss';
+import styles from './Container.scss';
 
 const Container = ({
   children,
 }) => (
-  <div className="Container">
+  <div className={styles.Container}>
     {children}
   </div>
 );
@@ -19,4 +20,4 @@ Container.defaultProps = {
   children: null,
 };
 
-export default Container;
+export default withStyles(styles)(Container);

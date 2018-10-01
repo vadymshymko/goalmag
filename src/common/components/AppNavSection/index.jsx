@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import Icon from 'components/Icon';
 
-import './AppNavSection.scss';
+import styles from './AppNavSection.scss';
 
-export default class AppNavSection extends Component {
+class AppNavSection extends Component {
   static propTypes = {
     name: PropTypes.node,
     competitions: PropTypes.arrayOf(PropTypes.object),
@@ -44,18 +45,18 @@ export default class AppNavSection extends Component {
     } = this.props;
 
     return (
-      <div className="AppNavSection">
+      <div className={styles.AppNavSection}>
         {name && (
-          <div className="AppNavSection__header">
+          <div className={styles.AppNavSection__header}>
             <button
-              className="AppNavSection__contentToggle"
+              className={styles.AppNavSection__contentToggle}
               type="button"
               onClick={this.toggleContent}
               title={`Show ${name} competitions navigation`}
               aria-label={`Show ${name} competitions navigation`}
             >
               <Icon
-                className="AppNavSection__contentToggleIcon"
+                className={styles.AppNavSection__contentToggleIcon}
                 viewBox="0 0 24 24"
                 fill="none"
                 strokeWidth="2"
@@ -73,7 +74,7 @@ export default class AppNavSection extends Component {
 
             {competitions[0] ? (
               <NavLink
-                className="AppNavSection__title"
+                className={styles.AppNavSection__title}
                 to={competitions[0].url}
                 exact
                 title={competitions[0].name}
@@ -81,7 +82,7 @@ export default class AppNavSection extends Component {
                 {name}
               </NavLink>
             ) : (
-              <span className="AppNavSection__title">{name}</span>
+              <span className={styles.AppNavSection__title}>{name}</span>
             )}
           </div>
         )}
@@ -89,22 +90,22 @@ export default class AppNavSection extends Component {
         {competitions.length > 0 && (
           <div
             className={`
-              AppNavSection__content
+              ${styles.AppNavSection__content}
               ${this.state.showContent || !name
-                ? 'AppNavSection__content--visible'
+                ? styles['AppNavSection__content--visible']
                 : ''
               }
             `}
           >
-            <ul className="AppNavSection__list">
+            <ul className={styles.AppNavSection__list}>
               {competitions.map(competition => (
                 <li
-                  className="AppNavSection__item"
+                  className={styles.AppNavSection__item}
                   key={competition.id}
                 >
                   <NavLink
-                    className="AppNavSection__link"
-                    activeClassName="AppNavSection__link--active"
+                    className={styles.AppNavSection__link}
+                    activeClassName={styles['AppNavSection__link--active']}
                     to={competition.url}
                     exact
                     title={competition.name}
@@ -120,3 +121,5 @@ export default class AppNavSection extends Component {
     );
   }
 }
+
+export default withStyles(styles)(AppNavSection);

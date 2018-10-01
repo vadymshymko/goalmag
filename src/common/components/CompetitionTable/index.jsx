@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import Table from 'components/Table';
 import TeamLink from 'components/TeamLink';
 
-import './CompetitionTable.scss';
+import styles from './CompetitionTable.scss';
 
-export default class CompetitionTable extends Component {
+class CompetitionTable extends Component {
   static propTypes = {
     table: PropTypes.arrayOf(PropTypes.object),
   }
@@ -32,7 +33,7 @@ export default class CompetitionTable extends Component {
 
     return (
       <Table
-        className="CompetitionTable"
+        className={styles.CompetitionTable}
         headings={[
           {
             key: 'position',
@@ -99,3 +100,5 @@ export default class CompetitionTable extends Component {
     );
   }
 }
+
+export default withStyles(styles)(CompetitionTable);

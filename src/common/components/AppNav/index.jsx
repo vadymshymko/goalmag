@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import AppNavSection from 'components/AppNavSection';
 
-import './AppNav.scss';
+import styles from './AppNav.scss';
 
 class AppNav extends Component {
   static propTypes = {
@@ -73,7 +74,7 @@ class AppNav extends Component {
     const sections = this.getSections(competitions);
 
     return (
-      <nav className="AppNav">
+      <nav className={styles.AppNav}>
         <AppNavSection
           competitions={[
             {
@@ -97,4 +98,4 @@ class AppNav extends Component {
   }
 }
 
-export default AppNav;
+export default withStyles(styles)(AppNav);

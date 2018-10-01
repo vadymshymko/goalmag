@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import TeamLink from 'components/TeamLink';
 
-import './FixtureTeam.scss';
+import styles from './FixtureTeam.scss';
 
 const FixtureTeam = ({
   id,
@@ -12,10 +13,10 @@ const FixtureTeam = ({
   score,
   scoreStyle,
 }) => (
-  <span className={`FixtureTeam FixtureTeam--type--${type}`}>
+  <span className={`${styles.FixtureTeam} ${styles[`FixtureTeam--type--${type}`]}`}>
     {type === 'away' && (
       <span
-        className="FixtureTeam__score"
+        className={styles.FixtureTeam__score}
         style={scoreStyle}
       >
         {score}
@@ -23,7 +24,7 @@ const FixtureTeam = ({
     )}
 
     <TeamLink
-      className="FixtureTeam__link"
+      className={styles.FixtureTeam__link}
       id={id}
       name={name}
     >
@@ -32,7 +33,7 @@ const FixtureTeam = ({
 
     {type === 'home' && (
       <span
-        className="FixtureTeam__score"
+        className={styles.FixtureTeam__score}
         style={scoreStyle}
       >
         {score}
@@ -63,4 +64,4 @@ FixtureTeam.defaultProps = {
   scoreStyle: null,
 };
 
-export default FixtureTeam;
+export default withStyles(styles)(FixtureTeam);

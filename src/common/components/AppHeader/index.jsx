@@ -1,16 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import Container from 'components/Container';
 import AppTitle from 'components/AppTitle';
 
-import './AppHeader.scss';
+import styles from './AppHeader.scss';
 
 const AppHeader = ({ onRequestShowNav }) => (
-  <header className="AppHeader">
+  <header className={styles.AppHeader}>
     <Container>
       <button
-        className="AppHeader__showNavBtn"
+        className={styles.AppHeader__showNavBtn}
         type="button"
         title="Show Navigation"
         onClick={onRequestShowNav}
@@ -23,7 +24,7 @@ const AppHeader = ({ onRequestShowNav }) => (
           strokeLinecap="round"
           strokeLinejoin="round"
           stroke="currentColor"
-          className="AppHeader__showNavIcon"
+          className={styles.AppHeader__showNavIcon}
         >
           <line x1="3" y1="12" x2="21" y2="12" />
           <line x1="3" y1="6" x2="21" y2="6" />
@@ -40,4 +41,4 @@ AppHeader.propTypes = {
   onRequestShowNav: PropTypes.func.isRequired,
 };
 
-export default AppHeader;
+export default withStyles(styles)(AppHeader);

@@ -1,14 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import AppLogo from 'components/AppLogo';
 
-import './AppTitle.scss';
+import styles from './AppTitle.scss';
 
 const AppTitle = () => (
-  <h1 className="AppTitle">
+  <h1 className={styles.AppTitle}>
     <Link
-      className="AppTitle__link"
+      className={styles.AppTitle__link}
       to="/"
       href="/"
       title="Go To Homepage"
@@ -20,4 +21,4 @@ const AppTitle = () => (
   </h1>
 );
 
-export default AppTitle;
+export default withStyles(styles)(AppTitle);

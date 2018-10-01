@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import AppHeader from 'components/AppHeader';
 import Container from 'components/Container';
 import AppSidebar from 'components/AppSidebar';
 import AppInnerContainer from 'containers/AppInnerContainer';
 
-import './App.scss';
+import styles from './App.scss';
 
-export default class App extends Component {
+class App extends Component {
   state = {
     showAppNav: false,
   }
@@ -26,7 +27,7 @@ export default class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className={styles.App}>
         <AppHeader onRequestShowNav={this.showAppNav} />
 
         <Container>
@@ -41,3 +42,5 @@ export default class App extends Component {
     );
   }
 }
+
+export default withStyles(styles)(App);

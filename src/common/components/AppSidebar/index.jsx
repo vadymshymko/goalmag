@@ -1,19 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import AppNavContainer from 'containers/AppNavContainer';
 import AppInfo from 'components/AppInfo';
 
-import './AppSidebar.scss';
+import styles from './AppSidebar.scss';
 
 const AppSidebar = ({
   onRequestHide,
   showContent,
 }) => (
-  <div className="AppSidebar">
-    <div className={`AppSidebar__content ${showContent ? 'AppSidebar__content--visible' : ''}`}>
+  <div className={styles.AppSidebar}>
+    <div className={`${styles.AppSidebar__content} ${showContent ? styles['AppSidebar__content--visible'] : ''}`}>
       <button
-        className="AppSidebar__hideBtn"
+        className={styles.AppSidebar__hideBtn}
         type="button"
         onClick={onRequestHide}
         title="Hide Navigation"
@@ -26,7 +27,7 @@ const AppSidebar = ({
           strokeLinecap="round"
           strokeLinejoin="round"
           stroke="currentColor"
-          className="AppSidebar__hideIcon"
+          className={styles.AppSidebar__hideIcon}
         >
           <line x1="19" y1="12" x2="5" y2="12" />
           <polyline points="12 19 5 12 12 5" />
@@ -39,7 +40,7 @@ const AppSidebar = ({
     </div>
 
     <div
-      className="AppSidebar__bg"
+      className={styles.AppSidebar__bg}
       role="presentation"
       onClick={onRequestHide}
     />
@@ -51,4 +52,4 @@ AppSidebar.propTypes = {
   showContent: PropTypes.bool.isRequired,
 };
 
-export default AppSidebar;
+export default withStyles(styles)(AppSidebar);

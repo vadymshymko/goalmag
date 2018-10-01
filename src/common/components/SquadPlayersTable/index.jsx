@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import Table from 'components/Table';
 
-import './SquadPlayersTable.scss';
+import styles from './SquadPlayersTable.scss';
 
-export default class SquadPlayersTable extends Component {
+class SquadPlayersTable extends Component {
   static propTypes = {
     players: PropTypes.arrayOf(PropTypes.object),
   }
@@ -33,7 +34,7 @@ export default class SquadPlayersTable extends Component {
 
     return (
       <Table
-        className="SquadPlayersTable"
+        className={styles.SquadPlayersTable}
         headings={[
           {
             key: 'name',
@@ -60,3 +61,5 @@ export default class SquadPlayersTable extends Component {
     );
   }
 }
+
+export default withStyles(styles)(SquadPlayersTable);

@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
-import './TeamLink.scss';
+import styles from './TeamLink.scss';
 
 const TeamLink = ({
   id,
@@ -11,7 +12,7 @@ const TeamLink = ({
   className,
 }) => (
   <Link
-    className={`TeamLink ${className}`}
+    className={`${styles.TeamLink} ${className}`}
     to={`/team/${id}`}
     href={`/team/${id}`}
     title={name}
@@ -33,4 +34,4 @@ TeamLink.defaultProps = {
   className: '',
 };
 
-export default TeamLink;
+export default withStyles(styles)(TeamLink);

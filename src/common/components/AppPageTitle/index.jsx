@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
-import './AppPageTitle.scss';
+import styles from './AppPageTitle.scss';
 
 const AppPageTitle = ({
   children,
 }) => (
-  <h1 className="AppPageTitle">
+  <h1 className={styles.AppPageTitle}>
     {children}
   </h1>
 );
@@ -19,4 +20,4 @@ AppPageTitle.defaultProps = {
   children: null,
 };
 
-export default AppPageTitle;
+export default withStyles(styles)(AppPageTitle);

@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
-import './AppPageHeader.scss';
+import styles from './AppPageHeader.scss';
 
 const AppPageHeader = ({
   className,
   children,
 }) => (
-  <div className={`AppPageHeader ${className}`}>
+  <div className={`${styles.AppPageHeader} ${className}`}>
     {children}
   </div>
 );
@@ -22,4 +23,4 @@ AppPageHeader.defaultProps = {
   children: null,
 };
 
-export default AppPageHeader;
+export default withStyles(styles)(AppPageHeader);

@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
-import './Dropdown.scss';
+import styles from './Dropdown.scss';
 
 const Dropdown = ({
   fieldId,
@@ -12,17 +13,17 @@ const Dropdown = ({
   onChange,
 }) => (
   <label
-    className={`Dropdown ${className}`}
+    className={`${styles.Dropdown} ${className}`}
     htmlFor={fieldId}
   >
     {label && (
-      <span className="Dropdown__label">
+      <span className={styles.Dropdown__label}>
         {label}
       </span>
     )}
 
     <select
-      className="Dropdown__field"
+      className={styles.Dropdown__field}
       value={value}
       onChange={onChange}
       id={fieldId}
@@ -68,4 +69,4 @@ Dropdown.defaultProps = {
   value: null,
 };
 
-export default Dropdown;
+export default withStyles(styles)(Dropdown);

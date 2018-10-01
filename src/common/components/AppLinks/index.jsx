@@ -1,11 +1,12 @@
 import React from 'react';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
-import './AppLinks.scss';
+import styles from './AppLinks.scss';
 
 const AppLinks = () => (
-  <div className="AppLinks">
+  <div className={styles.AppLinks}>
     <a
-      className="AppLinks__item"
+      className={styles.AppLinks__item}
       href="//github.com/vadymshymko/goalmag"
       target="_bkank"
       rel="noopener noreferrer"
@@ -16,4 +17,4 @@ const AppLinks = () => (
   </div>
 );
 
-export default AppLinks;
+export default withStyles(styles)(AppLinks);

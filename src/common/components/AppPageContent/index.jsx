@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
-import './AppPageContent.scss';
+import styles from './AppPageContent.scss';
 
 const AppPageContent = ({
   children,
 }) => (
-  <div className="AppPageContent">
+  <div className={styles.AppPageContent}>
     {children}
   </div>
 );
@@ -19,4 +20,4 @@ AppPageContent.defaultProps = {
   children: null,
 };
 
-export default AppPageContent;
+export default withStyles(styles)(AppPageContent);

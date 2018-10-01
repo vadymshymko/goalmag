@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import FixtureTeam from 'components/FixtureTeam';
 
-import './Fixture.scss';
+import styles from './Fixture.scss';
 
 const getScoreColorByStatus = (status = '') => {
   if (status === 'finished' || status === 'in_play') {
@@ -33,12 +34,12 @@ const Fixture = ({
   status,
   date,
 }) => (
-  <article className="Fixture">
-    <span className="Fixture__date">
+  <article className={styles.Fixture}>
+    <span className={styles.Fixture__date}>
       {date}
     </span>
 
-    <div className="Fixture__mainInfo">
+    <div className={styles.Fixture__mainInfo}>
       <FixtureTeam
         id={homeTeamId}
         name={homeTeamName}
@@ -53,7 +54,7 @@ const Fixture = ({
         }}
       />
 
-      <span className="Fixture__separator" />
+      <span className={styles.Fixture__separator} />
 
       <FixtureTeam
         id={awayTeamId}
@@ -70,7 +71,7 @@ const Fixture = ({
       />
     </div>
 
-    <span className="Fixture__status">
+    <span className={styles.Fixture__status}>
       {status}
     </span>
   </article>
@@ -98,4 +99,4 @@ Fixture.defaultProps = {
   date: '',
 };
 
-export default Fixture;
+export default withStyles(styles)(Fixture);

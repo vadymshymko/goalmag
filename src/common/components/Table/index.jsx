@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import Icon from 'components/Icon';
 
-import './Table.scss';
+import styles from './Table.scss';
 
 const getSortedRows = (rows, sortBy, ascendingSort) => {
   if (!sortBy) {
@@ -46,8 +47,8 @@ const Table = ({
   sortBy,
   ascendingSort,
 }) => (
-  <div className="TableContainer">
-    <table className={`Table ${className}`}>
+  <div className={styles.TableContainer}>
+    <table className={`${styles.Table} ${className}`}>
       <thead>
         <tr>
           {headings.map(heading => (
@@ -55,10 +56,10 @@ const Table = ({
               key={heading.key}
               onClick={() => { onRequestSort(heading.key); }}
             >
-              <span className="Table__heading">
+              <span className={styles.Table__heading}>
                 <Icon
                   viewBox="0 0 8 6"
-                  className="Table__sortIcon"
+                  className={styles.Table__sortIcon}
                 >
                   {sortBy && ascendingSort ? (
                     <polygon
@@ -125,4 +126,4 @@ Table.defaultProps = {
   ascendingSort: false,
 };
 
-export default Table;
+export default withStyles(styles)(Table);

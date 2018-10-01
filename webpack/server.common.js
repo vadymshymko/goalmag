@@ -32,20 +32,37 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            plugins: [
-              [
-                'babel-plugin-transform-require-ignore',
-                {
-                  extensions: ['.scss', '.css'],
-                },
-              ],
-            ],
+        test: /\.css$/,
+        use: [
+          'isomorphic-style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              modules: true,
+            },
           },
-        },
+          'postcss-loader',
+        ],
+      },
+      {
+        test: /\.scss/,
+        use: [
+          'isomorphic-style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2,
+              modules: true,
+            },
+          },
+          'sass-loader',
+          'postcss-loader',
+        ],
+      },
+      {
+        test: /\.jsx?$/,
+        use: 'babel-loader',
         exclude: /node_modules/,
       },
     ],

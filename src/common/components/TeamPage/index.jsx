@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import AppPage from 'components/AppPage';
 import AppPageHeader from 'components/AppPageHeader';
@@ -7,7 +8,7 @@ import AppPageTitle from 'components/AppPageTitle';
 import AppPageContent from 'components/AppPageContent';
 import SquadPlayersTable from 'components/SquadPlayersTable';
 
-import './TeamPage.scss';
+import styles from './TeamPage.scss';
 
 const TeamPage = ({
   name,
@@ -18,13 +19,13 @@ const TeamPage = ({
   <AppPage
     title={name}
     description={`Team squad, players and fixtures - ${name}`}
-    className="TeamPage"
+    className={styles.TeamPage}
   >
     <AppPageHeader>
       <AppPageTitle>
         {logoURL && (
           <img
-            className="TeamPage__logo"
+            className={styles.TeamPage__logo}
             src={logoURL}
             alt={name}
             title={name}
@@ -39,7 +40,7 @@ const TeamPage = ({
       <SquadPlayersTable players={players} />
 
       {coachName && (
-        <p className="TeamCoach">Coach: {coachName}</p>
+        <p className={styles.TeamCoach}>Coach: {coachName}</p>
       )}
     </AppPageContent>
   </AppPage>
@@ -52,4 +53,4 @@ TeamPage.propTypes = {
   coachName: PropTypes.string.isRequired,
 };
 
-export default TeamPage;
+export default withStyles(styles)(TeamPage);

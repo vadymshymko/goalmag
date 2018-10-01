@@ -1,10 +1,11 @@
 import React from 'react';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
-import './AppLogo.scss';
+import styles from './AppLogo.scss';
 
 const AppLogo = () => (
   <svg
-    className="AppLogo"
+    className={styles.AppLogo}
     viewBox="0 0 30 30"
   >
     <circle cx="15" cy="15" r="15" fill="#28a745" />
@@ -14,4 +15,4 @@ const AppLogo = () => (
   </svg>
 );
 
-export default AppLogo;
+export default withStyles(styles)(AppLogo);

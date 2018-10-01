@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
-import './DateInput.scss';
+import styles from './DateInput.scss';
 
 const DateInput = ({
   fieldId,
@@ -11,15 +12,15 @@ const DateInput = ({
   onChange,
 }) => (
   <label
-    className={`DateInput ${className}`}
+    className={`${styles.DateInput} ${className}`}
     htmlFor={fieldId}
   >
     {label && (
-      <span className="DateInput__label">{label}</span>
+      <span className={styles.DateInput__label}>{label}</span>
     )}
 
     <input
-      className="DateInput__field"
+      className={styles.DateInput__field}
       type="date"
       value={value}
       onChange={onChange}
@@ -41,4 +42,4 @@ DateInput.defaultProps = {
   fieldId: null,
 };
 
-export default DateInput;
+export default withStyles(styles)(DateInput);
