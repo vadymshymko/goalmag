@@ -28,10 +28,6 @@ module.exports = webpackMerge(commonConfig, {
           urlPattern: new RegExp('https://goalmag.herokuapp.com'),
           handler: 'staleWhileRevalidate',
         },
-        {
-          urlPattern: new RegExp('https://api.football-data.org/v2'),
-          handler: 'staleWhileRevalidate',
-        },
       ],
     }),
   ],
