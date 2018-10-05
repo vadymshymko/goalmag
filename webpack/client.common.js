@@ -17,12 +17,6 @@ module.exports = {
       'node_modules',
     ],
   },
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-      minChunks: Infinity,
-    },
-  },
   plugins: [
     new webpack.LoaderOptionsPlugin({ options: {} }),
     new CleanWebpackPlugin(
