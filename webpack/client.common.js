@@ -17,7 +17,14 @@ module.exports = {
       'node_modules',
     ],
   },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      minChunks: Infinity,
+    },
+  },
   plugins: [
+    new webpack.LoaderOptionsPlugin({ options: {} }),
     new CleanWebpackPlugin(
       ['dist'],
       {
@@ -31,10 +38,6 @@ module.exports = {
     ]),
     new ReactLoadablePlugin({
       filename: './dist/react-loadable.json',
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'manifest',
-      minChunks: Infinity,
     }),
   ],
   module: {

@@ -1,5 +1,7 @@
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
+const webpack = require('webpack');
+
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const NodeExternals = require('webpack-node-externals');
 
 module.exports = {
@@ -20,6 +22,7 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.LoaderOptionsPlugin({ options: {} }),
     new CopyWebpackPlugin([
       {
         from: 'src/server/views',
@@ -59,6 +62,12 @@ module.exports = {
           'sass-loader',
           'postcss-loader',
         ],
+      },
+      {
+        enforce: 'pre',
+        test: /\.jsx?$/,
+        use: 'eslint-loader',
+        exclude: /node_modules/,
       },
       {
         test: /\.jsx?$/,
