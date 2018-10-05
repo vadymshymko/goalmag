@@ -14,10 +14,9 @@ module.exports = webpackMerge(commonConfig, {
   },
   devtool: 'inline-source-map',
   entry: [
-    'babel-polyfill',
-    'react-hot-loader/patch',
+    '@babel/polyfill',
     'webpack-dev-server/client?http://localhost:8080',
-    './index.js',
+    './src/client/index.jsx',
   ],
   plugins: [
     new webpack.NamedModulesPlugin(),

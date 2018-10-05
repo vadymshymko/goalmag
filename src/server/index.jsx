@@ -108,22 +108,22 @@ const getResponse = async (req) => {
   await Promise.all(promises);
 
   const html = renderToString((
-    <Provider store={store}>
-      <StaticRouter
-        location={location}
-        context={context}
-      >
-        <StylesProvider context={stylesContext}>
-          <Loadable.Capture
-            report={moduleName => (
-              modules.push(moduleName)
-            )}
-          >
+    <Loadable.Capture
+      report={moduleName => (
+        modules.push(moduleName)
+      )}
+    >
+      <Provider store={store}>
+        <StaticRouter
+          location={location}
+          context={context}
+        >
+          <StylesProvider context={stylesContext}>
             <App />
-          </Loadable.Capture>
-        </StylesProvider>
-      </StaticRouter>
-    </Provider>
+          </StylesProvider>
+        </StaticRouter>
+      </Provider>
+    </Loadable.Capture>
   ));
 
   const helmet = Helmet.renderStatic();

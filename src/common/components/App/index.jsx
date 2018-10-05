@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import { hot } from 'react-hot-loader';
 
 import AppHeader from 'components/AppHeader';
 import Container from 'components/Container';
@@ -43,4 +44,4 @@ class App extends Component {
   }
 }
 
-export default withStyles(styles)(App);
+export default hot(module)(withStyles(styles)(App));

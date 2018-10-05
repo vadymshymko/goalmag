@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { AppContainer } from 'react-hot-loader';
+import { Provider } from 'react-redux';
+import { Router } from 'react-router-dom';
 import { createBrowserHistory as createHistory } from 'history';
 import Loadable from 'react-loadable';
 
 import configureStore from 'store';
-import RootContainer from 'containers/RootContainer';
 import StylesProvider from 'contextProviders/StylesProvider';
+
+import App from 'components/App';
 
 const history = createHistory();
 
@@ -21,27 +23,15 @@ const stylesContext = {
   ),
 };
 
-const render = (Component) => {
-  Loadable.preloadReady().then(() => {
-    ReactDOM.hydrate(
-      <AppContainer>
+Loadable.preloadReady().then(() => {
+  ReactDOM.hydrate(
+    <Provider store={store}>
+      <Router history={history}>
         <StylesProvider context={stylesContext}>
-          <Component
-            store={store}
-            history={history}
-          />
+          <App />
         </StylesProvider>
-      </AppContainer>,
-      document.getElementById('root'),
-    );
-  });
-};
-
-render(RootContainer);
-
-// Webpack Hot Module Replacement API
-if (module.hot) {
-  module.hot.accept('containers/RootContainer', () => {
-    render(RootContainer);
-  });
-}
+      </Router>
+    </Provider>,
+    document.getElementById('root'),
+  );
+});

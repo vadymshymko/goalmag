@@ -7,8 +7,8 @@ const commonConfig = require('./client.common.js');
 
 module.exports = webpackMerge(commonConfig, {
   entry: [
-    'babel-polyfill',
-    './index.js',
+    '@babel/polyfill',
+    './src/client/index.jsx',
   ],
   plugins: [
     new webpack.DefinePlugin({
