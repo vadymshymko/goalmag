@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import withStyles from 'isomorphic-style-loader/withStyles';
 
 import styles from './Dropdown.scss';
 
@@ -12,6 +12,7 @@ const Dropdown = ({
   value,
   onChange,
 }) => (
+  /* eslint-disable */
   <label
     className={`${styles.Dropdown} ${className}`}
     htmlFor={fieldId}
@@ -38,6 +39,7 @@ const Dropdown = ({
       ))}
     </select>
   </label>
+  /* eslint-enable */
 );
 
 Dropdown.propTypes = {

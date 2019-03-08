@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
-import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import { hot } from 'react-hot-loader';
+import withStyles from 'isomorphic-style-loader/withStyles';
+import {
+  Switch,
+  Route,
+  Redirect,
+  withRouter,
+} from 'react-router-dom';
+
+import routes from 'routes';
 
 import AppHeader from 'components/AppHeader';
 import Container from 'components/Container';
 import AppSidebar from 'components/AppSidebar';
-import AppInnerContainer from 'containers/AppInnerContainer';
 
 import styles from './App.scss';
 
@@ -27,21 +33,42 @@ class App extends Component {
   }
 
   render() {
+    const { showAppNav } = this.state;
+
     return (
       <div className={styles.App}>
         <AppHeader onRequestShowNav={this.showAppNav} />
 
         <Container>
           <AppSidebar
-            showContent={this.state.showAppNav}
+            showContent={showAppNav}
             onRequestHide={this.hideAppNav}
           />
 
-          <AppInnerContainer />
+          <div className={styles.App__Inner}>
+            <Switch>
+              <Redirect
+                strict
+                exact
+                from="/"
+                to="/match-center"
+              />
+
+              {routes.map(({ Component: RouteComponent, fetchData, ...routeProps }) => (
+                <Route
+                  {...routeProps}
+                  render={props => (
+                    <RouteComponent {...props} fetchData={fetchData} />
+                  )}
+                  key={routeProps.path}
+                />
+              ))}
+            </Switch>
+          </div>
         </Container>
       </div>
     );
   }
 }
 
-export default hot(module)(withStyles(styles)(App));
+export default withRouter(withStyles(styles)(App));

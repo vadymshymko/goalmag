@@ -113,7 +113,7 @@ describe('competitions actions', () => {
       statusCode: '500',
     });
 
-    return store.dispatch(actions.fetchCompetitions()).catch(() => {
+    return store.dispatch(actions.fetchCompetitions()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });

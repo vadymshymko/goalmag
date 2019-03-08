@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import withStyles from 'isomorphic-style-loader/withStyles';
 
 import AppNavSection from 'components/AppNavSection';
 
@@ -11,7 +11,7 @@ class AppNav extends Component {
     fetchCompetitions: PropTypes.func.isRequired,
     competitions: PropTypes.arrayOf(PropTypes.object).isRequired,
     location: PropTypes.shape({
-      pathname: PropTypes.PropTypes.string,
+      pathname: PropTypes.string,
     }).isRequired,
   }
 

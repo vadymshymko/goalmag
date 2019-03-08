@@ -9,21 +9,6 @@ import {
 } from 'selectors';
 import { callApi } from 'utils';
 
-export const fetchFixturesRequest = payload => ({
-  type: types.FETCH_FIXTURES_REQUEST,
-  payload,
-});
-
-export const fetchFixturesSuccess = payload => ({
-  type: types.FETCH_FIXTURES_SUCCESS,
-  payload,
-});
-
-export const fetchFixturesFailure = payload => ({
-  type: types.FETCH_FIXTURES_FAILURE,
-  payload,
-});
-
 export const fetchFixtures = ({
   competitionId,
   date,
@@ -53,9 +38,12 @@ export const fetchFixtures = ({
     : '';
   const requestPath = `matches?${requestCompetitionFilter}&${requestDateFilter}`;
 
-  dispatch(fetchFixturesRequest({
-    id,
-  }));
+  dispatch({
+    type: types.FETCH_FIXTURES_REQUEST,
+    payload: {
+      id,
+    },
+  });
 
   return callApi(requestPath).then((json) => {
     const {
@@ -65,21 +53,23 @@ export const fetchFixtures = ({
       result: ids = [],
     } = normalize(json.matches, schema);
 
-    return dispatch(fetchFixturesSuccess({
-      entities,
-      ids,
+    return dispatch({
+      type: types.FETCH_FIXTURES_SUCCESS,
+      payload: {
+        entities,
+        ids,
+        id,
+        isAllItemsFinished: !json.matches.find(item => item.status.toLowerCase() !== 'finished'),
+        lastUpdated: Date.now(),
+      },
+    });
+  }).catch(() => dispatch({
+    type: types.FETCH_FIXTURES_FAILURE,
+    payload: {
       id,
-      isAllItemsFinished: !json.matches.find(item => item.status.toLowerCase() !== 'finished'),
       lastUpdated: Date.now(),
-    }));
-  }).catch((error) => {
-    dispatch(fetchFixturesFailure({
-      id,
-      lastUpdated: Date.now(),
-    }));
-
-    throw error;
-  });
+    },
+  }));
 };
 
 export default fetchFixtures;

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import withStyles from 'isomorphic-style-loader/withStyles';
 
 import AppPage from 'components/AppPage';
 import AppPageHeader from 'components/AppPageHeader';
@@ -10,47 +10,88 @@ import SquadPlayersTable from 'components/SquadPlayersTable';
 
 import styles from './TeamPage.scss';
 
-const TeamPage = ({
-  name,
-  logoURL,
-  players,
-  coachName,
-}) => (
-  <AppPage
-    title={name}
-    description={`Team squad, players and fixtures - ${name}`}
-    className={styles.TeamPage}
-  >
-    <AppPageHeader>
-      <AppPageTitle>
-        {logoURL && (
-          <img
-            className={styles.TeamPage__logo}
-            src={logoURL}
-            alt={name}
-            title={name}
-          />
-        )}
+class TeamPage extends Component {
+  static propTypes = {
+    fetchData: PropTypes.func.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string,
+    logoURL: PropTypes.string,
+    players: PropTypes.arrayOf(PropTypes.object),
+    coach: PropTypes.shape({
+      name: PropTypes.string,
+    }),
+  }
 
-        {name}
-      </AppPageTitle>
-    </AppPageHeader>
+  static defaultProps = {
+    name: '',
+    logoURL: null,
+    players: [],
+    coach: {},
+  }
 
-    <AppPageContent>
-      <SquadPlayersTable players={players} />
+  componentDidMount() {
+    const {
+      id,
+      fetchData,
+      dispatch,
+    } = this.props;
 
-      {coachName && (
-        <p className={styles.TeamCoach}>Coach: {coachName}</p>
-      )}
-    </AppPageContent>
-  </AppPage>
-);
+    fetchData(dispatch, { id });
+  }
 
-TeamPage.propTypes = {
-  name: PropTypes.string.isRequired,
-  logoURL: PropTypes.string.isRequired,
-  players: PropTypes.arrayOf(PropTypes.object).isRequired,
-  coachName: PropTypes.string.isRequired,
-};
+  componentDidUpdate(prevProps) {
+    const {
+      id,
+      fetchData,
+      dispatch,
+    } = this.props;
+    const { id: prevId } = prevProps;
+
+    if (id !== prevId) {
+      fetchData(dispatch, { id });
+    }
+  }
+
+  render() {
+    const {
+      name,
+      logoURL,
+      players,
+      coach,
+    } = this.props;
+
+    return (
+      <AppPage
+        title={name}
+        description={`Team squad, players and fixtures - ${name}`}
+        className={styles.TeamPage}
+      >
+        <AppPageHeader>
+          <AppPageTitle>
+            {logoURL && (
+              <img
+                className={styles.TeamPage__logo}
+                src={logoURL}
+                alt={name}
+                title={name}
+              />
+            )}
+
+            {name}
+          </AppPageTitle>
+        </AppPageHeader>
+
+        <AppPageContent>
+          <SquadPlayersTable players={players} />
+
+          {coach.name && (
+            <p className={styles.TeamCoach}>Coach: {coach.name}</p>
+          )}
+        </AppPageContent>
+      </AppPage>
+    );
+  }
+}
 
 export default withStyles(styles)(TeamPage);

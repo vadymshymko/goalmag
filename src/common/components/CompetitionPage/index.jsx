@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { stringify } from 'query-string';
-import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import withStyles from 'isomorphic-style-loader/withStyles';
 
 import { getFormattedDate } from 'utils';
 
@@ -19,21 +19,74 @@ import styles from './CompetitionPage.scss';
 
 class CompetitionPage extends Component {
   static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    fetchData: PropTypes.func.isRequired,
+    id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     currentMatchday: PropTypes.number.isRequired,
-    isStandingsInitialized: PropTypes.bool.isRequired,
     standingsTable: PropTypes.arrayOf(PropTypes.object).isRequired,
     standingsMatchday: PropTypes.string,
-    fixturesDate: PropTypes.string,
+    isStandingsInitialized: PropTypes.bool.isRequired,
     fixtures: PropTypes.arrayOf(PropTypes.object).isRequired,
+    fixturesDate: PropTypes.string,
     isFixturesFetching: PropTypes.bool.isRequired,
     isFixturesInitialized: PropTypes.bool.isRequired,
-    historyPush: PropTypes.func.isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func,
+    }).isRequired,
   }
 
   static defaultProps = {
     standingsMatchday: null,
     fixturesDate: null,
+  }
+
+  componentDidMount() {
+    const {
+      id,
+      fixturesDate,
+      standingsMatchday,
+      fetchData,
+      dispatch,
+    } = this.props;
+
+    fetchData(dispatch, {
+      id,
+      fixturesDate,
+      standingsMatchday,
+    });
+  }
+
+  componentDidUpdate(prevProps) {
+    const {
+      id,
+      fixturesDate,
+      standingsMatchday,
+      fetchData,
+      dispatch,
+    } = this.props;
+
+    const {
+      id: prevId,
+      fixturesDate: prevFixturesDate,
+      standingsMatchday: prevStandingsMatchday,
+    } = prevProps;
+
+    const isNewCompetition = id !== prevId;
+    const isNewFixturesDate = fixturesDate !== prevFixturesDate;
+    const isNewStandingsMatchday = standingsMatchday !== prevStandingsMatchday;
+
+    if (
+      isNewCompetition
+      || isNewStandingsMatchday
+      || isNewFixturesDate
+    ) {
+      fetchData(dispatch, {
+        id,
+        fixturesDate,
+        standingsMatchday,
+      });
+    }
   }
 
   handleDateFilterChange = (event) => {
@@ -45,9 +98,10 @@ class CompetitionPage extends Component {
 
     const {
       standingsMatchday,
+      history,
     } = this.props;
 
-    this.props.historyPush({
+    history.push({
       search: stringify({
         standingsMatchday: standingsMatchday || undefined,
         fixturesDate: value === getFormattedDate()
@@ -67,9 +121,10 @@ class CompetitionPage extends Component {
     const {
       fixturesDate,
       currentMatchday,
+      history,
     } = this.props;
 
-    this.props.historyPush({
+    history.push({
       search: stringify({
         standingsMatchday: parseInt(value, 10) === currentMatchday
           ? undefined

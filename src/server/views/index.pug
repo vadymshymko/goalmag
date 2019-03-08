@@ -16,7 +16,7 @@ html(lang='en')
       gtag('config', 'UA-42688866-6');
     
     style(type="text/css").
-      #{criticalCSS}
+      #{styleTags}
 
     link(href="//fonts.googleapis.com/css?family=Roboto:400,500", rel="stylesheet")
         
@@ -30,19 +30,12 @@ html(lang='en')
     meta(name="theme-color", content="#ffffff")
       
     meta(name="google-site-verification", content="cySttcjM5zAsRGED5LSc0OdmgZTSwnzqtYAa3ytIfEs")
+      
+    !=prefetchLinks
   body
     #root
-      !=html
+      !=appHTML
 
     script.
       window.__PRELOADED_STATE__ = !{state}
-    !=scripts
-    script(src='/main.js', async, defer)
-    script.
-      // Check that service workers are registered
-      if ('serviceWorker' in navigator) {
-        // Use the window load event to keep the page load performant
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/service-worker.js');
-        });
-      }
+    !=scriptTags

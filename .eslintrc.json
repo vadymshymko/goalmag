@@ -23,7 +23,15 @@
   "settings": {
     "import/resolver": {
       "webpack": {
-        "config": "webpack/client.common.js"
+        "config": {
+          "resolve": {
+            "extensions": [".js", ".jsx"],
+            "modules": [
+              "src/common",
+              "node_modules"
+            ]
+          }
+        }
       }
     }
   }

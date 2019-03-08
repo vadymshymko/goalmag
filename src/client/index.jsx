@@ -1,16 +1,15 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { hydrate } from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
-import { createBrowserHistory as createHistory } from 'history';
-import Loadable from 'react-loadable';
+import { BrowserRouter } from 'react-router-dom';
+import { loadableReady } from '@loadable/component';
+import StyleContext from 'isomorphic-style-loader/StyleContext';
 
 import configureStore from 'store';
-import StylesProvider from 'contextProviders/StylesProvider';
 
 import App from 'components/App';
 
-const history = createHistory();
+import registerServiceWorker from './registerServiceWorker';
 
 const preloadedState = window.__PRELOADED_STATE__ || {}; //eslint-disable-line
 delete window.__PRELOADED_STATE__; //eslint-disable-line
@@ -23,14 +22,19 @@ const stylesContext = {
   ),
 };
 
-Loadable.preloadReady().then(() => {
-  ReactDOM.hydrate(
+loadableReady(() => {
+  registerServiceWorker({
+    url: '/service-worker.js',
+    scope: '/',
+  });
+
+  hydrate(
     <Provider store={store}>
-      <Router history={history}>
-        <StylesProvider context={stylesContext}>
+      <BrowserRouter>
+        <StyleContext.Provider value={stylesContext}>
           <App />
-        </StylesProvider>
-      </Router>
+        </StyleContext.Provider>
+      </BrowserRouter>
     </Provider>,
     document.getElementById('root'),
   );
