@@ -18,18 +18,60 @@ import styles from './MatchCenterPage.scss';
 
 class MatchCenterPage extends Component {
   static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    fetchData: PropTypes.func.isRequired,
     competitionId: PropTypes.number,
     date: PropTypes.string,
     fixtures: PropTypes.arrayOf(PropTypes.object).isRequired,
     isFixturesFetching: PropTypes.bool.isRequired,
     isFixturesInitialized: PropTypes.bool.isRequired,
     competitions: PropTypes.arrayOf(PropTypes.object).isRequired,
-    historyPush: PropTypes.func.isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func,
+    }).isRequired,
   }
 
   static defaultProps = {
     competitionId: null,
     date: null,
+  }
+
+  componentDidMount() {
+    const {
+      competitionId,
+      date,
+      fetchData,
+      dispatch,
+    } = this.props;
+
+    fetchData(dispatch, {
+      competitionId,
+      date,
+    });
+  }
+
+  componentDidUpdate(prevProps) {
+    const {
+      competitionId,
+      date,
+      fetchData,
+      dispatch,
+    } = this.props;
+
+    const {
+      competitionId: prevCompetition,
+      date: prevDate,
+    } = prevProps;
+
+    if (
+      competitionId !== prevCompetition
+      || date !== prevDate
+    ) {
+      fetchData(dispatch, {
+        competitionId,
+        date,
+      });
+    }
   }
 
   getFixturesGroupedByCompetitionId = (fixtures = []) => (
@@ -69,9 +111,9 @@ class MatchCenterPage extends Component {
       value,
     } = event.target;
 
-    const { date } = this.props;
+    const { date, history } = this.props;
 
-    this.props.historyPush({
+    history.push({
       search: stringify({
         date: !date || date === getFormattedDate()
           ? undefined
@@ -86,9 +128,9 @@ class MatchCenterPage extends Component {
       value,
     } = event.target;
 
-    const { competitionId } = this.props;
+    const { competitionId, history } = this.props;
 
-    this.props.historyPush({
+    history.push({
       search: stringify({
         competitionId: competitionId || undefined,
         date: value === getFormattedDate()

@@ -1,31 +1,75 @@
-const getRoutes = ({
-  MatchCenterPage,
-  CompetitionPage,
-  TeamPage,
-  NotFoundPage,
-}) => ([
+import loadable from '@loadable/component';
+
+import {
+  fetchStandings,
+  fetchFixtures,
+  fetchTeam,
+} from 'actions';
+
+const MatchCenterPage = loadable(() => import('containers/MatchCenterPageContainer'));
+const CompetitionPage = loadable(() => import('containers/CompetitionPageContainer'));
+const TeamPage = loadable(() => import('containers/TeamPageContainer'));
+const NotFoundPage = loadable(() => import('components/NotFoundPage'));
+
+const routes = [
   {
     path: '/match-center',
-    component: MatchCenterPage,
+    Component: MatchCenterPage,
     strict: true,
     exact: true,
+    fetchData: (dispatch, params = {}) => {
+      const {
+        competitionId,
+        date,
+      } = params;
+
+      return dispatch(fetchFixtures({
+        competitionId,
+        date,
+      }));
+    },
   },
   {
     path: '/competition/:id(\\d+)',
-    component: CompetitionPage,
+    Component: CompetitionPage,
     strict: true,
     exact: true,
+    fetchData: (dispatch, params = {}) => {
+      const {
+        id,
+        fixturesDate,
+        standingsMatchday,
+      } = params;
+
+      return Promise.all([
+        dispatch(fetchStandings({
+          competitionId: id,
+          matchday: standingsMatchday,
+        })),
+        dispatch(fetchFixtures({
+          competitionId: id,
+          date: fixturesDate,
+        })),
+      ]);
+    },
   },
   {
     path: '/team/:id(\\d+)',
-    component: TeamPage,
+    Component: TeamPage,
     strict: true,
     exact: true,
+    fetchData: (dispatch, params = {}) => {
+      const {
+        id,
+      } = params;
+
+      return dispatch(fetchTeam(id));
+    },
   },
   {
     path: '*',
-    component: NotFoundPage,
+    Component: NotFoundPage,
   },
-]);
+];
 
-export default getRoutes;
+export default routes;

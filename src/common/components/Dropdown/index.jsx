@@ -12,6 +12,7 @@ const Dropdown = ({
   value,
   onChange,
 }) => (
+  /* eslint-disable */
   <label
     className={`${styles.Dropdown} ${className}`}
     htmlFor={fieldId}
@@ -38,6 +39,7 @@ const Dropdown = ({
       ))}
     </select>
   </label>
+  /* eslint-enable */
 );
 
 Dropdown.propTypes = {

@@ -1,6 +1,5 @@
 module.exports = {
   presets: [
-    '@babel/preset-env',
     '@babel/preset-react',
   ],
   plugins: [
@@ -28,7 +27,46 @@ module.exports = {
     ['@babel/plugin-proposal-class-properties', { loose: false }],
     '@babel/plugin-proposal-json-strings',
 
-    'react-loadable/babel',
-    'react-hot-loader/babel',
+    '@babel/plugin-transform-react-constant-elements',
+    'hoist-facc',
+    'closure-elimination',
+    'module:faster.js',
+
+    '@loadable/babel-plugin',
   ],
+
+  env: {
+    development: {
+      presets: [
+        [
+          '@babel/preset-env',
+          {
+            modules: false,
+          },
+        ],
+      ],
+    },
+    production: {
+      presets: [
+        [
+          '@babel/preset-env',
+          {
+            useBuiltIns: 'usage',
+            modules: false,
+          },
+        ],
+      ],
+      plugins: [
+        '@babel/plugin-transform-react-inline-elements',
+        [
+          'transform-react-remove-prop-types',
+          {
+            removeImport: true,
+            classNameMatchers: ['Component', 'PureComponent'],
+            additionalLibraries: ['prop-types'],
+          },
+        ],
+      ],
+    },
+  },
 };

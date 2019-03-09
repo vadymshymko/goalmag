@@ -7,14 +7,14 @@ import AppTitle from 'components/AppTitle';
 
 import styles from './AppHeader.scss';
 
-const AppHeader = ({ onRequestShowNav }) => (
+const AppHeader = ({ onRequestOpenSidebar }) => (
   <header className={styles.AppHeader}>
     <Container>
       <button
         className={styles.AppHeader__showNavBtn}
         type="button"
         title="Show Navigation"
-        onClick={onRequestShowNav}
+        onClick={onRequestOpenSidebar}
         aria-label="Show Navigation"
       >
         <svg
@@ -38,7 +38,7 @@ const AppHeader = ({ onRequestShowNav }) => (
 );
 
 AppHeader.propTypes = {
-  onRequestShowNav: PropTypes.func.isRequired,
+  onRequestOpenSidebar: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(AppHeader);

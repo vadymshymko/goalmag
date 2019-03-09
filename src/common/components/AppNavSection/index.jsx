@@ -24,11 +24,9 @@ class AppNavSection extends Component {
     showContent: this.props.isActive,
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.isActive && !this.props.isActive && !this.state.showContent) {
-      this.setState(() => ({
-        showContent: true,
-      }));
+  componentDidUpdate(prevProps) {
+    if (this.props.isActive && !prevProps.isActive && !this.state.showContent) {
+      this.toggleContent();
     }
   }
 
@@ -113,7 +111,7 @@ class AppNavSection extends Component {
                     {competition.name}
                   </NavLink>
                 </li>
-                ))}
+              ))}
             </ul>
           </div>
         )}

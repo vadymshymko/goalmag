@@ -8,21 +8,6 @@ import {
 import { callApi } from 'utils';
 import { standings as schema } from 'schemas';
 
-export const fetchStandingsRequest = payload => ({
-  type: types.FETCH_STANDINGS_REQUEST,
-  payload,
-});
-
-export const fetchStandingsSuccess = payload => ({
-  type: types.FETCH_STANDINGS_SUCCESS,
-  payload,
-});
-
-export const fetchStandingsFailure = payload => ({
-  type: types.FETCH_STANDINGS_FAILURE,
-  payload,
-});
-
 export const fetchStandings = ({
   competitionId,
   matchday,
@@ -50,9 +35,12 @@ export const fetchStandings = ({
 
   const requestPath = `competitions/${competitionId}/standings?matchday=${requestMatchday}`;
 
-  dispatch(fetchStandingsRequest({
-    id: standingsId,
-  }));
+  dispatch({
+    type: types.FETCH_STANDINGS_REQUEST,
+    payload: {
+      id: standingsId,
+    },
+  });
 
   return callApi(requestPath).then((json) => {
     const {
@@ -62,18 +50,22 @@ export const fetchStandings = ({
       result: ids = [],
     } = normalize(json.standings, schema);
 
-    return dispatch(fetchStandingsSuccess({
+    return dispatch({
+      type: types.FETCH_STANDINGS_SUCCESS,
+      payload: {
+        id: standingsId,
+        entities,
+        ids,
+        lastUpdated: Date.now(),
+      },
+    });
+  }).catch(() => dispatch({
+    type: types.FETCH_STANDINGS_FAILURE,
+    payload: {
       id: standingsId,
-      entities,
-      ids,
       lastUpdated: Date.now(),
-    }));
-  }).catch((error) => {
-    dispatch(fetchStandingsFailure({
-      id: standingsId,
-      lastUpdated: Date.now(),
-    }));
-
-    throw error;
-  });
+    },
+  }));
 };
+
+export default fetchStandings;

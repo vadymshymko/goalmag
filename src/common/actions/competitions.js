@@ -7,20 +7,6 @@ import {
 } from 'selectors';
 import { callApi } from 'utils';
 
-export const fetchCompetitionsRequest = () => ({
-  type: types.FETCH_COMPETITIONS_REQUEST,
-});
-
-export const fetchCompetitionsSuccess = payload => ({
-  type: types.FETCH_COMPETITIONS_SUCCESS,
-  payload,
-});
-
-export const fetchCompetitionsFailure = payload => ({
-  type: types.FETCH_COMPETITIONS_FAILURE,
-  payload,
-});
-
 export const fetchCompetitions = () => (dispatch, getState) => {
   const state = getState();
 
@@ -31,7 +17,9 @@ export const fetchCompetitions = () => (dispatch, getState) => {
     return Promise.resolve();
   }
 
-  dispatch(fetchCompetitionsRequest());
+  dispatch({
+    type: types.FETCH_COMPETITIONS_REQUEST,
+  });
 
   return callApi('competitions?plan=TIER_ONE').then((json) => {
     const {
@@ -41,12 +29,16 @@ export const fetchCompetitions = () => (dispatch, getState) => {
       result: ids = [],
     } = normalize(json.competitions, schema);
 
-    return dispatch(fetchCompetitionsSuccess({
-      entities,
-      ids,
-    }));
-  }).catch((error) => {
-    dispatch(fetchCompetitionsFailure());
-    throw error;
-  });
+    return dispatch({
+      type: types.FETCH_COMPETITIONS_SUCCESS,
+      payload: {
+        entities,
+        ids,
+      },
+    });
+  }).catch(() => dispatch({
+    type: types.FETCH_COMPETITIONS_FAILURE,
+  }));
 };
+
+export default fetchCompetitions;
