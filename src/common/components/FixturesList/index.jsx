@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import withStyles from 'isomorphic-style-loader/withStyles';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import Fixture from 'components/Fixture';
 

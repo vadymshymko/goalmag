@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import withStyles from 'isomorphic-style-loader/withStyles';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import {
   Switch,
   Route,
   Redirect,
-  withRouter,
 } from 'react-router-dom';
 
 import routes from 'routes';
@@ -17,32 +16,32 @@ import styles from './App.scss';
 
 class App extends Component {
   state = {
-    showAppNav: false,
+    showSidebar: false,
   }
 
-  showAppNav = () => {
+  openSidebar = () => {
     this.setState(() => ({
-      showAppNav: true,
+      showSidebar: true,
     }));
   }
 
-  hideAppNav = () => {
+  closeSidebar = () => {
     this.setState(() => ({
-      showAppNav: false,
+      showSidebar: false,
     }));
   }
 
   render() {
-    const { showAppNav } = this.state;
+    const { showSidebar } = this.state;
 
     return (
       <div className={styles.App}>
-        <AppHeader onRequestShowNav={this.showAppNav} />
+        <AppHeader onRequestOpenSidebar={this.openSidebar} />
 
         <Container>
           <AppSidebar
-            showContent={showAppNav}
-            onRequestHide={this.hideAppNav}
+            isVisible={showSidebar}
+            onRequestHide={this.closeSidebar}
           />
 
           <div className={styles.App__Inner}>
@@ -59,10 +58,10 @@ class App extends Component {
                   {...routeProps}
                   render={props => (
                     <RouteComponent {...props} fetchData={fetchData} />
-                  )}
+                    )}
                   key={routeProps.path}
                 />
-              ))}
+                ))}
             </Switch>
           </div>
         </Container>
@@ -71,4 +70,4 @@ class App extends Component {
   }
 }
 
-export default withRouter(withStyles(styles)(App));
+export default withStyles(styles)(App);

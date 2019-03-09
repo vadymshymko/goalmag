@@ -9,34 +9,135 @@ const AppPage = ({
   className,
 }) => (
   <main className={`AppPage ${className}`}>
-    <Helmet>
-      <title>{title} - Goal Magazine</title>
-      <meta name="description" content={description} />
-
-      {/* <!-- Schema.org for Google --> */}
-      <meta name="image" content="https://goalmag.herokuapp.com/logo.svg" />
-      <meta itemProp="name" content={`${title} - Goal Magazine`} />
-      <meta itemProp="description" content={`${description}`} />
-
-      {/* <!-- Twitter --> */}
-      <meta name="twitter:card" content="summary" />
-      <meta name="twitter:title" content={`${title} - Goal Magazine`} />
-      <meta name="twitter:description" content={`${description}`} />
-      <meta name="twitter:site" content="@vadymshymko" />
-      <meta name="twitter:creator" content="@vadymshymko" />
-      <meta name="twitter:image:src" content="https://goalmag.herokuapp.com/logo.svg" />
-
-      {/* <!-- Open Graph general (Facebook, Pinterest & Google+) --> */}
-      <meta name="og:title" content={`${title} - Goal Magazine`} />
-      <meta name="og:description" content={`${description}`} />
-      <meta name="og:image" content="https://goalmag.herokuapp.com/logo.svg" />
-      <meta name="og:url" content="https://goalmag.herokuapp.com" />
-      <meta name="og:site_name" content="Goal Magazine" />
-      <meta name="og:locale" content="en_US" />
-      <meta name="fb:admins" content="100002165463093" />
-      <meta name="fb:app_id" content="2048470848761820" />
-      <meta name="og:type" content="website" />
-    </Helmet>
+    <Helmet
+      title={`${title} - Goal Magazine`}
+      meta={[
+        {
+          name: 'description',
+          content: description,
+        },
+        {
+          name: 'image',
+          content: 'https://goalmag.herokuapp.com/logo.svg',
+        },
+        {
+          itemProp: 'name',
+          content: `${title} - Goal Magazine`,
+        },
+        {
+          itemProp: 'description',
+          content: description,
+        },
+        {
+          name: 'twitter:card',
+          content: 'summary',
+        },
+        {
+          name: 'twitter:title',
+          content: `${title} - Goal Magazine`,
+        },
+        {
+          name: 'twitter:description',
+          content: description,
+        },
+        {
+          name: 'twitter:site',
+          content: '@vadymshymko',
+        },
+        {
+          name: 'twitter:creator',
+          content: '@vadymshymko',
+        },
+        {
+          name: 'twitter:image:src',
+          content: 'https://goalmag.herokuapp.com/logo.svg',
+        },
+        {
+          name: 'og:title',
+          content: `${title} - Goal Magazine`,
+        },
+        {
+          name: 'og:description',
+          content: description,
+        },
+        {
+          name: 'og:image',
+          content: 'https://goalmag.herokuapp.com/logo.svg',
+        },
+        {
+          name: 'og:url',
+          content: 'https://goalmag.herokuapp.com',
+        },
+        {
+          name: 'og:site_name',
+          content: 'Goal Magazine',
+        },
+        {
+          name: 'og:locale',
+          content: 'en_US',
+        },
+        {
+          name: 'fb:admins',
+          content: '100002165463093',
+        },
+        {
+          name: 'fb:app_id',
+          content: '2048470848761820',
+        },
+        {
+          name: 'og:type',
+          content: 'website',
+        },
+        {
+          name: 'msapplication-TileColor',
+          content: '#ffffff',
+        },
+        {
+          name: 'msapplication-TileImage',
+          content: '/mstile-144x144.png',
+        },
+        {
+          name: 'theme-color',
+          content: '#ffffff',
+        },
+        {
+          name: 'google-site-verification',
+          content: 'cySttcjM5zAsRGED5LSc0OdmgZTSwnzqtYAa3ytIfEs',
+        },
+      ]}
+      link={[
+        {
+          href: '//fonts.googleapis.com/css?family=Roboto:400,500',
+          rel: 'stylesheet',
+        },
+        {
+          rel: 'apple-touch-icon',
+          sizes: '180x180',
+          href: '/apple-touch-icon.png',
+        },
+        {
+          rel: 'icon',
+          type: 'image/png',
+          sizes: '32x32',
+          href: '/favicon-32x32.png',
+        },
+        {
+          rel: 'icon',
+          type: 'image/png',
+          sizes: '16x16',
+          href: '/favicon-16x16.png',
+        },
+        {
+          rel: 'manifest',
+          href: '/manifest.json',
+        },
+        {
+          rel: 'mask-icon',
+          href: '/safari-pinned-tab.svg',
+          color: '#28a745',
+        },
+      ]}
+    />
 
     {children}
   </main>

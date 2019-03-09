@@ -3,7 +3,7 @@ import { hydrate } from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { loadableReady } from '@loadable/component';
-import StyleContext from 'isomorphic-style-loader/StyleContext';
+import StyleContext from 'context/StyleContext';
 
 import configureStore from 'store';
 
@@ -17,8 +17,8 @@ delete window.__PRELOADED_STATE__; //eslint-disable-line
 const store = configureStore(preloadedState);
 
 const stylesContext = {
-  insertCss: styles => (
-    styles._insertCss() // eslint-disable-line no-underscore-dangle
+  insertCss: (...styles) => (
+    styles.forEach(style => style._insertCss()) // eslint-disable-line no-underscore-dangle
   ),
 };
 
@@ -31,9 +31,9 @@ loadableReady(() => {
   hydrate(
     <Provider store={store}>
       <BrowserRouter>
-        <StyleContext.Provider value={stylesContext}>
+        <StyleContext context={stylesContext}>
           <App />
-        </StyleContext.Provider>
+        </StyleContext>
       </BrowserRouter>
     </Provider>,
     document.getElementById('root'),

@@ -1,5 +1,5 @@
 import React from 'react';
-import withStyles from 'isomorphic-style-loader/withStyles';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import styles from './AppLogo.scss';
 

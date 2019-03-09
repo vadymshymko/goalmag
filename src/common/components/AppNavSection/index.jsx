@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import withStyles from 'isomorphic-style-loader/withStyles';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import Icon from 'components/Icon';
 
@@ -24,11 +24,9 @@ class AppNavSection extends Component {
     showContent: this.props.isActive,
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.isActive && !this.props.isActive && !this.state.showContent) {
-      this.setState(() => ({
-        showContent: true,
-      }));
+  componentDidUpdate(prevProps) {
+    if (this.props.isActive && !prevProps.isActive && !this.state.showContent) {
+      this.toggleContent();
     }
   }
 
@@ -113,7 +111,7 @@ class AppNavSection extends Component {
                     {competition.name}
                   </NavLink>
                 </li>
-                ))}
+              ))}
             </ul>
           </div>
         )}

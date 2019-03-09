@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import withStyles from 'isomorphic-style-loader/withStyles';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import AppNavSection from 'components/AppNavSection';
 
@@ -13,10 +13,21 @@ class AppNav extends Component {
     location: PropTypes.shape({
       pathname: PropTypes.string,
     }).isRequired,
+    isVisible: PropTypes.bool.isRequired,
+    onRequestHide: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
     this.props.fetchCompetitions();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { location, isVisible, onRequestHide } = this.props;
+    const { location: prevLocation } = prevProps;
+
+    if (location.pathname !== prevLocation.pathname && isVisible) {
+      onRequestHide();
+    }
   }
 
   getIsActiveCompetition = (competition) => {

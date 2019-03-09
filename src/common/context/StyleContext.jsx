@@ -12,12 +12,10 @@ export default class StylesProvider extends Component {
   }
 
   getChildContext() {
-    const { context } = this.props;
-    return context;
+    return this.props.context;
   }
 
   render() {
-    const { children } = this.props;
-    return React.Children.only(children);
+    return React.Children.only(this.props.children);
   }
 }

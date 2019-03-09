@@ -1,18 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import withStyles from 'isomorphic-style-loader/withStyles';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import AppNavContainer from 'containers/AppNavContainer';
 import AppInfo from 'components/AppInfo';
 
 import styles from './AppSidebar.scss';
 
-const AppSidebar = ({
-  onRequestHide,
-  showContent,
-}) => (
+const AppSidebar = ({ isVisible, onRequestHide }) => (
   <div className={styles.AppSidebar}>
-    <div className={`${styles.AppSidebar__content} ${showContent ? styles['AppSidebar__content--visible'] : ''}`}>
+    <div className={`${styles.AppSidebar__content} ${isVisible ? styles['AppSidebar__content--visible'] : ''}`}>
       <button
         className={styles.AppSidebar__hideBtn}
         type="button"
@@ -34,7 +31,7 @@ const AppSidebar = ({
         </svg>
       </button>
 
-      <AppNavContainer />
+      <AppNavContainer isVisible={isVisible} onRequestHide={onRequestHide} />
 
       <AppInfo />
     </div>
@@ -48,8 +45,8 @@ const AppSidebar = ({
 );
 
 AppSidebar.propTypes = {
+  isVisible: PropTypes.bool.isRequired,
   onRequestHide: PropTypes.func.isRequired,
-  showContent: PropTypes.bool.isRequired,
 };
 
 export default withStyles(styles)(AppSidebar);

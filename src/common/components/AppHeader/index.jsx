@@ -1,20 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import withStyles from 'isomorphic-style-loader/withStyles';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import Container from 'components/Container';
 import AppTitle from 'components/AppTitle';
 
 import styles from './AppHeader.scss';
 
-const AppHeader = ({ onRequestShowNav }) => (
+const AppHeader = ({ onRequestOpenSidebar }) => (
   <header className={styles.AppHeader}>
     <Container>
       <button
         className={styles.AppHeader__showNavBtn}
         type="button"
         title="Show Navigation"
-        onClick={onRequestShowNav}
+        onClick={onRequestOpenSidebar}
         aria-label="Show Navigation"
       >
         <svg
@@ -38,7 +38,7 @@ const AppHeader = ({ onRequestShowNav }) => (
 );
 
 AppHeader.propTypes = {
-  onRequestShowNav: PropTypes.func.isRequired,
+  onRequestOpenSidebar: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(AppHeader);

@@ -18,7 +18,7 @@ workbox.routing.registerRoute(
     plugins: [
       new workbox.expiration.Plugin({
         cacheName: 'APICache',
-        maxAgeSeconds: 60,
+        maxAgeSeconds: 180,
       }),
     ],
   }),

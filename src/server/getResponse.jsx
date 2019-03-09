@@ -8,7 +8,7 @@ import { ChunkExtractor } from '@loadable/server';
 import serialize from 'serialize-javascript';
 import { Helmet } from 'react-helmet';
 import { camelizeKeys } from 'humps';
-import StyleContext from 'isomorphic-style-loader/StyleContext';
+import StyleContext from 'context/StyleContext';
 import NodeCache from 'node-cache';
 
 import configureStore from 'store';
@@ -56,9 +56,9 @@ const getAppHTML = ({
         location={routerURL}
         context={routerContext}
       >
-        <StyleContext.Provider value={stylesContext}>
+        <StyleContext context={stylesContext}>
           <App />
-        </StyleContext.Provider>
+        </StyleContext>
       </StaticRouter>
     </Provider>
   )));
