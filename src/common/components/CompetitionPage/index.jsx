@@ -9,11 +9,12 @@ import AppPage from 'components/AppPage';
 import AppPageHeader from 'components/AppPageHeader';
 import AppPageTitle from 'components/AppPageTitle';
 import AppPageContent from 'components/AppPageContent';
-import CompetitionTable from 'components/CompetitionTable';
 import Alert from 'components/Alert';
 import FixturesList from 'components/FixturesList';
 import Dropdown from 'components/Dropdown';
 import DateInput from 'components/DateInput';
+import Table from 'components/Table';
+import TeamLink from 'components/TeamLink';
 
 import styles from './CompetitionPage.scss';
 
@@ -261,7 +262,71 @@ class CompetitionPage extends Component {
                 />
               </header>
 
-              <CompetitionTable table={standingsTable} />
+              <Table
+                className={styles.CompetitionInfo__table}
+                headings={[
+                  {
+                    key: 'position',
+                    label: '#',
+                  },
+                  {
+                    key: 'teamName',
+                    label: 'Team',
+                  },
+                  {
+                    key: 'playedGames',
+                    label: 'Pl',
+                  },
+                  {
+                    key: 'points',
+                    label: 'P',
+                    style: {
+                      fontWeight: 500,
+                    },
+                  },
+                  {
+                    key: 'won',
+                    label: 'W',
+                  },
+                  {
+                    key: 'draw',
+                    label: 'D',
+                  },
+                  {
+                    key: 'lost',
+                    label: 'L',
+                  },
+                  {
+                    key: 'goalsFor',
+                    label: 'GF',
+                  },
+                  {
+                    key: 'goalsAgainst',
+                    label: 'GA',
+                  },
+                  {
+                    key: 'goalDifference',
+                    label: 'GD',
+                  },
+                ]}
+                rows={[
+                  ...standingsTable.map(item => ({
+                    ...item,
+                    id: item.team.id,
+                    teamName: {
+                      label: (
+                        <TeamLink
+                          id={item.team.id}
+                          name={item.team.name}
+                          logoUrl={item.team.crestUrl}
+                          renderEmptyLogo
+                        />
+                      ),
+                      value: item.teamName,
+                    },
+                  })),
+                ]}
+              />
             </section>
           )}
         </AppPageContent>
