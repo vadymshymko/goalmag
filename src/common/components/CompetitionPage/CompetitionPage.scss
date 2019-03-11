@@ -4,6 +4,7 @@
   }
 
   &__header {
+    align-items: baseline;
     border-bottom: 1px solid #f8f9fa;
     display: flex;
     flex-flow: column;
@@ -11,6 +12,7 @@
     width: 100%;
 
     @media (min-width: 768px) {
+      align-items: center;
       flex-flow: row;
       justify-content: space-between;
     }
@@ -20,9 +22,19 @@
     font-size: 16px;
     font-weight: 500;
     margin: 0 0 5px;
+    width: 100%;
 
     @media (min-width: 768px) {
       margin: 0;
+    }
+  }
+
+  &__filter {
+    padding-top: 5px;
+
+    @media (min-width: 768px) {
+      padding-top: 0;
+      padding-left: 15px;
     }
   }
 }

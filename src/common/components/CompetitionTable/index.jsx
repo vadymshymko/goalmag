@@ -48,6 +48,13 @@ class CompetitionTable extends Component {
             label: 'Pl',
           },
           {
+            key: 'points',
+            label: 'P',
+            style: {
+              fontWeight: 500,
+            },
+          },
+          {
             key: 'won',
             label: 'W',
           },
@@ -61,19 +68,15 @@ class CompetitionTable extends Component {
           },
           {
             key: 'goalsFor',
-            label: 'F',
+            label: 'GF',
           },
           {
             key: 'goalsAgainst',
-            label: 'A',
+            label: 'GA',
           },
           {
             key: 'goalDifference',
             label: 'GD',
-          },
-          {
-            key: 'points',
-            label: 'Pts',
           },
         ]}
         rows={[
@@ -85,9 +88,9 @@ class CompetitionTable extends Component {
                 <TeamLink
                   id={item.team.id}
                   name={item.team.name}
-                >
-                  {item.team.name}
-                </TeamLink>
+                  logoUrl={item.team.crestUrl}
+                  renderEmptyLogo
+                />
               ),
               value: item.teamName,
             },

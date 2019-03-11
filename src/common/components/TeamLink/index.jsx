@@ -10,6 +10,8 @@ const TeamLink = ({
   name,
   children,
   className,
+  logoUrl,
+  renderEmptyLogo,
 }) => (
   <Link
     className={`${styles.TeamLink} ${className}`}
@@ -17,6 +19,20 @@ const TeamLink = ({
     href={`/team/${id}`}
     title={name}
   >
+    {logoUrl && (
+      <img
+        className={styles.TeamLink__logo}
+        src={logoUrl.replace('http://', 'https://')}
+        alt={name}
+        title={name}
+      />
+    )}
+    {(!logoUrl && renderEmptyLogo) && (
+      <span
+        className={styles.TeamLink__logo}
+      />
+    )}
+
     {children || name}
   </Link>
 );
@@ -26,12 +42,16 @@ TeamLink.propTypes = {
   name: PropTypes.string,
   children: PropTypes.node,
   className: PropTypes.string,
+  logoUrl: PropTypes.string,
+  renderEmptyLogo: PropTypes.bool,
 };
 
 TeamLink.defaultProps = {
   name: '',
   children: null,
   className: '',
+  logoUrl: '',
+  renderEmptyLogo: false,
 };
 
 export default withStyles(styles)(TeamLink);

@@ -91,7 +91,7 @@ const Table = ({
         {getSortedRows(rows, sortBy, ascendingSort).map(row => (
           <tr key={row.id}>
             {headings.map(heading => (
-              <td key={heading.key}>
+              <td key={heading.key} style={heading.style}>
                 {row[heading.key]
                   ? row[heading.key].label || row[heading.key]
                   : 0
@@ -110,6 +110,7 @@ Table.propTypes = {
   headings: PropTypes.arrayOf(PropTypes.shape({
     key: PropTypes.string,
     label: PropTypes.node,
+    style: PropTypes.object,
   })),
   onRequestSort: PropTypes.func,
   rows: PropTypes.arrayOf(PropTypes.object),

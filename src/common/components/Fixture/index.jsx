@@ -28,9 +28,11 @@ const Fixture = ({
   homeTeamId,
   homeTeamName,
   homeTeamScore,
+  homeTeamLogoUrl,
   awayTeamId,
   awayTeamName,
   awayTeamScore,
+  awayTeamLogoUrl,
   status,
   date,
 }) => (
@@ -44,6 +46,7 @@ const Fixture = ({
         id={homeTeamId}
         name={homeTeamName}
         type="home"
+        logoUrl={homeTeamLogoUrl}
         score={(status === 'in_play' || status === 'finished')
           ? homeTeamScore || 0
           : homeTeamScore || '-'
@@ -60,6 +63,7 @@ const Fixture = ({
         id={awayTeamId}
         name={awayTeamName}
         type="away"
+        logoUrl={awayTeamLogoUrl}
         score={(status === 'in_play' || status === 'finished')
           ? awayTeamScore || 0
           : awayTeamScore || '-'
@@ -81,9 +85,11 @@ Fixture.propTypes = {
   homeTeamId: PropTypes.number,
   homeTeamName: PropTypes.string,
   homeTeamScore: PropTypes.number,
+  homeTeamLogoUrl: PropTypes.string,
   awayTeamId: PropTypes.number,
   awayTeamName: PropTypes.string,
   awayTeamScore: PropTypes.number,
+  awayTeamLogoUrl: PropTypes.string,
   status: PropTypes.string,
   date: PropTypes.string,
 };
@@ -92,9 +98,11 @@ Fixture.defaultProps = {
   homeTeamId: null,
   homeTeamName: '',
   homeTeamScore: null,
+  homeTeamLogoUrl: '',
   awayTeamId: null,
   awayTeamName: '',
   awayTeamScore: null,
+  awayTeamLogoUrl: '',
   status: 'timed',
   date: '',
 };

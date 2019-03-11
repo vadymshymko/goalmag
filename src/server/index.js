@@ -12,18 +12,10 @@ const setHeaders = (res, path) => {
 
 const redirectMiddleware = (req, res, next) => {
   const location = req.url;
-  const requestPath = req.path;
   const isNotHTTPS = req.header('x-forwarded-proto') && (req.header('x-forwarded-proto') !== 'https');
 
   if (isNotHTTPS) {
-    return res.redirect(301, `https://${req.header('host')}${requestPath === '/'
-      ? '/match-center'
-      : location
-    }`);
-  }
-
-  if (requestPath === '/') {
-    return res.redirect(301, '/match-center');
+    return res.redirect(301, `https://${req.header('host')}${location}`);
   }
 
   return next();

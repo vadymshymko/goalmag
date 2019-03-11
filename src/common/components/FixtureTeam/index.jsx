@@ -12,6 +12,7 @@ const FixtureTeam = ({
   type,
   score,
   scoreStyle,
+  logoUrl,
 }) => (
   <span className={`${styles.FixtureTeam} ${styles[`FixtureTeam--type--${type}`]}`}>
     {type === 'away' && (
@@ -27,6 +28,7 @@ const FixtureTeam = ({
       className={styles.FixtureTeam__link}
       id={id}
       name={name}
+      logoUrl={logoUrl}
     >
       {name}
     </TeamLink>
@@ -57,11 +59,13 @@ FixtureTeam.propTypes = {
     color: PropTypes.string,
     backgroundColor: PropTypes.string,
   }),
+  logoUrl: PropTypes.string,
 };
 
 FixtureTeam.defaultProps = {
   score: null,
   scoreStyle: null,
+  logoUrl: '',
 };
 
 export default withStyles(styles)(FixtureTeam);

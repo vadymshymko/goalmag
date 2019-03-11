@@ -3,7 +3,6 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import {
   Switch,
   Route,
-  Redirect,
 } from 'react-router-dom';
 
 import routes from 'routes';
@@ -46,22 +45,19 @@ class App extends Component {
 
           <div className={styles.App__Inner}>
             <Switch>
-              <Redirect
-                strict
-                exact
-                from="/"
-                to="/match-center"
-              />
-
-              {routes.map(({ Component: RouteComponent, fetchData, ...routeProps }) => (
+              {routes.map(({
+                Component: RouteComponent,
+                props = {},
+                ...routeProps
+              }) => (
                 <Route
                   {...routeProps}
-                  render={props => (
-                    <RouteComponent {...props} fetchData={fetchData} />
-                    )}
+                  render={renderProps => (
+                    <RouteComponent {...renderProps} {...props} />
+                  )}
                   key={routeProps.path}
                 />
-                ))}
+              ))}
             </Switch>
           </div>
         </Container>
