@@ -1,8 +1,11 @@
 .TeamPage {
   &__logo {
-    height: 48px;
+    align-items: center;
+    display: inline-flex;
+    height: auto;
     margin-right: 15px;
-    width: auto;
+    overflow: hidden;
+    width: 48px;
   }
 
   &__squadTable {
