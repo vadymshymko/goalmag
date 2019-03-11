@@ -9,13 +9,31 @@ import AppPage from 'components/AppPage';
 import AppPageHeader from 'components/AppPageHeader';
 import AppPageTitle from 'components/AppPageTitle';
 import AppPageContent from 'components/AppPageContent';
-import CompetitionTable from 'components/CompetitionTable';
 import Alert from 'components/Alert';
 import FixturesList from 'components/FixturesList';
 import Dropdown from 'components/Dropdown';
 import DateInput from 'components/DateInput';
+import Table from 'components/Table';
+import TeamLink from 'components/TeamLink';
 
 import styles from './CompetitionPage.scss';
+
+const STANDINGS_TYPES = [
+  {
+    value: 'total',
+    label: 'Total',
+  },
+  {
+    value: 'home',
+    label: 'Home',
+  },
+  {
+    value: 'away',
+    label: 'Away',
+  },
+];
+
+const STANDINGS_TYPES_REGEXP = /(home|away)/;
 
 class CompetitionPage extends Component {
   static propTypes = {
@@ -29,6 +47,7 @@ class CompetitionPage extends Component {
     isStandingsInitialized: PropTypes.bool.isRequired,
     fixtures: PropTypes.arrayOf(PropTypes.object).isRequired,
     fixturesDate: PropTypes.string,
+    standingsType: PropTypes.string,
     isFixturesFetching: PropTypes.bool.isRequired,
     isFixturesInitialized: PropTypes.bool.isRequired,
     history: PropTypes.shape({
@@ -39,6 +58,7 @@ class CompetitionPage extends Component {
   static defaultProps = {
     standingsMatchday: null,
     fixturesDate: null,
+    standingsType: 'total',
   }
 
   componentDidMount() {
@@ -99,6 +119,7 @@ class CompetitionPage extends Component {
     const {
       standingsMatchday,
       history,
+      standingsType,
     } = this.props;
 
     history.push({
@@ -107,6 +128,7 @@ class CompetitionPage extends Component {
         fixturesDate: value === getFormattedDate()
           ? undefined
           : value,
+        standingsType: STANDINGS_TYPES_REGEXP.test(standingsType) ? standingsType : undefined,
       }),
     });
   }
@@ -122,6 +144,7 @@ class CompetitionPage extends Component {
       fixturesDate,
       currentMatchday,
       history,
+      standingsType,
     } = this.props;
 
     history.push({
@@ -132,6 +155,31 @@ class CompetitionPage extends Component {
         fixturesDate: !fixturesDate || fixturesDate === getFormattedDate()
           ? undefined
           : fixturesDate,
+        standingsType: STANDINGS_TYPES_REGEXP.test(standingsType) ? standingsType : undefined,
+      }),
+    });
+  }
+
+  handleTableStandingsTypeFilterChange = (event) => {
+    const {
+      target: {
+        value,
+      },
+    } = event;
+
+    const {
+      fixturesDate,
+      history,
+      standingsMatchday,
+    } = this.props;
+
+    history.push({
+      search: stringify({
+        standingsMatchday: standingsMatchday || undefined,
+        fixturesDate: !fixturesDate || fixturesDate === getFormattedDate()
+          ? undefined
+          : fixturesDate,
+        standingsType: value === 'total' ? undefined : value,
       }),
     });
   }
@@ -145,6 +193,7 @@ class CompetitionPage extends Component {
       isFixturesInitialized,
       standingsTable,
       standingsMatchday,
+      standingsType,
       isFixturesFetching,
       isStandingsInitialized,
     } = this.props;
@@ -191,20 +240,93 @@ class CompetitionPage extends Component {
 
                 <Dropdown
                   fieldId="CompetitionInfoTableMatchdayFilter"
-                  label="Matchday:"
                   className={styles.CompetitionInfo__filter}
+                  label="Matchday:"
                   value={standingsMatchday || currentMatchday}
                   options={Array.from({
                     length: currentMatchday,
                   }).map((item, index) => ({
                     value: index + 1,
-                    label: index + 1,
+                    label: index === currentMatchday - 1 ? 'All' : index + 1,
                   }))}
                   onChange={this.handleTableMatchdayFilterChange}
                 />
+
+                <Dropdown
+                  fieldId="CompetitionInfoTableMatchdayFilter"
+                  className={styles.CompetitionInfo__filter}
+                  label="Type:"
+                  value={standingsType || 'total'}
+                  options={STANDINGS_TYPES}
+                  onChange={this.handleTableStandingsTypeFilterChange}
+                />
               </header>
 
-              <CompetitionTable table={standingsTable} />
+              <Table
+                className={styles.CompetitionInfo__table}
+                headings={[
+                  {
+                    key: 'position',
+                    label: '#',
+                  },
+                  {
+                    key: 'teamName',
+                    label: 'Team',
+                  },
+                  {
+                    key: 'playedGames',
+                    label: 'Pl',
+                  },
+                  {
+                    key: 'points',
+                    label: 'P',
+                    style: {
+                      fontWeight: 500,
+                    },
+                  },
+                  {
+                    key: 'won',
+                    label: 'W',
+                  },
+                  {
+                    key: 'draw',
+                    label: 'D',
+                  },
+                  {
+                    key: 'lost',
+                    label: 'L',
+                  },
+                  {
+                    key: 'goalsFor',
+                    label: 'GF',
+                  },
+                  {
+                    key: 'goalsAgainst',
+                    label: 'GA',
+                  },
+                  {
+                    key: 'goalDifference',
+                    label: 'GD',
+                  },
+                ]}
+                rows={[
+                  ...standingsTable.map(item => ({
+                    ...item,
+                    id: item.team.id,
+                    teamName: {
+                      label: (
+                        <TeamLink
+                          id={item.team.id}
+                          name={item.team.name}
+                          logoUrl={item.team.crestUrl}
+                          renderEmptyLogo
+                        />
+                      ),
+                      value: item.teamName,
+                    },
+                  })),
+                ]}
+              />
             </section>
           )}
         </AppPageContent>

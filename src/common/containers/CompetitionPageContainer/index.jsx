@@ -32,6 +32,7 @@ const mapStateToProps = (state, props) => {
   const {
     fixturesDate,
     standingsMatchday,
+    standingsType,
   } = parse(search);
 
   const fixturesDateValue = moment(fixturesDate || Date.now()).format('YYYY-MM-DD');
@@ -39,7 +40,7 @@ const mapStateToProps = (state, props) => {
   const fixtures = getFixtures(state, fixturesStateId);
 
   const standingsId = `${id}-${standingsMatchday || currentMatchday}`;
-  const standingsTable = getStandingsTable(state, standingsId);
+  const standingsTable = getStandingsTable(state, standingsId, standingsType);
   const isStandingsInitialized = getIsStandingsInitialized(state, standingsId);
 
   return {
@@ -50,6 +51,7 @@ const mapStateToProps = (state, props) => {
     isFixturesFetching: getIsFixturesFetching(state, fixturesStateId),
     isFixturesInitialized: getIsFixturesInitialized(state, fixturesStateId),
     standingsTable,
+    standingsType,
     currentMatchday,
     standingsMatchday,
     isStandingsInitialized,

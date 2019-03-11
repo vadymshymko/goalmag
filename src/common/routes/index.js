@@ -13,44 +13,48 @@ const NotFoundPage = loadable(() => import('components/NotFoundPage'));
 
 const routes = [
   {
-    path: '/match-center',
+    path: '/',
     Component: MatchCenterPage,
     strict: true,
     exact: true,
-    fetchData: (dispatch, params = {}) => {
-      const {
-        competitionId,
-        date,
-      } = params;
+    props: {
+      fetchData: (dispatch, params = {}) => {
+        const {
+          competitionId,
+          date,
+        } = params;
 
-      return dispatch(fetchFixtures({
-        competitionId,
-        date,
-      }));
+        return dispatch(fetchFixtures({
+          competitionId,
+          date,
+        }));
+      },
     },
   },
   {
-    path: '/competition/:id(\\d+)',
+    path: '/competition/:id([0-9]{4})',
     Component: CompetitionPage,
     strict: true,
     exact: true,
-    fetchData: (dispatch, params = {}) => {
-      const {
-        id,
-        fixturesDate,
-        standingsMatchday,
-      } = params;
+    props: {
+      fetchData: (dispatch, params = {}) => {
+        const {
+          id,
+          fixturesDate,
+          standingsMatchday,
+        } = params;
 
-      return Promise.all([
-        dispatch(fetchStandings({
-          competitionId: id,
-          matchday: standingsMatchday,
-        })),
-        dispatch(fetchFixtures({
-          competitionId: id,
-          date: fixturesDate,
-        })),
-      ]);
+        return Promise.all([
+          dispatch(fetchStandings({
+            competitionId: id,
+            matchday: standingsMatchday,
+          })),
+          dispatch(fetchFixtures({
+            competitionId: id,
+            date: fixturesDate,
+          })),
+        ]);
+      },
     },
   },
   {
@@ -58,12 +62,14 @@ const routes = [
     Component: TeamPage,
     strict: true,
     exact: true,
-    fetchData: (dispatch, params = {}) => {
-      const {
-        id,
-      } = params;
+    props: {
+      fetchData: (dispatch, params = {}) => {
+        const {
+          id,
+        } = params;
 
-      return dispatch(fetchTeam(id));
+        return dispatch(fetchTeam(id));
+      },
     },
   },
   {

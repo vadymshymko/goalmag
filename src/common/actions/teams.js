@@ -1,5 +1,7 @@
+import { normalize } from 'normalizr';
 import { teams as types } from 'types';
 import { callApi } from 'utils';
+import { team as schema } from 'schemas';
 import { getTeam } from 'selectors';
 
 export const fetchTeam = id => (dispatch, getState) => {
@@ -21,15 +23,14 @@ export const fetchTeam = id => (dispatch, getState) => {
     },
   });
 
-  return callApi(`teams/${id}`).then(json => (
-    dispatch({
+  return callApi(`teams/${id}`).then((json) => {
+    const { entities: { teams = [] } = {}, result: teamId = id } = normalize(json, schema);
+
+    return dispatch({
       type: types.FETCH_TEAM_SUCCESS,
-      payload: {
-        ...json,
-        crestUrl: (json.crestUrl || '').replace('http://', 'https://'),
-      },
-    })
-  )).catch(() => dispatch({
+      payload: teams[teamId],
+    });
+  }).catch(() => dispatch({
     type: types.FETCH_TEAM_FAILURE,
     payload: {
       id,

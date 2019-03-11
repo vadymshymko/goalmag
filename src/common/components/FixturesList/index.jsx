@@ -16,10 +16,12 @@ const FixturesList = ({
       homeTeam: {
         id: homeTeamId,
         name: homeTeamName,
+        crestUrl: homeTeamLogoUrl,
       } = {},
       awayTeam: {
         id: awayTeamId,
         name: awayTeamName,
+        crestUrl: awayTeamLogoUrl,
       } = {},
       score: {
         fullTime: {
@@ -38,9 +40,11 @@ const FixturesList = ({
           homeTeamId={homeTeamId}
           homeTeamName={homeTeamName}
           homeTeamScore={homeTeamScore}
+          homeTeamLogoUrl={homeTeamLogoUrl}
           awayTeamId={awayTeamId}
           awayTeamName={awayTeamName}
           awayTeamScore={awayTeamScore}
+          awayTeamLogoUrl={awayTeamLogoUrl}
           status={status.toLowerCase()}
           date={moment.utc(utcDate).local().format('HH:mm')}
         />

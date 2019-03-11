@@ -6,7 +6,7 @@ import AppPage from 'components/AppPage';
 import AppPageHeader from 'components/AppPageHeader';
 import AppPageTitle from 'components/AppPageTitle';
 import AppPageContent from 'components/AppPageContent';
-import SquadPlayersTable from 'components/SquadPlayersTable';
+import Table from 'components/Table';
 
 import styles from './TeamPage.scss';
 
@@ -83,7 +83,32 @@ class TeamPage extends Component {
         </AppPageHeader>
 
         <AppPageContent>
-          <SquadPlayersTable players={players} />
+          <Table
+            className={styles.TeamPage__squadTable}
+            headings={[
+              {
+                key: 'shirtNumber',
+                label: '№',
+              },
+              {
+                key: 'name',
+                label: 'Name',
+              },
+              {
+                key: 'position',
+                label: 'Position',
+              },
+              {
+                key: 'nationality',
+                label: 'Nationality',
+              },
+              {
+                key: 'dateOfBirth',
+                label: 'Date of Birth',
+              },
+            ]}
+            rows={players}
+          />
 
           {coach.name && (
             <p className={styles.TeamCoach}>Coach: {coach.name}</p>

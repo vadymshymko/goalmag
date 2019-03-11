@@ -91,7 +91,7 @@ class AppNav extends Component {
             {
               id: 'match-center',
               name: 'Match Center',
-              url: '/match-center',
+              url: '/',
             },
           ]}
         />

@@ -32,8 +32,8 @@ const getPromises = (store, req) => (
       path: route.path,
     });
 
-    if (match && route.fetchData) {
-      return route.fetchData(store.dispatch, {
+    if (match && route.props && route.props.fetchData) {
+      return route.props.fetchData(store.dispatch, {
         ...camelizeKeys(req.query || {}),
         ...(match.params || {}),
       });
