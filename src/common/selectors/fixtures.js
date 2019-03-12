@@ -1,52 +1,58 @@
 import { createSelector } from 'reselect';
 
-export const getFixturesState = (state, id) => (
-  state.fixtures[id] || {}
+export const getFixtures = state => state.fixtures;
+
+export const getFixturesById = createSelector(
+  getFixtures,
+  (state, id) => id,
+  (fixtures, id) => (
+    fixtures[id] || {}
+  ),
 );
 
 export const getFixturesLastUpdated = createSelector(
-  getFixturesState,
+  getFixturesById,
   fixturesState => (
     fixturesState.lastUpdated || 0
   ),
 );
 
 export const getIsFixturesFetching = createSelector(
-  getFixturesState,
+  getFixturesById,
   fixturesState => (
     !!fixturesState.isFetching
   ),
 );
 
 export const getIsFixturesInitialized = createSelector(
-  getFixturesState,
+  getFixturesById,
   fixturesState => (
     !!fixturesState.isInitialized
   ),
 );
 
 export const getIsFixturesAllItemsFinished = createSelector(
-  getFixturesState,
+  getFixturesById,
   fixturesState => (
     !!fixturesState.isAllItemsFinished
   ),
 );
 
 export const getFixturesEntities = createSelector(
-  getFixturesState,
+  getFixturesById,
   fixturesState => (
     fixturesState.entities || {}
   ),
 );
 
 export const getFixturesIds = createSelector(
-  getFixturesState,
+  getFixturesById,
   fixturesState => (
     fixturesState.ids || []
   ),
 );
 
-export const getFixtures = createSelector(
+export const getFixturesItems = createSelector(
   getFixturesEntities,
   getFixturesIds,
   (entities, ids) => (

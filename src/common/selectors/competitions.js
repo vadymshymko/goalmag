@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect';
 
+export const getCompetitions = state => state.competitions;
+
 export const getCompetitionsIds = state => (
   state.competitions.ids
 );
@@ -8,7 +10,7 @@ export const getCompetitionsEntities = state => (
   state.competitions.entities
 );
 
-export const getCompetitions = createSelector(
+export const getCompetitionsItems = createSelector(
   getCompetitionsIds,
   getCompetitionsEntities,
   (ids, entities) => (

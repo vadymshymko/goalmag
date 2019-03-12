@@ -1,33 +1,37 @@
 import { createSelector } from 'reselect';
 
-export const getStandings = (state, id) => (
-  state.standings[id] || {}
+export const getStandings = state => state.standings;
+
+export const getStandingsById = createSelector(
+  getStandings,
+  (state, id) => id,
+  (standings, id) => standings[id] || {},
 );
 
 export const getStandingsTable = createSelector(
-  getStandings,
+  getStandingsById,
   (state, id, type = 'total') => type,
   (standings, type) => (
-    ((standings.entities || {})[type.toUpperCase()] || {}).table || []
+    (standings.items || []).filter(({ type: tableType }) => type.toUpperCase() === tableType) || []
   ),
 );
 
 export const getIsStandingsFetching = createSelector(
-  getStandings,
+  getStandingsById,
   standings => (
     !!standings.isFetching
   ),
 );
 
 export const getIsStandingsInitialized = createSelector(
-  getStandings,
+  getStandingsById,
   standings => (
     !!standings.isInitialized
   ),
 );
 
 export const getStandingsLastUpdated = createSelector(
-  getStandings,
+  getStandingsById,
   standings => (
     standings.lastUpdated || 0
   ),

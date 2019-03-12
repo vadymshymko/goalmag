@@ -9,7 +9,7 @@ import styles from './AppNav.scss';
 class AppNav extends Component {
   static propTypes = {
     fetchCompetitions: PropTypes.func.isRequired,
-    competitions: PropTypes.arrayOf(PropTypes.object).isRequired,
+    competitionsItems: PropTypes.arrayOf(PropTypes.object).isRequired,
     location: PropTypes.shape({
       pathname: PropTypes.string,
     }).isRequired,
@@ -79,10 +79,10 @@ class AppNav extends Component {
 
   render() {
     const {
-      competitions,
+      competitionsItems,
     } = this.props;
 
-    const sections = this.getSections(competitions);
+    const sections = this.getSections(competitionsItems);
 
     return (
       <nav className={styles.AppNav}>

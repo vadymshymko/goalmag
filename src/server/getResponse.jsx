@@ -76,10 +76,9 @@ const getResponse = async (req, res) => {
       const stylesContext = {
         insertCss: (...styles) => styles.forEach(style => css.add(style._getCss())),//eslint-disable-line
       };
-      const promises = getPromises(store, req);
 
       await store.dispatch(fetchCompetitions());
-      await Promise.all(promises);
+      await Promise.all(getPromises(store, req));
 
       const appHTML = getAppHTML({
         store,

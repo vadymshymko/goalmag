@@ -1,4 +1,3 @@
-import { normalize } from 'normalizr';
 import { standings as types } from 'types';
 import {
   getIsStandingsFetching,
@@ -6,7 +5,6 @@ import {
   getStandingsLastUpdated,
 } from 'selectors';
 import { callApi } from 'utils';
-import { standings as schema } from 'schemas';
 
 export const fetchStandings = ({
   competitionId,
@@ -42,24 +40,14 @@ export const fetchStandings = ({
     },
   });
 
-  return callApi(requestPath).then((json) => {
-    const {
-      entities: {
-        standings: entities = {},
-      },
-      result: ids = [],
-    } = normalize(json.standings, schema);
-
-    return dispatch({
-      type: types.FETCH_STANDINGS_SUCCESS,
-      payload: {
-        id: standingsId,
-        entities,
-        ids,
-        lastUpdated: Date.now(),
-      },
-    });
-  }).catch(() => dispatch({
+  return callApi(requestPath).then(json => dispatch({
+    type: types.FETCH_STANDINGS_SUCCESS,
+    payload: {
+      id: standingsId,
+      items: json.standings,
+      lastUpdated: Date.now(),
+    },
+  })).catch(() => dispatch({
     type: types.FETCH_STANDINGS_FAILURE,
     payload: {
       id: standingsId,
