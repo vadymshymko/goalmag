@@ -1,21 +1,32 @@
 import { createSelector } from 'reselect';
 
-export const getTeam = (state, id) => (
-  state.teams.entities[id] || {}
+export const getTeams = state => state.teams;
+
+export const getTeamsEntities = createSelector(
+  getTeams,
+  teams => teams.entities,
+);
+
+export const getTeamById = createSelector(
+  getTeamsEntities,
+  (state, id) => id,
+  (entities, id) => (
+    entities[id] || {}
+  ),
 );
 
 export const getTeamName = createSelector(
-  getTeam,
+  getTeamById,
   team => team.name,
 );
 
 export const getTeamLogoURL = createSelector(
-  getTeam,
+  getTeamById,
   team => team.crestUrl || '',
 );
 
 export const getTeamSquad = createSelector(
-  getTeam,
+  getTeamById,
   team => team.squad || [],
 );
 

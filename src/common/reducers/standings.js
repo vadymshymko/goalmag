@@ -7,6 +7,7 @@ const standingsItemInitialState = {
   isFetching: false,
   isRequestFailed: false,
   isInitialized: false,
+  items: [],
 };
 
 const standingsItem = createReducer(standingsItemInitialState, {

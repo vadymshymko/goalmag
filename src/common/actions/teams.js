@@ -2,7 +2,7 @@ import { normalize } from 'normalizr';
 import { teams as types } from 'types';
 import { callApi } from 'utils';
 import { team as schema } from 'schemas';
-import { getTeam } from 'selectors';
+import { getTeamById } from 'selectors';
 
 export const fetchTeam = id => (dispatch, getState) => {
   if (!id) {
@@ -10,7 +10,7 @@ export const fetchTeam = id => (dispatch, getState) => {
   }
 
   const state = getState();
-  const team = getTeam(state, id);
+  const team = getTeamById(state, id);
 
   if (team.isFetching || team.isInitialized) {
     return Promise.resolve();

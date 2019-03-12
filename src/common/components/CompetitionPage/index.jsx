@@ -45,7 +45,7 @@ class CompetitionPage extends Component {
     standingsTable: PropTypes.arrayOf(PropTypes.object).isRequired,
     standingsMatchday: PropTypes.string,
     isStandingsInitialized: PropTypes.bool.isRequired,
-    fixtures: PropTypes.arrayOf(PropTypes.object).isRequired,
+    fixturesItems: PropTypes.arrayOf(PropTypes.object).isRequired,
     fixturesDate: PropTypes.string,
     standingsType: PropTypes.string,
     isFixturesFetching: PropTypes.bool.isRequired,
@@ -189,7 +189,7 @@ class CompetitionPage extends Component {
       name,
       currentMatchday,
       fixturesDate,
-      fixtures,
+      fixturesItems,
       isFixturesInitialized,
       standingsTable,
       standingsMatchday,
@@ -224,12 +224,12 @@ class CompetitionPage extends Component {
               />
             </header>
 
-            {isFixturesInitialized && !isFixturesFetching && fixtures.length === 0 && (
+            {isFixturesInitialized && !isFixturesFetching && fixturesItems.length === 0 && (
               <Alert>:( There are no games by selected date</Alert>
             )}
 
-            {fixtures.length > 0 && (
-              <FixturesList fixtures={fixtures} />
+            {fixturesItems.length > 0 && (
+              <FixturesList fixtures={fixturesItems} />
             )}
           </section>
 
@@ -262,71 +262,74 @@ class CompetitionPage extends Component {
                 />
               </header>
 
-              <Table
-                className={styles.CompetitionInfo__table}
-                headings={[
-                  {
-                    key: 'position',
-                    label: '#',
-                  },
-                  {
-                    key: 'teamName',
-                    label: 'Team',
-                  },
-                  {
-                    key: 'playedGames',
-                    label: 'Pl',
-                  },
-                  {
-                    key: 'points',
-                    label: 'P',
-                    style: {
-                      fontWeight: 500,
+              {standingsTable.map(({ type, group, table }) => (
+                <Table
+                  className={styles.CompetitionInfo__table}
+                  headings={[
+                    {
+                      key: 'position',
+                      label: '#',
                     },
-                  },
-                  {
-                    key: 'won',
-                    label: 'W',
-                  },
-                  {
-                    key: 'draw',
-                    label: 'D',
-                  },
-                  {
-                    key: 'lost',
-                    label: 'L',
-                  },
-                  {
-                    key: 'goalsFor',
-                    label: 'GF',
-                  },
-                  {
-                    key: 'goalsAgainst',
-                    label: 'GA',
-                  },
-                  {
-                    key: 'goalDifference',
-                    label: 'GD',
-                  },
-                ]}
-                rows={[
-                  ...standingsTable.map(item => ({
-                    ...item,
-                    id: item.team.id,
-                    teamName: {
-                      label: (
-                        <TeamLink
-                          id={item.team.id}
-                          name={item.team.name}
-                          logoUrl={item.team.crestUrl}
-                          renderEmptyLogo
-                        />
-                      ),
-                      value: item.teamName,
+                    {
+                      key: 'teamName',
+                      label: 'Team',
                     },
-                  })),
-                ]}
-              />
+                    {
+                      key: 'playedGames',
+                      label: 'Pl',
+                    },
+                    {
+                      key: 'points',
+                      label: 'P',
+                      style: {
+                        fontWeight: 500,
+                      },
+                    },
+                    {
+                      key: 'won',
+                      label: 'W',
+                    },
+                    {
+                      key: 'draw',
+                      label: 'D',
+                    },
+                    {
+                      key: 'lost',
+                      label: 'L',
+                    },
+                    {
+                      key: 'goalsFor',
+                      label: 'GF',
+                    },
+                    {
+                      key: 'goalsAgainst',
+                      label: 'GA',
+                    },
+                    {
+                      key: 'goalDifference',
+                      label: 'GD',
+                    },
+                  ]}
+                  rows={[
+                    ...table.map(item => ({
+                      ...item,
+                      id: item.team.id,
+                      teamName: {
+                        label: (
+                          <TeamLink
+                            id={item.team.id}
+                            name={item.team.name}
+                            logoUrl={item.team.crestUrl}
+                            renderEmptyLogo
+                          />
+                        ),
+                        value: item.teamName,
+                      },
+                    })),
+                  ]}
+                  key={`${type}-${group || ''}`}
+                />
+              ))}
             </section>
           )}
         </AppPageContent>

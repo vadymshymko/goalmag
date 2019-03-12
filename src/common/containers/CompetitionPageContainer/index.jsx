@@ -5,7 +5,7 @@ import moment from 'moment';
 import {
   getCompetitionName,
   getCompetitionCurrentMatchDay,
-  getFixtures,
+  getFixturesItems,
   getIsFixturesFetching,
   getIsFixturesInitialized,
   getStandingsTable,
@@ -37,7 +37,7 @@ const mapStateToProps = (state, props) => {
 
   const fixturesDateValue = moment(fixturesDate || Date.now()).format('YYYY-MM-DD');
   const fixturesStateId = `${id}-${fixturesDateValue}`;
-  const fixtures = getFixtures(state, fixturesStateId);
+  const fixturesItems = getFixturesItems(state, fixturesStateId);
 
   const standingsId = `${id}-${standingsMatchday || currentMatchday}`;
   const standingsTable = getStandingsTable(state, standingsId, standingsType);
@@ -46,7 +46,7 @@ const mapStateToProps = (state, props) => {
   return {
     id,
     name,
-    fixtures,
+    fixturesItems,
     fixturesDate,
     isFixturesFetching: getIsFixturesFetching(state, fixturesStateId),
     isFixturesInitialized: getIsFixturesInitialized(state, fixturesStateId),

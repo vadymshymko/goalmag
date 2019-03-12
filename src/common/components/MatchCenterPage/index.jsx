@@ -22,10 +22,10 @@ class MatchCenterPage extends Component {
     fetchData: PropTypes.func.isRequired,
     competitionId: PropTypes.number,
     date: PropTypes.string,
-    fixtures: PropTypes.arrayOf(PropTypes.object).isRequired,
+    fixturesItems: PropTypes.arrayOf(PropTypes.object).isRequired,
     isFixturesFetching: PropTypes.bool.isRequired,
     isFixturesInitialized: PropTypes.bool.isRequired,
-    competitions: PropTypes.arrayOf(PropTypes.object).isRequired,
+    competitionsItems: PropTypes.arrayOf(PropTypes.object).isRequired,
     history: PropTypes.shape({
       push: PropTypes.func,
     }).isRequired,
@@ -101,7 +101,7 @@ class MatchCenterPage extends Component {
   )
 
   getCompetitionFixtures = competitionId => (
-    this.props.fixtures.filter(fixture => (
+    this.props.fixturesItems.filter(fixture => (
       fixture.competition.id === competitionId
     ))
   )
@@ -142,20 +142,20 @@ class MatchCenterPage extends Component {
 
   render() {
     const {
-      competitions,
+      competitionsItems,
       competitionId,
       date,
-      fixtures,
+      fixturesItems,
       isFixturesFetching,
       isFixturesInitialized,
     } = this.props;
 
-    const fixturesGroupedByCompetitionId = this.getFixturesGroupedByCompetitionId(fixtures);
+    const fixturesGroupedByCompetitionId = this.getFixturesGroupedByCompetitionId(fixturesItems);
 
     const showEmptyMessage = (
       isFixturesInitialized
       && !isFixturesFetching
-      && fixtures.length === 0
+      && fixturesItems.length === 0
     );
 
     return (
@@ -180,7 +180,7 @@ class MatchCenterPage extends Component {
                   label: 'All',
                   value: '',
                 },
-                ...competitions.map(competition => ({
+                ...competitionsItems.map(competition => ({
                   value: competition.id,
                   label: competition.name,
                 })),

@@ -3,8 +3,8 @@ import { parse } from 'query-string';
 import moment from 'moment';
 
 import {
-  getCompetitions,
-  getFixtures,
+  getCompetitionsItems,
+  getFixturesItems,
   getIsFixturesFetching,
   getIsFixturesInitialized,
 } from 'selectors';
@@ -23,18 +23,18 @@ const mapStateToProps = (state, props) => {
     date,
   } = parse(search);
 
-  const competitions = getCompetitions(state);
+  const competitionsItems = getCompetitionsItems(state);
   const fixturesDate = moment(date || Date.now()).format('YYYY-MM-DD');
   const fixturesStateId = `${competitionId || 'all'}-${fixturesDate}`;
-  const fixtures = getFixtures(state, fixturesStateId);
+  const fixturesItems = getFixturesItems(state, fixturesStateId);
   const isFixturesFetching = getIsFixturesFetching(state, fixturesStateId);
   const isFixturesInitialized = getIsFixturesInitialized(state, fixturesStateId);
 
   return {
-    competitions,
+    competitionsItems,
     competitionId,
     date,
-    fixtures,
+    fixturesItems,
     isFixturesFetching,
     isFixturesInitialized,
   };

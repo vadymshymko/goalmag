@@ -39,6 +39,10 @@
   }
 
   &__table {
+    &:not(:first-of-type) {
+      padding-top: 30px;
+    }
+
     td,
     th {
       padding: 15px;
