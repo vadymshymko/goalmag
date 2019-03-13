@@ -126,5 +126,9 @@
     "webpack-node-externals": "^1.7.2",
     "webpackbar": "^3.1.5",
     "workbox-webpack-plugin": "^4.1.0"
+  },
+  "engines": {
+    "node": "11.2.0",
+    "yarn": "1.12.3"
   }
 }
