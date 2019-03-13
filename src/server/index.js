@@ -3,6 +3,8 @@ import compression from 'compression';
 
 import getResponse from './getResponse';
 
+const isDev = process.env.NODE_ENV === 'development';
+
 const setHeaders = (res, path) => {
   if (path.includes('service-worker.js')) {
     res.setHeader('Service-Worker-Allowed', '/');
@@ -32,6 +34,16 @@ app.use(express.static('dist/assets', {
   maxAge: 60 * 60 * 24 * 30,
 }));
 app.get('*', redirectMiddleware);
+
+if (isDev) {
+  /* eslint-disable global-require */
+  const { devMiddleware, hotMiddleware } = require('./devMiddleware');
+
+  app.use(devMiddleware);
+  app.use(hotMiddleware);
+  /* eslint-enable global-require */
+}
+
 app.get('*', getResponse);
 app.listen(PORT, () => {
   console.log(`app listening on port: ${PORT}`); // eslint-disable-line

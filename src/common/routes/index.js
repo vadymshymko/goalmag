@@ -4,6 +4,7 @@ import {
   fetchStandings,
   fetchFixtures,
   fetchTeam,
+  // fetchCompetitions,
 } from 'actions';
 
 const MatchCenterPage = loadable(() => import('containers/MatchCenterPageContainer'));
@@ -24,10 +25,13 @@ const routes = [
           date,
         } = params;
 
-        return dispatch(fetchFixtures({
-          competitionId,
-          date,
-        }));
+        return Promise.all([
+          dispatch(fetchFixtures({
+            competitionId,
+            date,
+          })),
+          // dispatch(fetchCompetitions()),
+        ]);
       },
     },
   },
@@ -41,18 +45,17 @@ const routes = [
         const {
           id,
           fixturesDate,
-          standingsMatchday,
         } = params;
 
         return Promise.all([
           dispatch(fetchStandings({
             competitionId: id,
-            matchday: standingsMatchday,
           })),
           dispatch(fetchFixtures({
             competitionId: id,
             date: fixturesDate,
           })),
+          // dispatch(fetchCompetitions()),
         ]);
       },
     },
@@ -68,7 +71,10 @@ const routes = [
           id,
         } = params;
 
-        return dispatch(fetchTeam(id));
+        return Promise.all([
+          dispatch(fetchTeam(id)),
+          // dispatch(fetchCompetitions()),
+        ]);
       },
     },
   },

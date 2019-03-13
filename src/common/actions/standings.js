@@ -1,14 +1,12 @@
 import { standings as types } from 'types';
 import {
   getIsStandingsFetching,
-  getCompetitionCurrentMatchDay,
   getStandingsLastUpdated,
 } from 'selectors';
 import { callApi } from 'utils';
 
 export const fetchStandings = ({
   competitionId,
-  matchday,
 } = {}) => (dispatch, getState) => {
   if (!competitionId) {
     return Promise.reject(new Error('invalid competitionId'));
@@ -16,11 +14,8 @@ export const fetchStandings = ({
 
   const state = getState();
 
-  const currentMatchday = getCompetitionCurrentMatchDay(state, competitionId);
-  const requestMatchday = matchday || currentMatchday;
-  const standingsId = `${competitionId}-${requestMatchday}`;
-  const isFetching = getIsStandingsFetching(state, standingsId);
-  const lastUpdated = getStandingsLastUpdated(state, standingsId);
+  const isFetching = getIsStandingsFetching(state, competitionId);
+  const lastUpdated = getStandingsLastUpdated(state, competitionId);
   const currentDateTime = Date.now();
   const isNotNeedRequest = (
     isFetching
@@ -31,26 +26,26 @@ export const fetchStandings = ({
     return Promise.resolve();
   }
 
-  const requestPath = `competitions/${competitionId}/standings?matchday=${requestMatchday}`;
+  const requestPath = `competitions/${competitionId}/standings`;
 
   dispatch({
     type: types.FETCH_STANDINGS_REQUEST,
     payload: {
-      id: standingsId,
+      id: competitionId,
     },
   });
 
   return callApi(requestPath).then(json => dispatch({
     type: types.FETCH_STANDINGS_SUCCESS,
     payload: {
-      id: standingsId,
+      id: competitionId,
       items: json.standings,
       lastUpdated: Date.now(),
     },
   })).catch(() => dispatch({
     type: types.FETCH_STANDINGS_FAILURE,
     payload: {
-      id: standingsId,
+      id: competitionId,
       lastUpdated: Date.now(),
     },
   }));

@@ -41,9 +41,7 @@ class CompetitionPage extends Component {
     fetchData: PropTypes.func.isRequired,
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    currentMatchday: PropTypes.number.isRequired,
     standingsTable: PropTypes.arrayOf(PropTypes.object).isRequired,
-    standingsMatchday: PropTypes.string,
     isStandingsInitialized: PropTypes.bool.isRequired,
     fixturesItems: PropTypes.arrayOf(PropTypes.object).isRequired,
     fixturesDate: PropTypes.string,
@@ -56,7 +54,6 @@ class CompetitionPage extends Component {
   }
 
   static defaultProps = {
-    standingsMatchday: null,
     fixturesDate: null,
     standingsType: 'total',
   }
@@ -65,7 +62,6 @@ class CompetitionPage extends Component {
     const {
       id,
       fixturesDate,
-      standingsMatchday,
       fetchData,
       dispatch,
     } = this.props;
@@ -73,7 +69,6 @@ class CompetitionPage extends Component {
     fetchData(dispatch, {
       id,
       fixturesDate,
-      standingsMatchday,
     });
   }
 
@@ -81,7 +76,6 @@ class CompetitionPage extends Component {
     const {
       id,
       fixturesDate,
-      standingsMatchday,
       fetchData,
       dispatch,
     } = this.props;
@@ -89,22 +83,18 @@ class CompetitionPage extends Component {
     const {
       id: prevId,
       fixturesDate: prevFixturesDate,
-      standingsMatchday: prevStandingsMatchday,
     } = prevProps;
 
     const isNewCompetition = id !== prevId;
     const isNewFixturesDate = fixturesDate !== prevFixturesDate;
-    const isNewStandingsMatchday = standingsMatchday !== prevStandingsMatchday;
 
     if (
       isNewCompetition
-      || isNewStandingsMatchday
       || isNewFixturesDate
     ) {
       fetchData(dispatch, {
         id,
         fixturesDate,
-        standingsMatchday,
       });
     }
   }
@@ -117,44 +107,15 @@ class CompetitionPage extends Component {
     } = event;
 
     const {
-      standingsMatchday,
       history,
       standingsType,
     } = this.props;
 
     history.push({
       search: stringify({
-        standingsMatchday: standingsMatchday || undefined,
         fixturesDate: value === getFormattedDate()
           ? undefined
           : value,
-        standingsType: STANDINGS_TYPES_REGEXP.test(standingsType) ? standingsType : undefined,
-      }),
-    });
-  }
-
-  handleTableMatchdayFilterChange = (event) => {
-    const {
-      target: {
-        value,
-      },
-    } = event;
-
-    const {
-      fixturesDate,
-      currentMatchday,
-      history,
-      standingsType,
-    } = this.props;
-
-    history.push({
-      search: stringify({
-        standingsMatchday: parseInt(value, 10) === currentMatchday
-          ? undefined
-          : value,
-        fixturesDate: !fixturesDate || fixturesDate === getFormattedDate()
-          ? undefined
-          : fixturesDate,
         standingsType: STANDINGS_TYPES_REGEXP.test(standingsType) ? standingsType : undefined,
       }),
     });
@@ -170,12 +131,10 @@ class CompetitionPage extends Component {
     const {
       fixturesDate,
       history,
-      standingsMatchday,
     } = this.props;
 
     history.push({
       search: stringify({
-        standingsMatchday: standingsMatchday || undefined,
         fixturesDate: !fixturesDate || fixturesDate === getFormattedDate()
           ? undefined
           : fixturesDate,
@@ -187,12 +146,10 @@ class CompetitionPage extends Component {
   render() {
     const {
       name,
-      currentMatchday,
       fixturesDate,
       fixturesItems,
       isFixturesInitialized,
       standingsTable,
-      standingsMatchday,
       standingsType,
       isFixturesFetching,
       isStandingsInitialized,
@@ -237,20 +194,6 @@ class CompetitionPage extends Component {
             <section className={styles.CompetitionInfo}>
               <header className={styles.CompetitionInfo__header}>
                 <h3 className={styles.CompetitionInfo__title}>Standings:</h3>
-
-                <Dropdown
-                  fieldId="CompetitionInfoTableMatchdayFilter"
-                  className={styles.CompetitionInfo__filter}
-                  label="Matchday:"
-                  value={standingsMatchday || currentMatchday}
-                  options={Array.from({
-                    length: currentMatchday,
-                  }).map((item, index) => ({
-                    value: index + 1,
-                    label: index === currentMatchday - 1 ? 'All' : index + 1,
-                  }))}
-                  onChange={this.handleTableMatchdayFilterChange}
-                />
 
                 <Dropdown
                   fieldId="CompetitionInfoTableMatchdayFilter"

@@ -78,8 +78,8 @@ class Table extends Component {
     const { sortBy, ascendingSort } = this.state;
 
     return (
-      <div className={styles.TableContainer}>
-        <table className={`${styles.Table} ${className}`}>
+      <div className={`${styles.TableContainer} ${className}`}>
+        <table className={styles.Table}>
           <thead>
             <tr>
               {headings.map(heading => (

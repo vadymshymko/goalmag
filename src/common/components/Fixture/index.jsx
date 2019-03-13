@@ -7,8 +7,8 @@ import FixtureTeam from 'components/FixtureTeam';
 import styles from './Fixture.scss';
 
 const getScoreColorByStatus = (status = '') => {
-  if (status === 'finished' || status === 'in_play') {
-    return 'white';
+  if (status === 'finished' || status === 'in_play' || 'paused') {
+    return '#fff';
   }
 
   return null;
@@ -19,6 +19,8 @@ const getScoreBgColorByStatus = (status = '') => {
     return '#dc3545';
   } else if (status === 'in_play') {
     return '#28a745';
+  } else if (status === 'paused') {
+    return '#ffc107';
   }
 
   return null;
@@ -47,7 +49,7 @@ const Fixture = ({
         name={homeTeamName}
         type="home"
         logoUrl={homeTeamLogoUrl}
-        score={(status === 'in_play' || status === 'finished')
+        score={(status === 'in_play' || status === 'finished' || status === 'paused')
           ? homeTeamScore || 0
           : homeTeamScore || '-'
         }
@@ -64,7 +66,7 @@ const Fixture = ({
         name={awayTeamName}
         type="away"
         logoUrl={awayTeamLogoUrl}
-        score={(status === 'in_play' || status === 'finished')
+        score={(status === 'in_play' || status === 'finished' || status === 'paused')
           ? awayTeamScore || 0
           : awayTeamScore || '-'
         }
@@ -76,7 +78,7 @@ const Fixture = ({
     </div>
 
     <span className={styles.Fixture__status}>
-      {status}
+      {(status || '').replace(/_/gi, ' ')}
     </span>
   </article>
 );

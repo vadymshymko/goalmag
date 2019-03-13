@@ -1,13 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { hydrate } from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { loadableReady } from '@loadable/component';
+
 import StyleContext from 'context/StyleContext';
-
 import configureStore from 'store';
-
-import App from 'components/App';
 
 import registerServiceWorker from './registerServiceWorker';
 
@@ -22,20 +21,42 @@ const stylesContext = {
   ),
 };
 
+const Root = ({ children }) => (
+  <Provider store={store}>
+    <BrowserRouter>
+      <StyleContext context={stylesContext}>
+        {children}
+      </StyleContext>
+    </BrowserRouter>
+  </Provider>
+);
+
+Root.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+const render = () => {
+  const AppComponent = require('components/App').default; //eslint-disable-line
+
+  hydrate(
+    <Root>
+      <AppComponent />
+    </Root>,
+    document.getElementById('root'),
+  );
+};
+
 loadableReady(() => {
+  if (module.hot) {
+    module.hot.accept('components/App', () => {
+      render();
+    });
+  }
+
   registerServiceWorker({
     url: '/service-worker.js',
     scope: '/',
   });
 
-  hydrate(
-    <Provider store={store}>
-      <BrowserRouter>
-        <StyleContext context={stylesContext}>
-          <App />
-        </StyleContext>
-      </BrowserRouter>
-    </Provider>,
-    document.getElementById('root'),
-  );
+  render();
 });
