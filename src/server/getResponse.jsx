@@ -26,7 +26,7 @@ const cacheService = new NodeCache({
 });
 
 const getPromises = (store, req) => (
-  routes.map((route) => {
+  [store.dispatch(fetchCompetitions()), ...routes.map((route) => {
     const match = matchPath(req.path, {
       ...route,
       path: route.path,
@@ -40,7 +40,7 @@ const getPromises = (store, req) => (
     }
 
     return Promise.resolve(null);
-  })
+  })]
 );
 
 const getAppHTML = ({
@@ -77,7 +77,6 @@ const getResponse = async (req, res) => {
         insertCss: (...styles) => styles.forEach(style => css.add(style._getCss())),//eslint-disable-line
       };
 
-      await store.dispatch(fetchCompetitions());
       await Promise.all(getPromises(store, req));
 
       const appHTML = getAppHTML({

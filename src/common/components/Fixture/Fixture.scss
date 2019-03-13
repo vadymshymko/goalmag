@@ -29,6 +29,14 @@
     }
   }
 
+  &__status {
+    text-transform: lowercase;
+
+    &::first-letter {
+      text-transform: uppercase;
+    }
+  }
+
   &__mainInfo {
     display: flex;
     flex: 1;

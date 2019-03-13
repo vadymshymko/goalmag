@@ -6,131 +6,147 @@ const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 const WebpackNodeExternals = require('webpack-node-externals');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 const LoadableWebpackPlugin = require('@loadable/webpack-plugin');
-const WebpackBundleAnalyzer = require('webpack-bundle-analyzer');
+// const WebpackBundleAnalyzer = require('webpack-bundle-analyzer');
 const WebpackBar = require('webpackbar');
 
-const getCommonConfig = mode => ({
-  mode,
-  resolve: {
-    extensions: ['.js', '.jsx'],
-    modules: [
-      path.resolve(__dirname, 'src/common'),
-      'node_modules',
-    ],
-  },
-  plugins: [
-    new webpack.LoaderOptionsPlugin({ options: {} }),
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    new webpack.EnvironmentPlugin({
-      NODE_ENV: mode,
-    }),
-  ],
-  module: {
-    rules: [
-      {
-        enforce: 'pre',
-        test: /\.jsx?$/,
-        use: 'eslint-loader',
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.jsx?$/,
-        use: 'babel-loader',
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.css$/,
-        use: [
-          'isomorphic-style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 1,
-              modules: true,
-            },
-          },
-          'postcss-loader',
-        ],
-      },
-      {
-        test: /\.scss/,
-        use: [
-          'isomorphic-style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 2,
-              modules: true,
-            },
-          },
-          'sass-loader',
-          'postcss-loader',
-        ],
-      },
-    ],
-  },
-  optimization:
-    mode === 'production'
-      ? {
-        minimizer: [
-          new TerserWebpackPlugin({
-            terserOptions: {
-              parse: {
-              // we want terser to parse ecma 8 code. However, we don't want it
-              // to apply any minfication steps that turns valid ecma 5 code
-              // into invalid ecma 5 code. This is why the 'compress' and 'output'
-              // sections only apply transformations that are ecma 5 safe
-              // https://github.com/facebook/create-react-app/pull/4234
-                ecma: 8,
-              },
-              compress: {
-                drop_console: true,
-                ecma: 5,
-                warnings: false,
-                // Disabled because of an issue with Uglify breaking seemingly valid code:
-                // https://github.com/facebook/create-react-app/issues/2376
-                // Pending further investigation:
-                // https://github.com/mishoo/UglifyJS2/issues/2011
-                comparisons: false,
-                // Disabled because of an issue with Terser breaking valid code:
-                // https://github.com/facebook/create-react-app/issues/5250
-                // Pending futher investigation:
-                // https://github.com/terser-js/terser/issues/120
-                inline: 2,
-              },
-              mangle: {
-                safari10: true,
-              },
-              output: {
-                ecma: 5,
-                comments: false,
-                // Turned on because emoji and regex is not minified properly using default
-                // https://github.com/facebook/create-react-app/issues/2488
-                ascii_only: true,
-              },
-            },
-            // Use multi-process parallel running to improve the build speed
-            // Default number of concurrent runs: os.cpus().length - 1
-            parallel: true,
-            // Enable file caching
-            cache: true,
-          }),
-        ],
-        mangleWasmImports: true,
-      }
-      : {},
-  stats: 'minimal',
-});
+const getCommonConfig = (mode) => {
+  const isDev = mode === 'development';
 
-const getClientConfig = mode => (
-  webpackMerge(
+  return {
+    mode,
+    resolve: {
+      extensions: ['.js', '.jsx'],
+      modules: [
+        'src/common',
+        'node_modules',
+      ],
+    },
+    plugins: [
+      new webpack.LoaderOptionsPlugin({ options: {} }),
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      new webpack.EnvironmentPlugin({
+        NODE_ENV: mode,
+      }),
+    ],
+    module: {
+      rules: [
+        {
+          enforce: 'pre',
+          test: /\.jsx?$/,
+          use: 'eslint-loader',
+          exclude: /node_modules/,
+        },
+        {
+          test: /\.jsx?$/,
+          use: 'babel-loader',
+          exclude: /node_modules/,
+        },
+        {
+          test: /\.css$/,
+          use: [
+            'isomorphic-style-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                importLoaders: 1,
+                modules: true,
+              },
+            },
+            'postcss-loader',
+          ],
+        },
+        {
+          test: /\.scss/,
+          use: [
+            'isomorphic-style-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                importLoaders: 2,
+                modules: true,
+              },
+            },
+            'sass-loader',
+            'postcss-loader',
+          ],
+        },
+      ],
+    },
+    optimization:
+      isDev
+        ? {}
+        : {
+          minimizer: [
+            new TerserWebpackPlugin({
+              terserOptions: {
+                parse: {
+                // we want terser to parse ecma 8 code. However, we don't want it
+                // to apply any minfication steps that turns valid ecma 5 code
+                // into invalid ecma 5 code. This is why the 'compress' and 'output'
+                // sections only apply transformations that are ecma 5 safe
+                // https://github.com/facebook/create-react-app/pull/4234
+                  ecma: 8,
+                },
+                compress: {
+                  drop_console: true,
+                  ecma: 5,
+                  warnings: false,
+                  // Disabled because of an issue with Uglify breaking seemingly valid code:
+                  // https://github.com/facebook/create-react-app/issues/2376
+                  // Pending further investigation:
+                  // https://github.com/mishoo/UglifyJS2/issues/2011
+                  comparisons: false,
+                  // Disabled because of an issue with Terser breaking valid code:
+                  // https://github.com/facebook/create-react-app/issues/5250
+                  // Pending futher investigation:
+                  // https://github.com/terser-js/terser/issues/120
+                  inline: 2,
+                },
+                mangle: {
+                  safari10: true,
+                },
+                output: {
+                  ecma: 5,
+                  comments: false,
+                  // Turned on because emoji and regex is not minified properly using default
+                  // https://github.com/facebook/create-react-app/issues/2488
+                  ascii_only: true,
+                },
+              },
+              // Use multi-process parallel running to improve the build speed
+              // Default number of concurrent runs: os.cpus().length - 1
+              parallel: true,
+              // Enable file caching
+              cache: true,
+            }),
+          ],
+          mangleWasmImports: true,
+        },
+    stats: 'minimal',
+  };
+};
+
+const getClientConfig = (mode) => {
+  const isDev = mode === 'development';
+
+  console.log({
+    isDev,
+  });
+
+  return webpackMerge(
     getCommonConfig(mode),
     {
       target: 'web',
-      entry: './src/client/index.jsx',
+      entry: isDev
+        ? [
+          'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
+          '@babel/polyfill',
+          './src/client/index.jsx',
+        ]
+        : './src/client/index.jsx',
       output: {
-        filename: '[name].[contenthash].js',
-        chunkFilename: '[id].[contenthash].js',
+        filename: isDev ? '[name].js' : '[name].[contenthash].js',
+        chunkFilename: isDev ? '[name].js' : '[id].[contenthash].js',
         path: path.resolve(__dirname, 'dist/assets'),
         publicPath: '/',
       },
@@ -145,16 +161,17 @@ const getClientConfig = mode => (
           swSrc: './src/client/serviceWorker.js',
           swDest: 'service-worker.js',
         }),
-        new WebpackBundleAnalyzer.BundleAnalyzerPlugin({
-          analyzerMode: 'static',
-        }),
+        // new WebpackBundleAnalyzer.BundleAnalyzerPlugin({
+        //   analyzerMode: 'static',
+        // }),
+        ...(isDev ? [new webpack.HotModuleReplacementPlugin()] : []),
         new WebpackBar({
           name: 'client',
         }),
       ],
     },
-  )
-);
+  );
+};
 
 const getServerConfig = mode => (
   webpackMerge(

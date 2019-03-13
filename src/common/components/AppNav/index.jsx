@@ -8,17 +8,12 @@ import styles from './AppNav.scss';
 
 class AppNav extends Component {
   static propTypes = {
-    fetchCompetitions: PropTypes.func.isRequired,
     competitionsItems: PropTypes.arrayOf(PropTypes.object).isRequired,
     location: PropTypes.shape({
       pathname: PropTypes.string,
     }).isRequired,
     isVisible: PropTypes.bool.isRequired,
     onRequestHide: PropTypes.func.isRequired,
-  }
-
-  componentDidMount() {
-    this.props.fetchCompetitions();
   }
 
   componentDidUpdate(prevProps) {
