@@ -1,6 +1,7 @@
 import express from 'express';
 import compression from 'compression';
 
+import cacheService from './cacheService';
 import getResponse from './getResponse';
 
 const isDev = process.env.NODE_ENV === 'development';
@@ -23,6 +24,15 @@ const redirectMiddleware = (req, res, next) => {
   return next();
 };
 
+const cacheMiddleware = (req, res, next) => {
+  try {
+    const cachedResponseState = cacheService.get(`page${req.path}`, true);
+    return res.status(cachedResponseState.status).render('index', cachedResponseState);
+  } catch (e) {
+    return next();
+  }
+};
+
 const app = express();
 const PORT = process.env.PORT || 8080;
 
@@ -42,6 +52,8 @@ if (isDev) {
   app.use(devMiddleware);
   app.use(hotMiddleware);
   /* eslint-enable global-require */
+} else {
+  app.get('*', cacheMiddleware);
 }
 
 app.get('*', getResponse);

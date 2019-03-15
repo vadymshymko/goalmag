@@ -10,6 +10,8 @@ import styles from './AppHeader.scss';
 const AppHeader = ({ onRequestOpenSidebar }) => (
   <header className={styles.AppHeader}>
     <Container>
+      <AppTitle />
+
       <button
         className={styles.AppHeader__showNavBtn}
         type="button"
@@ -31,8 +33,6 @@ const AppHeader = ({ onRequestOpenSidebar }) => (
           <line x1="3" y1="18" x2="21" y2="18" />
         </svg>
       </button>
-
-      <AppTitle />
     </Container>
   </header>
 );

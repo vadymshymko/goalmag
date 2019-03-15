@@ -10,7 +10,10 @@ import styles from './AppSidebar.scss';
 const AppSidebar = ({ isVisible, onRequestHide }) => (
   <div className={styles.AppSidebar}>
     <div className={`${styles.AppSidebar__content} ${isVisible ? styles['AppSidebar__content--visible'] : ''}`}>
-      <AppNavContainer isVisible={isVisible} onRequestHide={onRequestHide} />
+      <AppNavContainer
+        isVisible={isVisible}
+        onRequestHide={onRequestHide}
+      />
 
       <AppInfo />
     </div>

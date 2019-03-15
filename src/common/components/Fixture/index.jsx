@@ -7,7 +7,7 @@ import FixtureTeam from 'components/FixtureTeam';
 import styles from './Fixture.scss';
 
 const getScoreColorByStatus = (status = '') => {
-  if (status === 'finished' || status === 'in_play' || 'paused') {
+  if (status === 'finished' || status === 'in_play' || status === 'paused') {
     return '#fff';
   }
 

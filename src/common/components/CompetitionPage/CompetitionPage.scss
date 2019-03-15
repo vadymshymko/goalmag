@@ -5,16 +5,20 @@
 
   &__header {
     align-items: baseline;
-    border-bottom: 1px solid #f8f9fa;
     display: flex;
     flex-flow: column;
-    padding-bottom: 15px;
     width: 100%;
 
     @media (min-width: 768px) {
       align-items: center;
       flex-flow: row;
       justify-content: space-between;
+    }
+
+    &--type {
+      &--fixtures {
+        padding-bottom: 15px;
+      }
     }
   }
 

@@ -7,8 +7,9 @@ import { loadableReady } from '@loadable/component';
 
 import StyleContext from 'context/StyleContext';
 import configureStore from 'store';
-
 import registerServiceWorker from './registerServiceWorker';
+
+const isProd = process.env.NODE_ENV === 'production';
 
 const preloadedState = window.__PRELOADED_STATE__ || {}; //eslint-disable-line
 delete window.__PRELOADED_STATE__; //eslint-disable-line
@@ -53,10 +54,13 @@ loadableReady(() => {
     });
   }
 
-  registerServiceWorker({
-    url: '/service-worker.js',
-    scope: '/',
-  });
+  if (isProd) {
+    registerServiceWorker({
+      url: '/service-worker.js',
+      scope: '/',
+    });
+  }
+
 
   render();
 });

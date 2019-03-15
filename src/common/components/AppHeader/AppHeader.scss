@@ -1,5 +1,5 @@
 .AppHeader {
-  background-color: #fff;
+  background-color: #28a745;
   box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
   left: 0;
   padding: 15px 0;
@@ -12,13 +12,18 @@
     z-index: 3;
   }
 
+  & > div {
+    justify-content: space-between;
+  }
+
   &__showNavBtn {
     background-color: rgba(0, 0, 0, 0);
     border: 0;
     box-shadow: none;
+    color: #fff;
     cursor: pointer;
     height: 30px;
-    margin-right: 15px;
+    margin-left: 15px;
     outline: none;
     padding: 3px;
     width: 30px;

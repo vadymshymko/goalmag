@@ -129,10 +129,6 @@ const getCommonConfig = (mode) => {
 const getClientConfig = (mode) => {
   const isDev = mode === 'development';
 
-  console.log({
-    isDev,
-  });
-
   return webpackMerge(
     getCommonConfig(mode),
     {
@@ -157,14 +153,20 @@ const getClientConfig = (mode) => {
           },
         ]),
         new LoadableWebpackPlugin(),
-        new WorkboxWebpackPlugin.InjectManifest({
-          swSrc: './src/client/serviceWorker.js',
-          swDest: 'service-worker.js',
-        }),
         // new WebpackBundleAnalyzer.BundleAnalyzerPlugin({
         //   analyzerMode: 'static',
         // }),
-        ...(isDev ? [new webpack.HotModuleReplacementPlugin()] : []),
+        ...(isDev
+          ? [
+            new webpack.HotModuleReplacementPlugin(),
+          ]
+          : [
+            new WorkboxWebpackPlugin.InjectManifest({
+              swSrc: './src/client/serviceWorker.js',
+              swDest: 'service-worker.js',
+            }),
+          ]
+        ),
         new WebpackBar({
           name: 'client',
         }),
