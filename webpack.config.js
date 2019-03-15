@@ -141,8 +141,8 @@ const getClientConfig = (mode) => {
         ]
         : './src/client/index.jsx',
       output: {
-        filename: isDev ? '[name].js' : '[name].[contenthash].js',
-        chunkFilename: isDev ? '[name].js' : '[id].[contenthash].js',
+        filename: isDev ? '[name].[hash].js' : '[name].[contenthash].js',
+        chunkFilename: isDev ? '[name].[hash].js' : '[id].[contenthash].js',
         path: path.resolve(__dirname, 'dist/assets'),
         publicPath: '/',
       },
