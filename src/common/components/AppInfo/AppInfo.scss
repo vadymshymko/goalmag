@@ -3,17 +3,12 @@
   padding-top: 45px;
 
   &__item {
-    background-color: #f8f9fa;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    background-color: rgba(40, 167, 69, 0.1);
     margin: 0;
     padding: 15px;
 
     &:not(:last-child) {
       margin-bottom: 30px;
-    }
-
-    @media(min-width: 768px) {
-      background-color: #fff;
     }
   }
 

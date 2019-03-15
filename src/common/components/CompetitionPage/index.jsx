@@ -169,12 +169,11 @@ class CompetitionPage extends Component {
 
         <AppPageContent>
           <section className={styles.CompetitionInfo}>
-            <header className={styles.CompetitionInfo__header}>
+            <header className={`${styles.CompetitionInfo__header} ${styles['CompetitionInfo__header--type--fixtures']}`}>
               <h3 className={styles.CompetitionInfo__title}>Match Center:</h3>
 
               <DateInput
                 fieldId="CompetitionInfoFixturesDateFilter"
-                label="Date:"
                 className={styles.CompetitionInfo__filter}
                 value={getFormattedDate(fixturesDate)}
                 onChange={this.handleDateFilterChange}
@@ -198,7 +197,6 @@ class CompetitionPage extends Component {
                 <Dropdown
                   fieldId="CompetitionInfoTableMatchdayFilter"
                   className={styles.CompetitionInfo__filter}
-                  label="Type:"
                   value={standingsType || 'total'}
                   options={STANDINGS_TYPES}
                   onChange={this.handleTableStandingsTypeFilterChange}

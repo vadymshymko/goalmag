@@ -45,44 +45,31 @@ class AppNavSection extends Component {
     return (
       <div className={styles.AppNavSection}>
         {name && (
-          <div className={styles.AppNavSection__header}>
-            <button
-              className={styles.AppNavSection__contentToggle}
-              type="button"
-              onClick={this.toggleContent}
-              title={`Show ${name} competitions navigation`}
-              aria-label={`Show ${name} competitions navigation`}
-            >
-              <Icon
-                className={styles.AppNavSection__contentToggleIcon}
-                viewBox="0 0 24 24"
-                fill="none"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                stroke="currentColor"
-              >
-                {this.state.showContent ? (
-                  <polyline points="6 9 12 15 18 9" />
-                ) : (
-                  <polyline points="9 18 15 12 9 6" />
-                )}
-              </Icon>
-            </button>
+          <button
+            className={styles.AppNavSection__contentToggle}
+            type="button"
+            onClick={this.toggleContent}
+            title={`Show ${name} competitions navigation`}
+            aria-label={`Show ${name} competitions navigation`}
+          >
+            {name}
 
-            {competitions[0] ? (
-              <NavLink
-                className={styles.AppNavSection__title}
-                to={competitions[0].url}
-                exact
-                title={competitions[0].name}
-              >
-                {name}
-              </NavLink>
-            ) : (
-              <span className={styles.AppNavSection__title}>{name}</span>
-            )}
-          </div>
+            <Icon
+              className={styles.AppNavSection__contentToggleIcon}
+              viewBox="0 0 24 24"
+              fill="none"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              stroke="currentColor"
+            >
+              {this.state.showContent ? (
+                <polyline points="6 9 12 15 18 9" />
+              ) : (
+                <polyline points="9 18 15 12 9 6" />
+              )}
+            </Icon>
+          </button>
         )}
 
         {competitions.length > 0 && (

@@ -9,12 +9,12 @@
     display: flex;
     flex-flow: column;
     height: 100%;
-    left: 0;
+    right: 0;
     min-width: 290px;
     overflow-y: auto;
-    padding: 45px 30px;
+    padding: 30px 30px 45px;
     position: fixed;
-    transform: translateX(-100%);
+    transform: translateX(100%);
     transition: transform .4s;
     top: 0;
     width: 290px;
@@ -27,7 +27,7 @@
     @media(min-width: 768px) {
       background-color: rgba(0, 0, 0, 0);
       box-shadow: none;
-      left: auto;
+      right: auto;
       padding-bottom: 30px;
       padding-left: 0;
       padding-top: 105px;

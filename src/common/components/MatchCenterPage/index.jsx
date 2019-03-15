@@ -172,12 +172,11 @@ class MatchCenterPage extends Component {
           <div className={styles.MatchCenterPage__fixturesFilters}>
             <Dropdown
               fieldId="MatchCenterPageCompetitionFilter"
-              label="Competition:"
               className={styles.MatchCenterPage__fixturesFilter}
               value={competitionId || ''}
               options={[
                 {
-                  label: 'All',
+                  label: 'All Competitions',
                   value: '',
                 },
                 ...competitionsItems.map(competition => ({
@@ -190,7 +189,6 @@ class MatchCenterPage extends Component {
 
             <DateInput
               fieldId="MatchCenterPageFixturesDateFilter"
-              label="Date:"
               className={styles.MatchCenterPage__fixturesFilter}
               value={getFormattedDate(date)}
               onChange={this.handleDateFilterChange}

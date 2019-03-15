@@ -1,6 +1,6 @@
 .AppPageHeader {
   align-items: flex-start;
-  border-bottom: 1px solid #f8f9fa;
+  border-bottom: 1px solid rgba(40, 167, 69, 0.1);
   display: flex;
   flex-flow: column;
   justify-content: space-between;
@@ -11,13 +11,8 @@
     padding: 45px 0;
   }
 
-  @media (min-width: 768px) {
-    padding: 45px 30px;
-  }
-
   @media (min-width: 1200px) {
     align-items: center;
     flex-flow: row;
-    padding: 45px 60px;
   }
 }
