@@ -34,7 +34,7 @@ const Fixture = ({
           : homeTeamScore || '-'
         }
         scoreStyle={{
-          backgroundColor: 'rgba(33, 37, 41, 0.1)',
+          backgroundColor: '#f8f9fa',
         }}
       />
 
@@ -50,7 +50,7 @@ const Fixture = ({
           : awayTeamScore || '-'
         }
         scoreStyle={{
-          backgroundColor: 'rgba(33, 37, 41, 0.1)',
+          backgroundColor: '#f8f9fa',
         }}
       />
     </div>

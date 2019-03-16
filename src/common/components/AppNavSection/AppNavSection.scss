@@ -7,6 +7,7 @@
     align-items: center;
     background-color: transparent;
     border: 0;
+    color: #343a40;
     cursor: pointer;
     display: flex;
     font-size: 16px;
@@ -14,8 +15,8 @@
     justify-content: space-between;
     margin: 0;
     min-width: 30px;
-    padding: 0;
     outline: none;
+    padding: 0;
     width: 100%;
 
     svg {
@@ -41,16 +42,14 @@
 
   &__link {
     align-items: center;
-    color: #212529;
+    color: #28a745;
     display: inline-flex;
     font-size: 14px;
     height: 30px;
-    opacity: .5;
     text-decoration: none;
     width: 100%;
 
     &:hover, &--active {
-      color: #212529;
       text-decoration: underline;
     }
   }

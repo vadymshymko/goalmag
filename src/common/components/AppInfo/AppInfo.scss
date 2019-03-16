@@ -3,7 +3,7 @@
   padding-top: 45px;
 
   &__item {
-    border: 1px solid rgba(33, 37, 41, 0.5);
+    background-color: #f8f9fa;
     margin: 0;
     padding: 15px;
 
@@ -13,7 +13,7 @@
   }
 
   &__link {
-    color: #212529;
+    color: #28a745;
 
     &:hover {
       text-decoration: none;

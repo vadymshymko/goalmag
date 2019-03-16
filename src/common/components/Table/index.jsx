@@ -96,7 +96,7 @@ class Table extends Component {
                         <polygon
                           points="0,6 4,0 8,6"
                           style={{
-                            fill: '#212529',
+                            fill: '#343a40',
                             stroke: 'none',
                           }}
                         />
@@ -104,7 +104,7 @@ class Table extends Component {
                         <polygon
                           points="0,0 4,6 8,0"
                           style={{
-                            fill: '#212529',
+                            fill: '#343a40',
                             stroke: 'none',
                           }}
                         />
