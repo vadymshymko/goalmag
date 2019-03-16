@@ -1,5 +1,6 @@
 .MatchCenterCompetition {
   &__title {
+    background-color: rgba(33, 37, 41, 0.1);
     font-size: 16px;
     font-weight: 500;
     margin: 0;
@@ -8,12 +9,11 @@
   }
 
   &__link {
-    color: #28a745;
+    color: #212529;
     padding: 1px 2px;
 
     &:hover {
-      color: #fff;
-      background-color: #28a745;
+      text-decoration: none;
     }
   }
 }

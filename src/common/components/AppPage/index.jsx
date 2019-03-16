@@ -90,7 +90,7 @@ const AppPage = ({
         },
         {
           name: 'msapplication-TileColor',
-          content: '#ffffff',
+          content: '#b91d47',
         },
         {
           name: 'msapplication-TileImage',
@@ -129,12 +129,12 @@ const AppPage = ({
         },
         {
           rel: 'manifest',
-          href: '/manifest.json',
+          href: '/site.webmanifest',
         },
         {
           rel: 'mask-icon',
           href: '/safari-pinned-tab.svg',
-          color: '#28a745',
+          color: '#212529',
         },
       ]}
     />

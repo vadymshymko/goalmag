@@ -6,26 +6,6 @@ import FixtureTeam from 'components/FixtureTeam';
 
 import styles from './Fixture.scss';
 
-const getScoreColorByStatus = (status = '') => {
-  if (status === 'finished' || status === 'in_play' || status === 'paused') {
-    return '#fff';
-  }
-
-  return null;
-};
-
-const getScoreBgColorByStatus = (status = '') => {
-  if (status === 'finished') {
-    return '#dc3545';
-  } else if (status === 'in_play') {
-    return '#28a745';
-  } else if (status === 'paused') {
-    return '#ffc107';
-  }
-
-  return null;
-};
-
 const Fixture = ({
   homeTeamId,
   homeTeamName,
@@ -54,8 +34,8 @@ const Fixture = ({
           : homeTeamScore || '-'
         }
         scoreStyle={{
-          color: getScoreColorByStatus(status),
-          backgroundColor: getScoreBgColorByStatus(status),
+          color: '#fff',
+          backgroundColor: '#212529',
         }}
       />
 
@@ -71,8 +51,8 @@ const Fixture = ({
           : awayTeamScore || '-'
         }
         scoreStyle={{
-          color: getScoreColorByStatus(status),
-          backgroundColor: getScoreBgColorByStatus(status),
+          color: '#fff',
+          backgroundColor: '#212529',
         }}
       />
     </div>

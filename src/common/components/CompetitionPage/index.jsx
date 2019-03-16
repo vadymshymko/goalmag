@@ -169,7 +169,7 @@ class CompetitionPage extends Component {
 
         <AppPageContent>
           <section className={styles.CompetitionInfo}>
-            <header className={`${styles.CompetitionInfo__header} ${styles['CompetitionInfo__header--type--fixtures']}`}>
+            <header className={styles.CompetitionInfo__header}>
               <h3 className={styles.CompetitionInfo__title}>Match Center:</h3>
 
               <DateInput

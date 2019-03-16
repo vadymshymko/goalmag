@@ -23,6 +23,7 @@ class MatchCenterPage extends Component {
     competitionId: PropTypes.number,
     date: PropTypes.string,
     fixturesItems: PropTypes.arrayOf(PropTypes.object).isRequired,
+    isAllFixturesFinished: PropTypes.bool.isRequired,
     isFixturesFetching: PropTypes.bool.isRequired,
     isFixturesInitialized: PropTypes.bool.isRequired,
     competitionsItems: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -36,26 +37,20 @@ class MatchCenterPage extends Component {
     date: null,
   }
 
-  componentDidMount() {
-    const {
-      competitionId,
-      date,
-      fetchData,
-      dispatch,
-    } = this.props;
+  constructor(props) {
+    super(props);
 
-    fetchData(dispatch, {
-      competitionId,
-      date,
-    });
+    this.updateTimeout = null;
+  }
+
+  componentDidMount() {
+    this.updateFixtures();
   }
 
   componentDidUpdate(prevProps) {
     const {
       competitionId,
       date,
-      fetchData,
-      dispatch,
     } = this.props;
 
     const {
@@ -67,10 +62,7 @@ class MatchCenterPage extends Component {
       competitionId !== prevCompetition
       || date !== prevDate
     ) {
-      fetchData(dispatch, {
-        competitionId,
-        date,
-      });
+      this.updateFixtures();
     }
   }
 
@@ -111,15 +103,13 @@ class MatchCenterPage extends Component {
       value,
     } = event.target;
 
-    const { date, history } = this.props;
+    const { date } = this.props;
 
-    history.push({
-      search: stringify({
-        date: !date || date === getFormattedDate()
-          ? undefined
-          : date,
-        competitionId: value || undefined,
-      }),
+    this.updateFiltersState({
+      date: !date || date === getFormattedDate()
+        ? undefined
+        : date,
+      competitionId: value || undefined,
     });
   }
 
@@ -128,16 +118,43 @@ class MatchCenterPage extends Component {
       value,
     } = event.target;
 
-    const { competitionId, history } = this.props;
+    const { competitionId } = this.props;
+
+    this.updateFiltersState({
+      competitionId: competitionId || undefined,
+      date: value === getFormattedDate()
+        ? undefined
+        : value,
+    });
+  }
+
+  updateFiltersState = (newState) => {
+    const { history } = this.props;
 
     history.push({
-      search: stringify({
-        competitionId: competitionId || undefined,
-        date: value === getFormattedDate()
-          ? undefined
-          : value,
-      }),
+      search: stringify(newState),
     });
+  }
+
+  updateFixtures = () => {
+    const {
+      isAllFixturesFinished,
+      competitionId,
+      date,
+      fetchData,
+      dispatch,
+    } = this.props;
+
+    clearTimeout(this.updateTimeout);
+
+    if (!isAllFixturesFinished) {
+      fetchData(dispatch, {
+        competitionId,
+        date,
+      });
+
+      this.updateTimeout = setTimeout(this.updateFixtures, 60000);
+    }
   }
 
   render() {
