@@ -1,7 +1,6 @@
 {
     "name": "GoalMag",
     "short_name": "GoalMag",
-    "start_url": "/",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",

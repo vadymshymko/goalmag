@@ -90,7 +90,7 @@ const AppPage = ({
         },
         {
           name: 'msapplication-TileColor',
-          content: '#b91d47',
+          content: '#00a300',
         },
         {
           name: 'msapplication-TileImage',
@@ -134,7 +134,7 @@ const AppPage = ({
         {
           rel: 'mask-icon',
           href: '/safari-pinned-tab.svg',
-          color: '#212529',
+          color: '#28a745',
         },
       ]}
     />
