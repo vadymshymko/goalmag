@@ -25,7 +25,7 @@ export const fetchFixtures = ({
   const isNotNeedRequest = (
     isFetching
     || isAllItemsFinished
-    || currentDateTime - lastUpdated <= 60000
+    || currentDateTime - lastUpdated <= 55000
   );
 
   if (isNotNeedRequest) {

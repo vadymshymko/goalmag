@@ -18,24 +18,24 @@ workbox.routing.registerRoute(
     plugins: [
       new workbox.expiration.Plugin({
         cacheName: 'APICache',
-        maxAgeSeconds: 180,
+        maxAgeSeconds: 60,
       }),
     ],
   }),
   'GET'
 );
 
-workbox.routing.registerRoute(
-  new RegExp('^(http|https)://upload.wikimedia.org/.*'),
-  new workbox.strategies.StaleWhileRevalidate({
-    cacheName: 'imagesCache',
-    plugins: [
-      new workbox.expiration.Plugin({
-        cacheName: 'APICache',
-        maxAgeSeconds: 60 * 60 * 24 * 30,
-      }),
-    ],
-  }),
-  'GET'
-);
+// workbox.routing.registerRoute(
+//   new RegExp('^(http|https)://upload.wikimedia.org/.*'),
+//   new workbox.strategies.StaleWhileRevalidate({
+//     cacheName: 'imagesCache',
+//     plugins: [
+//       new workbox.expiration.Plugin({
+//         cacheName: 'APICache',
+//         maxAgeSeconds: 60 * 60 * 24 * 30,
+//       }),
+//     ],
+//   }),
+//   'GET'
+// );
 /* eslint-enable */

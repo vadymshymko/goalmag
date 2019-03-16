@@ -1,21 +1,12 @@
 .CompetitionInfo {
-  &:first-child {
-    margin-bottom: 30px;
-  }
-
   &__header {
     align-items: center;
+    background-color: rgba(33, 37, 41, 0.1);
     display: flex;
     flex-flow: row;
     justify-content: space-between;
+    padding: 15px;
     width: 100%;
-
-    &--type {
-      &--fixtures {
-        padding-top: 15px;
-        padding-bottom: 15px;
-      }
-    }
   }
 
   &__title {
@@ -48,7 +39,6 @@
 
     td:first-child,
     th:first-child {
-      padding-left: 0;
       text-align: left;
     }
 
@@ -61,7 +51,6 @@
 
     td:last-child,
     th:last-child {
-      padding-right: 0;
       text-align: right;
     }
   }

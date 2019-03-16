@@ -8,10 +8,34 @@ const AppLogo = () => (
     className={styles.AppLogo}
     viewBox="0 0 30 30"
   >
-    <circle cx="15" cy="15" r="15" fill="#28a745" />
-    <circle cx="15" cy="15" r="3" fill="white" />
-    <circle cx="15" cy="15" r="8" fill="none" stroke="white" strokeWidth="2" />
-    <line x1="15" y1="0" x2="15" y2="30" stroke="white" strokeWidth="2" />
+    <circle
+      cx="15"
+      cy="15"
+      r="15"
+      fill="#fff"
+    />
+    <circle
+      cx="15"
+      cy="15"
+      r="3"
+      fill="#212529"
+    />
+    <circle
+      cx="15"
+      cy="15"
+      r="8"
+      fill="none"
+      stroke="#212529"
+      strokeWidth="2"
+    />
+    <line
+      x1="15"
+      y1="0"
+      x2="15"
+      y2="30"
+      stroke="#212529"
+      strokeWidth="2"
+    />
   </svg>
 );
 

@@ -7,6 +7,7 @@ import {
   getFixturesItems,
   getIsFixturesFetching,
   getIsFixturesInitialized,
+  getIsFixturesAllItemsFinished,
 } from 'selectors';
 
 import MatchCenterPage from 'components/MatchCenterPage';
@@ -27,6 +28,7 @@ const mapStateToProps = (state, props) => {
   const fixturesDate = moment(date || Date.now()).format('YYYY-MM-DD');
   const fixturesStateId = `${competitionId || 'all'}-${fixturesDate}`;
   const fixturesItems = getFixturesItems(state, fixturesStateId);
+  const isAllFixturesFinished = getIsFixturesAllItemsFinished(state, fixturesStateId);
   const isFixturesFetching = getIsFixturesFetching(state, fixturesStateId);
   const isFixturesInitialized = getIsFixturesInitialized(state, fixturesStateId);
 
@@ -35,6 +37,7 @@ const mapStateToProps = (state, props) => {
     competitionId,
     date,
     fixturesItems,
+    isAllFixturesFinished,
     isFixturesFetching,
     isFixturesInitialized,
   };
