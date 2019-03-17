@@ -11,13 +11,7 @@
   &__squadTable {
     td,
     th {
-      padding: 15px;
       text-align: left;
-    }
-
-    th:nth-child(2),
-    td:nth-child(2) {
-      padding-left: 0;
     }
 
     td:last-child,
@@ -29,5 +23,5 @@
 }
 
 .TeamCoach {
-  padding-top: 30px;
+  padding-top: 15px;
 }
