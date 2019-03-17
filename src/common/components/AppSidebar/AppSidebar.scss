@@ -4,8 +4,6 @@
   }
 
   &__content {
-    background-color: #fff;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-flow: column;
     height: 100%;
@@ -30,7 +28,7 @@
       box-shadow: none;
       padding-bottom: 30px;
       padding-left: 0;
-      padding-top: 105px;
+      padding-top: 90px;
       right: auto;
       transform: translateX(0);
     }
