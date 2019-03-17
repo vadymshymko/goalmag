@@ -1,18 +1,18 @@
 .DateInput {
   font-size: 16px;
 
-  &__label {
-    line-height: 30px;
-    opacity: .5;
-    padding-right: 10px;
-  }
-
   &__field {
     background-color: rgba(0, 0, 0, 0);
-    border: 1px solid #343a40;
+    border: 0;
+    border-bottom: 2px solid #28a745;
     color: #343a40;
+    font-size: 16px;
     height: 30px;
     outline: none;
     width: 100%;
+
+    @media (min-width: 992px) {
+      font-size: 20px;
+    }
   }
 }

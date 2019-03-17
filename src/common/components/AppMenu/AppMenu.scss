@@ -1,0 +1,38 @@
+.AppMenu {
+  display: none;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+
+  &--visible {
+    display: block;
+  }
+
+  &__content {
+    background-color: #fff;
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    min-width: 290px;
+    padding: 30px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 25%;
+    z-index: 2;
+  }
+
+  &__bg {
+    background-color: rgba(0, 0, 0, .5);
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transition: width .4s;
+    width: 100%;
+    z-index: 1;
+  }
+}

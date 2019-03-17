@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import {
   Switch,
@@ -8,62 +8,31 @@ import {
 import routes from 'routes';
 
 import AppHeader from 'components/AppHeader';
-import Container from 'components/Container';
-import AppSidebar from 'components/AppSidebar';
 
 import styles from './App.scss';
 
-class App extends Component {
-  state = {
-    showSidebar: false,
-  }
+const App = () => (
+  <div className={styles.App}>
+    <AppHeader />
 
-  openSidebar = () => {
-    this.setState(() => ({
-      showSidebar: true,
-    }));
-  }
-
-  closeSidebar = () => {
-    this.setState(() => ({
-      showSidebar: false,
-    }));
-  }
-
-  render() {
-    const { showSidebar } = this.state;
-
-    return (
-      <div className={styles.App}>
-        <AppHeader onRequestOpenSidebar={this.openSidebar} />
-
-        <Container>
-          <AppSidebar
-            isVisible={showSidebar}
-            onRequestHide={this.closeSidebar}
+    <div className={styles.App__Inner}>
+      <Switch>
+        {routes.map(({
+          Component: RouteComponent,
+          props = {},
+          ...routeProps
+        }) => (
+          <Route
+            {...routeProps}
+            render={renderProps => (
+              <RouteComponent {...renderProps} {...props} />
+            )}
+            key={routeProps.path}
           />
-
-          <div className={styles.App__Inner}>
-            <Switch>
-              {routes.map(({
-                Component: RouteComponent,
-                props = {},
-                ...routeProps
-              }) => (
-                <Route
-                  {...routeProps}
-                  render={renderProps => (
-                    <RouteComponent {...renderProps} {...props} />
-                  )}
-                  key={routeProps.path}
-                />
-              ))}
-            </Switch>
-          </div>
-        </Container>
-      </div>
-    );
-  }
-}
+        ))}
+      </Switch>
+    </div>
+  </div>
+);
 
 export default withStyles(styles)(App);

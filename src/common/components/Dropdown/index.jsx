@@ -17,12 +17,6 @@ const Dropdown = ({
     className={`${styles.Dropdown} ${className}`}
     htmlFor={fieldId}
   >
-    {label && (
-      <span className={styles.Dropdown__label}>
-        {label}
-      </span>
-    )}
-
     <select
       className={styles.Dropdown__field}
       value={value}

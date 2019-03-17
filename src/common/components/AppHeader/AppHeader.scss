@@ -1,19 +1,32 @@
 .AppHeader {
   background-color: #fff;
   border-bottom: 1px solid #f8f9fa;
+  display: flex;
   left: 0;
-  padding: 15px 0;
+  justify-content: center;
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 1;
 
-  @media(min-width: 768px) {
-    z-index: 3;
-  }
-
-  & > div {
+  &__inner {
+    display: flex;
     justify-content: space-between;
+    max-width: 540px;
+    padding: 15px 15px 14px;
+    width: 100%;
+
+    @media (min-width: 768px) {
+      max-width: 720px;
+    }
+
+    @media (min-width: 992px) {
+      max-width: 960px;
+    }
+
+    @media (min-width: 1200px) {
+      max-width: 1140px;
+    }
   }
 
   &__showNavBtn {
@@ -27,18 +40,10 @@
     outline: none;
     padding: 3px;
     width: 30px;
-
-    @media (min-width: 768px) {
-      display: none;
-    }
   }
 
   &__showNavIcon {
     height: 24px;
     width: 24px;
-
-    @media (min-width: 768px) {
-      display: none;
-    }
   }
 }
