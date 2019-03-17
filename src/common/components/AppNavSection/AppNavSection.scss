@@ -11,7 +11,7 @@
     cursor: pointer;
     display: flex;
     font-size: 16px;
-    height: 24px;
+    height: 30px;
     justify-content: space-between;
     margin: 0;
     min-width: 30px;
@@ -45,7 +45,6 @@
     color: #28a745;
     display: inline-flex;
     font-size: 14px;
-    height: 24px;
     text-decoration: none;
     width: 100%;
 
@@ -57,6 +56,7 @@
   &:first-child {
     .AppNavSection__link {
       font-size: 16px;
+      height: 30px;
     }
   }
 }
