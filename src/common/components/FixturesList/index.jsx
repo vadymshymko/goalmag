@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import Fixture from 'components/Fixture';
@@ -46,7 +45,7 @@ const FixturesList = ({
           awayTeamScore={awayTeamScore}
           awayTeamLogoUrl={awayTeamLogoUrl}
           status={status.toLowerCase()}
-          date={moment.utc(utcDate).local().format('HH:mm')}
+          utcDate={utcDate}
         />
       </li>
     ))}

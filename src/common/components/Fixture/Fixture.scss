@@ -10,6 +10,7 @@
 
   &__date,
   &__status {
+    color: #6c757d;
     font-size: 14px;
     text-align: center;
 
@@ -26,14 +27,6 @@
 
     &__status {
       text-align: right;
-    }
-  }
-
-  &__status {
-    text-transform: lowercase;
-
-    &::first-letter {
-      text-transform: uppercase;
     }
   }
 
