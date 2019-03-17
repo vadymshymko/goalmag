@@ -1,20 +1,19 @@
 .Dropdown {
   display: block;
-  font-size: 16px;
   font-weight: 400;
   margin: 0;
 
-  &__label {
-    line-height: 30px;
-    padding-right: 10px;
-    opacity: .5;
-  }
-
   &__field {
     background-color: rgba(0, 0, 0, 0);
-    border: 1px solid #343a40;
+    border: 0;
+    border-bottom: 2px solid #28a745;
+    font-size: 16px;
     height: 30px;
     min-width: 100%;
     outline: none;
+
+    @media (min-width: 992px) {
+      font-size: 20px;
+    }
   }
 }

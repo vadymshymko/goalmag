@@ -1,47 +1,42 @@
 .MatchCenterPage {
-  &__header {
-    justify-content: space-between;
-    flex-flow: row wrap;
-
-    @media (min-width: 970px) {
-      flex-flow: row nowrap;
-    }
-  }
-
   &__competitionsList {
     list-style: none;
     margin: 0;
     padding: 0;
   }
 
+  &__competitionsItem {
+    padding-bottom: 30px;
+  }
+
   &__fixturesFilters {
     display: flex;
     flex-flow: row wrap;
-    padding-top: 30px;
+    justify-content: space-between;
+    margin-bottom: 30px;
     width: 100%;
 
-    @media (min-width: 970px) {
-      padding-top: 0;
-      flex-flow: row nowrap;
-      width: auto;
+    @media (min-width: 992px) {
+      margin-bottom: 45px;
     }
   }
 
   &__fixturesFilter {
-    padding: 5px 0;
     width: 100%;
 
-    @media (min-width: 970px) {
-      padding: 0;
-      width: auto;
-
-      &:not(:first-child) {
-        padding-left: 15px;
-      }
+    &:first-child {
+      margin-bottom: 30px;
     }
 
-    @media (min-width: 1200px) {
+    @media (min-width: 576px) {
+      width: 50%;
+
       &:first-child {
+        margin-bottom: 0;
+        padding-right: 15px;
+      }
+
+      &:last-child {
         padding-left: 15px;
       }
     }

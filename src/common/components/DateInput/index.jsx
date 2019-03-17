@@ -15,10 +15,6 @@ const DateInput = ({
     className={`${styles.DateInput} ${className}`}
     htmlFor={fieldId}
   >
-    {label && (
-      <span className={styles.DateInput__label}>{label}</span>
-    )}
-
     <input
       className={styles.DateInput__field}
       type="date"

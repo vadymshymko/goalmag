@@ -9,30 +9,15 @@ import styles from './AppNav.scss';
 class AppNav extends Component {
   static propTypes = {
     competitionsItems: PropTypes.arrayOf(PropTypes.object).isRequired,
-    location: PropTypes.shape({
-      pathname: PropTypes.string,
-    }).isRequired,
-    isVisible: PropTypes.bool.isRequired,
-    onRequestHide: PropTypes.func.isRequired,
-  }
-
-  componentDidUpdate(prevProps) {
-    const { location, isVisible, onRequestHide } = this.props;
-    const { location: prevLocation } = prevProps;
-
-    if (location.pathname !== prevLocation.pathname && isVisible) {
-      onRequestHide();
-    }
+    activeCompetition: PropTypes.string.isRequired,
   }
 
   getIsActiveCompetition = (competition) => {
     const {
-      location: {
-        pathname,
-      },
+      activeCompetition,
     } = this.props;
 
-    return competition.url === pathname;
+    return competition.url === activeCompetition;
   }
 
   getCompetitionsByArea = competitions => (
