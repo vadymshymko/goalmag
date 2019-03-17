@@ -19,42 +19,17 @@ const getScoreStyleByStatus = (status) => {
 
   if (status === 'finished') {
     return {
-      backgroundColor: '#343a40',
-      color: '#fff',
+      backgroundColor: '#f8f9fa',
+      color: '#343a40',
     };
   }
 
   return {
-    backgroundColor: '#f8f9fa',
     color: '#343a40',
   };
 };
 
 const getStatusLabel = (status, startDate) => {
-  if (status === 'finished') {
-    return 'FT';
-  }
-
-  if (status === 'paused') {
-    return 'HT';
-  }
-
-  if (status === 'scheduled') {
-    return 'SCHED';
-  }
-
-  if (status === 'postponed') {
-    return 'POST';
-  }
-
-  if (status === 'suspended') {
-    return 'PEND';
-  }
-
-  if (status === 'canceled') {
-    return 'CAN';
-  }
-
   if (status === 'live' || status === 'in_play') {
     const currentDate = moment(Date.now()).local();
     const diff = currentDate.diff(moment(startDate).local(), 'minutes');
@@ -78,18 +53,39 @@ const getStatusLabel = (status, startDate) => {
     return '90′+';
   }
 
+  if (status === 'paused') {
+    return 'HT';
+  }
+
+  if (status === 'finished') {
+    return 'FT';
+  }
+
+  if (status === 'scheduled') {
+    // return moment.utc(startDate).local().format('HH:mm');
+    return '';
+  }
+
   return (status || '').replace(/_/gi, ' ').toUpperCase();
 };
 
 const getStatusStyle = (status) => {
-  if (status === 'live' || status === 'in_play' || status === 'paused' || status === 'finished') {
+  if (status === 'live' || status === 'in_play' || status === 'paused') {
+    return {
+      color: '#28a745',
+      fontWeight: 500,
+    };
+  }
+
+  if (status === 'finished') {
     return {
       color: '#343a40',
+      fontWeight: 500,
     };
   }
 
   return {
-    color: '#6c757d',
+    color: '#ffc107',
   };
 };
 
