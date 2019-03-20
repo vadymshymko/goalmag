@@ -22,12 +22,16 @@ export const fetchCompetitions = () => (dispatch, getState) => {
   });
 
   return callApi('competitions?plan=TIER_ONE').then((json) => {
+    const filteredResponse = json.competitions.filter(({ id }) => (
+      id !== 2000 && id !== 2018 && id !== 2013
+    ));
+
     const {
       entities: {
         competitions: entities = {},
       },
       result: ids = [],
-    } = normalize(json.competitions, schema);
+    } = normalize(filteredResponse, schema);
 
     return dispatch({
       type: types.FETCH_COMPETITIONS_SUCCESS,

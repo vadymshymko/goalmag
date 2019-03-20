@@ -3,70 +3,97 @@ import { normalize } from 'normalizr';
 import { fixtures as schema } from 'schemas';
 import { fixtures as types } from 'types';
 import {
-  getIsFixturesFetching,
-  getIsFixturesAllItemsFinished,
-  getFixturesLastUpdated,
+  getFixturesFilterIsFetching,
+  getFixturesFilterIsAllFinished,
+  getFixturesFilterLastUpdated,
 } from 'selectors';
 import { callApi } from 'utils';
+
+// const requestDate = (!competitionId && !matchday) && date
+//   ? moment(date || currentDateTime).format('YYYY-MM-DD')
+//   : '';
+// const requestMatchday = competitionId && matchday
+//   ? matchday
+//   : '';
+
+// if (!requestDate && !requestMatchday) {
+//   return Promise.reject(new Error('invalid competitionId|date|matchday'));
+// }
+
+// const filterId = competitionId && matchday
+//   ? `${competitionId || 'all'}-${matchday}`
+//   : `all-${requestDate}`;
+
+// const requestFilter = requestMatchday
+//   ? `competitions/${competitionId}/matches?matchday${requestMatchday}`
+//   : `matches?dateFrom=${requestDate}&dateTo=${requestDate}`;
 
 export const fetchFixtures = ({
   competitionId,
   date,
+  // matchday,
 } = {}) => (dispatch, getState) => {
   const state = getState();
+
   const currentDateTime = Date.now();
   const requestDate = moment(date || currentDateTime).format('YYYY-MM-DD');
 
-  const id = `${competitionId || 'all'}-${requestDate}`;
+  const filterId = `${competitionId || 'all'}-${requestDate}`;
 
-  const lastUpdated = getFixturesLastUpdated(state, id);
-  const isFetching = getIsFixturesFetching(state, id);
-  const isAllItemsFinished = getIsFixturesAllItemsFinished(state, id);
-  const isNotNeedRequest = (
+  const lastUpdated = getFixturesFilterLastUpdated(state, filterId);
+  const isFetching = getFixturesFilterIsFetching(state, filterId);
+  const isAllItemsFinished = getFixturesFilterIsAllFinished(state, filterId);
+
+  if (
     isFetching
     || isAllItemsFinished
     || currentDateTime - lastUpdated <= 55000
-  );
-
-  if (isNotNeedRequest) {
+  ) {
     return Promise.resolve();
   }
-
-  const requestDateFilter = `dateFrom=${requestDate}&dateTo=${requestDate}`;
-  const requestCompetitionFilter = competitionId
-    ? `competitions=${competitionId}`
-    : '';
-  const requestPath = `matches?${requestCompetitionFilter}&${requestDateFilter}`;
 
   dispatch({
     type: types.FETCH_FIXTURES_REQUEST,
     payload: {
-      id,
+      filterId,
     },
   });
 
-  return callApi(requestPath).then((json) => {
+  const requestFilter = competitionId
+    ? `competitions/${competitionId}/matches?dateFrom=${requestDate}&dateTo=${requestDate}`
+    : `matches?dateFrom=${requestDate}&dateTo=${requestDate}`;
+
+  return callApi(requestFilter).then((json) => {
+    const formattedResponse = competitionId
+      ? json.matches.map(item => ({
+        ...item,
+        competition: {
+          id: competitionId,
+        },
+      }))
+      : json.matches;
+
     const {
       entities: {
         fixtures: entities = {},
       },
       result: ids = [],
-    } = normalize(json.matches, schema);
+    } = normalize(formattedResponse, schema);
 
     return dispatch({
       type: types.FETCH_FIXTURES_SUCCESS,
       payload: {
         entities,
         ids,
-        id,
-        isAllItemsFinished: !json.matches.find(item => item.status.toLowerCase() !== 'finished'),
+        filterId,
+        isAllFinished: !formattedResponse.find(item => item.status.toLowerCase() !== 'finished'),
         lastUpdated: Date.now(),
       },
     });
   }).catch(() => dispatch({
     type: types.FETCH_FIXTURES_FAILURE,
     payload: {
-      id,
+      filterId,
       lastUpdated: Date.now(),
     },
   }));

@@ -1,39 +1,22 @@
 .AppHeader {
-  background-color: #fff;
-  border-bottom: 1px solid #f8f9fa;
-  display: flex;
-  left: 0;
-  justify-content: center;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1;
+  height: 60px;
+  max-width: 100%;
 
-  &__inner {
-    display: flex;
-    justify-content: space-between;
-    max-width: 540px;
-    padding: 15px 15px 14px;
+  &__banner {
+    background-color: #28a745;
+    left: 0;
+    padding: 15px 0;
+    position: fixed;
+    top: 0;
     width: 100%;
-
-    @media (min-width: 768px) {
-      max-width: 720px;
-    }
-
-    @media (min-width: 992px) {
-      max-width: 960px;
-    }
-
-    @media (min-width: 1200px) {
-      max-width: 1140px;
-    }
+    z-index: 1;
   }
 
   &__showNavBtn {
     background-color: rgba(0, 0, 0, 0);
     border: 0;
     box-shadow: none;
-    color: #343a40;
+    color: #fff;
     cursor: pointer;
     height: 30px;
     margin-left: 15px;
@@ -45,5 +28,9 @@
   &__showNavIcon {
     height: 24px;
     width: 24px;
+  }
+
+  &__nav {
+    padding-top: 90px;
   }
 }
