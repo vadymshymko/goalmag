@@ -97,6 +97,7 @@ const getResponse = async (req, res) => {
 
     return res.status(responseState.status).render('index', responseState);
   } catch (error) {
+    console.log(error);
     return res.set('Cache-Control', 'no-cache').status(500).send('Internal Server Error');
   }
 };

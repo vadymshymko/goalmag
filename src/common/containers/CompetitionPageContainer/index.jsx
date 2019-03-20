@@ -4,9 +4,9 @@ import moment from 'moment';
 
 import {
   getCompetitionName,
-  getFixturesItems,
-  getIsFixturesFetching,
-  getIsFixturesInitialized,
+  getFixturesItemsToShow,
+  getFixturesFilterIsFetching,
+  getFixturesFilterIsInitialized,
   getStandingsTable,
   getIsStandingsInitialized,
 } from 'selectors';
@@ -36,10 +36,10 @@ const mapStateToProps = (state, props) => {
   return {
     id,
     name: getCompetitionName(state, id),
-    fixturesItems: getFixturesItems(state, fixturesStateId),
+    fixturesItems: getFixturesItemsToShow(state, { competitionId: id, date: fixturesDateValue }),
     fixturesDate,
-    isFixturesFetching: getIsFixturesFetching(state, fixturesStateId),
-    isFixturesInitialized: getIsFixturesInitialized(state, fixturesStateId),
+    isFixturesFetching: getFixturesFilterIsFetching(state, fixturesStateId),
+    isFixturesInitialized: getFixturesFilterIsInitialized(state, fixturesStateId),
     standingsTable: getStandingsTable(state, id, standingsType),
     standingsType,
     isStandingsInitialized: getIsStandingsInitialized(state, id),

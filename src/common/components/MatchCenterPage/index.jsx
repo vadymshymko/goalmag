@@ -20,7 +20,7 @@ class MatchCenterPage extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     fetchData: PropTypes.func.isRequired,
-    competitionId: PropTypes.number,
+    competitionId: PropTypes.string,
     date: PropTypes.string,
     fixturesItems: PropTypes.arrayOf(PropTypes.object).isRequired,
     isAllFixturesFinished: PropTypes.bool.isRequired,
@@ -49,19 +49,14 @@ class MatchCenterPage extends Component {
 
   componentDidUpdate(prevProps) {
     const {
-      competitionId,
       date,
     } = this.props;
 
     const {
-      competitionId: prevCompetition,
       date: prevDate,
     } = prevProps;
 
-    if (
-      competitionId !== prevCompetition
-      || date !== prevDate
-    ) {
+    if (date !== prevDate) {
       this.updateFixtures();
     }
   }

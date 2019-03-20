@@ -5,23 +5,4 @@
   display: flex;
   flex-flow: column wrap;
   min-height: 100vh;
-
-  &__Inner {
-    align-self: center;
-    max-width: 540px;
-    padding: 60px 15px 30px;
-    width: 100%;
-
-    @media (min-width: 768px) {
-      max-width: 720px;
-    }
-
-    @media (min-width: 992px) {
-      max-width: 960px;
-    }
-
-    @media (min-width: 1200px) {
-      max-width: 1140px;
-    }
-  }
 }

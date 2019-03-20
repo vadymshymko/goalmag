@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import { getCompetitionsItems } from 'selectors';
 
@@ -8,4 +9,4 @@ const mapStateToProps = state => ({
   competitionsItems: getCompetitionsItems(state),
 });
 
-export default connect(mapStateToProps)(AppNav);
+export default withRouter(connect(mapStateToProps)(AppNav));

@@ -4,10 +4,10 @@ import moment from 'moment';
 
 import {
   getCompetitionsItems,
-  getFixturesItems,
-  getIsFixturesFetching,
-  getIsFixturesInitialized,
-  getIsFixturesAllItemsFinished,
+  getFixturesItemsToShow,
+  getFixturesFilterIsFetching,
+  getFixturesFilterIsInitialized,
+  getFixturesFilterIsAllFinished,
 } from 'selectors';
 
 import MatchCenterPage from 'components/MatchCenterPage';
@@ -24,22 +24,17 @@ const mapStateToProps = (state, props) => {
     date,
   } = parse(search);
 
-  const competitionsItems = getCompetitionsItems(state);
   const fixturesDate = moment(date || Date.now()).format('YYYY-MM-DD');
-  const fixturesStateId = `${competitionId || 'all'}-${fixturesDate}`;
-  const fixturesItems = getFixturesItems(state, fixturesStateId);
-  const isAllFixturesFinished = getIsFixturesAllItemsFinished(state, fixturesStateId);
-  const isFixturesFetching = getIsFixturesFetching(state, fixturesStateId);
-  const isFixturesInitialized = getIsFixturesInitialized(state, fixturesStateId);
+  const fixturesFilterStateId = `all-${fixturesDate}`;
 
   return {
-    competitionsItems,
+    competitionsItems: getCompetitionsItems(state),
     competitionId,
     date,
-    fixturesItems,
-    isAllFixturesFinished,
-    isFixturesFetching,
-    isFixturesInitialized,
+    fixturesItems: getFixturesItemsToShow(state, { competitionId, date: fixturesDate }),
+    isAllFixturesFinished: getFixturesFilterIsAllFinished(state, fixturesFilterStateId),
+    isFixturesFetching: getFixturesFilterIsFetching(state, fixturesFilterStateId),
+    isFixturesInitialized: getFixturesFilterIsInitialized(state, fixturesFilterStateId),
   };
 };
 

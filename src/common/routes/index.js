@@ -21,13 +21,11 @@ const routes = [
     props: {
       fetchData: (dispatch, params = {}) => {
         const {
-          competitionId,
           date,
         } = params;
 
         return Promise.all([
           dispatch(fetchFixtures({
-            competitionId,
             date,
           })),
           // dispatch(fetchCompetitions()),
