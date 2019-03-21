@@ -31,9 +31,7 @@ class AppHeader extends Component {
     return (
       <header className={styles.AppHeader}>
         <div className={styles.AppHeader__banner}>
-          <LayoutContainer style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
-            <AppTitle />
-
+          <LayoutContainer>
             <button
               className={styles.AppHeader__showNavBtn}
               type="button"
@@ -55,6 +53,8 @@ class AppHeader extends Component {
                 <line x1="3" y1="18" x2="21" y2="18" />
               </svg>
             </button>
+
+            <AppTitle />
 
             <AppMenu isVisible={showMenu} onRequestHide={this.closeMenu} />
           </LayoutContainer>

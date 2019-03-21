@@ -1,6 +1,8 @@
 .AppNavSection {
-  &:not(:last-child) {
-    padding-bottom: 15px;
+  margin-bottom: 15px;
+
+  @media (min-width: 1200px) {
+    margin-bottom: 30px;
   }
 
   &__contentToggle {
@@ -44,7 +46,8 @@
     align-items: center;
     color: #28a745;
     display: inline-flex;
-    font-size: 14px;
+    font-size: 16px;
+    margin-bottom: 5px;
     text-decoration: none;
     width: 100%;
 
