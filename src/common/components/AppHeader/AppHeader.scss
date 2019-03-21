@@ -19,15 +19,19 @@
     color: #fff;
     cursor: pointer;
     height: 30px;
-    margin-left: 15px;
     outline: none;
-    padding: 3px;
+    padding: 0;
+    vertical-align: middle;
     width: 30px;
+
+    @media (min-width: 1200px) {
+      display: none;
+    }
   }
 
   &__showNavIcon {
-    height: 24px;
-    width: 24px;
+    height: 30px;
+    width: 30px;
   }
 
   &__nav {

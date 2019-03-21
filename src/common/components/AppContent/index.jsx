@@ -3,13 +3,15 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import routes from 'routes';
-
 import LayoutContainer from 'components/LayoutContainer';
 
+import styles from './AppContent.scss';
+
 const AppContent = () => (
-  <div style={{ maxWidth: '100%', paddingBottom: '60px' }}>
+  <div className={styles.AppContent}>
     <LayoutContainer>
       <Switch>
         {routes.map(({
@@ -30,4 +32,4 @@ const AppContent = () => (
   </div>
 );
 
-export default AppContent;
+export default withStyles(styles)(AppContent);

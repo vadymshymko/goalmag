@@ -1,14 +1,13 @@
 .AppInfo {
   margin-top: auto;
-  padding-top: 45px;
 
   &__item {
     background-color: #f8f9fa;
-    margin: 0;
+    margin: 0 0 15px;
     padding: 15px;
 
-    &:not(:last-child) {
-      margin-bottom: 30px;
+    &:last-child {
+      margin-bottom: 0;
     }
   }
 

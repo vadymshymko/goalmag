@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
+
+import styles from './AppPage.scss';
 
 const AppPage = ({
   title,
@@ -8,7 +11,7 @@ const AppPage = ({
   children,
   className,
 }) => (
-  <main className={`AppPage ${className}`}>
+  <main className={`${styles.AppPage} ${className}`}>
     <Helmet
       title={`${title} - Goal Magazine`}
       meta={[
@@ -157,4 +160,4 @@ AppPage.defaultProps = {
   children: null,
 };
 
-export default AppPage;
+export default withStyles(styles)(AppPage);
