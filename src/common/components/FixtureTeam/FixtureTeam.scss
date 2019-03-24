@@ -6,35 +6,39 @@
   max-width: 50%;
   position: relative;
 
-  @media(min-width: 992px) {
-    padding: 0 10px;
-  }
-
   &--type {
     &--home {
       justify-content: flex-end;
-      padding-right: 10px;
+      padding-right: 4px;
+
+      @media(min-width: 992px) {
+        padding: 0 8px;
+      }
 
       .FixtureTeam__score {
-        margin-left: 10px;
+        margin-left: 4px;
       }
     }
 
     &--away {
       justify-content: flex-start;
-      padding-left: 10px;
+      padding-left: 4px;
+
+      @media(min-width: 992px) {
+        padding: 0 8px;
+      }
 
       .FixtureTeam__score {
-        margin-right: 10px;
+        margin-right: 4px;
       }
     }
   }
 
   &__score {
-    min-width: 30px;
+    min-width: 32px;
     padding: 2px;
-    height: 30px;
-    line-height: 26px;
+    height: 32px;
+    line-height: 28px;
     text-align: center;
   }
 

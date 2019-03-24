@@ -1,16 +1,13 @@
 .AppHeader {
-  height: 60px;
-  max-width: 100%;
-
-  &__banner {
-    background-color: #28a745;
-    left: 0;
-    padding: 15px 0;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1;
-  }
+  align-items: center;
+  background-color: #28a745;
+  display: flex;
+  left: 0;
+  padding: 8px 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
 
   &__showNavBtn {
     background-color: rgba(0, 0, 0, 0);
@@ -18,11 +15,11 @@
     box-shadow: none;
     color: #fff;
     cursor: pointer;
-    height: 30px;
+    height: 32px;
     outline: none;
     padding: 0;
     vertical-align: middle;
-    width: 30px;
+    width: 32px;
 
     @media (min-width: 1200px) {
       display: none;
@@ -30,11 +27,7 @@
   }
 
   &__showNavIcon {
-    height: 30px;
-    width: 30px;
-  }
-
-  &__nav {
-    padding-top: 90px;
+    height: 32px;
+    width: 32px;
   }
 }

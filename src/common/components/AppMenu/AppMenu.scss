@@ -1,6 +1,6 @@
 .AppMenu {
   display: none;
-  height: 100%;
+  bottom: 0;
   left: 0;
   position: fixed;
   top: 0;
@@ -9,11 +9,10 @@
 
   @media (min-width: 1200px) {
     display: block;
-    bottom: 30px;
-    height: auto;
+    bottom: 32px;
     left: calc(50% - 555px);
-    top: 90px;
-    width: 300px;
+    top: 80px;
+    width: 288px;
   }
 
   &--visible {
@@ -22,22 +21,17 @@
 
   &__content {
     background-color: #fff;
-    border-right: 1px solid #f8f9fa;
     display: flex;
     flex-flow: column;
     height: 100%;
-    padding: 30px 15px 15px;
+    padding: 32px 16px 16px;
     position: relative;
-    width: 290px;
+    width: 288px;
     z-index: 2;
 
-    @media (min-width: 576px) {
-      padding: 30px;
-      width: 75%;
-    }
-
     @media (min-width: 1200px) {
-      padding: 0 30px 0 0;
+      border-right: 1px solid #f8f9fa;
+      padding: 0 32px 0 0;
       width: 100%;
     }
   }
