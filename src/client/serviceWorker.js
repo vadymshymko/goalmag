@@ -15,12 +15,12 @@ workbox.routing.registerRoute(
   new RegExp('^(http|https)://api.football-data.org/v2/.*'),
   new workbox.strategies.StaleWhileRevalidate({
     cacheName: 'APICache',
-    plugins: [
-      new workbox.expiration.Plugin({
-        cacheName: 'APICache',
-        maxAgeSeconds: 60,
-      }),
-    ],
+    // plugins: [
+    //   new workbox.expiration.Plugin({
+    //     cacheName: 'APICache',
+    //     maxAgeSeconds: 60,
+    //   }),
+    // ],
   }),
   'GET'
 );
