@@ -1,11 +1,12 @@
 .AppNavSection {
   margin-bottom: 15px;
 
-  @media (min-width: 1200px) {
+  @media (min-width: 576px) {
     margin-bottom: 30px;
   }
 
   &__title {
+    border-bottom: 1px solid #f8f9fa;
     color: #6c757d;
     display: block;
     font-size: 14px;
@@ -17,7 +18,7 @@
     display: block;
     font-size: 16px;
     margin-bottom: 5px;
-    text-decoration: underline;
+    text-decoration: none;
     width: 100%;
 
     &:first-child {
@@ -28,14 +29,15 @@
       margin-bottom: 0;
     }
 
-    &:hover, &--active {
-      text-decoration: none;
+    &:hover {
+      text-decoration: underline;
     }
 
     &--active,
     &--active:hover {
       color: #343a40;
       cursor: default;
+      text-decoration: none;
     }
   }
 }

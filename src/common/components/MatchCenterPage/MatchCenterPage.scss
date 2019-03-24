@@ -1,20 +1,4 @@
 .MatchCenterPage {
-  &__competitionsList {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  &__competitionsItem {
-    &:not(:last-child) {
-      padding-bottom: 30px;
-
-      @media (min-width: 576px) {
-        padding-bottom: 45px;
-      }
-    }
-  }
-
   &__fixturesFilters {
     display: flex;
     flex-flow: row wrap;
@@ -31,10 +15,10 @@
     width: 100%;
 
     &:first-child {
-      margin-bottom: 15px;
+      margin-bottom: 30px;
     }
 
-    @media (min-width: 576px) {
+    @media (min-width: 992px) {
       width: 50%;
 
       &:first-child {
@@ -44,6 +28,22 @@
 
       &:last-child {
         padding-left: 15px;
+      }
+    }
+  }
+
+  &__competitionsList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__competitionsItem {
+    &:not(:last-child) {
+      padding-bottom: 30px;
+
+      @media (min-width: 992px) {
+        padding-bottom: 45px;
       }
     }
   }
