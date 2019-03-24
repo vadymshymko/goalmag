@@ -1,10 +1,6 @@
 .CompetitionInfo {
   &:first-child {
-    margin-bottom: 15px;
-
-    @media (min-width: 576px) {
-      margin-bottom: 30px;
-    }
+    margin-bottom: 30px;
 
     @media (min-width: 992px) {
       margin-bottom: 45px;
@@ -16,12 +12,8 @@
     display: flex;
     flex-flow: row;
     justify-content: space-between;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     width: 100%;
-
-    @media (min-width: 576px) {
-      margin-bottom: 15px;
-    }
 
     @media (min-width: 992px) {
       margin-bottom: 30px;
