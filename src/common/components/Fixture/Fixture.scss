@@ -38,13 +38,11 @@
     flex: 1;
     justify-content: center;
     min-width: 100%;
-    padding: 4px 0;
     width: 100%;
 
     @media(min-width: 992px) {
       max-width: calc(100% - 160px);
       min-width: 0;
-      padding: 0;
       width: calc(100% - 160px);
     }
   }
