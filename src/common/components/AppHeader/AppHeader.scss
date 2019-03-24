@@ -1,16 +1,12 @@
 .AppHeader {
+  background-color: #28a745;
   height: 60px;
-  max-width: 100%;
-
-  &__banner {
-    background-color: #28a745;
-    left: 0;
-    padding: 15px 0;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1;
-  }
+  left: 0;
+  padding: 15px 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
 
   &__showNavBtn {
     background-color: rgba(0, 0, 0, 0);
@@ -32,9 +28,5 @@
   &__showNavIcon {
     height: 30px;
     width: 30px;
-  }
-
-  &__nav {
-    padding-top: 90px;
   }
 }
