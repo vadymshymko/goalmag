@@ -1,8 +1,9 @@
 .AppHeader {
+  align-items: center;
   background-color: #28a745;
-  height: 60px;
+  display: flex;
   left: 0;
-  padding: 15px 0;
+  padding: 8px 0;
   position: fixed;
   top: 0;
   width: 100%;
@@ -14,11 +15,11 @@
     box-shadow: none;
     color: #fff;
     cursor: pointer;
-    height: 30px;
+    height: 32px;
     outline: none;
     padding: 0;
     vertical-align: middle;
-    width: 30px;
+    width: 32px;
 
     @media (min-width: 1200px) {
       display: none;
@@ -26,7 +27,7 @@
   }
 
   &__showNavIcon {
-    height: 30px;
-    width: 30px;
+    height: 32px;
+    width: 32px;
   }
 }

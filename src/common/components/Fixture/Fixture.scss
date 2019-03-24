@@ -6,19 +6,20 @@
   font-size: 14px;
 
   @media(min-width: 992px) {
-    font-size: 20px;
+    font-size: 16px;
     flex-flow: row nowrap;
   }
 
   &__date,
   &__status {
     color: #6c757d;
-    font-size: 14px;
+    font-size: 13px;
     text-align: center;
 
     @media(min-width: 992px) {
-      min-width: 75px;
-      width: 75px;
+      font-size: 14px;
+      min-width: 80px;
+      width: 80px;
     }
   }
 
@@ -37,14 +38,14 @@
     flex: 1;
     justify-content: center;
     min-width: 100%;
-    padding: 5px 0;
+    padding: 4px 0;
     width: 100%;
 
     @media(min-width: 992px) {
-      max-width: calc(100% - 120px);
+      max-width: calc(100% - 160px);
       min-width: 0;
       padding: 0;
-      width: calc(100% - 120px);
+      width: calc(100% - 160px);
     }
   }
 

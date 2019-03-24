@@ -7,7 +7,7 @@ import AppContent from 'components/AppContent';
 import styles from './App.scss';
 
 const App = () => (
-  <div className={styles.App}>
+  <div>
     <AppHeader />
 
     <AppContent />

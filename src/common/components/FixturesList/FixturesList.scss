@@ -4,11 +4,14 @@
   padding: 0;
 
   &__item {
-    border-bottom: 1px solid #f8f9fa;
-    padding: 5px 0;
+    padding: 4px 0;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid #f8f9fa;
+    }
 
     @media (min-width: 992px) {
-      padding: 15px 0;
+      padding: 16px 0;
     }
   }
 }

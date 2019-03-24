@@ -3,11 +3,11 @@
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
-    margin-bottom: 30px;
+    margin-bottom: 32px;
     width: 100%;
 
     @media (min-width: 992px) {
-      margin-bottom: 45px;
+      margin-bottom: 48px;
     }
   }
 
@@ -15,7 +15,7 @@
     width: 100%;
 
     &:first-child {
-      margin-bottom: 30px;
+      margin-bottom: 24px;
     }
 
     @media (min-width: 992px) {
@@ -23,11 +23,11 @@
 
       &:first-child {
         margin-bottom: 0;
-        padding-right: 15px;
+        padding-right: 16px;
       }
 
       &:last-child {
-        padding-left: 15px;
+        padding-left: 16px;
       }
     }
   }
@@ -40,10 +40,10 @@
 
   &__competitionsItem {
     &:not(:last-child) {
-      padding-bottom: 30px;
+      margin-bottom: 16px;
 
       @media (min-width: 992px) {
-        padding-bottom: 45px;
+        margin-bottom: 32px;
       }
     }
   }

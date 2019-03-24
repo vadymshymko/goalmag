@@ -1,29 +1,22 @@
 .AppNavSection {
-  margin-bottom: 15px;
-
-  @media (min-width: 576px) {
-    margin-bottom: 30px;
-  }
+  margin-bottom: 24px;
 
   &__title {
     border-bottom: 1px solid #f8f9fa;
     color: #6c757d;
     display: block;
     font-size: 14px;
-    margin-bottom: 5px;
+    line-height: 24px;
+    margin-bottom: 4px;
   }
 
   &__link {
     color: #28a745;
     display: block;
     font-size: 16px;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
     text-decoration: none;
     width: 100%;
-
-    &:first-child {
-      margin-bottom: 5px;
-    }
 
     &:last-child {
       margin-bottom: 0;

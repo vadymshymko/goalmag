@@ -1,22 +1,22 @@
 .LayoutContainer {
   margin: 0 auto;
   max-width: 100%;
-  padding: 0 15px;
+  padding: 0 16px;
   width: 100%;
 
   @media (min-width: 576px) {
-    max-width: 540px;
+    max-width: 542px;
   }
 
   @media (min-width: 768px) {
-    max-width: 720px;
+    max-width: 722px;
   }
 
   @media (min-width: 992px) {
-    max-width: 960px;
+    max-width: 962px;
   }
 
   @media (min-width: 1200px) {
-    max-width: 1140px;
+    max-width: 1142px;
   }
 }
