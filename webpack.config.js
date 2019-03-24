@@ -8,6 +8,10 @@ const TerserWebpackPlugin = require('terser-webpack-plugin');
 const LoadableWebpackPlugin = require('@loadable/webpack-plugin');
 // const WebpackBundleAnalyzer = require('webpack-bundle-analyzer');
 const WebpackBar = require('webpackbar');
+const dotenv = require('dotenv-safe');
+
+const envVarValues = dotenv.config().parsed;
+
 
 const getCommonConfig = (mode) => {
   const isDev = mode === 'development';
@@ -25,6 +29,7 @@ const getCommonConfig = (mode) => {
       new webpack.LoaderOptionsPlugin({ options: {} }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new webpack.EnvironmentPlugin({
+        ...envVarValues,
         NODE_ENV: mode,
       }),
     ],

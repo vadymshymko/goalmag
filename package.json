@@ -38,6 +38,7 @@
     "@loadable/component": "^5.6.1",
     "@loadable/server": "^5.6.1",
     "compression": "^1.7.2",
+    "dotenv-safe": "^6.1.0",
     "express": "^4.16.2",
     "history": "^4.7.2",
     "humps": "^2.0.1",

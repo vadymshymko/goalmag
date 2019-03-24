@@ -2,7 +2,7 @@ import config from 'config';
 import { fetch } from 'utils';
 
 const CALL_API_HEADERS = {
-  'X-Auth-Token': config.apiKey,
+  'X-Auth-Token': process.env.API_KEY,
 };
 
 export const callApi = (endpoint, {
