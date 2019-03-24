@@ -6,7 +6,13 @@
   }
 
   &__competitionsItem {
-    padding-bottom: 30px;
+    &:not(:last-child) {
+      padding-bottom: 30px;
+
+      @media (min-width: 576px) {
+        padding-bottom: 45px;
+      }
+    }
   }
 
   &__fixturesFilters {

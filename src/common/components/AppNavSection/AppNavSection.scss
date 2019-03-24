@@ -5,61 +5,37 @@
     margin-bottom: 30px;
   }
 
-  &__contentToggle {
-    align-items: center;
-    background-color: transparent;
-    border: 0;
-    color: #343a40;
-    cursor: pointer;
-    display: flex;
-    font-size: 16px;
-    height: 30px;
-    justify-content: space-between;
-    margin: 0;
-    min-width: 30px;
-    outline: none;
-    padding: 0;
-    width: 100%;
-
-    svg {
-      height: 16px;
-      vertical-align: middle;
-      width: 16px;
-    }
-  }
-
-  &__content {
-    display: none;
-
-    &--visible {
-      display: block;
-    }
-  }
-
-  &__list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  &__title {
+    color: #6c757d;
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
   }
 
   &__link {
-    align-items: center;
     color: #28a745;
-    display: inline-flex;
+    display: block;
     font-size: 16px;
     margin-bottom: 5px;
-    text-decoration: none;
+    text-decoration: underline;
     width: 100%;
 
-    &:hover, &--active {
-      text-decoration: underline;
+    &:first-child {
+      margin-bottom: 5px;
     }
-  }
 
-  &:first-child {
-    .AppNavSection__link {
-      font-size: 16px;
-      height: 30px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &:hover, &--active {
+      text-decoration: none;
+    }
+
+    &--active,
+    &--active:hover {
+      color: #343a40;
+      cursor: default;
     }
   }
 }
