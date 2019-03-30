@@ -30,6 +30,7 @@ const getCommonConfig = (mode) => {
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new webpack.EnvironmentPlugin({
         ...envVarValues,
+        API_KEY: envVarValues.API_KEY || process.env.API_KEY,
         NODE_ENV: mode,
       }),
     ],
