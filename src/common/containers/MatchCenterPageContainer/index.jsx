@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { parse } from 'query-string';
-import moment from 'moment';
+
+import { getFormattedDate } from 'utils';
 
 import {
   getCompetitionsItems,
@@ -8,6 +9,7 @@ import {
   getFixturesFilterIsFetching,
   getFixturesFilterIsInitialized,
   getFixturesFilterIsAllFinished,
+  FIXTURES_STATUSES_ITEMS,
 } from 'selectors';
 
 import MatchCenterPage from 'components/MatchCenterPage';
@@ -20,18 +22,21 @@ const mapStateToProps = (state, props) => {
   } = props;
 
   const {
-    competitionId,
-    date,
+    competitionId = '',
+    date = Date.now(),
+    status = '',
   } = parse(search);
 
-  const fixturesDate = moment(date || Date.now()).format('YYYY-MM-DD');
+  const fixturesDate = getFormattedDate(date);
   const fixturesFilterStateId = `all-${fixturesDate}`;
 
   return {
     competitionsItems: getCompetitionsItems(state),
     competitionId,
-    date,
-    fixturesItems: getFixturesItemsToShow(state, { competitionId, date: fixturesDate }),
+    date: fixturesDate,
+    status,
+    fixturesItems: getFixturesItemsToShow(state, { competitionId, date: fixturesDate, status }),
+    fixturesStatusesItems: FIXTURES_STATUSES_ITEMS,
     isAllFixturesFinished: getFixturesFilterIsAllFinished(state, fixturesFilterStateId),
     isFixturesFetching: getFixturesFilterIsFetching(state, fixturesFilterStateId),
     isFixturesInitialized: getFixturesFilterIsInitialized(state, fixturesFilterStateId),

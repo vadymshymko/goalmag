@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { stringify } from 'query-string';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
-import { getFormattedDate } from 'utils';
-
 import AppPage from 'components/AppPage';
 import AppPageHeader from 'components/AppPageHeader';
 import AppPageTitle from 'components/AppPageTitle';
@@ -20,9 +18,11 @@ class MatchCenterPage extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     fetchData: PropTypes.func.isRequired,
-    competitionId: PropTypes.string,
-    date: PropTypes.string,
+    competitionId: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
     fixturesItems: PropTypes.arrayOf(PropTypes.object).isRequired,
+    fixturesStatusesItems: PropTypes.arrayOf(PropTypes.object).isRequired,
     isAllFixturesFinished: PropTypes.bool.isRequired,
     isFixturesFetching: PropTypes.bool.isRequired,
     isFixturesInitialized: PropTypes.bool.isRequired,
@@ -30,11 +30,6 @@ class MatchCenterPage extends Component {
     history: PropTypes.shape({
       push: PropTypes.func,
     }).isRequired,
-  }
-
-  static defaultProps = {
-    competitionId: null,
-    date: null,
   }
 
   constructor(props) {
@@ -98,13 +93,18 @@ class MatchCenterPage extends Component {
       value,
     } = event.target;
 
-    const { date } = this.props;
+    this.updateFiltersState({
+      competitionId: value || undefined,
+    });
+  }
+
+  handleStatusFilterChange = (event) => {
+    const {
+      value,
+    } = event.target;
 
     this.updateFiltersState({
-      date: !date || date === getFormattedDate()
-        ? undefined
-        : date,
-      competitionId: value || undefined,
+      status: value || undefined,
     });
   }
 
@@ -113,21 +113,23 @@ class MatchCenterPage extends Component {
       value,
     } = event.target;
 
-    const { competitionId } = this.props;
-
     this.updateFiltersState({
-      competitionId: competitionId || undefined,
-      date: value === getFormattedDate()
-        ? undefined
-        : value,
+      date: value,
     });
   }
 
   updateFiltersState = (newState) => {
-    const { history } = this.props;
+    const {
+      history, competitionId, status, date,
+    } = this.props;
 
     history.push({
-      search: stringify(newState),
+      search: stringify({
+        competitionId: competitionId || undefined,
+        status: status || undefined,
+        date,
+        ...newState,
+      }),
     });
   }
 
@@ -157,7 +159,9 @@ class MatchCenterPage extends Component {
       competitionsItems,
       competitionId,
       date,
+      status,
       fixturesItems,
+      fixturesStatusesItems,
       isFixturesFetching,
       isFixturesInitialized,
     } = this.props;
@@ -185,7 +189,7 @@ class MatchCenterPage extends Component {
             <Dropdown
               fieldId="MatchCenterPageCompetitionFilter"
               className={styles.MatchCenterPage__fixturesFilter}
-              value={competitionId || ''}
+              value={competitionId}
               options={[
                 {
                   label: 'All Competitions',
@@ -199,10 +203,24 @@ class MatchCenterPage extends Component {
               onChange={this.handleCompetitionFilterChange}
             />
 
+            <Dropdown
+              fieldId="MatchCenterPageStatusFilter"
+              className={styles.MatchCenterPage__fixturesFilter}
+              value={status}
+              options={[
+                {
+                  label: 'All statuses',
+                  value: '',
+                },
+                ...fixturesStatusesItems,
+              ]}
+              onChange={this.handleStatusFilterChange}
+            />
+
             <DateInput
               fieldId="MatchCenterPageFixturesDateFilter"
               className={styles.MatchCenterPage__fixturesFilter}
-              value={getFormattedDate(date)}
+              value={date}
               onChange={this.handleDateFilterChange}
             />
           </div>
