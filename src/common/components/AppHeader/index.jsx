@@ -39,16 +39,16 @@ class AppHeader extends Component {
           >
             <svg
               fill="none"
-              viewBox="0 0 24 24"
+              viewBox="0 0 20 16"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
               stroke="currentColor"
               className={styles.AppHeader__showNavIcon}
             >
-              <line x1="3" y1="12" x2="21" y2="12" />
-              <line x1="3" y1="6" x2="21" y2="6" />
-              <line x1="3" y1="18" x2="21" y2="18" />
+              <line x1="0" y1="2" x2="20" y2="2" />
+              <line x1="0" y1="8" x2="20" y2="8" />
+              <line x1="0" y1="14" x2="20" y2="14" />
             </svg>
           </button>
 

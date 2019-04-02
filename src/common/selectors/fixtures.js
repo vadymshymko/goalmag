@@ -1,6 +1,35 @@
 import { createSelector } from 'reselect';
 import moment from 'moment';
 
+const FIXTURES_STATUSES_REGEXP = /(scheduled|live|finished|postponed|suspended|canceled)$/;
+
+export const FIXTURES_STATUSES_ITEMS = [
+  {
+    label: 'Live',
+    value: 'live',
+  },
+  {
+    label: 'Finished',
+    value: 'finished',
+  },
+  {
+    label: 'Canceled',
+    value: 'canceled',
+  },
+  {
+    label: 'Suspended',
+    value: 'suspended',
+  },
+  {
+    label: 'Postponed',
+    value: 'postponed',
+  },
+  {
+    label: 'Sheduled',
+    value: 'scheduled',
+  },
+];
+
 export const getFixtures = state => state.fixtures;
 
 export const getFixturesFilters = createSelector(
@@ -76,7 +105,16 @@ export const getFixturesItemsToShow = createSelector(
       ? parseInt(item.competition.id, 10) === parseInt(filters.competitionId, 10)
       : true;
     const isVisibleByDate = moment(item.utcDate).local().format('YYYY-MM-DD') === filters.date;
+    const isVisibleByStatus = filters.status === 'live'
+      ? item.status.toLowerCase() === 'in_play' || item.status.toLowerCase() === 'paused'
+      : (
+        !FIXTURES_STATUSES_REGEXP.test(filters.status)
+        || (
+          FIXTURES_STATUSES_REGEXP.test(filters.status)
+          && item.status.toLowerCase() === filters.status
+        )
+      );
 
-    return isVisibleByCompetition && isVisibleByDate;
+    return isVisibleByCompetition && isVisibleByDate && isVisibleByStatus;
   }),
 );

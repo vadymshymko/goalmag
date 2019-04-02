@@ -14,20 +14,11 @@
   &__fixturesFilter {
     width: 100%;
 
-    &:first-child {
-      margin-bottom: 24px;
-    }
-
     @media (min-width: 992px) {
-      width: 50%;
+      width: calc(100% / 3);
 
       &:first-child {
         margin-bottom: 0;
-        padding-right: 16px;
-      }
-
-      &:last-child {
-        padding-left: 16px;
       }
     }
   }
