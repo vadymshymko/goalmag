@@ -18,14 +18,8 @@
   "keywords": [
     "Sport",
     "Football",
-    "React",
-    "Redux",
-    "Webpack",
-    "Enzyme",
-    "Jest",
-    "JavaScript",
-    "ES6",
-    "ES7"
+    "Soccer app",
+    "Livescores app"
   ],
   "author": "Vadym Shymko <vadymshymko@gmail.com>",
   "license": "SEE LICENSE IN <LICENSE>",
