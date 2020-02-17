@@ -1,13 +1,9 @@
 import { combineReducers } from 'redux';
 
-import competitions from './competitions';
-import fixtures from './fixtures';
-import teams from './teams';
-import standings from './standings';
+import countries from './countries';
 
-export default combineReducers({
-  competitions,
-  fixtures,
-  teams,
-  standings,
+const rootReducer = combineReducers({
+  countries,
 });
+
+export default rootReducer;

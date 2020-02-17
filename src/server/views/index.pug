@@ -5,24 +5,14 @@ html(lang='en')
     meta(http-equiv="x-ua-compatible", content="ie=edge")
     meta(name="viewport", content="width=device-width,initial-scale=1,shrink-to-fit=no")
 
-    !=title
-    !=meta
-    
-    script(async, src="https://www.googletagmanager.com/gtag/js?id=UA-42688866-6")
-    script.
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'UA-42688866-6');
-    
-    style(type="text/css").
-      #{styleTags}
-
+    !=styleTags
     !=prefetchLinks
+
+    !=title
   body
     #root
       !=appHTML
 
     script.
-      window.__PRELOADED_STATE__ = !{state}
+      window.__INITIAL_STATE__ = !{initialState}
     !=scriptTags

@@ -1,41 +1,72 @@
 const path = require('path');
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
+const LoadablePlugin = require('@loadable/webpack-plugin');
+const NodeExternals = require('webpack-node-externals');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
-const WebpackNodeExternals = require('webpack-node-externals');
-const TerserWebpackPlugin = require('terser-webpack-plugin');
-const LoadableWebpackPlugin = require('@loadable/webpack-plugin');
-// const WebpackBundleAnalyzer = require('webpack-bundle-analyzer');
-const WebpackBar = require('webpackbar');
-const dotenv = require('dotenv-safe');
 
-const envVarValues = dotenv.config().parsed;
+require('dotenv-safe').config();
 
+const envVarNameRegExp = /^APP_/i;
+const rawEnv = Object.keys(process.env).reduce(
+  (result, varName) => {
+    if (envVarNameRegExp.test(varName)) {
+      return {
+        ...result,
+        [varName]: process.env[varName],
+      };
+    }
 
-const getCommonConfig = (mode) => {
-  const isDev = mode === 'development';
+    return result;
+  },
+  {
+    NODE_ENV: process.env.NODE_ENV || 'production',
+    APP_VERSION: Date.now(),
+  }
+);
+const stringifiedEnv = {
+  'process.env': Object.keys(rawEnv).reduce(
+    (result, varName) => ({
+      ...result,
+      [varName]: JSON.stringify(rawEnv[varName]),
+    }),
+    {}
+  ),
+};
+const envVars = {
+  raw: rawEnv,
+  stringified: stringifiedEnv,
+};
 
+const getCommonConfig = (target, mode) => {
   return {
+    bail: true,
+    name: target,
+    target,
     mode,
     resolve: {
       extensions: ['.js', '.jsx'],
-      modules: [
-        'src/common',
-        'node_modules',
-      ],
+      modules: ['src/common', 'node_modules'],
     },
-    plugins: [
-      new webpack.LoaderOptionsPlugin({ options: {} }),
-      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-      new webpack.EnvironmentPlugin({
-        ...envVarValues,
-        API_KEY: envVarValues.API_KEY || process.env.API_KEY,
-        NODE_ENV: mode,
-      }),
-    ],
     module: {
       rules: [
+        {
+          test: /\.(svg)$/,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                emitFile: target === 'web',
+                publicPath: envVars.raw.APP_CLIENT_BUILD_PUBLIC_PATH,
+              },
+            },
+          ],
+          exclude: [/node_modules/, /icons/],
+        },
         {
           enforce: 'pre',
           test: /\.jsx?$/,
@@ -44,169 +75,102 @@ const getCommonConfig = (mode) => {
         },
         {
           test: /\.jsx?$/,
-          use: 'babel-loader',
+          use: ['babel-loader', 'stylelint-custom-processor-loader'],
           exclude: /node_modules/,
-        },
-        {
-          test: /\.css$/,
-          use: [
-            'isomorphic-style-loader',
-            {
-              loader: 'css-loader',
-              options: {
-                importLoaders: 1,
-                modules: true,
-              },
-            },
-            'postcss-loader',
-          ],
-        },
-        {
-          test: /\.scss/,
-          use: [
-            'isomorphic-style-loader',
-            {
-              loader: 'css-loader',
-              options: {
-                importLoaders: 2,
-                modules: true,
-              },
-            },
-            'sass-loader',
-            'postcss-loader',
-          ],
         },
       ],
     },
-    optimization:
-      isDev
-        ? {}
-        : {
-          minimizer: [
-            new TerserWebpackPlugin({
-              terserOptions: {
-                parse: {
-                // we want terser to parse ecma 8 code. However, we don't want it
-                // to apply any minfication steps that turns valid ecma 5 code
-                // into invalid ecma 5 code. This is why the 'compress' and 'output'
-                // sections only apply transformations that are ecma 5 safe
-                // https://github.com/facebook/create-react-app/pull/4234
-                  ecma: 8,
-                },
-                compress: {
-                  // drop_console: true,
-                  ecma: 5,
-                  warnings: false,
-                  // Disabled because of an issue with Uglify breaking seemingly valid code:
-                  // https://github.com/facebook/create-react-app/issues/2376
-                  // Pending further investigation:
-                  // https://github.com/mishoo/UglifyJS2/issues/2011
-                  comparisons: false,
-                  // Disabled because of an issue with Terser breaking valid code:
-                  // https://github.com/facebook/create-react-app/issues/5250
-                  // Pending futher investigation:
-                  // https://github.com/terser-js/terser/issues/120
-                  inline: 2,
-                },
-                mangle: {
-                  safari10: true,
-                },
-                output: {
-                  ecma: 5,
-                  comments: false,
-                  // Turned on because emoji and regex is not minified properly using default
-                  // https://github.com/facebook/create-react-app/issues/2488
-                  ascii_only: true,
-                },
-              },
-              // Use multi-process parallel running to improve the build speed
-              // Default number of concurrent runs: os.cpus().length - 1
-              parallel: true,
-              // Enable file caching
-              cache: true,
-            }),
-          ],
-          mangleWasmImports: true,
-        },
+    plugins: [
+      new webpack.LoaderOptionsPlugin({ options: {} }),
+      new webpack.DefinePlugin(envVars.stringified),
+    ],
     stats: 'minimal',
   };
 };
 
-const getClientConfig = (mode) => {
+const getClientConfig = mode => {
   const isDev = mode === 'development';
+  const isWithHMR = isDev && envVars.raw.APP_HMR === 'true';
 
-  return webpackMerge(
-    getCommonConfig(mode),
-    {
-      target: 'web',
-      entry: isDev
-        ? [
-          'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
-          '@babel/polyfill',
-          './src/client/index.jsx',
-        ]
-        : './src/client/index.jsx',
-      output: {
-        filename: isDev ? '[name].[hash].js' : '[name].[contenthash].js',
-        chunkFilename: isDev ? '[name].[hash].js' : '[id].[contenthash].js',
-        path: path.resolve(__dirname, 'dist/assets'),
-        publicPath: '/',
-      },
-      plugins: [
-        new CopyWebpackPlugin([
-          {
-            from: 'src/common/static',
-          },
-        ]),
-        new LoadableWebpackPlugin(),
-        // new WebpackBundleAnalyzer.BundleAnalyzerPlugin({
-        //   analyzerMode: 'static',
-        // }),
-        ...(isDev
-          ? [
-            new webpack.HotModuleReplacementPlugin(),
-          ]
-          : [
-            new WorkboxWebpackPlugin.InjectManifest({
-              swSrc: './src/client/serviceWorker.js',
-              swDest: 'service-worker.js',
-            }),
-          ]
-        ),
-        new WebpackBar({
-          name: 'client',
-        }),
+  return webpackMerge(getCommonConfig('web', mode), {
+    entry: [
+      ...(isWithHMR ? ['webpack-hot-middleware/client'] : []),
+      './src/client',
+    ],
+    output: {
+      filename: `[name]${isWithHMR ? '' : '.[contenthash]'}.js`,
+      chunkFilename: `[id]${isWithHMR ? '' : '.[contenthash]'}.js`,
+      path: path.resolve(__dirname, envVars.raw.APP_CLIENT_BUILD_OUTPUT_PATH),
+      publicPath: envVars.raw.APP_CLIENT_BUILD_PUBLIC_PATH,
+    },
+    module: {
+      rules: [
+        {
+          test: /\.css$/,
+          use: [
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                hmr: isWithHMR,
+              },
+            },
+            'css-loader',
+          ],
+        },
       ],
     },
-  );
+    plugins: [
+      new CleanWebpackPlugin({
+        cleanOnceBeforeBuildPatterns: [
+          path.resolve(__dirname, envVars.raw.APP_CLIENT_BUILD_OUTPUT_PATH),
+        ],
+      }),
+      new LoadablePlugin(),
+      new MiniCssExtractPlugin({
+        filename: `main.${rawEnv.APP_VERSION}.css`,
+      }),
+      new OptimizeCSSAssetsPlugin({}),
+      ...(isWithHMR ? [new webpack.HotModuleReplacementPlugin()] : []),
+      ...(envVars.raw.APP_BUNDLE_ANALYZER_ENABLED === 'true'
+        ? [new BundleAnalyzerPlugin()]
+        : []),
+    ],
+    devtool: isDev && 'source-maps',
+  });
 };
 
-const getServerConfig = mode => (
-  webpackMerge(
-    getCommonConfig(mode),
-    {
-      target: 'node',
-      entry: ['@babel/polyfill', './src/server/index.js'],
-      output: {
-        filename: 'server.js',
-        path: path.resolve(__dirname, 'dist'),
-        publicPath: '/',
-      },
-      plugins: [
-        new CopyWebpackPlugin([
-          {
-            from: 'src/server/views',
-            to: 'views',
-          },
-        ]),
-        new WebpackBar({
-          name: 'server',
-        }),
-      ],
-      externals: [new WebpackNodeExternals()],
+const getServerConfig = mode =>
+  webpackMerge(getCommonConfig('node', mode), {
+    entry: './src/server',
+    output: {
+      filename: 'main.js',
+      chunkFilename: '[name].[contenthash].js',
+      path: path.resolve(__dirname, envVars.raw.APP_SERVER_BUILD_OUTPUT_PATH),
+      publicPath: '/',
     },
-  )
-);
+    module: {
+      rules: [
+        {
+          test: /\.html$/,
+          use: 'raw-loader',
+        },
+      ],
+    },
+    externals: [new NodeExternals()],
+    plugins: [
+      new CleanWebpackPlugin({
+        cleanOnceBeforeBuildPatterns: [
+          path.resolve(__dirname, envVars.raw.APP_SERVER_BUILD_OUTPUT_PATH),
+        ],
+      }),
+      new CopyWebpackPlugin([
+        {
+          from: 'src/server/views',
+          to: 'views',
+        },
+      ]),
+    ],
+  });
 
 module.exports = (env, { mode = 'production' } = {}) => [
   getClientConfig(mode),

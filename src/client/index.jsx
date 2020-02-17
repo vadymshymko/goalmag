@@ -1,66 +1,32 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { hydrate } from 'react-dom';
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
 import { loadableReady } from '@loadable/component';
 
-import StyleContext from 'context/StyleContext';
+import Root from 'components/Root';
+
 import configureStore from 'store';
-import registerServiceWorker from './registerServiceWorker';
 
-const isProd = process.env.NODE_ENV === 'production';
+const initialState = window.APP_INITIAL_STATE || {};
 
-const preloadedState = window.__PRELOADED_STATE__ || {}; //eslint-disable-line
-delete window.__PRELOADED_STATE__; //eslint-disable-line
+delete window.APP_INITIAL_STATE;
 
-const store = configureStore(preloadedState);
+const store = configureStore(initialState);
 
-const stylesContext = {
-  insertCss: (...styles) => (
-    styles.forEach(style => style._insertCss()) // eslint-disable-line no-underscore-dangle
-  ),
-};
-
-const Root = ({ children }) => (
-  <Provider store={store}>
-    <BrowserRouter>
-      <StyleContext context={stylesContext}>
-        {children}
-      </StyleContext>
-    </BrowserRouter>
-  </Provider>
-);
-
-Root.propTypes = {
-  children: PropTypes.node.isRequired,
-};
-
-const render = () => {
-  const AppComponent = require('components/App').default; //eslint-disable-line
-
+const render = Component => {
   hydrate(
-    <Root>
-      <AppComponent />
-    </Root>,
-    document.getElementById('root'),
+    <Component store={store} env="client" />,
+    document.getElementById('root')
   );
 };
 
 loadableReady(() => {
   if (module.hot) {
-    module.hot.accept('components/App', () => {
-      render();
+    module.hot.accept('components/Root', () => {
+      const Component = require('components/Root').default; //eslint-disable-line
+
+      render(Component);
     });
   }
 
-  if (isProd) {
-    registerServiceWorker({
-      url: '/service-worker.js',
-      scope: '/',
-    });
-  }
-
-
-  render();
+  render(Root);
 });

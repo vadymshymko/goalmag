@@ -1,62 +1,59 @@
 import express from 'express';
 import compression from 'compression';
 
-import cacheService from './cacheService';
 import getResponse from './getResponse';
 
+const isProd = process.env.NODE_ENV === 'production';
 const isDev = process.env.NODE_ENV === 'development';
-
-const setHeaders = (res, path) => {
-  if (path.includes('service-worker.js')) {
-    res.setHeader('Service-Worker-Allowed', '/');
-    res.setHeader('Cache-Control', 'no-cache');
-  }
-};
-
-const redirectMiddleware = (req, res, next) => {
-  const location = req.url;
-  const isNotHTTPS = req.header('x-forwarded-proto') && (req.header('x-forwarded-proto') !== 'https');
-
-  if (isNotHTTPS) {
-    return res.redirect(301, `https://${req.header('host')}${location}`);
-  }
-
-  return next();
-};
-
-const cacheMiddleware = (req, res, next) => {
-  try {
-    const cachedResponseState = cacheService.get(`page${req.path}`, true);
-    return res.status(cachedResponseState.status).render('index', cachedResponseState);
-  } catch (e) {
-    return next();
-  }
-};
+const isWithHMR = isDev && process.env.APP_HMR === 'true';
 
 const app = express();
-const PORT = process.env.PORT || 8080;
 
-app.set('views', 'dist/views');
+app.set('views', `${process.env.APP_SERVER_BUILD_OUTPUT_PATH}/views`);
 app.set('view engine', 'pug');
-app.use(compression());
-app.use(express.static('dist/assets', {
-  setHeaders,
-  maxAge: 60 * 60 * 24 * 30,
-}));
-app.get('*', redirectMiddleware);
 
-if (isDev) {
+if (isWithHMR) {
   /* eslint-disable global-require */
-  const { devMiddleware, hotMiddleware } = require('./devMiddleware');
-
-  app.use(devMiddleware);
-  app.use(hotMiddleware);
+  const { devMiddleware, hotMiddleware } = require('./webpackMiddleware');
   /* eslint-enable global-require */
-} else {
-  app.get('*', cacheMiddleware);
+  app.use(devMiddleware());
+  app.use(hotMiddleware());
 }
 
+if (isProd) {
+  app.disable('x-powered-by');
+  app.use(compression());
+}
+
+app.use(
+  process.env.APP_CLIENT_BUILD_PUBLIC_PATH,
+  express.static(process.env.APP_CLIENT_BUILD_OUTPUT_PATH, {
+    etag: isProd,
+    maxAge: isProd ? process.env.APP_CLIENT_ASSETS_CACHE_MAX_AGE : 0,
+    redirect: false,
+    setHeaders: (res, path) => {
+      if (path.includes('service-worker.js')) {
+        res.setHeader('Service-Worker-Allowed', '/');
+        res.setHeader('Cache-Control', 'no-cache');
+      }
+    },
+  })
+);
+
 app.get('*', getResponse);
-app.listen(PORT, () => {
-  console.log(`app listening on port: ${PORT}`); // eslint-disable-line
+
+const server = app.listen(process.env.APP_SERVER_LISTEN_PORT, () => {
+  console.info(`app listening on port: ${process.env.APP_SERVER_LISTEN_PORT}`); // eslint-disable-line
 });
+
+const handleSIG = () => {
+  console.info('Starting shutdown');
+
+  server.close(() => {
+    console.info('connection closed. shutdown finished.');
+    process.exit();
+  });
+};
+
+process.on('SIGINT', handleSIG);
+process.on('SIGTERM', handleSIG);
