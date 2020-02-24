@@ -4,7 +4,7 @@ import LayoutContainer from 'components/LayoutContainer';
 import Logo from 'components/Logo';
 import AppNav from 'components/AppNav';
 
-import { Wrapper, Inner, Title, AppNavToggleBtn } from './styles';
+import { Wrapper, Inner, Title, Caption, NavToggleBtn } from './styles';
 
 function AppHeader() {
   const [showAppNav, toggleAppNav] = useState(false);
@@ -17,14 +17,16 @@ function AppHeader() {
     <Wrapper>
       <LayoutContainer>
         <Inner>
-          <Logo />
-          <Title>Goalmag</Title>
-
-          <AppNavToggleBtn
+          <NavToggleBtn
             type="button"
             onClick={handleToggleAppNav}
             title="Toggle Navigation"
           />
+
+          <Title>
+            <Logo />
+            <Caption>Goalmag</Caption>
+          </Title>
 
           <AppNav show={showAppNav} />
         </Inner>

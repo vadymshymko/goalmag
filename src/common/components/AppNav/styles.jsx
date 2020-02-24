@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.nav`
+  background-color: #f8f9fa;
   display: none;
+  left: 15px;
   line-height: 1;
-  max-height: calc(100vh - 128px);
-  max-width: 290px;
+  max-height: calc(100vh - 120px);
+  max-width: 240px;
   overflow: auto;
   position: fixed;
   top: 90px;
@@ -14,11 +16,13 @@ export const Wrapper = styled.nav`
     display: block;
   }
 
-  @media (min-width: 1200px) {
+  @media (min-width: 960px) {
     display: block;
-    left: calc(50vw - 555px);
     right: auto;
-    top: 96px;
+  }
+
+  @media (min-width: 1200px) {
+    left: calc(50vw - 555px);
   }
 `;
 

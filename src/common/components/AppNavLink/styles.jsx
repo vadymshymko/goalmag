@@ -4,8 +4,8 @@ import { NavLink } from 'react-router-dom';
 const Wrapper = styled(NavLink)`
   color: #343a40;
   display: inline-flex;
-  font-size: 16px;
-  padding: 4px 0;
+  font-size: 15px;
+  padding: 5px 0;
 
   &:hover,
   &.active {
