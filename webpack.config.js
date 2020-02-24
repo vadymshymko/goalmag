@@ -94,7 +94,9 @@ const getClientConfig = mode => {
 
   return webpackMerge(getCommonConfig('web', mode), {
     entry: [
-      ...(isWithHMR ? ['webpack-hot-middleware/client'] : []),
+      ...(isWithHMR
+        ? ['webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000']
+        : []),
       './src/client',
     ],
     output: {
@@ -125,6 +127,11 @@ const getClientConfig = mode => {
           path.resolve(__dirname, envVars.raw.APP_CLIENT_BUILD_OUTPUT_PATH),
         ],
       }),
+      new CopyWebpackPlugin([
+        {
+          from: 'src/common/static',
+        },
+      ]),
       new LoadablePlugin(),
       new MiniCssExtractPlugin({
         filename: `main.${rawEnv.APP_VERSION}.css`,

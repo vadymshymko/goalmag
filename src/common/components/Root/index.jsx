@@ -3,19 +3,23 @@ import PropTypes from 'prop-types';
 import { Provider as ReduxProvider } from 'react-redux';
 import { StaticRouter, BrowserRouter } from 'react-router-dom';
 
-const Root = memo(({ store, routerContext, locationURL, env }) => {
+import App from 'components/App';
+
+function Root({ store, routerContext, locationURL, env }) {
   return (
     <ReduxProvider store={store}>
       {env === 'server' ? (
         <StaticRouter location={locationURL} context={routerContext}>
-          Hello World
+          <App />
         </StaticRouter>
       ) : (
-        <BrowserRouter>Hello World</BrowserRouter>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       )}
     </ReduxProvider>
   );
-});
+}
 
 Root.propTypes = {
   store: PropTypes.objectOf(PropTypes.any).isRequired,
@@ -51,4 +55,4 @@ Root.defaultProps = {
   locationURL: null,
 };
 
-export default Root;
+export default memo(Root);

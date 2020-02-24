@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
 
-import countries from './countries';
+import competitions from './competitions';
+import matches from './matches';
 
 const rootReducer = combineReducers({
-  countries,
+  competitions,
+  matches,
 });
 
 export default rootReducer;

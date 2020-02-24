@@ -14,7 +14,7 @@ app.set('view engine', 'pug');
 
 if (isWithHMR) {
   /* eslint-disable global-require */
-  const { devMiddleware, hotMiddleware } = require('./webpackMiddleware');
+  const { devMiddleware, hotMiddleware } = require('./middlewares/webpack');
   /* eslint-enable global-require */
   app.use(devMiddleware());
   app.use(hotMiddleware());

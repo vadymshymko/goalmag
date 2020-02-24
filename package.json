@@ -33,6 +33,7 @@
     "@loadable/server": "^5.12.0",
     "axios": "^0.19.2",
     "compression": "^1.7.4",
+    "core-js": "3",
     "express": "^4.17.1",
     "humps": "^2.0.1",
     "normalizr": "^3.5.0",

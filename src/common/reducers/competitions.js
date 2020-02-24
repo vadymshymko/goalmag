@@ -1,7 +1,7 @@
 import {
-  FETCH_COUNTRIES_REQUEST,
-  FETCH_COUNTRIES_SUCCESS,
-  FETCH_COUNTRIES_FAILURE,
+  FETCH_COMPETITIONS_REQUEST,
+  FETCH_COMPETITIONS_SUCCESS,
+  FETCH_COMPETITIONS_FAILURE,
 } from 'actionsTypes';
 
 import createReducer from './createReducer';
@@ -11,29 +11,30 @@ const initialState = {
   ids: [],
   isFetching: false,
   isRequestFailed: false,
-  isLoaded: false,
+  isInitialized: false,
 };
 
-const products = createReducer(initialState, {
-  [FETCH_COUNTRIES_REQUEST]: state => ({
+const competitions = createReducer(initialState, {
+  [FETCH_COMPETITIONS_REQUEST]: state => ({
     ...state,
     isFetching: true,
     isRequestFailed: false,
   }),
 
-  [FETCH_COUNTRIES_SUCCESS]: (state, action) => ({
+  [FETCH_COMPETITIONS_SUCCESS]: (state, action) => ({
     ...state,
     entities: action.payload.entities,
     ids: action.payload.ids,
     isFetching: false,
-    isLoaded: true,
+    isInitialized: true,
   }),
 
-  [FETCH_COUNTRIES_FAILURE]: state => ({
+  [FETCH_COMPETITIONS_FAILURE]: state => ({
     ...state,
     isFetching: false,
     isRequestFailed: true,
+    isInitialized: true,
   }),
 });
 
-export default products;
+export default competitions;

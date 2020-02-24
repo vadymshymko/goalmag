@@ -6,17 +6,19 @@ import Root from 'components/Root';
 
 import configureStore from 'store';
 
+import 'assets/styles/normalize.css';
+import 'assets/styles/main.css';
+
 const initialState = window.APP_INITIAL_STATE || {};
 
 delete window.APP_INITIAL_STATE;
 
 const store = configureStore(initialState);
 
+const rootElement = document.getElementById('root');
+
 const render = Component => {
-  hydrate(
-    <Component store={store} env="client" />,
-    document.getElementById('root')
-  );
+  hydrate(<Component store={store} env="client" />, rootElement);
 };
 
 loadableReady(() => {
