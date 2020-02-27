@@ -10,10 +10,14 @@ html {
 }
 
 body {
-  background-color: #f8f9fa;
+  background-color: #fff;
   color: #343a40;
-  font-family: 'Open Sans', sans-serif;
+  font-size: 15px;
+  font-family: 'Noto Sans',sans-serif;
+  line-height: 1.5;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 [tabindex="-1"]:focus {
@@ -96,19 +100,11 @@ svg {
   vertical-align: middle;
 }
 
-table {
-  border-collapse: collapse;
-}
-
 caption {
   padding-top: 0;
   padding-bottom: 0;
   text-align: left;
   caption-side: bottom;
-}
-
-th {
-  text-align: inherit;
 }
 
 label {

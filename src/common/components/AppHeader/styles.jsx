@@ -2,16 +2,18 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.header`
   background-color: #fff;
+  border-bottom: 1px solid #f8f9fa;
   left: 0;
+  padding: 15px 0 14px;
   position: fixed;
   top: 0;
   width: 100%;
+  z-index: 1;
 `;
 
 export const Inner = styled.div`
   align-items: center;
   display: flex;
-  padding: 15px 0;
   width: 100%;
 `;
 
@@ -22,6 +24,7 @@ export const Title = styled.div`
 
 export const Caption = styled.h1`
   font-size: 20px;
+  font-weight: 900;
   margin-left: 5px;
 `;
 

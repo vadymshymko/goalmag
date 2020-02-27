@@ -8,6 +8,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 
 require('dotenv-safe').config();
 
@@ -55,6 +56,29 @@ const getCommonConfig = (target, mode) => {
     module: {
       rules: [
         {
+          test: /\.svg$/,
+          use: [
+            {
+              loader: 'svg-sprite-loader',
+              options: {
+                extract: true,
+                spriteFilename: `sprite.${envVars.raw.APP_VERSION}.svg`,
+              },
+            },
+            {
+              loader: 'svgo-loader',
+              options: {
+                plugins: [
+                  { removeDimensions: false },
+                  { removeViewBox: false },
+                ],
+              },
+            },
+          ],
+          include: /icons/,
+          exclude: /node_modules/,
+        },
+        {
           test: /\.(svg)$/,
           use: [
             {
@@ -83,6 +107,9 @@ const getCommonConfig = (target, mode) => {
     plugins: [
       new webpack.LoaderOptionsPlugin({ options: {} }),
       new webpack.DefinePlugin(envVars.stringified),
+      new SpriteLoaderPlugin({
+        plainSprite: false,
+      }),
     ],
     stats: 'minimal',
   };

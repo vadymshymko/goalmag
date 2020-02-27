@@ -15,6 +15,11 @@ const chunkStatsFile = path.resolve(
   `${process.env.APP_CLIENT_BUILD_OUTPUT_PATH}/loadable-stats.json`
 );
 
+const responseCacheControl =
+  process.env.NODE_ENV === 'production'
+    ? `max-age=${process.env.APP_SERVER_RESPONSE_CACHE_MAX_AGE}`
+    : 'no-cache';
+
 const redirect = ({ status, url, res }) => res.redirect(status || 301, url);
 
 const getActiveRoute = req => {
@@ -40,8 +45,8 @@ const getActiveRoute = req => {
   }, null);
 };
 
-const getActiveRouteLoadData = async ({ activeRoute, req, store }) => {
-  if (!(!!activeRoute.match && activeRoute.loadData)) {
+const getActiveRouteInitialAction = async ({ activeRoute, req, store }) => {
+  if (!(!!activeRoute.match && activeRoute.props.initialAction)) {
     return null;
   }
 
@@ -52,7 +57,7 @@ const getActiveRouteLoadData = async ({ activeRoute, req, store }) => {
     search: locationSearch ? `?${locationSearch}` : '',
   };
 
-  return activeRoute.loadData(store.dispatch, {
+  return activeRoute.props.initialAction(store.dispatch, {
     match: activeRoute.match,
     location,
     isServer: true,
@@ -83,12 +88,13 @@ const getAppHTML = ({
 const getResponse = async (req, res) => {
   try {
     const [locationPathname, locationSearch] = req.originalUrl.split('?');
-    const isWithoutTrailingSlash = !locationPathname.endsWith('/');
+    const isEndsWithSlash =
+      locationPathname.length > 1 && locationPathname.endsWith('/');
 
-    if (isWithoutTrailingSlash) {
+    if (isEndsWithSlash) {
       return redirect({
         res,
-        url: `${locationPathname}/${
+        url: `${locationPathname.slice(0, -1)}${
           locationSearch ? `?${locationSearch}` : ''
         }`,
         status: 301,
@@ -102,7 +108,7 @@ const getResponse = async (req, res) => {
 
     const activeRoute = getActiveRoute(req);
 
-    await getActiveRouteLoadData({
+    await getActiveRouteInitialAction({
       activeRoute,
       req,
       store,
@@ -116,13 +122,18 @@ const getResponse = async (req, res) => {
       locationURL: req.url,
     });
 
+    if (routerContext.status === 301 && routerContext.url) {
+      redirect({
+        res,
+        url: routerContext.url,
+        status: 301,
+      });
+    }
+
     const helmet = Helmet.renderStatic();
 
     return res
-      .set(
-        'Cache-Control',
-        `max-age=${process.env.APP_SERVER_RESPONSE_CACHE_MAX_AGE}`
-      )
+      .set('Cache-Control', responseCacheControl)
       .status(routerContext.status || 200)
       .render('index', {
         title: helmet.title.toString(),

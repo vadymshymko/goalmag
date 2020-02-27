@@ -1,4 +1,6 @@
 import { createSelector } from 'reselect';
+import { getVisibleMatchesItems } from './matches';
+import { getCompetitionId } from './router';
 
 const getCompetitions = state => state.competitions;
 
@@ -28,7 +30,7 @@ export const getCompetitionsItems = createSelector(
   (ids, entities) => ids.map(id => entities[id])
 );
 
-export const getCompetitionsNavSections = createSelector(
+export const getRegionsWithCompetitions = createSelector(
   getCompetitionsItems,
   competitionsItems => {
     const regions = [
@@ -36,10 +38,33 @@ export const getCompetitionsNavSections = createSelector(
     ];
 
     return regions.map(region => ({
-      region,
+      name: region,
       competitions: competitionsItems.filter(
         competition => competition.region === region
       ),
     }));
   }
+);
+
+export const getCompetitionsWithMatches = createSelector(
+  getCompetitionsEntities,
+  getVisibleMatchesItems,
+  (competitionsEntities, matchesItems) => {
+    const competitionsIds = [
+      ...new Set([...matchesItems.map(match => match.competitionId)]),
+    ];
+
+    return competitionsIds.map(competitionId => ({
+      ...competitionsEntities[competitionId],
+      matchesItems: matchesItems.filter(
+        match => match.competitionId === competitionId
+      ),
+    }));
+  }
+);
+
+export const getCompetition = createSelector(
+  getCompetitionsEntities,
+  getCompetitionId,
+  (entities, id) => entities[id] || {}
 );

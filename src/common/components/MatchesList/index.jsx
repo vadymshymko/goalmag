@@ -1,39 +1,33 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import React, { memo } from 'react';
+import PropTypes from 'prop-types';
 
-import { fetchMatches } from 'actions';
-import { getMatchesItems } from 'selectors';
+import MatchLink from 'components/MatchLink';
 
-function MatchesList() {
-  const dispatch = useDispatch();
+import { Wrapper, Item } from './styles';
 
-  const location = useLocation();
-  const matchesItems = useSelector(state =>
-    getMatchesItems(state, { location })
-  );
-
-  useEffect(() => {
-    dispatch(
-      fetchMatches({
-        location,
-      })
-    );
-  }, []);
-
+function MatchesList({ matchesItems }) {
   return (
-    <div>
+    <Wrapper>
       {matchesItems.map(match => (
-        <div key={match.id}>
-          <p>
-            {match.localteamName}
-            {` - `}
-            {match.visitorteamName}
-          </p>
-        </div>
+        <Item key={match.id}>
+          <MatchLink
+            id={match.id}
+            localteamName={match.localteamName}
+            localteamScore={match.localteamScore}
+            visitorteamName={match.visitorteamName}
+            visitorteamScore={match.visitorteamScore}
+            status={match.status}
+            startTime={match.startTime}
+            timer={match.timer}
+          />
+        </Item>
       ))}
-    </div>
+    </Wrapper>
   );
 }
 
-export default MatchesList;
+MatchesList.propTypes = {
+  matchesItems: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
+export default memo(MatchesList);

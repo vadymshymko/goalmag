@@ -22,18 +22,18 @@ const shouldFetchCompetitions = state => {
 };
 
 export const fetchCompetitions = () => async (dispatch, getState) => {
-  const currentState = getState();
-
-  if (!shouldFetchCompetitions(currentState)) {
-    return true;
-  }
-
-  dispatch({
-    type: FETCH_COMPETITIONS_REQUEST,
-    payload: {},
-  });
-
   try {
+    const currentState = getState();
+
+    if (!shouldFetchCompetitions(currentState)) {
+      return true;
+    }
+
+    dispatch({
+      type: FETCH_COMPETITIONS_REQUEST,
+      payload: {},
+    });
+
     const response = await callApi('competitions');
     const normalizedResponse = normalize(response, competitionsSchema);
 

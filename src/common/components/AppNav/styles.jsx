@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.nav`
-  background-color: #f8f9fa;
+  background-color: #fff;
   display: none;
   left: 15px;
   line-height: 1;

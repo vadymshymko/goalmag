@@ -3,21 +3,35 @@ import { Switch, Route } from 'react-router-dom';
 
 import routes from 'routes';
 
+import Page from 'components/Page';
+
+/* eslint-disable react/jsx-props-no-spreading */
 function AppContent() {
   const getRouteRender = useCallback(
-    RouteComponent => ({ staticContext }) => <RouteComponent staticContext={staticContext} />,//eslint-disable-line
-    []
-  );
-
-  /* eslint-disable-next-line */
-  const renderRoute = useCallback(
-    ({ id, component, ...routeProps }) => (
-      <Route render={getRouteRender(component)} {...routeProps} key={id} />//eslint-disable-line
+    (RouteComponent, componentProps) => () => (
+      <RouteComponent {...componentProps} />
     ),
     []
   );
 
-  return <Switch>{routes.map(renderRoute)}</Switch>;
+  const renderRoute = useCallback(
+    ({ id, component, props, ...routeProps }) => (
+      <Route
+        render={getRouteRender(component, props)}
+        {...routeProps}
+        key={id}
+      />
+    ),
+    []
+  );
+
+  return (
+    <Page>
+      <Switch>{routes.map(renderRoute)}</Switch>
+    </Page>
+  );
 }
+
+/* eslint-enable react/jsx-props-no-spreading */
 
 export default memo(AppContent);

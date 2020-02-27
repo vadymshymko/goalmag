@@ -5,7 +5,7 @@ import Wrapper from './styles';
 
 function AppNavLink({ href, title, children }) {
   return (
-    <Wrapper to={href} href={href} title={title}>
+    <Wrapper to={href} href={href} title={title} exact strict>
       {children}
     </Wrapper>
   );

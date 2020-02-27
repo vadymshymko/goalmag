@@ -12,4 +12,5 @@ export const competitionSchema = new schema.Entity(
     },
   }
 );
+
 export const competitionsSchema = [competitionSchema];
