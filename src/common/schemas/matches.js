@@ -21,11 +21,11 @@ export const matchSchema = new schema.Entity(
       const matchDateHours = matchDateUTC.getHours();
       const matchDateMinutes = matchDateUTC.getMinutes();
 
-      const matchStartTime = `${
-        matchDateHours < 10 ? '0' : ''
-      }${matchDateHours}:${
-        matchDateMinutes < 10 ? '0' : ''
-      }${matchDateMinutes}`;
+      const matchStartTime = minutes
+        ? `${matchDateHours < 10 ? '0' : ''}${matchDateHours}:${
+            matchDateMinutes < 10 ? '0' : ''
+          }${matchDateMinutes}`
+        : match.time;
 
       return {
         id: match.id,
