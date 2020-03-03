@@ -1,14 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import Wrapper from './styles';
 
-function ContentSectionTitle({ children }) {
-  return <Wrapper>{children}</Wrapper>;
+/* eslint-disable react/jsx-props-no-spreading */
+function ContentSectionTitle(props) {
+  return <Wrapper {...props} />;
 }
-
-ContentSectionTitle.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+/* eslint-enable react/jsx-props-no-spreading */
 
 export default ContentSectionTitle;

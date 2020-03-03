@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { getVisibleMatchesItems } from './matches';
+import { getVisibleMatchesItems, getMatch } from './matches';
 import { getCompetitionId } from './router';
 
 const getCompetitions = state => state.competitions;
@@ -67,4 +67,16 @@ export const getCompetition = createSelector(
   getCompetitionsEntities,
   getCompetitionId,
   (entities, id) => entities[id] || {}
+);
+
+export const getCompetitionByMatch = createSelector(
+  getMatch,
+  getCompetitionsEntities,
+  (match, competitions) => {
+    if (match.competitionId) {
+      return competitions[match.competitionId];
+    }
+
+    return {};
+  }
 );

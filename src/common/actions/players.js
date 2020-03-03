@@ -10,17 +10,12 @@ import {
 
 import { playerSchema } from 'schemas';
 
-import {
-  getPlayerIsFetching,
-  getPlayerIsInitialized,
-  getPlayerId,
-} from 'selectors';
+import { getPlayer, getPlayerId } from 'selectors';
 
 const shouldFetchPlayer = (state, params) => {
-  return (
-    !getPlayerIsFetching(state, params) &&
-    !getPlayerIsInitialized(state, params)
-  );
+  const playerState = getPlayer(state, params);
+
+  return !playerState.isFetching && !playerState.isInitialized;
 };
 
 export const fetchPlayer = params => async (dispatch, getState) => {
@@ -46,7 +41,7 @@ export const fetchPlayer = params => async (dispatch, getState) => {
       type: FETCH_PLAYER_SUCCESS,
       payload: {
         id: playerId,
-        info: normalizedResponse.entities.players[playerId],
+        ...normalizedResponse.entities.players[playerId],
       },
     });
   } catch (error) {

@@ -5,12 +5,9 @@ export const Wrapper = styled(Link)`
   align-items: center;
   color: #343a40;
   display: flex;
-  padding: 15px 5px;
+  height: 45px;
+  padding: 0 5px;
   width: 100%;
-
-  &:hover {
-    background-color: #f8f9fa;
-  }
 `;
 
 export const Status = styled.span`
@@ -35,11 +32,15 @@ export const TeamName = styled.span`
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 100%;
+
+  ${/* sc-sel */ Wrapper}:hover & {
+    color: rgba(40, 167, 69, 0.75);
+  }
 `;
 
 export const TeamScore = styled.span`
   align-items: center;
-  border: 1px solid #343a40;
+  border: 1px solid #f8f9fa;
   display: inline-flex;
   justify-content: center;
   height: 30px;
@@ -48,7 +49,7 @@ export const TeamScore = styled.span`
   width: 30px;
 `;
 
-export const ScoreDelimiter = styled.span`
+export const Delimiter = styled.span`
   text-align: center;
   width: 10px;
 `;

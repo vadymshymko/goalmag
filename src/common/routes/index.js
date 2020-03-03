@@ -19,7 +19,7 @@ const NotFoundPage = loadable(() => import('components/NotFoundPage'));
 
 const routes = [
   {
-    id: 'homePage',
+    id: 'matchCenterPage',
     path: '/',
     exact: true,
     strict: true,

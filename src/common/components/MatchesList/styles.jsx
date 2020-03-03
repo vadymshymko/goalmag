@@ -7,8 +7,4 @@ export const Wrapper = styled.ul`
 
 export const Item = styled.li`
   border-bottom: 1px solid #f8f9fa;
-
-  &:first-child {
-    border-top: 1px solid #f8f9fa;
-  }
 `;

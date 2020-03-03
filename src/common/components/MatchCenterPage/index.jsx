@@ -1,22 +1,94 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import PageContent from 'components/PageContent';
-import MatchCenterPageMeta from 'components/MatchCenterPageMeta';
+import Page from 'components/Page';
+import PageHelmet from 'components/PageHelmet';
+import PageTitle from 'components/PageTitle';
+import MatchesNotFound from 'components/MatchesNotFound';
 import MatchCenterCompetitions from 'components/MatchCenterCompetitions';
+import DateInput from 'components/DateInput';
 
-function MatchCenterPage({ initialAction }) {
+import {
+  getCompetitionsWithMatches,
+  getMatchesIsFetching,
+  getDate,
+} from 'selectors';
+
+function MatchCenterPage({ initialAction, location, match, history }) {
+  const dispatch = useDispatch();
+
+  const competitionsWithMatches = useSelector(state =>
+    getCompetitionsWithMatches(state, { location, match })
+  );
+
+  const matchesIsFetching = useSelector(state =>
+    getMatchesIsFetching(state, { location, match })
+  );
+
+  const matchesDateValue = useSelector(state =>
+    getDate(state, { location, match })
+  );
+  const formattedMatchesDateValue = useMemo(
+    () =>
+      `${matchesDateValue.split('.')[2]}-${matchesDateValue.split('.')[1]}-${
+        matchesDateValue.split('.')[0]
+      }`,
+    [matchesDateValue]
+  );
+
+  const competitionsMatchesCount = useMemo(
+    () =>
+      competitionsWithMatches.reduce((result, competition) => {
+        return result + competition.matchesItems.length;
+      }, 0),
+    [competitionsWithMatches]
+  );
+
+  const handleMatchesDateChange = event => {
+    history.push({
+      search: `?date=${event.target.value}`,
+    });
+  };
+
+  useEffect(() => {
+    initialAction(dispatch, { location, match });
+  }, [formattedMatchesDateValue]);
+
   return (
-    <PageContent>
-      <MatchCenterPageMeta initialAction={initialAction} />
+    <Page>
+      <PageHelmet
+        title="Match Center"
+        description="Live fixtures across all your favorite competitions - GoalMag"
+      />
 
-      <MatchCenterCompetitions />
-    </PageContent>
+      <PageTitle>
+        <span>Match Center</span>
+
+        <DateInput
+          value={formattedMatchesDateValue}
+          onChange={handleMatchesDateChange}
+        />
+      </PageTitle>
+
+      {!matchesIsFetching && !competitionsMatchesCount ? (
+        <MatchesNotFound />
+      ) : (
+        <MatchCenterCompetitions
+          competitionsWithMatches={competitionsWithMatches}
+        />
+      )}
+    </Page>
   );
 }
 
 MatchCenterPage.propTypes = {
   initialAction: PropTypes.func.isRequired,
+  location: PropTypes.objectOf(PropTypes.string).isRequired,
+  match: PropTypes.objectOf(PropTypes.any).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default MatchCenterPage;

@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.section`
-  border: 1px solid;
+import ContentSection from 'components/ContentSection';
+
+export const Wrapper = styled(ContentSection)`
+  border: 1px solid #f8f9fa;
+  margin-bottom: 30px;
   padding: 30px;
   text-align: center;
 `;

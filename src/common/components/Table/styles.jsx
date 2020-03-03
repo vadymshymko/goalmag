@@ -5,7 +5,7 @@ const Wrapper = styled.table`
   line-height: 1;
   font-size: 15px;
   table-layout: fixed;
-  width: 100%;
+  min-width: 100%;
 
   tr {
     border-bottom: 1px solid #f8f9fa;
@@ -17,7 +17,6 @@ const Wrapper = styled.table`
     font-weight: 400;
     height: 30px;
     text-align: inherit;
-    vertical-align: top;
   }
 
   td {
@@ -26,9 +25,21 @@ const Wrapper = styled.table`
 
   th,
   td {
-    min-width: 40px;
-    width: 40px;
+    padding: 0 5px;
     text-align: center;
+    white-space: nowrap;
+  }
+
+  a {
+    align-items: center;
+    color: #343a40;
+    display: inline-flex;
+    height: 100%;
+    width: 100%;
+
+    &:hover {
+      color: rgba(40, 167, 69, 0.75);
+    }
   }
 `;
 

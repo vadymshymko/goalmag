@@ -12,10 +12,10 @@ function MatchesList({ matchesItems }) {
         <Item key={match.id}>
           <MatchLink
             id={match.id}
-            localteamName={match.localteamName}
-            localteamScore={match.localteamScore}
-            visitorteamName={match.visitorteamName}
-            visitorteamScore={match.visitorteamScore}
+            localTeamName={match.localTeamName}
+            localTeamScore={match.localTeamScore}
+            visitorTeamName={match.visitorTeamName}
+            visitorTeamScore={match.visitorTeamScore}
             status={match.status}
             startTime={match.startTime}
             timer={match.timer}

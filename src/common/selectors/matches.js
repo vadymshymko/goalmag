@@ -41,5 +41,5 @@ export const getVisibleMatchesItems = createSelector(
 export const getMatch = createSelector(
   getMatchesEntities,
   getMatchId,
-  (entities, id) => entities[id]
+  (entities, id) => entities[id] || {}
 );

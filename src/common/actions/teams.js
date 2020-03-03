@@ -10,23 +10,17 @@ import {
 
 import { teamSchema } from 'schemas';
 
-import { getTeamIsFetching, getTeamIsInitialized, getTeamId } from 'selectors';
+import { getTeam, getTeamId } from 'selectors';
 
 const shouldFetchTeam = (state, params) => {
-  return (
-    !getTeamIsFetching(state, params) && !getTeamIsInitialized(state, params)
-  );
+  const teamState = getTeam(state, params);
+
+  return !teamState.isFetching && !teamState.isInitialized;
 };
 
 export const fetchTeam = params => async (dispatch, getState) => {
   const currentState = getState();
   const teamId = getTeamId(currentState, params);
-
-  console.log({
-    params,
-    teamId,
-    shouldFetchTeam: shouldFetchTeam(currentState, params),
-  });
 
   try {
     if (!teamId || !shouldFetchTeam(currentState, params)) {
@@ -47,7 +41,7 @@ export const fetchTeam = params => async (dispatch, getState) => {
       type: FETCH_TEAM_SUCCESS,
       payload: {
         id: teamId,
-        info: normalizedResponse.entities.teams[teamId],
+        ...normalizedResponse.entities.teams[teamId],
       },
     });
   } catch (error) {

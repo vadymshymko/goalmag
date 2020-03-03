@@ -1,12 +1,13 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import ContentSection from 'components/ContentSection';
 import ContentSectionTitle from 'components/ContentSectionTitle';
 import TableWrapper from 'components/TableWrapper';
 import Icon from 'components/Icon';
 
-import { Table, PlayerLink, PlayerName, PlayerLinkOverlay } from './styles';
+import Table from './styles';
 
 const TABLE_HEADERS = [
   {
@@ -35,11 +36,11 @@ const TABLE_HEADERS = [
   },
   {
     title: 'Yellow Cards',
-    content: <Icon name="yellowCard" width="20" height="15" />,
+    content: <Icon name="yellowCard" width="12" height="16" />,
   },
   {
     title: 'Red Cards',
-    content: <Icon name="redCard" width="20" height="15" />,
+    content: <Icon name="redCard" width="12" height="16" />,
   },
 ];
 
@@ -66,15 +67,14 @@ function TeamInfo({ squad }) {
                 <td>{player.position}</td>
 
                 <td>
-                  <PlayerLink
+                  <Link
                     to={`/players/${player.id}`}
                     href={`/players/${player.id}`}
                     title={player.name}
                     style={{ position: 'relative' }}
                   >
-                    <PlayerName>{player.name}</PlayerName>
-                    <PlayerLinkOverlay />
-                  </PlayerLink>
+                    {player.name}
+                  </Link>
                 </td>
 
                 <td>{player.appearences}</td>
@@ -86,8 +86,8 @@ function TeamInfo({ squad }) {
                 <td>{player.yellowcards}</td>
 
                 <td>
-                  {parseInt(player.redcards, 10) +
-                    parseInt(player.yellowred, 10)}
+                  {parseInt(player.redcards || 0, 10) +
+                    parseInt(player.yellowred || 0, 10)}
                 </td>
               </tr>
             ))}

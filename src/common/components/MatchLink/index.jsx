@@ -7,39 +7,65 @@ import {
   Team,
   TeamName,
   TeamScore,
-  ScoreDelimiter,
+  Delimiter,
 } from './styles';
+
+const STATUS_COLORS = {
+  FT: '#343a40',
+  HT: '#ffc107',
+  live: '#28a745',
+};
 
 function MatchLink({
   id,
-  localteamName,
-  localteamScore,
-  visitorteamName,
-  visitorteamScore,
+  localTeamName,
+  localTeamScore,
+  visitorTeamName,
+  visitorTeamScore,
   status,
   timer,
   startTime,
 }) {
+  const statusColor = STATUS_COLORS[timer ? 'live' : status] || null;
+
   return (
     <Wrapper
       href={`/matches/${id}`}
       to={`/matches/${id}`}
-      title={`${localteamName} : ${visitorteamName}`}
+      title={`${localTeamName} : ${visitorTeamName}`}
     >
-      <Status>{timer || status || startTime}</Status>
+      <Status style={{ color: statusColor }}>
+        {timer || status || startTime}
+      </Status>
 
       <Team data-type="local">
-        <TeamName>{localteamName}</TeamName>
+        <TeamName>{localTeamName}</TeamName>
 
-        <TeamScore>{localteamScore}</TeamScore>
+        <TeamScore
+          style={{
+            borderColor: statusColor,
+            backgroundColor: statusColor,
+            color: statusColor ? '#fff' : null,
+          }}
+        >
+          {localTeamScore}
+        </TeamScore>
       </Team>
 
-      <ScoreDelimiter> : </ScoreDelimiter>
+      <Delimiter> : </Delimiter>
 
       <Team data-type="visitor">
-        <TeamScore>{visitorteamScore}</TeamScore>
+        <TeamScore
+          style={{
+            borderColor: statusColor,
+            backgroundColor: statusColor,
+            color: statusColor ? '#fff' : null,
+          }}
+        >
+          {visitorTeamScore}
+        </TeamScore>
 
-        <TeamName>{visitorteamName}</TeamName>
+        <TeamName>{visitorTeamName}</TeamName>
       </Team>
     </Wrapper>
   );
@@ -47,10 +73,10 @@ function MatchLink({
 
 MatchLink.propTypes = {
   id: PropTypes.string.isRequired,
-  localteamName: PropTypes.string.isRequired,
-  localteamScore: PropTypes.string.isRequired,
-  visitorteamName: PropTypes.string.isRequired,
-  visitorteamScore: PropTypes.string.isRequired,
+  localTeamName: PropTypes.string.isRequired,
+  localTeamScore: PropTypes.string.isRequired,
+  visitorTeamName: PropTypes.string.isRequired,
+  visitorTeamScore: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
   timer: PropTypes.string.isRequired,
   startTime: PropTypes.string.isRequired,

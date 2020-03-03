@@ -162,6 +162,12 @@ input[type="month"] {
   -webkit-appearance: listbox;
 }
 
+input[type='date']::-webkit-inner-spin-button,
+input[type='date']::-webkit-outer-spin-button,
+input[type='date']::-webkit-clear-button {
+  -webkit-appearance: none;
+}
+
 input[type='number'] {
   appearance: textfield;
 }

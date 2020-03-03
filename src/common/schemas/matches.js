@@ -30,20 +30,20 @@ export const matchSchema = new schema.Entity(
       return {
         id: match.id,
         competitionId: match.compId,
-        localteamId: match.localteamId,
-        localteamName: match.localteamName,
-        localteamScore:
+        localTeamId: match.localteamId,
+        localTeamName: match.localteamName,
+        localTeamScore:
           !match.localteamScore || match.localteamScore === '?'
             ? '-'
             : match.localteamScore,
-        localteamPenaltyScore: match.penaltyLocal,
-        visitorteamId: match.visitorteamId,
-        visitorteamName: match.visitorteamName,
-        visitorteamScore:
+        localTeamPenaltyScore: match.penaltyLocal,
+        visitorTeamId: match.visitorteamId,
+        visitorTeamName: match.visitorteamName,
+        visitorTeamScore:
           !match.visitorteamScore || match.visitorteamScore === '?'
             ? '-'
             : match.visitorteamScore,
-        visitorteamPenaltyScore: match.penaltyVisitor,
+        visitorTeamPenaltyScore: match.penaltyVisitor,
         season: match.season,
         week: match.week,
         city: match.venueCity,

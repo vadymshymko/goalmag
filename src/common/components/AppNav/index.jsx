@@ -1,43 +1,46 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
-import { fetchCompetitions } from 'actions';
 import { getRegionsWithCompetitions } from 'selectors';
 
 import AppNavSection from 'components/AppNavSection';
 
-import { Wrapper, List } from './styles';
+import { ToggleBtn, Wrapper, List } from './styles';
 
-function AppNav({ show }) {
-  const dispatch = useDispatch();
+function AppNav() {
   const regionsWithCompetitions = useSelector(getRegionsWithCompetitions);
 
-  useEffect(() => {
-    dispatch(fetchCompetitions());
-  }, []);
+  const [show, toggle] = useState(false);
+
+  const handleToggle = () => {
+    toggle(!show);
+  };
 
   return (
-    <Wrapper data-show={show}>
-      <List>
-        <AppNavSection items={[{ name: 'Match Center', href: '/' }]} />
+    <>
+      <ToggleBtn
+        type="button"
+        onClick={handleToggle}
+        title="Toggle Navigation"
+      />
 
-        {regionsWithCompetitions.map(region => {
-          return (
-            <AppNavSection
-              name={region.name}
-              items={region.competitions}
-              key={region.name}
-            />
-          );
-        })}
-      </List>
-    </Wrapper>
+      <Wrapper className={`app-nav ${show ? 'active' : ''}`}>
+        <List>
+          <AppNavSection items={[{ name: 'Match Center', href: '/' }]} />
+
+          {regionsWithCompetitions.map(region => {
+            return (
+              <AppNavSection
+                name={region.name}
+                items={region.competitions}
+                key={region.name}
+              />
+            );
+          })}
+        </List>
+      </Wrapper>
+    </>
   );
 }
-
-AppNav.propTypes = {
-  show: PropTypes.bool.isRequired,
-};
 
 export default AppNav;

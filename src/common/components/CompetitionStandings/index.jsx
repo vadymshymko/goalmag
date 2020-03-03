@@ -1,35 +1,27 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { useLocation, useRouteMatch } from 'react-router-dom';
-
-import { getCompetitionStandingsTable } from 'selectors';
+import React, { memo } from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import ContentSection from 'components/ContentSection';
 import ContentSectionTitle from 'components/ContentSectionTitle';
 import TableWrapper from 'components/TableWrapper';
 
-import { Table, TeamLink, TeamName, TeamLinkOverlay } from './styles';
+import Table from './styles';
 
 const TABLE_HEADERS = ['#', 'Team', 'Pl', 'P', 'W', 'D', 'L', 'GF', 'GA', 'GD'];
 
-function CompetitionStandings() {
-  const location = useLocation();
-  const routerMatch = useRouteMatch();
-
-  const standingsTable = useSelector(state =>
-    getCompetitionStandingsTable(state, {
-      location,
-      match: routerMatch,
-    })
-  );
+function CompetitionStandings({ standings }) {
+  if (!Object.keys(standings).length) {
+    return null;
+  }
 
   return (
     <ContentSection>
       <ContentSectionTitle>Standings:</ContentSectionTitle>
 
-      <TableWrapper>
-        {Object.keys(standingsTable).map(tableGroup => (
-          <Table key={tableGroup}>
+      {Object.keys(standings).map(tableGroup => (
+        <TableWrapper key={tableGroup}>
+          <Table>
             <thead>
               <tr>
                 {TABLE_HEADERS.map(head => (
@@ -39,20 +31,19 @@ function CompetitionStandings() {
             </thead>
 
             <tbody>
-              {standingsTable[tableGroup].map(item => (
+              {standings[tableGroup].map(item => (
                 <tr key={item.teamId}>
                   <td>{item.position}</td>
 
                   <td>
-                    <TeamLink
+                    <Link
                       to={`/teams/${item.teamId}`}
                       href={`/teams/${item.teamId}`}
                       title={item.teamName}
                       style={{ position: 'relative' }}
                     >
-                      <TeamName>{item.teamName}</TeamName>
-                      <TeamLinkOverlay />
-                    </TeamLink>
+                      {item.teamName}
+                    </Link>
                   </td>
                   <td>{item.overallGp}</td>
                   <td>
@@ -68,10 +59,14 @@ function CompetitionStandings() {
               ))}
             </tbody>
           </Table>
-        ))}
-      </TableWrapper>
+        </TableWrapper>
+      ))}
     </ContentSection>
   );
 }
 
-export default CompetitionStandings;
+CompetitionStandings.propTypes = {
+  standings: PropTypes.objectOf(PropTypes.array).isRequired,
+};
+
+export default memo(CompetitionStandings);

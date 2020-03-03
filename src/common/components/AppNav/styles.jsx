@@ -1,28 +1,60 @@
 import styled from 'styled-components';
 
+export const ToggleBtn = styled.button`
+  background: none;
+  border-bottom: 1px solid #fff;
+  border-left: 0;
+  border-right: 0;
+  border-top: 1px solid #fff;
+  box-shadow: none;
+  height: 16px;
+  left: 15px;
+  outline: none;
+  padding: 5px;
+  position: fixed;
+  top: 22px;
+  width: 25px;
+  z-index: 1;
+
+  @media (min-width: 960px) {
+    display: none;
+  }
+
+  &::before {
+    background-color: #fff;
+    content: '';
+    height: 1px;
+    left: 0;
+    position: absolute;
+    top: 6px;
+    width: 100%;
+  }
+`;
+
 export const Wrapper = styled.nav`
   background-color: #fff;
+  bottom: 0;
   display: none;
   left: 15px;
   line-height: 1;
-  max-height: calc(100vh - 120px);
-  max-width: 240px;
   overflow: auto;
+  padding: 30px 0 30px 10px;
   position: fixed;
-  top: 90px;
-  width: 100%;
+  top: 60px;
+  min-width: 280px;
+  width: 280px;
 
-  &[data-show='true'] {
+  &.active {
     display: block;
   }
 
   @media (min-width: 960px) {
+    border-right: 1px solid #f8f9fa;
     display: block;
-    right: auto;
-  }
-
-  @media (min-width: 1200px) {
-    left: calc(50vw - 555px);
+    max-height: calc(100vh - 120px);
+    margin-left: -10px;
+    padding: 0 0 0 10px;
+    position: static;
   }
 `;
 

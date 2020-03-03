@@ -1,0 +1,61 @@
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+
+export const Date = styled.span`
+  align-items: center;
+  display: inline-flex;
+  margin-left: auto;
+`;
+
+export const MainInfo = styled.div`
+  border-bottom: 1px solid #f8f9fa;
+  display: flex;
+  flex-flow: row wrap;
+  font-size: 20px;
+  justify-content: center;
+  padding: 15px 0;
+  width: 100%;
+`;
+
+export const Team = styled.span`
+  display: inline-flex;
+  width: calc(50% - 5px);
+
+  &:first-of-type {
+    justify-content: flex-end;
+  }
+`;
+
+export const TeamLink = styled(Link)`
+  color: #343a40;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &:hover {
+    color: rgba(40, 167, 69, 0.75);
+  }
+`;
+
+export const TeamScore = styled.span`
+  border: 1px solid #f8f9fa;
+  display: inline-flex;
+  height: 30px;
+  justify-content: center;
+  margin: 0 15px;
+  min-width: 30px;
+  width: 30px;
+`;
+
+export const Delimiter = styled.span`
+  display: flex;
+  justify-content: center;
+  width: 10px;
+`;
+
+export const Time = styled.span`
+  display: inline-flex;
+  justify-content: center;
+  padding-top: 15px;
+  width: 100%;
+`;

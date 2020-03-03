@@ -2,25 +2,27 @@ import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import ContentSection from 'components/ContentSection';
+import ContentSectionTitle from 'components/ContentSectionTitle';
 import MatchesList from 'components/MatchesList';
-
-import { Wrapper, Title } from './styles';
 
 function MatchCenterCompetition({ id, name, region, matchesItems }) {
   return (
-    <Wrapper>
-      <Title>
+    <ContentSection>
+      <ContentSectionTitle>
+        {`${region}.`}
+        &nbsp;
         <Link
           to={`/competitions/${id}`}
           href={`/competitions/${id}`}
-          title={`${region}. ${name}`}
+          title={name}
         >
-          {`${region}. ${name}`}
+          {name}
         </Link>
-      </Title>
+      </ContentSectionTitle>
 
       <MatchesList matchesItems={matchesItems} />
-    </Wrapper>
+    </ContentSection>
   );
 }
 

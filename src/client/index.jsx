@@ -6,8 +6,12 @@ import Root from 'components/Root';
 
 import configureStore from 'store';
 
+import registerServiceWorker from './registerServiceWorker';
+
 import 'assets/styles/normalize.css';
 import 'assets/styles/main.css';
+
+registerServiceWorker();
 
 const initialState = window.APP_INITIAL_STATE || {};
 

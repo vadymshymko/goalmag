@@ -3,13 +3,11 @@ import { Switch, Route } from 'react-router-dom';
 
 import routes from 'routes';
 
-import Page from 'components/Page';
-
 /* eslint-disable react/jsx-props-no-spreading */
 function AppContent() {
   const getRouteRender = useCallback(
-    (RouteComponent, componentProps) => () => (
-      <RouteComponent {...componentProps} />
+    (RouteComponent, componentProps) => routerProps => (
+      <RouteComponent {...componentProps} {...routerProps} />
     ),
     []
   );
@@ -25,11 +23,7 @@ function AppContent() {
     []
   );
 
-  return (
-    <Page>
-      <Switch>{routes.map(renderRoute)}</Switch>
-    </Page>
-  );
+  return <Switch>{routes.map(renderRoute)}</Switch>;
 }
 
 /* eslint-enable react/jsx-props-no-spreading */

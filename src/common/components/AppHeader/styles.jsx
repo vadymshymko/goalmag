@@ -1,10 +1,10 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const Wrapper = styled.header`
-  background-color: #fff;
-  border-bottom: 1px solid #f8f9fa;
+  background-color: #343a40;
   left: 0;
-  padding: 15px 0 14px;
+  padding: 15px 0;
   position: fixed;
   top: 0;
   width: 100%;
@@ -17,41 +17,27 @@ export const Inner = styled.div`
   width: 100%;
 `;
 
-export const Title = styled.div`
+export const Title = styled.h1`
   align-items: center;
   display: inline-flex;
+  margin-left: 40px;
+
+  @media (min-width: 960px) {
+    margin-left: 0;
+  }
 `;
 
-export const Caption = styled.h1`
+export const TitleLink = styled(Link)`
+  color: #28a745;
+  display: flex;
+
+  &:hover {
+    color: #28a745;
+  }
+`;
+
+export const Caption = styled.span`
   font-size: 20px;
   font-weight: 900;
   margin-left: 5px;
-`;
-
-export const NavToggleBtn = styled.button`
-  background: none;
-  border-bottom: 1px solid #343a40;
-  border-left: 0;
-  border-right: 0;
-  border-top: 1px solid #343a40;
-  box-shadow: none;
-  height: 20px;
-  margin-right: 30px;
-  padding: 5px;
-  position: relative;
-  width: 30px;
-
-  @media (min-width: 960px) {
-    display: none;
-  }
-
-  &::before {
-    background-color: #343a40;
-    content: '';
-    height: 1px;
-    left: 0;
-    position: absolute;
-    top: 9px;
-    width: 100%;
-  }
 `;

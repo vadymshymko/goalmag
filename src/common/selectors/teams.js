@@ -10,14 +10,4 @@ export const getTeam = createSelector(
   (teams, teamId) => teams[teamId] || {}
 );
 
-export const getTeamIsFetching = createSelector(
-  getTeam,
-  team => team.isFetching
-);
-
-export const getTeamIsInitialized = createSelector(
-  getTeam,
-  team => team.isInitialized
-);
-
-export const getTeamInfo = createSelector(getTeam, team => team.info || {});
+export default getTeam;

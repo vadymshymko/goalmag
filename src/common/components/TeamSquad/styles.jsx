@@ -1,9 +1,8 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
-import StatsTable from 'components/StatsTable';
+import StyledTable from 'components/Table';
 
-export const Table = styled(StatsTable)`
+const Table = styled(StyledTable)`
   &:not(:last-child) {
     margin-bottom: 45px;
   }
@@ -19,6 +18,7 @@ export const Table = styled(StatsTable)`
   th:nth-child(3),
   td:nth-child(3) {
     text-align: left;
+    min-width: 200px;
     width: 200px;
   }
 
@@ -26,34 +26,6 @@ export const Table = styled(StatsTable)`
   td:last-child {
     padding-right: 0;
   }
-
-  tbody tr {
-    :hover {
-      background-color: #f8f9fa;
-    }
-  }
 `;
 
-export const PlayerLink = styled(Link)`
-  color: #343a40;
-  display: block;
-  max-width: 100%;
-  position: relative;
-`;
-
-export const PlayerName = styled.span`
-  display: block;
-  overflow: hidden;
-  padding: 5px 0;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`;
-
-export const PlayerLinkOverlay = styled.span`
-  height: 60px;
-  left: -35px;
-  position: absolute;
-  right: -325px;
-  top: 50%;
-  transform: translateY(-50%);
-`;
+export default Table;

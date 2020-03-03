@@ -1,34 +1,39 @@
-import React, { memo, useState } from 'react';
+import React, { memo } from 'react';
 
 import LayoutContainer from 'components/LayoutContainer';
-import Logo from 'components/Logo';
-import AppNav from 'components/AppNav';
 
-import { Wrapper, Inner, Title, Caption, NavToggleBtn } from './styles';
+import { Wrapper, Inner, Title, TitleLink, Caption } from './styles';
 
 function AppHeader() {
-  const [showAppNav, toggleAppNav] = useState(false);
-
-  const handleToggleAppNav = () => {
-    toggleAppNav(!showAppNav);
-  };
-
   return (
     <Wrapper>
       <LayoutContainer>
         <Inner>
-          <NavToggleBtn
-            type="button"
-            onClick={handleToggleAppNav}
-            title="Toggle Navigation"
-          />
-
           <Title>
-            <Logo />
-            <Caption>Goalmag</Caption>
+            <TitleLink to="/" href="/" title="Goalmag">
+              <svg width="30" height="30" viewBox="0 0 30 30">
+                <circle cx="15" cy="15" r="15" fill="#28a745" />
+                <circle cx="15" cy="15" r="3" fill="#343a40" />
+                <circle
+                  cx="15"
+                  cy="15"
+                  r="8"
+                  fill="none"
+                  stroke="#343a40"
+                  strokeWidth="2"
+                />
+                <line
+                  x1="15"
+                  y1="0"
+                  x2="15"
+                  y2="30"
+                  stroke="#343a40"
+                  strokeWidth="2"
+                />
+              </svg>
+              <Caption>Goalmag</Caption>
+            </TitleLink>
           </Title>
-
-          <AppNav show={showAppNav} />
         </Inner>
       </LayoutContainer>
     </Wrapper>

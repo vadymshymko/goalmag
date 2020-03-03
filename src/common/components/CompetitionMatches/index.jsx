@@ -1,37 +1,40 @@
-import React from 'react';
-import { useLocation, useRouteMatch } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-
-import { getVisibleMatchesItems, getMatchesIsFetching } from 'selectors';
+import React, { memo } from 'react';
+import PropTypes from 'prop-types';
 
 import ContentSection from 'components/ContentSection';
 import ContentSectionTitle from 'components/ContentSectionTitle';
 import MatchesNotFound from 'components/MatchesNotFound';
 import MatchesList from 'components/MatchesList';
+import DateInput from 'components/DateInput';
 
-function CompetitionMatches() {
-  const location = useLocation();
-  const routerMatch = useRouteMatch();
-
-  const competitionMatchesItems = useSelector(state =>
-    getVisibleMatchesItems(state, { location, match: routerMatch })
-  );
-
-  const matchesIsFetching = useSelector(state =>
-    getMatchesIsFetching(state, { location, match: routerMatch })
-  );
-
+function CompetitionMatches({
+  matchesItems,
+  matchesIsFetching,
+  matchesDate,
+  onRequestMatchesDateChange,
+}) {
   return (
     <ContentSection>
-      <ContentSectionTitle>Matches: </ContentSectionTitle>
+      <ContentSectionTitle>
+        <span>Matches:</span>
 
-      {!matchesIsFetching && !competitionMatchesItems.length ? (
+        <DateInput value={matchesDate} onChange={onRequestMatchesDateChange} />
+      </ContentSectionTitle>
+
+      {!matchesIsFetching && !matchesItems.length ? (
         <MatchesNotFound />
       ) : (
-        <MatchesList matchesItems={competitionMatchesItems} />
+        <MatchesList matchesItems={matchesItems} />
       )}
     </ContentSection>
   );
 }
 
-export default CompetitionMatches;
+CompetitionMatches.propTypes = {
+  matchesItems: PropTypes.arrayOf(PropTypes.object).isRequired,
+  matchesIsFetching: PropTypes.bool.isRequired,
+  matchesDate: PropTypes.string.isRequired,
+  onRequestMatchesDateChange: PropTypes.func.isRequired,
+};
+
+export default memo(CompetitionMatches);

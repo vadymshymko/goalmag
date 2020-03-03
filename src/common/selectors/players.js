@@ -10,17 +10,4 @@ export const getPlayer = createSelector(
   (players, playerId) => players[playerId] || {}
 );
 
-export const getPlayerIsFetching = createSelector(
-  getPlayer,
-  player => player.isFetching
-);
-
-export const getPlayerIsInitialized = createSelector(
-  getPlayer,
-  player => player.isInitialized
-);
-
-export const getPlayerInfo = createSelector(
-  getPlayer,
-  player => player.info || {}
-);
+export default getPlayer;

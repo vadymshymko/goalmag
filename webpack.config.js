@@ -9,6 +9,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
+const { InjectManifest } = require('workbox-webpack-plugin');
 
 require('dotenv-safe').config();
 
@@ -117,7 +118,9 @@ const getCommonConfig = (target, mode) => {
 
 const getClientConfig = mode => {
   const isDev = mode === 'development';
+  const isProd = mode === 'production';
   const isWithHMR = isDev && envVars.raw.APP_HMR === 'true';
+  const isWithAnalyze = envVars.raw.APP_BUNDLE_ANALYZER_ENABLED === 'true';
 
   return webpackMerge(getCommonConfig('web', mode), {
     entry: [
@@ -163,11 +166,12 @@ const getClientConfig = mode => {
       new MiniCssExtractPlugin({
         filename: `main.${rawEnv.APP_VERSION}.css`,
       }),
-      new OptimizeCSSAssetsPlugin({}),
+      new InjectManifest({
+        swSrc: './src/client/serviceWorker.js',
+      }),
+      ...(isProd ? [new OptimizeCSSAssetsPlugin({})] : []),
       ...(isWithHMR ? [new webpack.HotModuleReplacementPlugin()] : []),
-      ...(envVars.raw.APP_BUNDLE_ANALYZER_ENABLED === 'true'
-        ? [new BundleAnalyzerPlugin()]
-        : []),
+      ...(isWithAnalyze ? [new BundleAnalyzerPlugin()] : []),
     ],
     devtool: isDev && 'source-maps',
   });
