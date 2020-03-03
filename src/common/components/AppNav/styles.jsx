@@ -35,14 +35,15 @@ export const Wrapper = styled.nav`
   background-color: #fff;
   bottom: 0;
   display: none;
-  left: 15px;
+  left: 0;
   line-height: 1;
   overflow: auto;
-  padding: 30px 0 30px 10px;
+  padding: 30px 15px;
   position: fixed;
   top: 60px;
   min-width: 280px;
   width: 280px;
+  z-index: 1;
 
   &.active {
     display: block;
@@ -52,8 +53,8 @@ export const Wrapper = styled.nav`
     border-right: 1px solid #f8f9fa;
     display: block;
     max-height: calc(100vh - 120px);
-    margin-left: -10px;
-    padding: 0 0 0 10px;
+    margin-left: -15px;
+    padding: 0 15px;
     position: static;
   }
 `;

@@ -12,5 +12,6 @@ export const Title = styled.span`
 `;
 
 export const ItemsList = styled.ul`
+  list-style: none;
   padding: 0;
 `;
