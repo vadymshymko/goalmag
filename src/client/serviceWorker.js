@@ -12,7 +12,9 @@ precacheAndRoute(self.__WB_MANIFEST);
 /* eslint-enable */
 
 registerRoute(
-  new RegExp(`${process.env.APP_API_ROOT}.*`),
+  new RegExp(
+    `${process.env.APP_API_ROOT}(competitions|teams|players|standings)`
+  ),
   new StaleWhileRevalidate({
     cacheName: 'APICache',
     plugins: [new BroadcastUpdatePlugin()],
