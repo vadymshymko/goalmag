@@ -4,9 +4,8 @@ import PropTypes from 'prop-types';
 
 import ContentSection from 'components/ContentSection';
 import ContentSectionTitle from 'components/ContentSectionTitle';
-import TableWrapper from 'components/TableWrapper';
 
-import Table from './styles';
+import { StyledTableWrapper, StyledTable } from './styles';
 
 const TABLE_HEADERS = ['#', 'Team', 'Pl', 'P', 'W', 'D', 'L', 'GF', 'GA', 'GD'];
 
@@ -20,8 +19,8 @@ function CompetitionStandings({ standings }) {
       <ContentSectionTitle>Standings:</ContentSectionTitle>
 
       {Object.keys(standings).map(tableGroup => (
-        <TableWrapper key={tableGroup}>
-          <Table>
+        <StyledTableWrapper key={tableGroup}>
+          <StyledTable>
             <thead>
               <tr>
                 {TABLE_HEADERS.map(head => (
@@ -58,8 +57,8 @@ function CompetitionStandings({ standings }) {
                 </tr>
               ))}
             </tbody>
-          </Table>
-        </TableWrapper>
+          </StyledTable>
+        </StyledTableWrapper>
       ))}
     </ContentSection>
   );

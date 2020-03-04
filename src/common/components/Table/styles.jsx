@@ -20,7 +20,7 @@ const Wrapper = styled.table`
   }
 
   td {
-    height: 60px;
+    height: 45px;
   }
 
   th,
