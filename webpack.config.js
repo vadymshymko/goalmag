@@ -11,8 +11,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 const { InjectManifest } = require('workbox-webpack-plugin');
 
-console.log({ port: process.env.PORT });
-
 require('dotenv-safe').config();
 
 const envVarNameRegExp = /^APP_/i;
@@ -30,7 +28,6 @@ const rawEnv = Object.keys(process.env).reduce(
   {
     NODE_ENV: process.env.NODE_ENV || 'production',
     APP_VERSION: Date.now(),
-    PORT: process.env.PORT,
   }
 );
 const stringifiedEnv = {

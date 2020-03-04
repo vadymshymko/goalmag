@@ -10,6 +10,8 @@ const isWithHMR = isDev && process.env.APP_HMR === 'true';
 const app = express();
 const appPort = process.env.PORT || process.env.APP_SERVER_LISTEN_PORT;
 
+console.warn({ appPort, port: process.env.PORT });
+
 app.set('views', `${process.env.APP_SERVER_BUILD_OUTPUT_PATH}/views`);
 app.set('view engine', 'pug');
 
