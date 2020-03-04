@@ -14,7 +14,7 @@
     "lint:stylelint:fix": "stylelint --ignore-path .gitignore '**/*.js' --fix",
     "lint:eslint": "eslint . --ignore-path .gitignore --ext .js,.jsx",
     "lint:eslint:fix": "eslint . --ignore-path .gitignore --ext .js,.jsx --fix",
-    "heroku-postbuild": "yarn build"
+    "postinstall": "yarn build"
   },
   "husky": {
     "hooks": {

@@ -42,8 +42,8 @@ app.use(
 
 app.get('*', getResponse);
 
-const server = app.listen(process.env.PORT || 8080, () => {
-  console.info(`app listening on port: ${process.env.PORT || 8080}`); // eslint-disable-line
+const server = app.listen(process.env.PORT || 3000, () => {
+  console.info(`app listening on port: ${process.env.PORT || 3000}`); // eslint-disable-line
 });
 
 const handleSIG = () => {
