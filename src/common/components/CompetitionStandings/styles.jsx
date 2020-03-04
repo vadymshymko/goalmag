@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import TableWrapper from 'components/TableWrapper';
 import Table from 'components/Table';
 
-export const styledTableWrapper = styled(TableWrapper)`
+export const StyledTableWrapper = styled(TableWrapper)`
   &:not(:last-child) {
     margin-bottom: 30px;
   }
