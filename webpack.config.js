@@ -11,11 +11,10 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 const { InjectManifest } = require('workbox-webpack-plugin');
 
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv-safe').config(); // eslint-disable-line
-}
+require('dotenv-safe').config();
 
 const envVarNameRegExp = /^APP_/i;
+
 const rawEnv = Object.keys(process.env).reduce(
   (result, varName) => {
     if (envVarNameRegExp.test(varName)) {
@@ -32,15 +31,14 @@ const rawEnv = Object.keys(process.env).reduce(
     APP_VERSION: Date.now(),
   }
 );
-const stringifiedEnv = {
-  'process.env': Object.keys(rawEnv).reduce(
-    (result, varName) => ({
-      ...result,
-      [varName]: JSON.stringify(rawEnv[varName]),
-    }),
-    {}
-  ),
-};
+
+const stringifiedEnv = Object.keys(rawEnv).reduce((result, varName) => {
+  return {
+    ...result,
+    [`process.env.${varName}`]: JSON.stringify(rawEnv[varName]),
+  };
+}, {});
+
 const envVars = {
   raw: rawEnv,
   stringified: stringifiedEnv,
@@ -51,8 +49,6 @@ console.log({
 });
 
 const getCommonConfig = (target, mode) => {
-  const isProd = mode === 'production';
-
   return {
     bail: true,
     name: target,
@@ -114,7 +110,7 @@ const getCommonConfig = (target, mode) => {
       ],
     },
     plugins: [
-      ...(!isProd ? [new webpack.DefinePlugin(envVars.stringified)] : []),
+      new webpack.DefinePlugin(envVars.stringified),
       new webpack.LoaderOptionsPlugin({ options: {} }),
       new SpriteLoaderPlugin({
         plainSprite: false,
