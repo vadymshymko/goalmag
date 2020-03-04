@@ -28,6 +28,7 @@ const rawEnv = Object.keys(process.env).reduce(
   {
     NODE_ENV: process.env.NODE_ENV || 'production',
     APP_VERSION: Date.now(),
+    PORT: process.env.PORT,
   }
 );
 const stringifiedEnv = {
