@@ -1,41 +1,41 @@
+import { skipWaiting, clientsClaim } from 'workbox-core';
+import { precacheAndRoute } from 'workbox-precaching';
+import { registerRoute } from 'workbox-routing';
+import { StaleWhileRevalidate } from 'workbox-strategies';
+import { BroadcastUpdatePlugin } from 'workbox-broadcast-update';
+
+skipWaiting();
+clientsClaim();
+
 /* eslint-disable */
-workbox.core.skipWaiting();
-workbox.core.clientsClaim();
+precacheAndRoute(self.__WB_MANIFEST);
+/* eslint-enable */
 
-/**
- * The workboxSW.precacheAndRoute() method efficiently caches and responds to
- * requests for URLs in the manifest.
- * See https://goo.gl/S9QRab
- */
-self.__precacheManifest = [].concat(self.__precacheManifest || []);
-workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
-
-
-workbox.routing.registerRoute(
-  new RegExp('^(http|https)://api.football-data.org/v2/.*'),
-  new workbox.strategies.StaleWhileRevalidate({
+registerRoute(
+  new RegExp(`${process.env.APP_API_ROOT}.*`),
+  new StaleWhileRevalidate({
     cacheName: 'APICache',
-    // plugins: [
-    //   new workbox.expiration.Plugin({
-    //     cacheName: 'APICache',
-    //     maxAgeSeconds: 60,
-    //   }),
-    // ],
+    plugins: [new BroadcastUpdatePlugin()],
   }),
   'GET'
 );
 
-// workbox.routing.registerRoute(
-//   new RegExp('^(http|https)://upload.wikimedia.org/.*'),
-//   new workbox.strategies.StaleWhileRevalidate({
-//     cacheName: 'imagesCache',
-//     plugins: [
-//       new workbox.expiration.Plugin({
-//         cacheName: 'APICache',
-//         maxAgeSeconds: 60 * 60 * 24 * 30,
-//       }),
-//     ],
-//   }),
-//   'GET'
-// );
-/* eslint-enable */
+registerRoute(
+  new RegExp('/*'),
+  new StaleWhileRevalidate({
+    cacheName: 'pagesCache',
+    plugins: [
+      new BroadcastUpdatePlugin({
+        headersToCheck: ['ETag'],
+      }),
+    ],
+  }),
+  'GET'
+);
+
+registerRoute(
+  /^https:\/\/fonts\.googleapis\.com/,
+  new StaleWhileRevalidate({
+    cacheName: 'google-fonts-stylesheets',
+  })
+);

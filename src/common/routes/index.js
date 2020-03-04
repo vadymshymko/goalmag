@@ -1,84 +1,104 @@
 import loadable from '@loadable/component';
 
 import {
-  fetchStandings,
-  fetchFixtures,
+  fetchCompetitions,
+  fetchMatches,
+  fetchMatch,
+  fetchMatchCommentaries,
+  fetchCompetitionStandings,
   fetchTeam,
-  // fetchCompetitions,
+  fetchPlayer,
 } from 'actions';
 
-const MatchCenterPage = loadable(() => import('containers/MatchCenterPageContainer'));
-const CompetitionPage = loadable(() => import('containers/CompetitionPageContainer'));
-const TeamPage = loadable(() => import('containers/TeamPageContainer'));
+const MatchCenterPage = loadable(() => import('components/MatchCenterPage'));
+const CompetitionPage = loadable(() => import('components/CompetitionPage'));
+const MatchPage = loadable(() => import('components/MatchPage'));
+const TeamPage = loadable(() => import('components/TeamPage'));
+const PlayerPage = loadable(() => import('components/PlayerPage'));
 const NotFoundPage = loadable(() => import('components/NotFoundPage'));
 
 const routes = [
   {
+    id: 'matchCenterPage',
     path: '/',
-    Component: MatchCenterPage,
-    strict: true,
     exact: true,
+    strict: true,
+    component: MatchCenterPage,
     props: {
-      fetchData: (dispatch, params = {}) => {
-        const {
-          date,
-        } = params;
-
+      initialAction: async (dispatch, params) => {
         return Promise.all([
-          dispatch(fetchFixtures({
-            date,
-          })),
-          // dispatch(fetchCompetitions()),
+          dispatch(fetchCompetitions(params)),
+          dispatch(fetchMatches(params)),
         ]);
       },
     },
   },
   {
-    path: '/competition/:id([0-9]{4})',
-    Component: CompetitionPage,
-    strict: true,
+    id: 'competitionPage',
+    path: '/competitions/:competitionId',
     exact: true,
+    strict: true,
+    component: CompetitionPage,
     props: {
-      fetchData: (dispatch, params = {}) => {
-        const {
-          id,
-          fixturesDate,
-        } = params;
-
+      initialAction: async (dispatch, params) => {
         return Promise.all([
-          dispatch(fetchStandings({
-            competitionId: id,
-          })),
-          dispatch(fetchFixtures({
-            competitionId: id,
-            date: fixturesDate,
-          })),
-          // dispatch(fetchCompetitions()),
+          dispatch(fetchCompetitions(params)),
+          dispatch(fetchMatches(params)),
+          dispatch(fetchCompetitionStandings(params)),
         ]);
       },
     },
   },
   {
-    path: '/team/:id(\\d+)',
-    Component: TeamPage,
-    strict: true,
+    id: 'matchPage',
+    path: '/matches/:matchId',
     exact: true,
+    strict: true,
+    component: MatchPage,
     props: {
-      fetchData: (dispatch, params = {}) => {
-        const {
-          id,
-        } = params;
-
+      initialAction: async (dispatch, params) => {
         return Promise.all([
-          dispatch(fetchTeam(id)),
-          // dispatch(fetchCompetitions()),
+          dispatch(fetchCompetitions(params)),
+          dispatch(fetchMatch(params)),
+          dispatch(fetchMatchCommentaries(params)),
         ]);
       },
     },
   },
   {
-    path: '*',
-    Component: NotFoundPage,
+    id: 'teamPage',
+    path: '/teams/:teamId',
+    exact: true,
+    strict: true,
+    component: TeamPage,
+    props: {
+      initialAction: async (dispatch, params) => {
+        return Promise.all([
+          dispatch(fetchCompetitions(params)),
+          dispatch(fetchTeam(params)),
+        ]);
+      },
+    },
+  },
+  {
+    id: 'playerPage',
+    path: '/players/:playerId',
+    exact: true,
+    strict: true,
+    component: PlayerPage,
+    props: {
+      initialAction: async (dispatch, params) => {
+        return Promise.all([
+          dispatch(fetchCompetitions(params)),
+          dispatch(fetchPlayer(params)),
+        ]);
+      },
+    },
+  },
+  {
+    id: 'notFoundPage',
+    component: NotFoundPage,
+    props: {},
   },
 ];
 

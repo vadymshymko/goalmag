@@ -1,48 +1,57 @@
 import { normalize } from 'normalizr';
-import { competitions as schema } from 'schemas';
-import { competitions as types } from 'types';
-import {
-  getIsCompetitionsInitialized,
-  getIsCompetitionsFetching,
-} from 'selectors';
+
 import { callApi } from 'utils';
 
-export const fetchCompetitions = () => (dispatch, getState) => {
-  const state = getState();
+import {
+  FETCH_COMPETITIONS_REQUEST,
+  FETCH_COMPETITIONS_SUCCESS,
+  FETCH_COMPETITIONS_FAILURE,
+} from 'actionsTypes';
 
-  const isFetching = getIsCompetitionsFetching(state);
-  const isInitialized = getIsCompetitionsInitialized(state);
+import { competitionsSchema } from 'schemas';
 
-  if (isInitialized || isFetching) {
-    return Promise.resolve();
-  }
+import {
+  getCompetitionsIsFetching,
+  getCompetitionsIsInitialized,
+} from 'selectors';
 
-  dispatch({
-    type: types.FETCH_COMPETITIONS_REQUEST,
-  });
+const shouldFetchCompetitions = state => {
+  return !(
+    getCompetitionsIsFetching(state) || getCompetitionsIsInitialized(state)
+  );
+};
 
-  return callApi('competitions?plan=TIER_ONE').then((json) => {
-    const filteredResponse = json.competitions.filter(({ id }) => (
-      id !== 2000 && id !== 2018 && id !== 2013
-    ));
+export const fetchCompetitions = () => async (dispatch, getState) => {
+  try {
+    const currentState = getState();
 
-    const {
-      entities: {
-        competitions: entities = {},
-      },
-      result: ids = [],
-    } = normalize(filteredResponse, schema);
+    if (!shouldFetchCompetitions(currentState)) {
+      return true;
+    }
+
+    dispatch({
+      type: FETCH_COMPETITIONS_REQUEST,
+      payload: {},
+    });
+
+    const response = await callApi('competitions');
+    const normalizedResponse = normalize(response, competitionsSchema);
 
     return dispatch({
-      type: types.FETCH_COMPETITIONS_SUCCESS,
+      type: FETCH_COMPETITIONS_SUCCESS,
       payload: {
-        entities,
-        ids,
+        entities: normalizedResponse.entities.competitions,
+        ids: normalizedResponse.result,
       },
     });
-  }).catch(() => dispatch({
-    type: types.FETCH_COMPETITIONS_FAILURE,
-  }));
+  } catch (error) {
+    console.error('fetchCompetitions error: ', error);
+
+    return dispatch({
+      type: FETCH_COMPETITIONS_FAILURE,
+      payload: {},
+    });
+  }
 };
 
 export default fetchCompetitions;

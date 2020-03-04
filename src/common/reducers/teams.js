@@ -1,67 +1,42 @@
-import { createReducer } from 'utils';
-import { teams as types } from 'types';
+import {
+  FETCH_TEAM_REQUEST,
+  FETCH_TEAM_SUCCESS,
+  FETCH_TEAM_FAILURE,
+} from 'actionsTypes';
 
-const teamsInitialState = {
-  entities: {},
-  ids: [],
-};
+import createReducer from './createReducer';
 
-const teamInitialState = {
-  isFetching: false,
-  isInitialized: false,
-  isRequestFailed: false,
-};
+const initialState = {};
 
-const team = createReducer(teamInitialState, {
-  [types.FETCH_TEAM_REQUEST]: (state, action) => ({
+const teams = createReducer(initialState, {
+  [FETCH_TEAM_REQUEST]: (state, action) => ({
     ...state,
-    id: action.payload.id,
-    isFetching: true,
-    isInitialized: false,
-    isRequestFailed: false,
-  }),
-
-  [types.FETCH_TEAM_SUCCESS]: (state, action) => ({
-    ...state,
-    ...action.payload,
-    isFetching: false,
-    isInitialized: true,
-  }),
-
-  [types.FETCH_TEAM_FAILURE]: state => ({
-    ...state,
-    isFetching: false,
-    isInitialized: true,
-    isRequestFailed: true,
-  }),
-});
-
-const teams = createReducer(teamsInitialState, {
-  [types.FETCH_TEAM_REQUEST]: (state, action) => ({
-    ...state,
-    entities: {
-      ...state.entities,
-      [action.payload.id]: team(state[action.payload.id], action),
-    },
-    ids: [
-      ...state.ids,
-      action.payload.id,
-    ],
-  }),
-
-  [types.FETCH_TEAM_SUCCESS]: (state, action) => ({
-    ...state,
-    entities: {
-      ...state.entities,
-      [action.payload.id]: team(state[action.payload.id], action),
+    [action.payload.id]: {
+      isInitialized: false,
+      ...(state[action.payload.id] || {}),
+      id: action.payload.id,
+      isFetching: true,
+      isRequestFailed: false,
     },
   }),
 
-  [types.FETCH_TEAM_FAILURE]: (state, action) => ({
+  [FETCH_TEAM_SUCCESS]: (state, action) => ({
     ...state,
-    entities: {
-      ...state.entities,
-      [action.payload.id]: team(state[action.payload.id], action),
+    [action.payload.id]: {
+      ...state[action.payload.id],
+      ...action.payload,
+      isFetching: false,
+      isInitialized: true,
+    },
+  }),
+
+  [FETCH_TEAM_FAILURE]: (state, action) => ({
+    ...state,
+    [action.payload.id]: {
+      ...state[action.payload.id],
+      isFetching: false,
+      isRequestFailed: true,
+      isInitialized: true,
     },
   }),
 });

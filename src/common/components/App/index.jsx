@@ -1,17 +1,16 @@
-import React from 'react';
-import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import React, { memo } from 'react';
 
 import AppHeader from 'components/AppHeader';
 import AppContent from 'components/AppContent';
 
-import styles from './App.scss';
+function App() {
+  return (
+    <>
+      <AppHeader />
 
-const App = () => (
-  <div>
-    <AppHeader />
+      <AppContent />
+    </>
+  );
+}
 
-    <AppContent />
-  </div>
-);
-
-export default withStyles(styles)(App);
+export default memo(App);

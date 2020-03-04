@@ -1,4 +1,4 @@
 export * from './competitions';
-export * from './fixtures';
-export * from './standings';
+export * from './matches';
 export * from './teams';
+export * from './players';

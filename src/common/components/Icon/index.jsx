@@ -1,23 +1,33 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 
-const Icon = ({ className, children, ...props }) => (
-  <svg
-    className={`Icon ${className}`}
-    {...props}
-  >
-    {children}
-  </svg>
-);
+import * as icons from 'assets/icons';
+
+const spriteFilename = `${process.env.APP_CLIENT_BUILD_PUBLIC_PATH}sprite.${process.env.APP_VERSION}.svg`;
+
+/* eslint-disable react/jsx-props-no-spreading */
+const Icon = memo(({ name, ...props }) => {
+  const icon = icons[name];
+
+  if (!icon) {
+    return null;
+  }
+
+  return (
+    <svg viewBox={icon.viewBox} {...props}>
+      <use xlinkHref={`${spriteFilename}#${icon.id}`} />
+    </svg>
+  );
+});
+
+/* eslint-enable react/jsx-props-no-spreading */
 
 Icon.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
+  name: PropTypes.string,
 };
 
 Icon.defaultProps = {
-  children: null,
-  className: '',
+  name: '',
 };
 
 export default Icon;

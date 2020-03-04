@@ -1,5 +1,10 @@
-import { createReducer } from 'utils';
-import { competitions as types } from 'types';
+import {
+  FETCH_COMPETITIONS_REQUEST,
+  FETCH_COMPETITIONS_SUCCESS,
+  FETCH_COMPETITIONS_FAILURE,
+} from 'actionsTypes';
+
+import createReducer from './createReducer';
 
 const initialState = {
   entities: {},
@@ -10,27 +15,21 @@ const initialState = {
 };
 
 const competitions = createReducer(initialState, {
-  [types.FETCH_COMPETITIONS_REQUEST]: state => ({
+  [FETCH_COMPETITIONS_REQUEST]: state => ({
     ...state,
     isFetching: true,
     isRequestFailed: false,
   }),
 
-  [types.FETCH_COMPETITIONS_SUCCESS]: (state, action) => ({
+  [FETCH_COMPETITIONS_SUCCESS]: (state, action) => ({
     ...state,
-    entities: {
-      ...state.entities,
-      ...action.payload.entities,
-    },
-    ids: [
-      ...state.ids,
-      ...action.payload.ids,
-    ],
+    entities: action.payload.entities,
+    ids: action.payload.ids,
     isFetching: false,
     isInitialized: true,
   }),
 
-  [types.FETCH_COMPETITIONS_FAILURE]: state => ({
+  [FETCH_COMPETITIONS_FAILURE]: state => ({
     ...state,
     isFetching: false,
     isRequestFailed: true,

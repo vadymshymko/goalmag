@@ -1,44 +1,36 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
-import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import PropTypes from 'prop-types';
 
-import FixturesList from 'components/FixturesList';
+import ContentSection from 'components/ContentSection';
+import ContentSectionTitle from 'components/ContentSectionTitle';
+import MatchesList from 'components/MatchesList';
 
-import styles from './MatchCenterCompetition.scss';
+function MatchCenterCompetition({ id, name, region, matchesItems }) {
+  return (
+    <ContentSection>
+      <ContentSectionTitle>
+        {`${region}.`}
+        &nbsp;
+        <Link
+          to={`/competitions/${id}`}
+          href={`/competitions/${id}`}
+          title={name}
+        >
+          {name}
+        </Link>
+      </ContentSectionTitle>
 
-const MatchCenterCompetition = ({
-  id,
-  name,
-  fixtures,
-}) => (
-  <article className={styles.MatchCenterCompetition}>
-    <h3 className={styles.MatchCenterCompetition__title}>
-      <Link
-        className={styles.MatchCenterCompetition__link}
-        href={`/competition/${id}`}
-        to={`/competition/${id}`}
-        title={name}
-      >
-        {name}
-      </Link>
-    </h3>
-
-    <FixturesList fixtures={fixtures} />
-  </article>
-);
+      <MatchesList matchesItems={matchesItems} />
+    </ContentSection>
+  );
+}
 
 MatchCenterCompetition.propTypes = {
-  id: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]).isRequired,
+  id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  fixtures: PropTypes.arrayOf(PropTypes.object),
+  region: PropTypes.string.isRequired,
+  matchesItems: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-MatchCenterCompetition.defaultProps = {
-  fixtures: [],
-};
-
-export default withStyles(styles)(MatchCenterCompetition);
+export default memo(MatchCenterCompetition);

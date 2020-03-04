@@ -1,28 +1,37 @@
 import React from 'react';
-import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import PropTypes from 'prop-types';
 
-import AppPage from 'components/AppPage';
-import AppPageHeader from 'components/AppPageHeader';
-import AppPageTitle from 'components/AppPageTitle';
-import AppPageContent from 'components/AppPageContent';
+import Page from 'components/Page';
+import PageHelmet from 'components/PageHelmet';
 
-import styles from './NotFoundPage.scss';
+import { Message, Code, Title, LinkToHomePage } from './styles';
 
-const NotFoundPage = () => (
-  <AppPage
-    title="Page Not Found"
-    className={styles.NotFoundPage}
-  >
-    <AppPageHeader>
-      <AppPageTitle>Page Not Found</AppPageTitle>
-    </AppPageHeader>
+function NotFoundPage({ staticContext }) {
+  if (staticContext) {
+    staticContext.status = 404; //eslint-disable-line
+  }
 
-    <AppPageContent>
-      <p className={styles.NotFoundPage__caption}>
-        Page you are looking for could not be found
-      </p>
-    </AppPageContent>
-  </AppPage>
-);
+  return (
+    <Page withNav={false}>
+      <PageHelmet title="Page Not Found" />
 
-export default withStyles(styles)(NotFoundPage);
+      <Message>
+        <Code>404</Code>
+        <Title>Oops! Page not found</Title>
+        <LinkToHomePage to="/" href="/" title="Go to homepage">
+          Go to homepage
+        </LinkToHomePage>
+      </Message>
+    </Page>
+  );
+}
+
+NotFoundPage.propTypes = {
+  staticContext: PropTypes.objectOf(PropTypes.any),
+};
+
+NotFoundPage.defaultProps = {
+  staticContext: null,
+};
+
+export default NotFoundPage;

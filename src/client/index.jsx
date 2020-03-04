@@ -1,66 +1,38 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { hydrate } from 'react-dom';
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
 import { loadableReady } from '@loadable/component';
 
-import StyleContext from 'context/StyleContext';
+import Root from 'components/Root';
+
 import configureStore from 'store';
+
 import registerServiceWorker from './registerServiceWorker';
 
-const isProd = process.env.NODE_ENV === 'production';
+import 'assets/styles/normalize.css';
+import 'assets/styles/main.css';
 
-const preloadedState = window.__PRELOADED_STATE__ || {}; //eslint-disable-line
-delete window.__PRELOADED_STATE__; //eslint-disable-line
+registerServiceWorker();
 
-const store = configureStore(preloadedState);
+const initialState = window.APP_INITIAL_STATE || {};
 
-const stylesContext = {
-  insertCss: (...styles) => (
-    styles.forEach(style => style._insertCss()) // eslint-disable-line no-underscore-dangle
-  ),
-};
+delete window.APP_INITIAL_STATE;
 
-const Root = ({ children }) => (
-  <Provider store={store}>
-    <BrowserRouter>
-      <StyleContext context={stylesContext}>
-        {children}
-      </StyleContext>
-    </BrowserRouter>
-  </Provider>
-);
+const store = configureStore(initialState);
 
-Root.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+const rootElement = document.getElementById('root');
 
-const render = () => {
-  const AppComponent = require('components/App').default; //eslint-disable-line
-
-  hydrate(
-    <Root>
-      <AppComponent />
-    </Root>,
-    document.getElementById('root'),
-  );
+const render = Component => {
+  hydrate(<Component store={store} env="client" />, rootElement);
 };
 
 loadableReady(() => {
   if (module.hot) {
-    module.hot.accept('components/App', () => {
-      render();
+    module.hot.accept('components/Root', () => {
+      const Component = require('components/Root').default; //eslint-disable-line
+
+      render(Component);
     });
   }
 
-  if (isProd) {
-    registerServiceWorker({
-      url: '/service-worker.js',
-      scope: '/',
-    });
-  }
-
-
-  render();
+  render(Root);
 });

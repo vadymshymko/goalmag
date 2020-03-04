@@ -1,54 +1,70 @@
-import { standings as types } from 'types';
-import {
-  getIsStandingsFetching,
-  getStandingsLastUpdated,
-} from 'selectors';
 import { callApi } from 'utils';
 
-export const fetchStandings = ({
-  competitionId,
-} = {}) => (dispatch, getState) => {
-  if (!competitionId) {
-    return Promise.reject(new Error('invalid competitionId'));
-  }
+import {
+  FETCH_COMPETITION_STANDINGS_REQUEST,
+  FETCH_COMPETITION_STANDINGS_SUCCESS,
+  FETCH_COMPETITION_STANDINGS_FAILURE,
+} from 'actionsTypes';
 
-  const state = getState();
+import { getCompetitionId, getCompetitionStandingsIsFetching } from 'selectors';
 
-  const isFetching = getIsStandingsFetching(state, competitionId);
-  const lastUpdated = getStandingsLastUpdated(state, competitionId);
-  const currentDateTime = Date.now();
-  const isNotNeedRequest = (
-    isFetching
-    || currentDateTime - lastUpdated <= 60000
-  );
+const normalizeStandingsTable = table => {
+  const tableGroups = [
+    ...new Set([...table.map(item => item.compGroup || item.stageId)]),
+  ];
 
-  if (isNotNeedRequest) {
-    return Promise.resolve();
-  }
-
-  const requestPath = `competitions/${competitionId}/standings`;
-
-  dispatch({
-    type: types.FETCH_STANDINGS_REQUEST,
-    payload: {
-      id: competitionId,
-    },
-  });
-
-  return callApi(requestPath).then(json => dispatch({
-    type: types.FETCH_STANDINGS_SUCCESS,
-    payload: {
-      id: competitionId,
-      items: json.standings,
-      lastUpdated: Date.now(),
-    },
-  })).catch(() => dispatch({
-    type: types.FETCH_STANDINGS_FAILURE,
-    payload: {
-      id: competitionId,
-      lastUpdated: Date.now(),
-    },
-  }));
+  return tableGroups.reduce((result, groupId) => {
+    return {
+      ...result,
+      [groupId]: table.filter(
+        item => item.compGroup === groupId || item.stageId === groupId
+      ),
+    };
+  }, {});
 };
 
-export default fetchStandings;
+const shouldFetchCompetitionStandings = (state, params) => {
+  return !getCompetitionStandingsIsFetching(state, params);
+};
+
+export const fetchCompetitionStandings = params => async (
+  dispatch,
+  getState
+) => {
+  const currentState = getState();
+  const competitionId = getCompetitionId(currentState, params);
+
+  try {
+    if (
+      !competitionId ||
+      !shouldFetchCompetitionStandings(currentState, params)
+    ) {
+      return true;
+    }
+
+    dispatch({
+      type: FETCH_COMPETITION_STANDINGS_REQUEST,
+      payload: { competitionId },
+    });
+
+    const response = await callApi(`standings/${competitionId}`);
+    const table = normalizeStandingsTable(response);
+
+    return dispatch({
+      type: FETCH_COMPETITION_STANDINGS_SUCCESS,
+      payload: {
+        competitionId,
+        table,
+      },
+    });
+  } catch (error) {
+    console.error('fetchCompetitionStandings error: ', error);
+
+    return dispatch({
+      type: FETCH_COMPETITION_STANDINGS_FAILURE,
+      payload: { competitionId },
+    });
+  }
+};
+
+export default fetchCompetitionStandings;
