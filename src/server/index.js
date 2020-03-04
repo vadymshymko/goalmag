@@ -8,6 +8,7 @@ const isDev = process.env.NODE_ENV === 'development';
 const isWithHMR = isDev && process.env.APP_HMR === 'true';
 
 const app = express();
+const appPort = process.env.PORT || process.env.APP_SERVER_LISTEN_PORT;
 
 app.set('views', `${process.env.APP_SERVER_BUILD_OUTPUT_PATH}/views`);
 app.set('view engine', 'pug');
@@ -42,8 +43,8 @@ app.use(
 
 app.get('*', getResponse);
 
-const server = app.listen(process.env.PORT || 3000, () => {
-  console.info(`app listening on port: ${process.env.PORT || 3000}`); // eslint-disable-line
+const server = app.listen(appPort, () => {
+  console.info(`app listening on port: ${appPort}`); // eslint-disable-line
 });
 
 const handleSIG = () => {
