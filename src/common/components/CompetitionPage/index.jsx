@@ -19,6 +19,8 @@ import {
 
 const ErrorPage = loadable(() => import('components/ErrorPage'));
 
+let updateTimeout = null;
+
 function CompetitionPage({
   initialAction,
   location,
@@ -62,8 +64,20 @@ function CompetitionPage({
     });
   };
 
+  const init = async () => {
+    clearTimeout(updateTimeout);
+
+    await initialAction(dispatch, { location, match });
+
+    updateTimeout = setTimeout(init, 60000);
+  };
+
   useEffect(() => {
-    initialAction(dispatch, { location, match });
+    init();
+
+    return () => {
+      clearTimeout(updateTimeout);
+    };
   }, [match.params.competitionId, matchesDateValue]);
 
   if (!competitionInfo.id) {
