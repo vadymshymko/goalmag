@@ -45,6 +45,10 @@ const envVars = {
   stringified: stringifiedEnv,
 };
 
+console.log({
+  envVars,
+});
+
 const getCommonConfig = (target, mode) => {
   return {
     bail: true,
