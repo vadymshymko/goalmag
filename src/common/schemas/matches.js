@@ -48,7 +48,7 @@ export const matchSchema = new schema.Entity(
         week: match.week,
         city: match.venueCity,
         stadium: match.venue,
-        events: match.events,
+        events: match.events === '[]' ? [] : match.events,
         dateUTC: match.formattedDate,
         startTime: matchStartTime,
         timer: match.timer ? `${match.timer}'` : '',

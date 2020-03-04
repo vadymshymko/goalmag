@@ -29,8 +29,8 @@ function MatchPage({ initialAction, location, match, staticContext }) {
     initialAction(dispatch, { location, match });
   }, []);
 
-  const title = `${matchInfo.localTeamName} - ${matchInfo.localTeamScore} : ${matchInfo.visitorTeamName} - ${matchInfo.visitorTeamScore}. ${matchInfo.dateUTC}`;
-  const description = `${matchInfo.localTeamName} - ${matchInfo.localTeamScore} : ${matchInfo.visitorTeamName} - ${matchInfo.visitorTeamScore}. ${matchInfo.dateUTC}. Events, statistics, squads.`;
+  const title = `${matchInfo.localTeamName} ${matchInfo.localTeamScore} : ${matchInfo.visitorTeamScore} ${matchInfo.visitorTeamName}. ${matchInfo.dateUTC}`;
+  const description = `${matchInfo.localTeamName} ${matchInfo.localTeamScore} : ${matchInfo.visitorTeamScore} ${matchInfo.visitorTeamName}. ${matchInfo.dateUTC}. Events, statistics, squads.`;
 
   if (matchInfo.isRequestFailed) {
     return <NotFoundPage staticContext={staticContext} />;
@@ -60,6 +60,10 @@ function MatchPage({ initialAction, location, match, staticContext }) {
       <MatchAdditionalInfo
         referee={matchCommentaries.referee}
         stadium={matchCommentaries.stadium}
+        lineup={matchCommentaries.lineup}
+        substitutions={matchCommentaries.subs}
+        statistics={matchCommentaries.matchStats}
+        events={matchInfo.events}
       />
     </Page>
   );

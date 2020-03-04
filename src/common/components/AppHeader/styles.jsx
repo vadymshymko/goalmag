@@ -8,7 +8,7 @@ export const Wrapper = styled.header`
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 1;
+  z-index: 2;
 `;
 
 export const Inner = styled.div`
@@ -31,7 +31,8 @@ export const TitleLink = styled(Link)`
   color: #28a745;
   display: flex;
 
-  &:hover {
+  &:hover,
+  &:active {
     color: #28a745;
   }
 `;

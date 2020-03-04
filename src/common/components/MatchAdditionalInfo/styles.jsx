@@ -4,7 +4,7 @@ import ContentSection from 'components/ContentSection';
 
 export const Wrapper = styled(ContentSection)`
   & .tabs {
-    padding: 15px 0;
+    padding: 30px 0;
   }
 
   & .tabsControls {
@@ -37,7 +37,7 @@ export const TabBtn = styled.button`
   border: 0;
   outline: none;
   padding: 5px;
-  width: 25%;
+  width: calc(100% / 3);
 
   &:hover,
   &.active {

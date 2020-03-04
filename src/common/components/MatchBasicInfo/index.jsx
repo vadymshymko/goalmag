@@ -2,9 +2,9 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 
 import ContentSection from 'components/ContentSection';
-import ContentSectionTitle from 'components/ContentSectionTitle';
 
 import {
+  Title,
   Date,
   MainInfo,
   Team,
@@ -40,7 +40,7 @@ function MatchBasicInfo({
 
   return (
     <ContentSection>
-      <ContentSectionTitle>
+      <Title>
         {`${competitionRegion}.`}
         &nbsp;
         <TeamLink
@@ -52,7 +52,7 @@ function MatchBasicInfo({
         </TeamLink>
         {competitionWeek && ` - week ${competitionWeek}`}
         <Date>{`${dateUTC} ${startTime}`}</Date>
-      </ContentSectionTitle>
+      </Title>
 
       <MainInfo>
         <Team>

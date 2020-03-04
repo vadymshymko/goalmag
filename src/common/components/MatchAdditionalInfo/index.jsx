@@ -1,11 +1,22 @@
-import React from 'react';
-// import Tabs from 'react-simply-tabs';
+import React, { useState } from 'react';
+import Tabs from 'react-simply-tabs';
 import PropTypes from 'prop-types';
 
-import { Wrapper, InfoItem, InfoName, InfoValue } from './styles';
+import MatchEvents from 'components/MatchEvents';
+import MatchLineup from 'components/MatchLineup';
+import MatchStatistics from 'components/MatchStatistics';
 
-function MatchAdditionalInfo({ referee, stadium }) {
-  // const [activeTabIndex, setActiveTabIndex] = useState(0);
+import { Wrapper, InfoItem, InfoName, InfoValue, TabBtn } from './styles';
+
+function MatchAdditionalInfo({
+  referee,
+  stadium,
+  lineup,
+  substitutions,
+  statistics,
+  events,
+}) {
+  const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   return (
     <Wrapper>
@@ -19,15 +30,12 @@ function MatchAdditionalInfo({ referee, stadium }) {
         <InfoValue>{stadium}</InfoValue>
       </InfoItem>
 
-      {/* <Tabs
+      <Tabs
         activeTabIndex={activeTabIndex}
         onRequestChange={setActiveTabIndex}
         controls={[
           <TabBtn type="button" title="Events">
             Events
-          </TabBtn>,
-          <TabBtn type="button" title="Comments">
-            Comments
           </TabBtn>,
           <TabBtn type="button" title="Lineups">
             Lineups
@@ -46,14 +54,18 @@ function MatchAdditionalInfo({ referee, stadium }) {
           className: 'tabs',
         }}
       >
-        <div>Events</div>
+        <div>
+          <MatchEvents events={events} />
+        </div>
 
-        <div>Comments</div>
+        <div>
+          <MatchLineup lineup={lineup} substitutions={substitutions} />
+        </div>
 
-        <div>Lineups</div>
-
-        <div>Statistics</div>
-      </Tabs> */}
+        <div>
+          <MatchStatistics statistics={statistics} />
+        </div>
+      </Tabs>
     </Wrapper>
   );
 }
@@ -61,11 +73,37 @@ function MatchAdditionalInfo({ referee, stadium }) {
 MatchAdditionalInfo.propTypes = {
   referee: PropTypes.string,
   stadium: PropTypes.string,
+  lineup: PropTypes.shape({
+    localteam: PropTypes.arrayOf(PropTypes.object),
+    visitorteam: PropTypes.arrayOf(PropTypes.object),
+  }),
+  substitutions: PropTypes.shape({
+    localteam: PropTypes.arrayOf(PropTypes.object),
+    visitorteam: PropTypes.arrayOf(PropTypes.object),
+  }),
+  statistics: PropTypes.shape({
+    localteam: PropTypes.objectOf(PropTypes.any),
+    visitorteam: PropTypes.objectOf(PropTypes.any),
+  }),
+  events: PropTypes.arrayOf(PropTypes.object),
 };
 
 MatchAdditionalInfo.defaultProps = {
   referee: '',
   stadium: '',
+  lineup: {
+    localteam: [],
+    visitorteam: [],
+  },
+  substitutions: {
+    localteam: [],
+    visitorteam: [],
+  },
+  statistics: {
+    localteam: {},
+    visitorteam: {},
+  },
+  events: [],
 };
 
 export default MatchAdditionalInfo;

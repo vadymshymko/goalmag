@@ -1,6 +1,14 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+import ContentSectionTitle from 'components/ContentSectionTitle';
+
+export const Title = styled(ContentSectionTitle)`
+  background: none;
+  border-bottom: 1px solid #f8f9fa;
+  padding: 0 0 5px;
+`;
+
 export const Date = styled.span`
   align-items: center;
   display: inline-flex;

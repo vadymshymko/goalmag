@@ -14,7 +14,7 @@ export const ToggleBtn = styled.button`
   position: fixed;
   top: 22px;
   width: 25px;
-  z-index: 1;
+  z-index: 2;
 
   @media (min-width: 960px) {
     display: none;

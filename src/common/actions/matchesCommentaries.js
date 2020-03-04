@@ -15,6 +15,11 @@ const normalizeMatchCommentaries = ({
   return {
     ...matchInfo,
     ...matchCommentaries,
+    matchStats: {
+      localteam: {},
+      visitorteam: {},
+      ...matchCommentaries.matchStats,
+    },
   };
 };
 
