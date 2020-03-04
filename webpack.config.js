@@ -51,6 +51,8 @@ console.log({
 });
 
 const getCommonConfig = (target, mode) => {
+  const isProd = mode === 'production';
+
   return {
     bail: true,
     name: target,
@@ -112,8 +114,8 @@ const getCommonConfig = (target, mode) => {
       ],
     },
     plugins: [
+      ...(isProd ? [new webpack.DefinePlugin(envVars.stringified)] : []),
       new webpack.LoaderOptionsPlugin({ options: {} }),
-      new webpack.DefinePlugin(envVars.stringified),
       new SpriteLoaderPlugin({
         plainSprite: false,
       }),
