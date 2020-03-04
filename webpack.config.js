@@ -14,6 +14,7 @@ const { InjectManifest } = require('workbox-webpack-plugin');
 require('dotenv-safe').config();
 
 const envVarNameRegExp = /^APP_/i;
+
 const rawEnv = Object.keys(process.env).reduce(
   (result, varName) => {
     if (envVarNameRegExp.test(varName)) {
@@ -28,18 +29,16 @@ const rawEnv = Object.keys(process.env).reduce(
   {
     NODE_ENV: process.env.NODE_ENV || 'production',
     APP_VERSION: Date.now(),
-    PORT: process.env.PORT,
   }
 );
-const stringifiedEnv = {
-  'process.env': Object.keys(rawEnv).reduce(
-    (result, varName) => ({
-      ...result,
-      [varName]: JSON.stringify(rawEnv[varName]),
-    }),
-    {}
-  ),
-};
+
+const stringifiedEnv = Object.keys(rawEnv).reduce((result, varName) => {
+  return {
+    ...result,
+    [`process.env.${varName}`]: JSON.stringify(rawEnv[varName]),
+  };
+}, {});
+
 const envVars = {
   raw: rawEnv,
   stringified: stringifiedEnv,
@@ -111,8 +110,8 @@ const getCommonConfig = (target, mode) => {
       ],
     },
     plugins: [
-      new webpack.LoaderOptionsPlugin({ options: {} }),
       new webpack.DefinePlugin(envVars.stringified),
+      new webpack.LoaderOptionsPlugin({ options: {} }),
       new SpriteLoaderPlugin({
         plainSprite: false,
       }),
