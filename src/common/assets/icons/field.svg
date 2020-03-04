@@ -1,0 +1,48 @@
+
+<svg
+   version="1.0"
+   width="700"
+   height="1060">
+  <defs
+     id="defs4" />
+  <g
+     id="layer1">
+    <g
+       id="g1884">
+      <rect
+         width="700"
+         height="1060"
+         x="0"
+         y="0"
+         style="fill:#28a745;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect1872" />
+      <g
+         transform="translate(0,-19.99999)"
+         id="g13618">
+        <path
+           d="M 349.99579,850.08459 C 318.82875,850.08459 291.26602,865.51019 274.49579,889.14709 L 425.52704,889.14709 C 408.75686,865.50977 381.16316,850.08457 349.99579,850.08459 z "
+           style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:white;stroke-width:5.07433605;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path10768" />
+        <path
+           d="M 426.67924 845.37323 A 5.635386 5.2328587 0 1 1  415.40847,845.37323 A 5.635386 5.2328587 0 1 1  426.67924 845.37323 z"
+           transform="matrix(0.887251,0,0,0.955501,-23.57158,134.8921)"
+           style="fill:white;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path10770" />
+        <path
+           d="M 426.67924 845.37323 A 5.635386 5.2328587 0 1 1  415.40847,845.37323 A 5.635386 5.2328587 0 1 1  426.67924 845.37323 z"
+           transform="matrix(1.064701,0,0,1.146601,-98.28581,-419.3058)"
+           style="fill:white;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path11672" />
+        <path
+           d="M 426.67924 845.37323 A 5.635386 5.2328587 0 1 1  415.40847,845.37323 A 5.635386 5.2328587 0 1 1  426.67924 845.37323 z"
+           transform="matrix(0.887251,0,0,0.955501,-23.57158,-650.1079)"
+           style="fill:white;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path11674" />
+        <path
+           d="M 30.569095,1035.9792 C 37.529477,1035.8017 43.318982,1041.4474 43.492098,1048.5811 C 43.494833,1048.6938 43.495992,1048.7892 43.495997,1048.902 M 150.468,889.12604 L 549.532,889.12604 L 549.532,1049.99 L 150.468,1049.99 L 150.468,889.12604 z M 259.94522,998.09045 L 440.05478,998.09045 L 440.05478,1050 L 259.94522,1050 L 259.94522,998.09045 z M 442.53661,550.00003 C 442.53661,601.08024 401.08021,642.53665 350,642.53665 C 298.9198,642.53665 257.46341,601.08024 257.46341,550.00003 C 257.46341,498.91983 298.9198,457.46341 350,457.46341 C 401.08021,457.46341 442.53661,498.91983 442.53661,550.00003 z M 30.35101,549.99998 C 669.64899,549.99998 669.64899,549.99998 669.64899,549.99998 M 259.94522,50.010437 L 440.05478,50.010437 L 440.05478,101.92 L 259.94522,101.92 L 259.94522,50.010437 z M 30.000002,49.999981 L 670,49.999981 L 670,1050 L 30.000002,1050 L 30.000002,49.999981 z M 150.468,50.007151 L 549.532,50.007151 L 549.532,210.87113 L 150.468,210.87113 L 150.468,50.007151 z M 274.24579,210.9325 C 290.99027,234.77543 318.66859,250.36999 349.99579,250.37 C 381.32461,250.37 409.03282,234.77752 425.77704,210.9325 L 274.24579,210.9325 z M 668.56428,63.790838 C 661.6039,63.968265 655.8144,58.3226 655.64128,51.188904 C 655.63855,51.076166 655.63739,50.980795 655.63738,50.868019 M 44.297238,50.990215 C 44.474665,57.950597 38.829,63.740102 31.695304,63.913218 C 31.582566,63.915953 31.487195,63.917112 31.374419,63.917117 M 655.29596,1048.4995 C 655.11853,1041.5391 660.7642,1035.7496 667.8979,1035.5765 C 668.01063,1035.5737 668.10601,1035.5726 668.21878,1035.5726"
+           style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:white;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1"
+           id="path13489" />
+      </g>
+    </g>
+  </g>
+</svg>

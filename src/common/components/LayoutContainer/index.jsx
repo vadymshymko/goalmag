@@ -1,23 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
-import styles from './LayoutContainer.scss';
+import Wrapper from './styles';
 
-const LayoutContainer = ({ children, className, ...props }) => (
-  <div className={`${styles.LayoutContainer} ${className}`} {...props}>
-    {children}
-  </div>
-);
+function LayoutContainer({ children }) {
+  return <Wrapper>{children}</Wrapper>;
+}
 
 LayoutContainer.propTypes = {
   children: PropTypes.node,
-  className: PropTypes.string,
 };
 
 LayoutContainer.defaultProps = {
   children: null,
-  className: '',
 };
 
-export default withStyles(styles)(LayoutContainer);
+export default LayoutContainer;

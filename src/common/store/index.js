@@ -5,11 +5,9 @@ import rootReducer from 'reducers';
 
 const devToolsExtName = '__REDUX_DEVTOOLS_EXTENSION__';
 
-const { NODE_ENV } = process.env;
-
 const composeEnhancers = () => {
   if (
-    NODE_ENV === 'production' ||
+    process.env.NODE_ENV === 'production' ||
     typeof window === 'undefined' ||
     !window ||
     !window[devToolsExtName]
@@ -17,10 +15,7 @@ const composeEnhancers = () => {
     return compose(applyMiddleware(thunkMiddleware));
   }
 
-  return compose(
-    applyMiddleware(thunkMiddleware),
-    window[devToolsExtName](),
-  );
+  return compose(applyMiddleware(thunkMiddleware), window[devToolsExtName]());
 };
 
 const configureStore = (preloadedState = {}) => {

@@ -1,53 +1,43 @@
-import { createReducer } from 'utils';
-import { standings as types } from 'types';
+import {
+  FETCH_COMPETITION_STANDINGS_REQUEST,
+  FETCH_COMPETITION_STANDINGS_SUCCESS,
+  FETCH_COMPETITION_STANDINGS_FAILURE,
+} from 'actionsTypes';
 
-const standingsInitialState = {};
-const standingsItemInitialState = {
-  lastUpdated: 0,
-  isFetching: false,
-  isRequestFailed: false,
-  isInitialized: false,
-  items: [],
-};
+import createReducer from './createReducer';
 
-const standingsItem = createReducer(standingsItemInitialState, {
-  [types.FETCH_STANDINGS_REQUEST]: (state, action) => ({
+const initialState = {};
+
+const standings = createReducer(initialState, {
+  [FETCH_COMPETITION_STANDINGS_REQUEST]: (state, action) => ({
     ...state,
-    ...action.payload,
-    isFetching: true,
-    isRequestFailed: false,
+    [action.payload.competitionId]: {
+      isInitialized: false,
+      ...(state[action.payload.competitionId] || {}),
+      competitionId: action.payload.competitionId,
+      isFetching: true,
+      isRequestFailed: false,
+    },
   }),
 
-  [types.FETCH_STANDINGS_SUCCESS]: (state, action) => ({
+  [FETCH_COMPETITION_STANDINGS_SUCCESS]: (state, action) => ({
     ...state,
-    ...action.payload,
-    isFetching: false,
-    isInitialized: true,
+    [action.payload.competitionId]: {
+      ...state[action.payload.competitionId],
+      ...action.payload,
+      isFetching: false,
+      isInitialized: true,
+    },
   }),
 
-  [types.FETCH_STANDINGS_FAILURE]: (state, action) => ({
+  [FETCH_COMPETITION_STANDINGS_FAILURE]: (state, action) => ({
     ...state,
-    ...action.payload,
-    isFetching: false,
-    isRequestFailed: true,
-    isInitialized: true,
-  }),
-});
-
-const standings = createReducer(standingsInitialState, {
-  [types.FETCH_STANDINGS_REQUEST]: (state, action) => ({
-    ...state,
-    [action.payload.id]: standingsItem(state[action.payload.id], action),
-  }),
-
-  [types.FETCH_STANDINGS_SUCCESS]: (state, action) => ({
-    ...state,
-    [action.payload.id]: standingsItem(state[action.payload.id], action),
-  }),
-
-  [types.FETCH_STANDINGS_FAILURE]: (state, action) => ({
-    ...state,
-    [action.payload.id]: standingsItem(state[action.payload.id], action),
+    [action.payload.competitionId]: {
+      ...state[action.payload.competitionId],
+      isFetching: false,
+      isRequestFailed: true,
+      isInitialized: true,
+    },
   }),
 });
 

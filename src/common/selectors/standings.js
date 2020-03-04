@@ -1,38 +1,21 @@
 import { createSelector } from 'reselect';
 
-export const getStandings = state => state.standings;
+import { getCompetitionId } from './router';
 
-export const getStandingsById = createSelector(
+const getStandings = state => state.standings;
+
+export const getCompetitionStandings = createSelector(
   getStandings,
-  (state, id) => id,
-  (standings, id) => standings[id] || {},
+  getCompetitionId,
+  (standings, competitionId) => standings[competitionId] || {}
 );
 
-export const getStandingsTable = createSelector(
-  getStandingsById,
-  (state, id, type = 'total') => type,
-  (standings, type) => (
-    (standings.items || []).filter(({ type: tableType }) => type.toUpperCase() === tableType) || []
-  ),
+export const getCompetitionStandingsIsFetching = createSelector(
+  getCompetitionStandings,
+  standings => standings.isFetching
 );
 
-export const getIsStandingsFetching = createSelector(
-  getStandingsById,
-  standings => (
-    !!standings.isFetching
-  ),
-);
-
-export const getIsStandingsInitialized = createSelector(
-  getStandingsById,
-  standings => (
-    !!standings.isInitialized
-  ),
-);
-
-export const getStandingsLastUpdated = createSelector(
-  getStandingsById,
-  standings => (
-    standings.lastUpdated || 0
-  ),
+export const getCompetitionStandingsTable = createSelector(
+  getCompetitionStandings,
+  standings => standings.table || {}
 );

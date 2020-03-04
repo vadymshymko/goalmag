@@ -1,41 +1,59 @@
 import { normalize } from 'normalizr';
-import { teams as types } from 'types';
+
 import { callApi } from 'utils';
-import { team as schema } from 'schemas';
-import { getTeamById } from 'selectors';
 
-export const fetchTeam = id => (dispatch, getState) => {
-  if (!id) {
-    return Promise.reject(new Error('Invalid team id'));
-  }
+import {
+  FETCH_TEAM_REQUEST,
+  FETCH_TEAM_SUCCESS,
+  FETCH_TEAM_FAILURE,
+} from 'actionsTypes';
 
-  const state = getState();
-  const team = getTeamById(state, id);
+import { teamSchema } from 'schemas';
 
-  if (team.isFetching || team.isInitialized) {
-    return Promise.resolve();
-  }
+import { getTeam, getTeamId } from 'selectors';
 
-  dispatch({
-    type: types.FETCH_TEAM_REQUEST,
-    payload: {
-      id,
-    },
-  });
+const shouldFetchTeam = (state, params) => {
+  const teamState = getTeam(state, params);
 
-  return callApi(`teams/${id}`).then((json) => {
-    const { entities: { teams = [] } = {}, result: teamId = id } = normalize(json, schema);
+  return !teamState.isFetching && !teamState.isInitialized;
+};
+
+export const fetchTeam = params => async (dispatch, getState) => {
+  const currentState = getState();
+  const teamId = getTeamId(currentState, params);
+
+  try {
+    if (!teamId || !shouldFetchTeam(currentState, params)) {
+      return true;
+    }
+
+    dispatch({
+      type: FETCH_TEAM_REQUEST,
+      payload: {
+        id: teamId,
+      },
+    });
+
+    const response = await callApi(`teams/${teamId}`);
+    const normalizedResponse = normalize(response[0], teamSchema);
 
     return dispatch({
-      type: types.FETCH_TEAM_SUCCESS,
-      payload: teams[teamId],
+      type: FETCH_TEAM_SUCCESS,
+      payload: {
+        id: teamId,
+        ...normalizedResponse.entities.teams[teamId],
+      },
     });
-  }).catch(() => dispatch({
-    type: types.FETCH_TEAM_FAILURE,
-    payload: {
-      id,
-    },
-  }));
+  } catch (error) {
+    console.log('fetchTeam error', error);
+
+    return dispatch({
+      type: FETCH_TEAM_FAILURE,
+      payload: {
+        id: teamId,
+      },
+    });
+  }
 };
 
 export default fetchTeam;

@@ -1,104 +1,163 @@
 import path from 'path';
-
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { Provider } from 'react-redux';
-import { matchPath, StaticRouter } from 'react-router-dom';
+import { matchPath } from 'react-router-dom';
 import { ChunkExtractor } from '@loadable/server';
-import serialize from 'serialize-javascript';
+import { ServerStyleSheet } from 'styled-components';
 import { Helmet } from 'react-helmet';
-import { camelizeKeys } from 'humps';
-import StyleContext from 'context/StyleContext';
+import serialize from 'serialize-javascript';
 
+import Root from 'components/Root';
 import configureStore from 'store';
-import { fetchCompetitions } from 'actions';
 import routes from 'routes';
-import App from 'components/App';
 
-import cacheService from './cacheService';
+const chunkStatsFile = path.resolve(
+  `${process.env.APP_CLIENT_BUILD_OUTPUT_PATH}/loadable-stats.json`
+);
 
-const isProd = process.env.NODE_ENV === 'production';
-const chunkStatsFile = path.resolve('dist/assets/loadable-stats.json');
+const responseCacheControl =
+  process.env.NODE_ENV === 'production'
+    ? `max-age=${process.env.APP_SERVER_RESPONSE_CACHE_MAX_AGE}`
+    : 'no-cache';
 
-const getPromises = (store, req) => (
-  [store.dispatch(fetchCompetitions()), ...routes.map((route) => {
-    const match = matchPath(req.path, {
-      ...route,
-      path: route.path,
-    });
+const redirect = ({ status, url, res }) => res.redirect(status || 301, url);
 
-    if (match && route.props && route.props.fetchData) {
-      return route.props.fetchData(store.dispatch, {
-        ...camelizeKeys(req.query || {}),
-        ...(match.params || {}),
-      });
+const getActiveRoute = req => {
+  return routes.reduce((result, route) => {
+    if (result) {
+      return result;
     }
 
-    return Promise.resolve(null);
-  })]
-);
+    if (!route.path) {
+      return route;
+    }
+
+    const match = matchPath(req.path, route);
+
+    if (match) {
+      return {
+        ...route,
+        match,
+      };
+    }
+
+    return result;
+  }, null);
+};
+
+const getActiveRouteInitialAction = async ({ activeRoute, req, store }) => {
+  if (!(!!activeRoute.match && activeRoute.props.initialAction)) {
+    return null;
+  }
+
+  const [locationPathname, locationSearch] = req.originalUrl.split('?');
+
+  const location = {
+    pathname: locationPathname,
+    search: locationSearch ? `?${locationSearch}` : '',
+  };
+
+  return activeRoute.props.initialAction(store.dispatch, {
+    match: activeRoute.match,
+    location,
+    isServer: true,
+  });
+};
 
 const getAppHTML = ({
   store,
   chunkExtractor,
-  stylesContext,
-  routerURL,
+  styleSheetExtractor,
   routerContext,
-}) =>
-  renderToString(chunkExtractor.collectChunks((
-    <Provider store={store}>
-      <StaticRouter
-        location={routerURL}
-        context={routerContext}
-      >
-        <StyleContext context={stylesContext}>
-          <App />
-        </StyleContext>
-      </StaticRouter>
-    </Provider>
-  )));
+  locationURL,
+}) => {
+  return renderToString(
+    chunkExtractor.collectChunks(
+      styleSheetExtractor.collectStyles(
+        <Root
+          routerContext={routerContext}
+          locationURL={locationURL}
+          store={store}
+          env="server"
+        />
+      )
+    )
+  );
+};
 
 const getResponse = async (req, res) => {
   try {
+    const [locationPathname, locationSearch] = req.originalUrl.split('?');
+    const isEndsWithSlash =
+      locationPathname.length > 1 && locationPathname.endsWith('/');
+    const isNotHTTPS =
+      req.header('x-forwarded-proto') &&
+      req.header('x-forwarded-proto') !== 'https';
+
+    if (isNotHTTPS) {
+      return res.redirect(301, `https://${req.header('host')}${req.url}`);
+    }
+
+    if (isEndsWithSlash) {
+      return redirect({
+        res,
+        url: `${locationPathname.slice(0, -1)}${
+          locationSearch ? `?${locationSearch}` : ''
+        }`,
+        status: 301,
+      });
+    }
+
     const store = configureStore();
     const chunkExtractor = new ChunkExtractor({ statsFile: chunkStatsFile });
+    const styleSheetExtractor = new ServerStyleSheet();
     const routerContext = {};
-    const css = new Set();
-    const stylesContext = {
-        insertCss: (...styles) => styles.forEach(style => css.add(style._getCss())),//eslint-disable-line
-    };
 
-    await Promise.all(getPromises(store, req));
+    const activeRoute = getActiveRoute(req);
+
+    await getActiveRouteInitialAction({
+      activeRoute,
+      req,
+      store,
+    });
 
     const appHTML = getAppHTML({
       store,
       chunkExtractor,
-      routerURL: req.url,
+      styleSheetExtractor,
       routerContext,
-      stylesContext,
+      locationURL: req.url,
     });
 
-    const helmet = Helmet.renderStatic();
-    const responseState = {
-      title: helmet.title.toString(),
-      meta: helmet.meta.toString(),
-      link: helmet.link.toString(),
-      styleTags: [...css].join(''),
-      prefetchLinks: chunkExtractor.getLinkTags(),
-      appHTML,
-      state: serialize(store.getState()),
-      scriptTags: chunkExtractor.getScriptTags(),
-      status: routerContext.status || 200,
-    };
-
-    if (isProd) {
-      cacheService.set(`page${req.path}`, responseState);
+    if (routerContext.status === 301 && routerContext.url) {
+      redirect({
+        res,
+        url: routerContext.url,
+        status: 301,
+      });
     }
 
-    return res.status(responseState.status).render('index', responseState);
+    const helmet = Helmet.renderStatic();
+
+    return res
+      .set('Cache-Control', responseCacheControl)
+      .status(routerContext.status || 200)
+      .render('index', {
+        title: helmet.title.toString(),
+        metaTags: helmet.meta.toString(),
+        linkTags: helmet.link.toString(),
+        mainCSSFilePath: `${process.env.APP_CLIENT_BUILD_PUBLIC_PATH}main.${process.env.APP_VERSION}.css`,
+        styleTags: styleSheetExtractor.getStyleTags(),
+        prefetchLinks: chunkExtractor.getLinkTags(),
+        scriptTags: chunkExtractor.getScriptTags(),
+        initialState: serialize(store.getState()),
+        appHTML,
+      });
   } catch (error) {
-    console.log(error);
-    return res.set('Cache-Control', 'no-cache').status(500).send('Internal Server Error');
+    console.error('server error: ', error);
+
+    res.set('Cache-Control', 'no-cache');
+    return res.status(500).send('Internal Server Error');
   }
 };
 

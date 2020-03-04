@@ -1,48 +1,36 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
-import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
-import styles from './AppNavSection.scss';
+import AppNavItem from 'components/AppNavItem';
 
-const AppNavSection = ({
-  name,
-  competitions,
-}) => (
-  <div className={styles.AppNavSection}>
-    {name && (
-      <span className={styles.AppNavSection__title}>
-        {name}:
-      </span>
-    )}
+import { Wrapper, Title, ItemsList } from './styles';
 
-    {competitions.length > 0 && (
-      <div className={styles.AppNavSection__content}>
-        {competitions.map(competition => (
-          <NavLink
-            className={styles.AppNavSection__link}
-            activeClassName={styles['AppNavSection__link--active']}
-            to={competition.url}
-            exact
-            title={competition.name}
-            key={competition.url}
-          >
-            {competition.name}
-          </NavLink>
+function AppNavSection({ name, items }) {
+  return (
+    <Wrapper>
+      {!!name && <Title>{name}</Title>}
+
+      <ItemsList>
+        {items.map(item => (
+          <AppNavItem href={item.href} name={item.name} key={item.href} />
         ))}
-      </div>
-    )}
-  </div>
-);
+      </ItemsList>
+    </Wrapper>
+  );
+}
 
 AppNavSection.propTypes = {
-  name: PropTypes.node,
-  competitions: PropTypes.arrayOf(PropTypes.object),
+  name: PropTypes.string,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      href: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 };
 
 AppNavSection.defaultProps = {
   name: null,
-  competitions: [],
 };
 
-export default withStyles(styles)(AppNavSection);
+export default memo(AppNavSection);
