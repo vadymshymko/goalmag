@@ -6,6 +6,7 @@ import getResponse from './getResponse';
 const isProd = process.env.NODE_ENV === 'production';
 const isDev = process.env.NODE_ENV === 'development';
 const isWithHMR = isDev && process.env.APP_HMR === 'true';
+const port = process.env.APP_SERVER_LISTEN_PORT || process.env.PORT || 8080;
 
 const app = express();
 
@@ -42,8 +43,8 @@ app.use(
 
 app.get('*', getResponse);
 
-const server = app.listen(process.env.APP_SERVER_LISTEN_PORT, () => {
-  console.info(`app listening on port: ${process.env.APP_SERVER_LISTEN_PORT}`); // eslint-disable-line
+const server = app.listen(port, () => {
+  console.info(`app listening on port: ${port}`); // eslint-disable-line
 });
 
 const handleSIG = () => {
