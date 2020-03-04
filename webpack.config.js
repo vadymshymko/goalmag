@@ -114,7 +114,7 @@ const getCommonConfig = (target, mode) => {
       ],
     },
     plugins: [
-      ...(isProd ? [new webpack.DefinePlugin(envVars.stringified)] : []),
+      ...(!isProd ? [new webpack.DefinePlugin(envVars.stringified)] : []),
       new webpack.LoaderOptionsPlugin({ options: {} }),
       new SpriteLoaderPlugin({
         plainSprite: false,
