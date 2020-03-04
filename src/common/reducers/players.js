@@ -15,6 +15,7 @@ const players = createReducer(initialState, {
       isInitialized: false,
       ...(state[action.payload.id] || {}),
       id: action.payload.id,
+      errorCode: null,
       isFetching: true,
       isRequestFailed: false,
     },
@@ -34,6 +35,7 @@ const players = createReducer(initialState, {
     ...state,
     [action.payload.id]: {
       ...state[action.payload.id],
+      errorCode: action.payload.errorCode,
       isFetching: false,
       isRequestFailed: true,
       isInitialized: true,

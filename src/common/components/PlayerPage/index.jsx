@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import loadable from '@loadable/component';
 import PropTypes from 'prop-types';
 
-import NotFoundPage from 'components/NotFoundPage';
 import Page from 'components/Page';
 import PageHelmet from 'components/PageHelmet';
 import PageTitle from 'components/PageTitle';
@@ -11,6 +11,8 @@ import PlayerStatistics from 'components/PlayerStatistics';
 
 import { getPlayer } from 'selectors';
 
+const ErrorPage = loadable(() => import('components/ErrorPage'));
+
 function PlayerPage({ initialAction, location, match, staticContext }) {
   const dispatch = useDispatch();
 
@@ -18,16 +20,25 @@ function PlayerPage({ initialAction, location, match, staticContext }) {
     getPlayer(state, { location, match })
   );
 
-  const pageTitle = `${playerInfo.firstname || ''} ${playerInfo.lastname ||
-    ''}`.trim();
-
   useEffect(() => {
     initialAction(dispatch, { location, match });
   }, [match.params.playerId]);
 
   if (!playerInfo.isFetching && playerInfo.isRequestFailed) {
-    return <NotFoundPage staticContext={staticContext} />;
+    return (
+      <ErrorPage
+        staticContext={staticContext}
+        errorCode={playerInfo.errorCode}
+      />
+    );
   }
+
+  if (playerInfo.isFetching) {
+    return null;
+  }
+
+  const pageTitle = `${playerInfo.firstname || ''} ${playerInfo.lastname ||
+    ''}`.trim();
 
   return (
     <Page>

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import loadable from '@loadable/component';
 import PropTypes from 'prop-types';
 
-import NotFoundPage from 'components/NotFoundPage';
 import Page from 'components/Page';
 import PageHelmet from 'components/PageHelmet';
 import PageTitle from 'components/PageTitle';
@@ -10,6 +10,8 @@ import TeamSquad from 'components/TeamSquad';
 import TeamBasicInfo from 'components/TeamBasicInfo';
 
 import { getTeam } from 'selectors';
+
+const ErrorPage = loadable(() => import('components/ErrorPage'));
 
 function TeamPage({ initialAction, location, match, staticContext }) {
   const dispatch = useDispatch();
@@ -23,7 +25,13 @@ function TeamPage({ initialAction, location, match, staticContext }) {
   }, [match.params.teamId]);
 
   if (!teamInfo.isFetching && teamInfo.isRequestFailed) {
-    return <NotFoundPage staticContext={staticContext} />;
+    return (
+      <ErrorPage staticContext={staticContext} errorCode={teamInfo.errorCode} />
+    );
+  }
+
+  if (teamInfo.isFetching) {
+    return null;
   }
 
   return (

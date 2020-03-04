@@ -14,6 +14,7 @@ const teams = createReducer(initialState, {
     [action.payload.id]: {
       isInitialized: false,
       ...(state[action.payload.id] || {}),
+      errorCode: null,
       id: action.payload.id,
       isFetching: true,
       isRequestFailed: false,
@@ -34,6 +35,7 @@ const teams = createReducer(initialState, {
     ...state,
     [action.payload.id]: {
       ...state[action.payload.id],
+      errorCode: action.payload.errorCode,
       isFetching: false,
       isRequestFailed: true,
       isInitialized: true,

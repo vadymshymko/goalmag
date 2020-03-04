@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import loadable from '@loadable/component';
 import PropTypes from 'prop-types';
 
-import NotFoundPage from 'components/NotFoundPage';
 import Page from 'components/Page';
 import PageHelmet from 'components/PageHelmet';
 import MatchBasicInfo from 'components/MatchBasicInfo';
@@ -13,6 +13,8 @@ import {
   getCompetitionByMatch,
   getMatchCommentaries,
 } from 'selectors';
+
+const ErrorPage = loadable(() => import('components/ErrorPage'));
 
 function MatchPage({ initialAction, location, match, staticContext }) {
   const dispatch = useDispatch();
@@ -29,12 +31,21 @@ function MatchPage({ initialAction, location, match, staticContext }) {
     initialAction(dispatch, { location, match });
   }, []);
 
+  if (!matchInfo.isFetching && matchInfo.isRequestFailed) {
+    return (
+      <ErrorPage
+        staticContext={staticContext}
+        errorCode={matchInfo.errorCode}
+      />
+    );
+  }
+
+  if (matchInfo.isFetching) {
+    return null;
+  }
+
   const title = `${matchInfo.localTeamName} ${matchInfo.localTeamScore} : ${matchInfo.visitorTeamScore} ${matchInfo.visitorTeamName}. ${matchInfo.dateUTC}`;
   const description = `${matchInfo.localTeamName} ${matchInfo.localTeamScore} : ${matchInfo.visitorTeamScore} ${matchInfo.visitorTeamName}. ${matchInfo.dateUTC}. Events, statistics, squads.`;
-
-  if (matchInfo.isRequestFailed) {
-    return <NotFoundPage staticContext={staticContext} />;
-  }
 
   return (
     <Page>

@@ -45,12 +45,13 @@ export const fetchPlayer = params => async (dispatch, getState) => {
       },
     });
   } catch (error) {
-    console.log('fetchPlayer error', error);
+    console.error('fetchPlayer error');
 
     return dispatch({
       type: FETCH_PLAYER_FAILURE,
       payload: {
         id: playerId,
+        errorCode: error.response.status,
       },
     });
   }

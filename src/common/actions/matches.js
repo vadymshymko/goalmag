@@ -95,12 +95,13 @@ export const fetchMatch = params => async (dispatch, getState) => {
       payload: normalizedResponse.entities.matches[matchId],
     });
   } catch (error) {
-    console.log('fetchMatch error', error);
+    console.error('fetchMatch error');
 
     return dispatch({
       type: FETCH_MATCH_FAILURE,
       payload: {
         id: matchId,
+        errorCode: error.response.status,
       },
     });
   }
