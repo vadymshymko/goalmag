@@ -33,6 +33,7 @@ export const ToggleBtn = styled.button`
 
 export const Wrapper = styled.nav`
   background-color: #fff;
+  border-right: 1px solid #f8f9fa;
   bottom: 0;
   display: none;
   left: 0;
@@ -50,7 +51,6 @@ export const Wrapper = styled.nav`
   }
 
   @media (min-width: 960px) {
-    border-right: 1px solid #f8f9fa;
     display: block;
     max-height: calc(100vh - 120px);
     margin-left: -15px;

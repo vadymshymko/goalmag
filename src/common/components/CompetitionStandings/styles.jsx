@@ -1,8 +1,15 @@
 import styled from 'styled-components';
 
-import StyledTable from 'components/Table';
+import TableWrapper from 'components/TableWrapper';
+import Table from 'components/Table';
 
-const Table = styled(StyledTable)`
+export const styledTableWrapper = styled(TableWrapper)`
+  &:not(:last-child) {
+    margin-bottom: 30px;
+  }
+`;
+
+export const StyledTable = styled(Table)`
   th:first-child,
   td:first-child {
     padding-right: 0;
@@ -23,5 +30,3 @@ const Table = styled(StyledTable)`
     padding-right: 0;
   }
 `;
-
-export default Table;
