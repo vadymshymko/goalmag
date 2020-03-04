@@ -90,13 +90,13 @@ const getResponse = async (req, res) => {
     const [locationPathname, locationSearch] = req.originalUrl.split('?');
     const isEndsWithSlash =
       locationPathname.length > 1 && locationPathname.endsWith('/');
-    const isNotHTTPS =
-      req.header('x-forwarded-proto') &&
-      req.header('x-forwarded-proto') !== 'https';
+    // const isNotHTTPS =
+    //   req.header('x-forwarded-proto') &&
+    //   req.header('x-forwarded-proto') !== 'https';
 
-    if (isNotHTTPS) {
-      return res.redirect(301, `https://${req.header('host')}${req.url}`);
-    }
+    // if (isNotHTTPS) {
+    //   return res.redirect(301, `https://${req.header('host')}${req.url}`);
+    // }
 
     if (isEndsWithSlash) {
       return redirect({
