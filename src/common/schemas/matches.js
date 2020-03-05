@@ -8,7 +8,7 @@ export const matchSchema = new schema.Entity(
       const [day, month, year] = match.formattedDate.split('.');
       const [hours, minutes] = match.time.split(':');
 
-      const matchDateUTC = new Date(
+      const matchDate = new Date(
         Date.UTC(
           parseInt(year, 10),
           parseInt(month, 10) - 1,
@@ -18,14 +18,16 @@ export const matchSchema = new schema.Entity(
         )
       );
 
-      const matchDateHours = matchDateUTC.getHours();
-      const matchDateMinutes = matchDateUTC.getMinutes();
+      const matchDateHours = matchDate.getHours();
+      const matchDateMinutes = matchDate.getMinutes();
 
       const matchStartTime = minutes
         ? `${matchDateHours < 10 ? '0' : ''}${matchDateHours}:${
             matchDateMinutes < 10 ? '0' : ''
           }${matchDateMinutes}`
         : match.time;
+
+      const timestamp = minutes ? matchDate.getTime() : 0;
 
       return {
         id: match.id,
@@ -56,6 +58,7 @@ export const matchSchema = new schema.Entity(
           match.status === match.time || match.status === match.timer
             ? ''
             : match.status,
+        timestamp,
       };
     },
   }

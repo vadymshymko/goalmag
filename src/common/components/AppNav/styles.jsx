@@ -14,7 +14,7 @@ export const ToggleBtn = styled.button`
   position: fixed;
   top: 22px;
   width: 25px;
-  z-index: 2;
+  z-index: 3;
 
   @media (min-width: 960px) {
     display: none;
@@ -44,7 +44,7 @@ export const Wrapper = styled.nav`
   top: 60px;
   min-width: 280px;
   width: 280px;
-  z-index: 1;
+  z-index: 2;
 
   &.active {
     display: block;
@@ -62,4 +62,27 @@ export const Wrapper = styled.nav`
 export const List = styled.ul`
   list-style: none;
   padding: 0;
+`;
+
+export const Bg = styled.div`
+  background-color: rgba(0, 0, 0, 0.25);
+  bottom: 0;
+  display: none;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 1;
+
+  &.active {
+    display: block;
+  }
+
+  @media (min-width: 960px) {
+    display: none;
+
+    &.active {
+      display: none;
+    }
+  }
 `;

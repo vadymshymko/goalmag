@@ -15,8 +15,6 @@ import {
   getDate,
 } from 'selectors';
 
-let updateTimeout = null;
-
 function MatchCenterPage({ initialAction, location, match, history }) {
   const dispatch = useDispatch();
 
@@ -53,20 +51,8 @@ function MatchCenterPage({ initialAction, location, match, history }) {
     });
   };
 
-  const init = async () => {
-    clearTimeout(updateTimeout);
-
-    await initialAction(dispatch, { location, match });
-
-    updateTimeout = setTimeout(init, 60000);
-  };
-
   useEffect(() => {
-    init();
-
-    return () => {
-      clearTimeout(updateTimeout);
-    };
+    initialAction(dispatch, { location, match });
   }, [formattedMatchesDateValue]);
 
   return (

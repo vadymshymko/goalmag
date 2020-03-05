@@ -16,8 +16,6 @@ import {
 
 const ErrorPage = loadable(() => import('components/ErrorPage'));
 
-let updateTimeout = null;
-
 function MatchPage({ initialAction, location, match, staticContext }) {
   const dispatch = useDispatch();
 
@@ -29,20 +27,8 @@ function MatchPage({ initialAction, location, match, staticContext }) {
     getMatchCommentaries(state, { location, match })
   );
 
-  const init = async () => {
-    clearTimeout(updateTimeout);
-
-    await initialAction(dispatch, { location, match });
-
-    updateTimeout = setTimeout(init, 60000);
-  };
-
   useEffect(() => {
-    init();
-
-    return () => {
-      clearTimeout(updateTimeout);
-    };
+    initialAction(dispatch, { location, match });
   }, []);
 
   if (!matchInfo.isFetching && matchInfo.isRequestFailed) {
