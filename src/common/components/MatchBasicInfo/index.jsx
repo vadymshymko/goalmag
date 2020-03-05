@@ -12,6 +12,8 @@ import {
   TeamScore,
   Delimiter,
   Time,
+  PenaltiesScore,
+  PenaltiesScoreCaption,
 } from './styles';
 
 const STATUS_COLORS = {
@@ -28,9 +30,11 @@ function MatchBasicInfo({
   localTeamName,
   localTeamId,
   localTeamScore,
+  localTeamPenaltyScore,
   visitorTeamName,
   visitorTeamId,
   visitorTeamScore,
+  visitorTeamPenaltyScore,
   status,
   timer,
   dateUTC,
@@ -97,6 +101,15 @@ function MatchBasicInfo({
           </TeamLink>
         </Team>
 
+        {!!(localTeamPenaltyScore || visitorTeamPenaltyScore) && (
+          <PenaltiesScore>
+            <span>{localTeamPenaltyScore}</span>
+            <span>:</span>
+            <span>{visitorTeamPenaltyScore}</span>
+            <PenaltiesScoreCaption>Penalties</PenaltiesScoreCaption>
+          </PenaltiesScore>
+        )}
+
         <Time style={{ color: statusColor }}>{timer || status}</Time>
       </MainInfo>
     </ContentSection>
@@ -111,9 +124,11 @@ MatchBasicInfo.propTypes = {
   localTeamId: PropTypes.string.isRequired,
   localTeamName: PropTypes.string.isRequired,
   localTeamScore: PropTypes.string.isRequired,
+  localTeamPenaltyScore: PropTypes.string.isRequired,
   visitorTeamId: PropTypes.string.isRequired,
   visitorTeamName: PropTypes.string.isRequired,
   visitorTeamScore: PropTypes.string.isRequired,
+  visitorTeamPenaltyScore: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
   timer: PropTypes.string.isRequired,
   startTime: PropTypes.string.isRequired,

@@ -59,9 +59,11 @@ function MatchPage({ initialAction, location, match, staticContext }) {
         localTeamName={matchInfo.localTeamName}
         localTeamId={matchInfo.localTeamId}
         localTeamScore={matchInfo.localTeamScore}
+        localTeamPenaltyScore={matchInfo.localTeamPenaltyScore}
         visitorTeamName={matchInfo.visitorTeamName}
         visitorTeamId={matchInfo.visitorTeamId}
         visitorTeamScore={matchInfo.visitorTeamScore}
+        visitorTeamPenaltyScore={matchInfo.visitorTeamPenaltyScore}
         status={matchInfo.status}
         timer={matchInfo.timer}
         startTime={matchInfo.startTime}

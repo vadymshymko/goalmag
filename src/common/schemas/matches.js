@@ -38,14 +38,14 @@ export const matchSchema = new schema.Entity(
           !match.localteamScore || match.localteamScore === '?'
             ? '-'
             : match.localteamScore,
-        localTeamPenaltyScore: match.penaltyLocal,
+        localTeamPenaltyScore: match.penaltyLocal || '',
         visitorTeamId: match.visitorteamId,
         visitorTeamName: match.visitorteamName,
         visitorTeamScore:
           !match.visitorteamScore || match.visitorteamScore === '?'
             ? '-'
             : match.visitorteamScore,
-        visitorTeamPenaltyScore: match.penaltyVisitor,
+        visitorTeamPenaltyScore: match.penaltyVisitor || '',
         season: match.season,
         week: match.week,
         city: match.venueCity,
