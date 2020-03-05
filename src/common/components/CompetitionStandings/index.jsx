@@ -5,9 +5,54 @@ import PropTypes from 'prop-types';
 import ContentSection from 'components/ContentSection';
 import ContentSectionTitle from 'components/ContentSectionTitle';
 
-import { StyledTableWrapper, StyledTable } from './styles';
+import { StyledTableWrapper, StyledTable, Status } from './styles';
 
-const TABLE_HEADERS = ['#', 'Team', 'Pl', 'P', 'W', 'D', 'L', 'GF', 'GA', 'GD'];
+const TABLE_HEADERS = [
+  {
+    title: '#',
+    content: '#',
+  },
+  {
+    title: 'status',
+    content: '',
+  },
+  {
+    title: 'Team',
+    content: 'Team',
+  },
+  {
+    title: 'Pl',
+    content: 'Pl',
+  },
+  {
+    title: 'P',
+    content: 'P',
+  },
+  {
+    title: 'W',
+    content: 'W',
+  },
+  {
+    title: 'D',
+    content: 'D',
+  },
+  {
+    title: 'L',
+    content: 'L',
+  },
+  {
+    title: 'GF',
+    content: 'GF',
+  },
+  {
+    title: 'GA',
+    content: 'GA',
+  },
+  {
+    title: 'GD',
+    content: 'GD',
+  },
+];
 
 function CompetitionStandings({ standings }) {
   if (!Object.keys(standings).length) {
@@ -24,7 +69,7 @@ function CompetitionStandings({ standings }) {
             <thead>
               <tr>
                 {TABLE_HEADERS.map(head => (
-                  <th key={head}>{head}</th>
+                  <th key={head.title}>{head.content}</th>
                 ))}
               </tr>
             </thead>
@@ -33,6 +78,10 @@ function CompetitionStandings({ standings }) {
               {standings[tableGroup].map(item => (
                 <tr key={item.teamId}>
                   <td>{item.position}</td>
+
+                  <td>
+                    <Status className={item.status} />
+                  </td>
 
                   <td>
                     <Link

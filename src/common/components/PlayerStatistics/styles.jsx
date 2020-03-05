@@ -7,6 +7,7 @@ const Table = styled(StyledTable)`
   td:first-child {
     text-align: left;
     min-width: 90px;
+    max-width: 90px;
     width: 90px;
   }
 
@@ -20,6 +21,7 @@ const Table = styled(StyledTable)`
   td:nth-child(2),
   td:nth-child(3) {
     min-width: 200px;
+    max-width: 200px;
     width: 200px;
   }
 `;

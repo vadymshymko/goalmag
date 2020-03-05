@@ -1,14 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import Wrapper from './styles';
 
-function TableWrapper({ children }) {
-  return <Wrapper>{children}</Wrapper>;
+function TableWrapper(props) {
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  return <Wrapper {...props} />;
 }
-
-TableWrapper.propTypes = {
-  children: PropTypes.node.isRequired,
-};
 
 export default TableWrapper;

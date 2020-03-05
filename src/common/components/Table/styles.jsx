@@ -28,6 +28,8 @@ const Wrapper = styled.table`
     padding: 0 5px;
     text-align: center;
     white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 
   a {

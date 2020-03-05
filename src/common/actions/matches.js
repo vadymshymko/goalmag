@@ -68,7 +68,10 @@ export const fetchMatches = params => async (dispatch, getState) => {
 const shouldFetchMatch = (currentState, params) => {
   const matchState = getMatch(currentState, params);
 
-  return !matchState.isFetching && matchState.status !== 'FT';
+  return (
+    !matchState.isFetching &&
+    !(matchState.isInitialized && matchState.status === 'FT')
+  );
 };
 
 export const fetchMatch = params => async (dispatch, getState) => {
