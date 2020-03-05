@@ -29,6 +29,6 @@ registerRoute(
 registerRoute(
   /^https:\/\/fonts\.googleapis\.com/,
   new StaleWhileRevalidate({
-    cacheName: 'google-fonts-stylesheets',
+    cacheName: 'google-fonts',
   })
 );
