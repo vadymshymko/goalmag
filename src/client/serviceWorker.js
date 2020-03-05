@@ -1,7 +1,7 @@
 import { skipWaiting, clientsClaim } from 'workbox-core';
 import { precacheAndRoute } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
-import { StaleWhileRevalidate } from 'workbox-strategies';
+import { StaleWhileRevalidate, NetworkFirst } from 'workbox-strategies';
 import { BroadcastUpdatePlugin } from 'workbox-broadcast-update';
 
 skipWaiting();
@@ -12,10 +12,8 @@ precacheAndRoute(self.__WB_MANIFEST);
 /* eslint-enable */
 
 registerRoute(
-  new RegExp(
-    `${process.env.APP_API_ROOT}(competitions|teams|players|standings)`
-  ),
-  new StaleWhileRevalidate({
+  new RegExp(`${process.env.APP_API_ROOT}`),
+  new NetworkFirst({
     cacheName: 'APICache',
     plugins: [new BroadcastUpdatePlugin()],
   }),
@@ -24,7 +22,7 @@ registerRoute(
 
 registerRoute(
   new RegExp('/*'),
-  new StaleWhileRevalidate({
+  new NetworkFirst({
     cacheName: 'pagesCache',
     plugins: [
       new BroadcastUpdatePlugin({
