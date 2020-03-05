@@ -1,5 +1,3 @@
-import deepmerge from 'deepmerge';
-
 import {
   FETCH_MATCHES_REQUEST,
   FETCH_MATCHES_SUCCESS,
@@ -59,7 +57,7 @@ const matches = createReducer(matchesInitialState, {
 
   [FETCH_MATCHES_SUCCESS]: (state, action) => ({
     ...state,
-    entities: deepmerge(state.entities, action.payload.entities),
+    entities: { ...state.entities, ...action.payload.entities },
     ids: [...new Set([...state.ids, ...action.payload.ids])],
     isFetching: false,
     isInitialized: true,

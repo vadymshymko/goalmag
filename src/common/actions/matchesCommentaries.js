@@ -27,7 +27,10 @@ const shouldFetchMatchCommentaries = (currentState, params) => {
   const matchState = getMatch(currentState, params);
   const matchCommentariesState = getMatchCommentaries(currentState, params);
 
-  return !matchCommentariesState.isFetching && matchState.status !== 'FT';
+  return (
+    !matchCommentariesState.isFetching &&
+    !(matchState.isInitialized && matchState.status === 'FT')
+  );
 };
 
 export const fetchMatchCommentaries = params => async (dispatch, getState) => {
