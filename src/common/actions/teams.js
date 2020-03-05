@@ -45,12 +45,13 @@ export const fetchTeam = params => async (dispatch, getState) => {
       },
     });
   } catch (error) {
-    console.log('fetchTeam error', error);
+    console.error('fetchTeam error');
 
     return dispatch({
       type: FETCH_TEAM_FAILURE,
       payload: {
         id: teamId,
+        errorCode: error.response.status,
       },
     });
   }

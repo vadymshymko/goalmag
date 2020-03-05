@@ -12,6 +12,7 @@ import {
 import createReducer from './createReducer';
 
 const matchInitialState = {
+  errorCode: null,
   isFetching: false,
   isRequestFailed: false,
   isInitialized: false,
@@ -28,6 +29,7 @@ const matchesInitialState = {
 const match = createReducer(matchInitialState, {
   [FETCH_MATCH_REQUEST]: state => ({
     ...state,
+    errorCode: null,
     isFetching: true,
     isRequestFailed: false,
   }),
@@ -39,8 +41,9 @@ const match = createReducer(matchInitialState, {
     isInitialized: true,
   }),
 
-  [FETCH_MATCH_FAILURE]: state => ({
+  [FETCH_MATCH_FAILURE]: (state, action) => ({
     ...state,
+    errorCode: action.payload.errorCode,
     isFetching: false,
     isRequestFailed: true,
     isInitialized: true,

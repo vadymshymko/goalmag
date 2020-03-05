@@ -56,7 +56,7 @@ export const fetchMatchCommentaries = params => async (dispatch, getState) => {
       },
     });
   } catch (error) {
-    console.log('fetchMatchCommentaires error', error);
+    console.error('fetchMatchCommentaires error');
 
     return dispatch({
       type: FETCH_MATCH_COMMENTARIES_FAILURE,

@@ -1,20 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 
 import { getRegionsWithCompetitions } from 'selectors';
 
 import AppNavSection from 'components/AppNavSection';
 
-import { ToggleBtn, Wrapper, List } from './styles';
+import { ToggleBtn, Wrapper, List, Bg } from './styles';
 
 function AppNav() {
   const regionsWithCompetitions = useSelector(getRegionsWithCompetitions);
 
   const [show, toggle] = useState(false);
 
-  const handleToggle = () => {
+  const handleToggle = useCallback(() => {
     toggle(!show);
-  };
+  }, []);
+
+  const handleCloseNav = useCallback(() => {
+    toggle(false);
+  }, []);
 
   return (
     <>
@@ -39,6 +43,8 @@ function AppNav() {
           })}
         </List>
       </Wrapper>
+
+      <Bg className={`${show ? 'active' : ''}`} onClick={handleCloseNav} />
     </>
   );
 }

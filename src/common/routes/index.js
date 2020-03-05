@@ -15,7 +15,7 @@ const CompetitionPage = loadable(() => import('components/CompetitionPage'));
 const MatchPage = loadable(() => import('components/MatchPage'));
 const TeamPage = loadable(() => import('components/TeamPage'));
 const PlayerPage = loadable(() => import('components/PlayerPage'));
-const NotFoundPage = loadable(() => import('components/NotFoundPage'));
+const ErrorPage = loadable(() => import('components/ErrorPage'));
 
 const routes = [
   {
@@ -96,9 +96,11 @@ const routes = [
     },
   },
   {
-    id: 'notFoundPage',
-    component: NotFoundPage,
-    props: {},
+    id: 'errorPage',
+    component: ErrorPage,
+    props: {
+      errorCode: 404,
+    },
   },
 ];
 

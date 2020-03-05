@@ -67,3 +67,18 @@ export const Time = styled.span`
   padding-top: 15px;
   width: 100%;
 `;
+
+export const PenaltiesScore = styled.span`
+  font-size: 15px;
+  color: #6c757d;
+  display: inline-flex;
+  padding-top: 10px;
+  flex-flow: row wrap;
+  justify-content: center;
+`;
+
+export const PenaltiesScoreCaption = styled.span`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;

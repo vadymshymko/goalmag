@@ -35,11 +35,15 @@ function MatchEvents({ events }) {
             ) : (
               <EventDescription
                 title={`${event.player} ${
-                  event.assist ? `(asist - ${event.assist})` : ''
+                  event.type === 'goal' && event.assist
+                    ? `(asist - ${event.assist})`
+                    : ''
                 }`}
               >
                 {`${event.player} ${
-                  event.assist ? `(asist - ${event.assist})` : ''
+                  event.type === 'goal' && event.assist
+                    ? `(asist - ${event.assist})`
+                    : ''
                 }`}
               </EventDescription>
             )}

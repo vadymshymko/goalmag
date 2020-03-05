@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import loadable from '@loadable/component';
 import PropTypes from 'prop-types';
 
 import Page from 'components/Page';
@@ -8,8 +9,6 @@ import PageTitle from 'components/PageTitle';
 import CompetitionMatches from 'components/CompetitionMatches';
 import CompetitionStandings from 'components/CompetitionStandings';
 
-import NotFoundPage from 'components/NotFoundPage';
-
 import {
   getCompetition,
   getCompetitionStandingsTable,
@@ -17,6 +16,8 @@ import {
   getMatchesIsFetching,
   getDate,
 } from 'selectors';
+
+const ErrorPage = loadable(() => import('components/ErrorPage'));
 
 function CompetitionPage({
   initialAction,
@@ -66,7 +67,7 @@ function CompetitionPage({
   }, [match.params.competitionId, matchesDateValue]);
 
   if (!competitionInfo.id) {
-    return <NotFoundPage staticContext={staticContext} />;
+    return <ErrorPage staticContext={staticContext} errorCode={404} />;
   }
 
   return (
