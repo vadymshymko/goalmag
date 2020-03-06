@@ -1,1 +1,1 @@
-# GoalMag
+# goal.now.sh

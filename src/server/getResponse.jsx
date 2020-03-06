@@ -87,16 +87,21 @@ const getAppHTML = ({
 
 const getResponse = async (req, res) => {
   try {
+    const isHeroku = req.header('host').includes('heroku');
+
     const [locationPathname, locationSearch] = req.originalUrl.split('?');
     const isEndsWithSlash =
       locationPathname.length > 1 && locationPathname.endsWith('/');
-    // const isNotHTTPS =
-    //   req.header('x-forwarded-proto') &&
-    //   req.header('x-forwarded-proto') !== 'https';
+    const validURL = `${
+      isEndsWithSlash ? locationPathname.slice(0, -1) : locationPathname
+    }${locationSearch ? `?${locationSearch}` : ''}`;
 
-    // if (isNotHTTPS) {
-    //   return res.redirect(301, `https://${req.header('host')}${req.url}`);
-    // }
+    if (isHeroku) {
+      return redirect({
+        res,
+        url: `https://goal.now.sh${validURL}`,
+      });
+    }
 
     if (isEndsWithSlash) {
       return redirect({
