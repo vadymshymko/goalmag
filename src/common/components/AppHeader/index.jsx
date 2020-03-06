@@ -10,7 +10,7 @@ function AppHeader() {
       <LayoutContainer>
         <Inner>
           <Title>
-            <TitleLink to="/" href="/" title="GoalNow">
+            <TitleLink to="/" href="/" title="GoalMag">
               <svg width="30" height="30" viewBox="0 0 30 30">
                 <circle cx="15" cy="15" r="15" fill="#28a745" />
                 <circle cx="15" cy="15" r="3" fill="#343a40" />
@@ -31,7 +31,7 @@ function AppHeader() {
                   strokeWidth="2"
                 />
               </svg>
-              <Caption>GoalNow</Caption>
+              <Caption>GoalMag</Caption>
             </TitleLink>
           </Title>
         </Inner>

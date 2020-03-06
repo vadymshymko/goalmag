@@ -13,8 +13,20 @@
       "APP_SERVER_LISTEN_PORT": "@app_server_listen_port"
     }
   },
-  "builds": {
-    "src": "dist/server/main.js",
-    "use": "@now/node"
-  }
+  "builds": [
+    {
+      "src": "dist/client/*",
+      "use": "@now/static"
+    },
+    {
+      "src": "dist/server/main.js",
+      "use": "@now/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/*",
+      "dest": "dist/server/main.js"
+    }
+  ]
 }
