@@ -10,10 +10,27 @@ import {
 } from './styles';
 
 const EVENT_TYPE_ICONS = {
-  goal: 'ball',
-  subst: 'substitution',
-  redcard: 'redCard',
-  yellowcard: 'yellowCard',
+  goal: {
+    name: 'ball',
+  },
+  subst: {
+    name: 'substitution',
+  },
+  redcard: {
+    name: 'redCard',
+    style: {
+      width: '10px',
+    },
+  },
+  yellowcard: {
+    name: 'yellowCard',
+    style: {
+      width: '10px',
+    },
+  },
+  'pen miss': {
+    name: 'missedPenalty',
+  },
 };
 
 function MatchEvents({ events }) {
@@ -24,7 +41,10 @@ function MatchEvents({ events }) {
           <Event key={event.id} data-team-type={event.team}>
             <EventMinute>{`${event.minute}'`}</EventMinute>
 
-            <EventIcon name={EVENT_TYPE_ICONS[event.type]} />
+            <EventIcon
+              name={EVENT_TYPE_ICONS[event.type].name}
+              style={EVENT_TYPE_ICONS[event.type].style || {}}
+            />
 
             {event.type === 'subst' ? (
               <EventDescription
