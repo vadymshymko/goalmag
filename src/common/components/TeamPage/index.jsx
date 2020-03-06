@@ -30,27 +30,27 @@ function TeamPage({ initialAction, location, match, staticContext }) {
     );
   }
 
-  if (teamInfo.isFetching) {
-    return null;
-  }
-
   return (
     <Page>
-      <PageHelmet
-        title={pageTitle}
-        description={`Team squad, players and fixtures - ${pageTitle}`}
-      />
+      {teamInfo.isFetching ? null : (
+        <>
+          <PageHelmet
+            title={pageTitle}
+            description={`Team squad, players and fixtures - ${pageTitle}`}
+          />
 
-      <PageTitle>{pageTitle}</PageTitle>
+          <PageTitle>{pageTitle}</PageTitle>
 
-      <TeamBasicInfo
-        country={teamInfo.country}
-        founded={teamInfo.founded}
-        coach={teamInfo.coachName}
-        venueName={teamInfo.venueName}
-      />
+          <TeamBasicInfo
+            country={teamInfo.country}
+            founded={teamInfo.founded}
+            coach={teamInfo.coachName}
+            venueName={teamInfo.venueName}
+          />
 
-      <TeamSquad squad={teamInfo.squad} />
+          <TeamSquad squad={teamInfo.squad} />
+        </>
+      )}
     </Page>
   );
 }

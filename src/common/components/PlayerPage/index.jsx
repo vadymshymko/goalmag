@@ -24,6 +24,9 @@ function PlayerPage({ initialAction, location, match, staticContext }) {
     initialAction(dispatch, { location, match });
   }, [match.params.playerId]);
 
+  const pageTitle = `${playerInfo.firstname || ''} ${playerInfo.lastname ||
+    ''}`.trim();
+
   if (!playerInfo.isFetching && playerInfo.isRequestFailed) {
     return (
       <ErrorPage
@@ -33,32 +36,29 @@ function PlayerPage({ initialAction, location, match, staticContext }) {
     );
   }
 
-  if (playerInfo.isFetching) {
-    return null;
-  }
-
-  const pageTitle = `${playerInfo.firstname || ''} ${playerInfo.lastname ||
-    ''}`.trim();
-
   return (
     <Page>
-      <PageHelmet
-        title={pageTitle}
-        description={`Profile and Statistics - ${pageTitle}`}
-      />
+      {playerInfo.isFetching ? null : (
+        <>
+          <PageHelmet
+            title={pageTitle}
+            description={`Profile and Statistics - ${pageTitle}`}
+          />
 
-      <PageTitle>{pageTitle}</PageTitle>
+          <PageTitle>{pageTitle}</PageTitle>
 
-      <PlayerBasicInfo
-        birthdate={playerInfo.birthdate}
-        teamName={playerInfo.team}
-        teamId={playerInfo.teamid}
-        position={playerInfo.position}
-        weight={playerInfo.weight}
-        height={playerInfo.height}
-      />
+          <PlayerBasicInfo
+            birthdate={playerInfo.birthdate}
+            teamName={playerInfo.team}
+            teamId={playerInfo.teamid}
+            position={playerInfo.position}
+            weight={playerInfo.weight}
+            height={playerInfo.height}
+          />
 
-      <PlayerStatistics statistics={playerInfo.playerStatistics} />
+          <PlayerStatistics statistics={playerInfo.playerStatistics} />
+        </>
+      )}
     </Page>
   );
 }
