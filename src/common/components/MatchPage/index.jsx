@@ -31,6 +31,9 @@ function MatchPage({ initialAction, location, match, staticContext }) {
     initialAction(dispatch, { location, match });
   }, []);
 
+  const title = `${matchInfo.localTeamName} ${matchInfo.localTeamScore} : ${matchInfo.visitorTeamScore} ${matchInfo.visitorTeamName}. ${matchInfo.dateUTC}`;
+  const description = `${matchInfo.localTeamName} ${matchInfo.localTeamScore} : ${matchInfo.visitorTeamScore} ${matchInfo.visitorTeamName}. ${matchInfo.dateUTC}. Events, statistics, squads.`;
+
   if (!matchInfo.isFetching && matchInfo.isRequestFailed) {
     return (
       <ErrorPage
@@ -40,44 +43,41 @@ function MatchPage({ initialAction, location, match, staticContext }) {
     );
   }
 
-  if (matchInfo.isFetching) {
-    return null;
-  }
-
-  const title = `${matchInfo.localTeamName} ${matchInfo.localTeamScore} : ${matchInfo.visitorTeamScore} ${matchInfo.visitorTeamName}. ${matchInfo.dateUTC}`;
-  const description = `${matchInfo.localTeamName} ${matchInfo.localTeamScore} : ${matchInfo.visitorTeamScore} ${matchInfo.visitorTeamName}. ${matchInfo.dateUTC}. Events, statistics, squads.`;
-
   return (
     <Page>
-      <PageHelmet title={title} description={description} />
+      {matchInfo.isFetching ? null : (
+        <>
+          <PageHelmet title={title} description={description} />
 
-      <MatchBasicInfo
-        competitionName={matchCompetition.name}
-        competitionRegion={matchCompetition.region}
-        competitionId={matchInfo.competitionId}
-        competitionWeek={matchInfo.week}
-        localTeamName={matchInfo.localTeamName}
-        localTeamId={matchInfo.localTeamId}
-        localTeamScore={matchInfo.localTeamScore}
-        localTeamPenaltyScore={matchInfo.localTeamPenaltyScore}
-        visitorTeamName={matchInfo.visitorTeamName}
-        visitorTeamId={matchInfo.visitorTeamId}
-        visitorTeamScore={matchInfo.visitorTeamScore}
-        visitorTeamPenaltyScore={matchInfo.visitorTeamPenaltyScore}
-        status={matchInfo.status}
-        timer={matchInfo.timer}
-        startTime={matchInfo.startTime}
-        dateUTC={matchInfo.dateUTC}
-      />
+          <MatchBasicInfo
+            competitionName={matchCompetition.name}
+            competitionRegion={matchCompetition.region}
+            competitionId={matchInfo.competitionId}
+            competitionWeek={matchInfo.week}
+            localTeamName={matchInfo.localTeamName}
+            localTeamId={matchInfo.localTeamId}
+            localTeamScore={matchInfo.localTeamScore}
+            localTeamPenaltyScore={matchInfo.localTeamPenaltyScore}
+            visitorTeamName={matchInfo.visitorTeamName}
+            visitorTeamId={matchInfo.visitorTeamId}
+            visitorTeamScore={matchInfo.visitorTeamScore}
+            visitorTeamPenaltyScore={matchInfo.visitorTeamPenaltyScore}
+            status={matchInfo.status}
+            timer={matchInfo.timer}
+            startTime={matchInfo.startTime}
+            dateUTC={matchInfo.dateUTC}
+          />
 
-      <MatchAdditionalInfo
-        referee={matchCommentaries.referee}
-        stadium={matchCommentaries.stadium}
-        lineup={matchCommentaries.lineup}
-        substitutions={matchCommentaries.subs}
-        statistics={matchCommentaries.matchStats}
-        events={matchInfo.events}
-      />
+          <MatchAdditionalInfo
+            referee={matchCommentaries.referee}
+            stadium={matchCommentaries.stadium}
+            lineup={matchCommentaries.lineup}
+            substitutions={matchCommentaries.subs}
+            statistics={matchCommentaries.matchStats}
+            events={matchInfo.events}
+          />
+        </>
+      )}
     </Page>
   );
 }

@@ -21,11 +21,12 @@ function Page({ children, withNav }) {
 }
 
 Page.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   withNav: PropTypes.bool,
 };
 
 Page.defaultProps = {
+  children: null,
   withNav: true,
 };
 

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import ContentSection from 'components/ContentSection';
 import ContentSectionTitle from 'components/ContentSectionTitle';
 
-import { StyledTableWrapper, StyledTable, Status } from './styles';
+import { StyledTableWrapper, StyledTable, Status, FormIcon } from './styles';
 
 const TABLE_HEADERS = [
   {
@@ -52,7 +52,26 @@ const TABLE_HEADERS = [
     title: 'GD',
     content: 'GD',
   },
+  {
+    title: 'Form',
+    content: 'Form',
+  },
 ];
+
+const FORM_CONFIG = {
+  w: {
+    title: 'Win',
+    id: 'w',
+  },
+  l: {
+    title: 'Loss',
+    id: 'l',
+  },
+  d: {
+    title: 'Draw',
+    id: 'd',
+  },
+};
 
 function CompetitionStandings({ standings }) {
   if (!Object.keys(standings).length) {
@@ -103,6 +122,22 @@ function CompetitionStandings({ standings }) {
                   <td>{item.overallGs}</td>
                   <td>{item.overallGa}</td>
                   <td>{item.gd}</td>
+                  <td>
+                    {(item.recentForm || '')
+                      .split('')
+                      .map((recentFormValue, recentFormIndex) => (
+                        <FormIcon
+                          // eslint-disable-next-line react/no-array-index-key
+                          key={`${recentFormValue}-${recentFormIndex}`}
+                          className={`form-${
+                            FORM_CONFIG[recentFormValue.toLowerCase()].id
+                          }`}
+                          title={
+                            FORM_CONFIG[recentFormValue.toLowerCase()].title
+                          }
+                        />
+                      ))}
+                  </td>
                 </tr>
               ))}
             </tbody>
