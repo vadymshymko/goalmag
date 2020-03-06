@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { getDate, getCompetitionId, getMatchId } from './router';
+import { getUTCDate, getCompetitionId, getMatchId } from './router';
 
 const getMatches = state => state.matches;
 
@@ -28,7 +28,7 @@ export const getMatchesItems = createSelector(
 
 export const getVisibleMatchesItems = createSelector(
   getMatchesItems,
-  getDate,
+  getUTCDate,
   getCompetitionId,
   (matchesItems, matchesDate, matchesCompetitionId) =>
     matchesItems.filter(

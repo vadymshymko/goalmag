@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import loadable from '@loadable/component';
 import PropTypes from 'prop-types';
@@ -14,7 +14,7 @@ import {
   getCompetitionStandingsTable,
   getVisibleMatchesItems,
   getMatchesIsFetching,
-  getDate,
+  getUserDate,
 } from 'selectors';
 
 const ErrorPage = loadable(() => import('components/ErrorPage'));
@@ -46,14 +46,7 @@ function CompetitionPage({
     getMatchesIsFetching(state, { location, match })
   );
   const matchesDateValue = useSelector(state =>
-    getDate(state, { location, match })
-  );
-  const formattedMatchesDateValue = useMemo(
-    () =>
-      `${matchesDateValue.split('.')[2]}-${matchesDateValue.split('.')[1]}-${
-        matchesDateValue.split('.')[0]
-      }`,
-    [matchesDateValue]
+    getUserDate(state, { location, match })
   );
 
   const handleMatchesDateChange = event => {
@@ -82,7 +75,7 @@ function CompetitionPage({
       <CompetitionMatches
         matchesItems={competitionMatchesItems}
         matchesIsFetching={matchesIsFetching}
-        matchesDate={formattedMatchesDateValue}
+        matchesDate={matchesDateValue}
         onRequestMatchesDateChange={handleMatchesDateChange}
       />
 

@@ -12,7 +12,7 @@ import DateInput from 'components/DateInput';
 import {
   getCompetitionsWithMatches,
   getMatchesIsFetching,
-  getDate,
+  getUserDate,
 } from 'selectors';
 
 function MatchCenterPage({ initialAction, location, match, history }) {
@@ -27,14 +27,7 @@ function MatchCenterPage({ initialAction, location, match, history }) {
   );
 
   const matchesDateValue = useSelector(state =>
-    getDate(state, { location, match })
-  );
-  const formattedMatchesDateValue = useMemo(
-    () =>
-      `${matchesDateValue.split('.')[2]}-${matchesDateValue.split('.')[1]}-${
-        matchesDateValue.split('.')[0]
-      }`,
-    [matchesDateValue]
+    getUserDate(state, { location, match })
   );
 
   const competitionsMatchesCount = useMemo(
@@ -53,7 +46,7 @@ function MatchCenterPage({ initialAction, location, match, history }) {
 
   useEffect(() => {
     initialAction(dispatch, { location, match });
-  }, [formattedMatchesDateValue]);
+  }, [matchesDateValue]);
 
   return (
     <Page>
@@ -66,7 +59,7 @@ function MatchCenterPage({ initialAction, location, match, history }) {
         <span>Match Center</span>
 
         <DateInput
-          value={formattedMatchesDateValue}
+          value={matchesDateValue}
           onChange={handleMatchesDateChange}
         />
       </PageTitle>

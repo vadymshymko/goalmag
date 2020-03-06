@@ -32,7 +32,8 @@ export const TitleLink = styled(Link)`
   display: flex;
 
   &:hover,
-  &:active {
+  &:active,
+  &:focus {
     color: #28a745;
   }
 `;
