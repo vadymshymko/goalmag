@@ -11,7 +11,9 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 const { InjectManifest } = require('workbox-webpack-plugin');
 
-require('dotenv-safe').config();
+require('dotenv-safe').config({
+  example: './.example.env',
+});
 
 const envVarNameRegExp = /^APP_/i;
 
