@@ -15,7 +15,7 @@ import { matchesSchema, matchSchema } from 'schemas';
 
 import {
   getMatchesIsFetching,
-  getDate,
+  getUTCDate,
   getCompetitionId,
   getMatch,
   getMatchId,
@@ -33,7 +33,7 @@ export const fetchMatches = params => async (dispatch, getState) => {
       return true;
     }
 
-    const matchesDate = getDate(currentState, params);
+    const matchesDate = getUTCDate(currentState, params);
     const matchesCompetition = getCompetitionId(currentState, params);
 
     dispatch({

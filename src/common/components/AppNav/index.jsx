@@ -1,5 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
 import { getRegionsWithCompetitions } from 'selectors';
 
@@ -9,6 +10,7 @@ import { ToggleBtn, Wrapper, List, Bg } from './styles';
 
 function AppNav() {
   const regionsWithCompetitions = useSelector(getRegionsWithCompetitions);
+  const location = useLocation();
 
   const [show, toggle] = useState(false);
 
@@ -19,6 +21,10 @@ function AppNav() {
   const handleCloseNav = useCallback(() => {
     toggle(false);
   }, []);
+
+  useEffect(() => {
+    handleCloseNav();
+  }, [location.pathname]);
 
   return (
     <>

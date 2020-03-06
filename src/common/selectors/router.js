@@ -8,21 +8,44 @@ export const getParsedRouterLocationSearch = createSelector(
   routerLocationSearch => parse(routerLocationSearch)
 );
 
-export const getRouterMatchParams = (state, props) => props.match.params;
-
-export const getDate = createSelector(
+export const getRouterLocationSearchDateValue = createSelector(
   getParsedRouterLocationSearch,
   parsedRouterLocationSearch => {
     const parsedDate = new Date(parsedRouterLocationSearch.date);
 
-    const date = !Number.isNaN(parsedDate.getTime()) ? parsedDate : new Date();
-    const dateDay = date.getUTCDate();
-    const dateMonth = date.getUTCMonth();
-    const dateYear = date.getUTCFullYear();
+    const dateValue = !Number.isNaN(parsedDate.getTime())
+      ? parsedDate
+      : new Date();
+
+    return dateValue;
+  }
+);
+
+export const getRouterMatchParams = (state, props) => props.match.params;
+
+export const getUTCDate = createSelector(
+  getRouterLocationSearchDateValue,
+  dateValue => {
+    const dateDay = dateValue.getUTCDate();
+    const dateMonth = dateValue.getUTCMonth();
+    const dateYear = dateValue.getUTCFullYear();
 
     return `${dateDay > 9 ? '' : '0'}${dateDay}.${
       dateMonth > 9 ? '' : '0'
     }${dateMonth + 1}.${dateYear}`;
+  }
+);
+
+export const getUserDate = createSelector(
+  getRouterLocationSearchDateValue,
+  dateValue => {
+    const dateDay = dateValue.getDate();
+    const dateMonth = dateValue.getMonth();
+    const dateYear = dateValue.getFullYear();
+
+    return `${dateYear}-${dateMonth > 9 ? '' : '0'}${dateMonth + 1}-${
+      dateDay > 9 ? '' : '0'
+    }${dateDay}`;
   }
 );
 
