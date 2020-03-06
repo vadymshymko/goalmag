@@ -12,5 +12,9 @@
       "APP_SERVER_RESPONSE_CACHE_MAX_AGE": "@app_server_response_cache_max_age",
       "APP_SERVER_LISTEN_PORT": "@app_server_listen_port"
     }
+  },
+  "builds": {
+    "src": "dist/server/main.js",
+    "use": "@now/node"
   }
 }
