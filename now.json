@@ -15,18 +15,11 @@
   },
   "builds": [
     {
-      "src": "dist/client/*",
-      "use": "@now/static"
-    },
-    {
       "src": "dist/server/main.js",
-      "use": "@now/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/*",
-      "dest": "dist/server/main.js"
+      "use": "@now/node@canary",
+      "config": {
+        "includeFiles": ["dist/**/*"]
+      }
     }
   ]
 }
