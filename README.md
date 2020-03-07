@@ -1,1 +1,1 @@
-# goal.now.sh
+# goalmag.herokuapp.com
