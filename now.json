@@ -15,11 +15,41 @@
   },
   "builds": [
     {
+      "src": "package.json",
+      "use": "@now/static-build"
+    },
+    {
       "src": "dist/server/main.js",
-      "use": "@now/node@canary",
+      "use": "@now/node",
       "config": {
-        "includeFiles": ["dist/**/*"]
+        "includeFiles": [
+          "dist/server/**/*",
+          "dist/client/loadable-stats.json"
+        ]
       }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)(.js|.png|.xml|.ico|.html|.json|.svg|.css|.txt|.webmanifest)",
+      "methods": [
+        "GET"
+      ],
+      "dest": "/client/$1$2"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)(.js|.png|.xml|.ico|.html|.json|.svg|.css|.txt|.webmanifest)",
+      "dest": "dist/server/main.js"
+    },
+    {
+      "src": "(.*)",
+      "methods": [
+        "GET"
+      ],
+      "dest": "dist/server/main.js"
     }
   ]
 }

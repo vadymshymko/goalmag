@@ -10,9 +10,9 @@ const isWithHMR = isDev && process.env.APP_HMR === 'true';
 const app = express();
 const appPort = process.env.PORT || process.env.APP_SERVER_LISTEN_PORT;
 
-// app.engine('pug', require('pug').__express);//eslint-disable-line
-// app.set('view engine', 'pug');
-// app.set('views', `${process.env.APP_SERVER_BUILD_OUTPUT_PATH}/views`);
+app.engine('pug', require('pug').__express);//eslint-disable-line
+app.set('view engine', 'pug');
+app.set('views', `${process.env.APP_SERVER_BUILD_OUTPUT_PATH}/views`);
 
 if (isWithHMR) {
   /* eslint-disable global-require */
@@ -59,3 +59,5 @@ const handleSIG = () => {
 
 process.on('SIGINT', handleSIG);
 process.on('SIGTERM', handleSIG);
+
+export default server;

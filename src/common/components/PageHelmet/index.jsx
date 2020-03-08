@@ -9,7 +9,7 @@ function PageHelmet({ title, description }) {
   return (
     <>
       <Helmet
-        title={`${title} - GoalMag`}
+        title={`${title} - GoalNow`}
         meta={[
           description
             ? {
@@ -19,7 +19,7 @@ function PageHelmet({ title, description }) {
             : {},
           {
             itemProp: 'name',
-            content: `${title} - GoalMag`,
+            content: `${title} - GoalNow`,
           },
           description
             ? {
@@ -29,7 +29,7 @@ function PageHelmet({ title, description }) {
             : {},
           {
             name: 'twitter:title',
-            content: `${title} - GoalMag`,
+            content: `${title} - GoalNow`,
           },
           description
             ? {
@@ -39,7 +39,7 @@ function PageHelmet({ title, description }) {
             : {},
           {
             name: 'og:title',
-            content: `${title} - GoalMag`,
+            content: `${title} - GoalNow`,
           },
           description
             ? {

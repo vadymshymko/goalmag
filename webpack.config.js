@@ -174,6 +174,7 @@ const getClientConfig = mode => {
       }),
       new InjectManifest({
         swSrc: './src/client/serviceWorker.js',
+        swDest: 'service-worker.js',
       }),
       ...(isProd ? [new OptimizeCSSAssetsPlugin({})] : []),
       ...(isWithHMR ? [new webpack.HotModuleReplacementPlugin()] : []),

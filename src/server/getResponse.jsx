@@ -144,68 +144,20 @@ const getResponse = async (req, res) => {
 
     const helmet = Helmet.renderStatic();
 
-    const title = helmet.title.toString();
-    const metaTags = helmet.meta.toString();
-    const linkTags = helmet.link.toString();
-    const mainCSSFilePath = `${process.env.APP_CLIENT_BUILD_PUBLIC_PATH}main.${process.env.APP_VERSION}.css`;
-    const styleTags = styleSheetExtractor.getStyleTags();
-    const prefetchLinks = chunkExtractor.getLinkTags();
-    const scriptTags = chunkExtractor.getScriptTags();
-    const initialState = serialize(store.getState());
-
-    res
+    return res
       .set('Cache-Control', responseCacheControl)
-      .status(routerContext.status || 200);
-
-    return res.send(`
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-      ${title}
-
-      <meta name="image" content="https://goal.now.sh/logo.svg"/>
-      <meta name="twitter:card" content="summary" />
-      <meta name="twitter:site" content="@vadymshymko"/>
-      <meta name="twitter:creator" content="@vadymshymko"/>
-      <meta name="twitter:image:src" content="https://goal.now.sh/logo.svg"/>
-      <meta name="og:image" content="https://goal.now.sh/logo.svg" />
-      <meta name="og:site_name" content="GoalMag" />
-      <meta name="og:locale" content="en_US" />
-      <meta name="fb:admins" content="100002165463093" />
-      <meta name="fb:app_id" content="2048470848761820" />
-      <meta name="og:type" content="website" />
-      <meta name="msapplication-TileColor" content="#00a300" />
-      <meta name="msapplication-TileImage" content="/mstile-144x144.png"/>
-      <meta name="theme-color" content="#ffffff"/>
-      <meta name="google-site-verification" content="cySttcjM5zAsRGED5LSc0OdmgZTSwnzqtYAa3ytIfEs"/>
-
-      ${metaTags}
-
-      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans:400,600,700,800&display=swap" />
-      <link rel="stylesheet" href="${mainCSSFilePath}" />
-
-      <link rel="apple-touch-icon" size="180x180" href="/apple-touch-icon.png" />
-      <link rel="icon" type="image/png" size="32x32" href="/favicon-32x32.png" />
-      <link rel="icon" type="image/png" size="16x16" href="/favicon-16x16.png" />
-      <link rel="manifest" href="/site.webmanifest" />
-      <link rel="mask-icon" color="#28a745" href="/safari-pinned-tab.svg" />
-      ${linkTags}
-      ${styleTags}
-      ${prefetchLinks}
-    </head>
-
-    <body>
-      <div id="root">${appHTML}</div>
-
-      <script>window.APP_INITIAL_STATE = ${initialState}</script>
-
-      ${scriptTags}
-    </body>
-  </html>
-`);
+      .status(routerContext.status || 200)
+      .render('index', {
+        title: helmet.title.toString(),
+        metaTags: helmet.meta.toString(),
+        linkTags: helmet.link.toString(),
+        mainCSSFilePath: `${process.env.APP_CLIENT_BUILD_PUBLIC_PATH}main.${process.env.APP_VERSION}.css`,
+        styleTags: styleSheetExtractor.getStyleTags(),
+        prefetchLinks: chunkExtractor.getLinkTags(),
+        scriptTags: chunkExtractor.getScriptTags(),
+        initialState: serialize(store.getState()),
+        appHTML,
+      });
   } catch (error) {
     console.error('server error: ', error);
 
