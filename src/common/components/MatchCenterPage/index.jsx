@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useRouteMatch, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import Page from 'components/Page';
@@ -15,7 +16,10 @@ import {
   getUserDate,
 } from 'selectors';
 
-function MatchCenterPage({ initialAction, location, match, history }) {
+function MatchCenterPage({ initialAction }) {
+  const location = useLocation();
+  const match = useRouteMatch();
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const competitionsWithMatches = useSelector(state =>
@@ -77,11 +81,6 @@ function MatchCenterPage({ initialAction, location, match, history }) {
 
 MatchCenterPage.propTypes = {
   initialAction: PropTypes.func.isRequired,
-  location: PropTypes.objectOf(PropTypes.string).isRequired,
-  match: PropTypes.objectOf(PropTypes.any).isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
 };
 
 export default MatchCenterPage;

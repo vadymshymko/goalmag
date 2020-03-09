@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useRouteMatch, useHistory } from 'react-router-dom';
 import loadable from '@loadable/component';
 import PropTypes from 'prop-types';
 
@@ -19,13 +20,10 @@ import {
 
 const ErrorPage = loadable(() => import('components/ErrorPage'));
 
-function CompetitionPage({
-  initialAction,
-  location,
-  match,
-  history,
-  staticContext,
-}) {
+function CompetitionPage({ initialAction }) {
+  const location = useLocation();
+  const match = useRouteMatch();
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const competitionInfo = useSelector(state =>
@@ -60,7 +58,7 @@ function CompetitionPage({
   }, [match.params.competitionId, matchesDateValue]);
 
   if (!competitionInfo.id) {
-    return <ErrorPage staticContext={staticContext} errorCode={404} />;
+    return <ErrorPage errorCode={404} />;
   }
 
   return (
@@ -86,16 +84,6 @@ function CompetitionPage({
 
 CompetitionPage.propTypes = {
   initialAction: PropTypes.func.isRequired,
-  location: PropTypes.objectOf(PropTypes.string).isRequired,
-  match: PropTypes.objectOf(PropTypes.any).isRequired,
-  staticContext: PropTypes.objectOf(PropTypes.any),
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-};
-
-CompetitionPage.defaultProps = {
-  staticContext: null,
 };
 
 export default CompetitionPage;

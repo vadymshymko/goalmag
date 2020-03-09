@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 import loadable from '@loadable/component';
 import PropTypes from 'prop-types';
 
@@ -13,7 +14,9 @@ import { getPlayer } from 'selectors';
 
 const ErrorPage = loadable(() => import('components/ErrorPage'));
 
-function PlayerPage({ initialAction, location, match, staticContext }) {
+function PlayerPage({ initialAction }) {
+  const location = useLocation();
+  const match = useRouteMatch();
   const dispatch = useDispatch();
 
   const playerInfo = useSelector(state =>
@@ -28,12 +31,7 @@ function PlayerPage({ initialAction, location, match, staticContext }) {
     ''}`.trim();
 
   if (!playerInfo.isFetching && playerInfo.isRequestFailed) {
-    return (
-      <ErrorPage
-        staticContext={staticContext}
-        errorCode={playerInfo.errorCode}
-      />
-    );
+    return <ErrorPage errorCode={playerInfo.errorCode} />;
   }
 
   return (
@@ -65,13 +63,6 @@ function PlayerPage({ initialAction, location, match, staticContext }) {
 
 PlayerPage.propTypes = {
   initialAction: PropTypes.func.isRequired,
-  location: PropTypes.objectOf(PropTypes.string).isRequired,
-  match: PropTypes.objectOf(PropTypes.any).isRequired,
-  staticContext: PropTypes.objectOf(PropTypes.any),
-};
-
-PlayerPage.defaultProps = {
-  staticContext: null,
 };
 
 export default PlayerPage;

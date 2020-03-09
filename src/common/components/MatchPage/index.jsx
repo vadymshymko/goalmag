@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 import loadable from '@loadable/component';
 import PropTypes from 'prop-types';
 
@@ -16,7 +17,9 @@ import {
 
 const ErrorPage = loadable(() => import('components/ErrorPage'));
 
-function MatchPage({ initialAction, location, match, staticContext }) {
+function MatchPage({ initialAction }) {
+  const location = useLocation();
+  const match = useRouteMatch();
   const dispatch = useDispatch();
 
   const matchInfo = useSelector(state => getMatch(state, { location, match }));
@@ -35,12 +38,7 @@ function MatchPage({ initialAction, location, match, staticContext }) {
   const description = `${matchInfo.localTeamName} ${matchInfo.localTeamScore} : ${matchInfo.visitorTeamScore} ${matchInfo.visitorTeamName}. ${matchInfo.dateUTC}. Events, statistics, squads.`;
 
   if (!matchInfo.isFetching && matchInfo.isRequestFailed) {
-    return (
-      <ErrorPage
-        staticContext={staticContext}
-        errorCode={matchInfo.errorCode}
-      />
-    );
+    return <ErrorPage errorCode={matchInfo.errorCode} />;
   }
 
   return (
@@ -84,13 +82,6 @@ function MatchPage({ initialAction, location, match, staticContext }) {
 
 MatchPage.propTypes = {
   initialAction: PropTypes.func.isRequired,
-  location: PropTypes.objectOf(PropTypes.string).isRequired,
-  match: PropTypes.objectOf(PropTypes.any).isRequired,
-  staticContext: PropTypes.objectOf(PropTypes.any),
-};
-
-MatchPage.defaultProps = {
-  staticContext: null,
 };
 
 export default MatchPage;
