@@ -20,11 +20,11 @@
     },
     {
       "src": "api/index.js",
-      "use": "@now/node",
+      "use": "@now/node-server",
       "config": {
         "includeFiles": [
-          "dist/server/**/*",
-          "dist/client/loadable-stats.json"
+          "../dist/server/**/*",
+          "../dist/client/loadable-stats.json"
         ]
       }
     }

@@ -188,18 +188,11 @@ const getServerConfig = mode =>
   webpackMerge(getCommonConfig('node', mode), {
     entry: './src/server',
     output: {
+      libraryTarget: 'umd',
       filename: 'main.js',
       chunkFilename: '[name].[contenthash].js',
       path: path.resolve(__dirname, envVars.raw.APP_SERVER_BUILD_OUTPUT_PATH),
       publicPath: '/',
-    },
-    module: {
-      rules: [
-        {
-          test: /\.html$/,
-          use: 'raw-loader',
-        },
-      ],
     },
     externals: [new NodeExternals()],
     plugins: [

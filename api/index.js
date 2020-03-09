@@ -1,3 +1,3 @@
-import app from '../dist/server/main.js';//eslint-disable-line
+const getResponse = require('../dist/server/main.js');
 
-module.exports = app;
+module.exports = getResponse;
