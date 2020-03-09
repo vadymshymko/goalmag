@@ -19,7 +19,7 @@
       "use": "@now/static-build"
     },
     {
-      "src": "dist/server/main.js",
+      "src": "api/index.js",
       "use": "@now/node",
       "config": {
         "includeFiles": [
@@ -42,14 +42,11 @@
     },
     {
       "src": "/(.*)(.js|.png|.xml|.ico|.html|.json|.svg|.css|.txt|.webmanifest)",
-      "dest": "dist/server/main.js"
+      "dest": "api/index.js"
     },
     {
       "src": "(.*)",
-      "methods": [
-        "GET"
-      ],
-      "dest": "dist/server/main.js"
+      "dest": "api/index.js"
     }
   ]
 }

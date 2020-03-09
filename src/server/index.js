@@ -60,4 +60,4 @@ const handleSIG = () => {
 process.on('SIGINT', handleSIG);
 process.on('SIGTERM', handleSIG);
 
-export default server;
+export default app;
