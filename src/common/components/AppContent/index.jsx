@@ -5,20 +5,11 @@ import routes from 'routes';
 
 /* eslint-disable react/jsx-props-no-spreading */
 function AppContent() {
-  const getRouteRender = useCallback(
-    (RouteComponent, componentProps) => routerProps => (
-      <RouteComponent {...componentProps} {...routerProps} />
-    ),
-    []
-  );
-
   const renderRoute = useCallback(
-    ({ id, component, props, ...routeProps }) => (
-      <Route
-        render={getRouteRender(component, props)}
-        {...routeProps}
-        key={id}
-      />
+    ({ id, component: RouteComponent, props, ...routeProps }) => (
+      <Route {...routeProps} key={id}>
+        <RouteComponent {...props} />
+      </Route>
     ),
     []
   );

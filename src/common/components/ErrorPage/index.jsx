@@ -1,5 +1,6 @@
 import React from 'react';
 import loadable from '@loadable/component';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const NotFoundPage = loadable(() => import('components/NotFoundPage'));
@@ -29,4 +30,4 @@ ErrorPage.defaultProps = {
   errorCode: null,
 };
 
-export default ErrorPage;
+export default withRouter(ErrorPage);
