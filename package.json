@@ -7,8 +7,8 @@
   "scripts": {
     "start": "NODE_ENV=production node dist/server/main.js",
     "start-dev": "NODE_ENV=development node dist/server/main.js",
-    "build": "NODE_ENV=production webpack --mode='production'",
-    "build-dev": "NODE_ENV=development webpack --mode='development'",
+    "build": "NODE_ENV=production webpack --mode='production' && cp ./public/loadable-stats.json ./functions/getServerResponse/",
+    "build-dev": "NODE_ENV=development webpack --mode='development' && cp ./public/loadable-stats.json ./functions/getServerResponse/",
     "lint": "yarn lint:eslint && yarn lint:stylelint",
     "lint:stylelint": "stylelint --ignore-path .gitignore '**/*.js'",
     "lint:stylelint:fix": "stylelint --ignore-path .gitignore '**/*.js' --fix",
@@ -35,6 +35,7 @@
     "core-js": "3",
     "deepmerge": "^4.2.2",
     "express": "^4.17.1",
+    "firebase-functions": "^3.3.0",
     "humps": "^2.0.1",
     "normalizr": "^3.5.0",
     "prop-types": "^15.7.2",

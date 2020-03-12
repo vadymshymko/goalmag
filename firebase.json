@@ -1,0 +1,37 @@
+{
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "trailingSlash": false,
+    "headers": [
+      {
+        "source": "**/*.*",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=1y"
+          }
+        ]
+      },
+      {
+        "source": "/serviceWorker.js",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "function": "getServerResponse"
+      }
+    ]
+  }
+}

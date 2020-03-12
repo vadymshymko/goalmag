@@ -92,7 +92,7 @@ const getCommonConfig = (target, mode) => {
               loader: 'file-loader',
               options: {
                 emitFile: target === 'web',
-                publicPath: envVars.raw.APP_CLIENT_BUILD_PUBLIC_PATH,
+                publicPath: '/',
               },
             },
           ],
@@ -138,8 +138,8 @@ const getClientConfig = mode => {
     output: {
       filename: `[name]${isWithHMR ? '' : '.[contenthash]'}.js`,
       chunkFilename: `[id]${isWithHMR ? '' : '.[contenthash]'}.js`,
-      path: path.resolve(__dirname, envVars.raw.APP_CLIENT_BUILD_OUTPUT_PATH),
-      publicPath: envVars.raw.APP_CLIENT_BUILD_PUBLIC_PATH,
+      path: path.resolve(__dirname, 'public'),
+      publicPath: '/',
     },
     module: {
       rules: [
@@ -159,9 +159,7 @@ const getClientConfig = mode => {
     },
     plugins: [
       new CleanWebpackPlugin({
-        cleanOnceBeforeBuildPatterns: [
-          path.resolve(__dirname, envVars.raw.APP_CLIENT_BUILD_OUTPUT_PATH),
-        ],
+        cleanOnceBeforeBuildPatterns: [path.resolve(__dirname, 'public')],
       }),
       new CopyWebpackPlugin([
         {
@@ -187,9 +185,10 @@ const getServerConfig = mode =>
   webpackMerge(getCommonConfig('node', mode), {
     entry: './src/server',
     output: {
-      filename: 'main.js',
+      libraryTarget: 'umd',
+      filename: 'index.js',
       chunkFilename: '[name].[contenthash].js',
-      path: path.resolve(__dirname, envVars.raw.APP_SERVER_BUILD_OUTPUT_PATH),
+      path: path.resolve(__dirname, 'functions/getServerResponse'),
       publicPath: '/',
     },
     module: {
@@ -204,7 +203,7 @@ const getServerConfig = mode =>
     plugins: [
       new CleanWebpackPlugin({
         cleanOnceBeforeBuildPatterns: [
-          path.resolve(__dirname, envVars.raw.APP_SERVER_BUILD_OUTPUT_PATH),
+          path.resolve(__dirname, 'functions/getServerResponse'),
         ],
       }),
       new CopyWebpackPlugin([
