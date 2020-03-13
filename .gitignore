@@ -58,7 +58,4 @@ typings/
 .env
 
 public
-functions/getServerResponse
-.firebase
-.firebaserc
-.now
+functions/getSSRApp

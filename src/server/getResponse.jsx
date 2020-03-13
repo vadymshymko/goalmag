@@ -11,7 +11,7 @@ import Root from 'components/Root';
 import configureStore from 'store';
 import routes from 'routes';
 
-const chunkStatsFile = path.resolve(`./getServerResponse/loadable-stats.json`);
+const chunkStatsFile = path.resolve(`./getSSRApp/loadable-stats.json`);
 
 const redirect = ({ status, url, res }) => res.redirect(status || 301, url);
 
@@ -80,6 +80,20 @@ const getAppHTML = ({
 
 const getResponse = async (req, res) => {
   try {
+    const [locationPathname, locationSearch] = req.originalUrl.split('?');
+    const isEndsWithSlash =
+      locationPathname.length > 1 && locationPathname.endsWith('/');
+
+    if (isEndsWithSlash) {
+      return redirect({
+        res,
+        url: `${locationPathname.slice(0, -1)}${
+          locationSearch ? `?${locationSearch}` : ''
+        }`,
+        status: 301,
+      });
+    }
+
     const store = configureStore();
     const chunkExtractor = new ChunkExtractor({ statsFile: chunkStatsFile });
     const styleSheetExtractor = new ServerStyleSheet();

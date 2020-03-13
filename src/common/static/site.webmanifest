@@ -1,6 +1,6 @@
 {
-    "name": "GoalMag",
-    "short_name": "GoalMag",
+    "name": "Soccer In Web",
+    "short_name": "Soccer In Web",
     "start_url": "/",
     "icons": [
         {
@@ -14,7 +14,7 @@
             "type": "image/png"
         }
     ],
-    "theme_color": "#ffffff",
-    "background_color": "#ffffff",
+    "theme_color": "#343a40",
+    "background_color": "#343a40",
     "display": "standalone"
 }

@@ -188,22 +188,14 @@ const getServerConfig = mode =>
       libraryTarget: 'umd',
       filename: 'index.js',
       chunkFilename: '[name].[contenthash].js',
-      path: path.resolve(__dirname, 'functions/getServerResponse'),
+      path: path.resolve(__dirname, 'functions/getSSRApp'),
       publicPath: '/',
-    },
-    module: {
-      rules: [
-        {
-          test: /\.html$/,
-          use: 'raw-loader',
-        },
-      ],
     },
     externals: [new NodeExternals()],
     plugins: [
       new CleanWebpackPlugin({
         cleanOnceBeforeBuildPatterns: [
-          path.resolve(__dirname, 'functions/getServerResponse'),
+          path.resolve(__dirname, 'functions/getSSRApp'),
         ],
       }),
       new CopyWebpackPlugin([
