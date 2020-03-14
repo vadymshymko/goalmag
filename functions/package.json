@@ -20,6 +20,7 @@
     "axios": "^0.19.2",
     "core-js": "3",
     "cors": "^2.8.5",
+    "compression": "^1.7.4",
     "deepmerge": "^4.2.2",
     "express": "^4.17.1",
     "humps": "^2.0.1",
