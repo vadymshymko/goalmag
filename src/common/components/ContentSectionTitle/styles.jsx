@@ -6,7 +6,9 @@ const Wrapper = styled.h2`
   display: flex;
   font-size: 13px;
   font-weight: 400;
-  padding: 5px;
+  height: 35px;
+  line-height: 15px;
+  padding: 10px 5px;
 
   a {
     color: #343a40;

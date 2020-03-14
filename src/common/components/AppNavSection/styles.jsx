@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.li`
-  padding-bottom: 20px;
+  padding-bottom: 25px;
 `;
 
 export const Title = styled.span`

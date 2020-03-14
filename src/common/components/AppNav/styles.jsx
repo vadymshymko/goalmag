@@ -64,6 +64,7 @@ export const Inner = styled.nav`
   @media (min-width: 960px) {
     bottom: 60px;
     display: block;
+    padding: 0 15px;
     top: 90px;
   }
 
