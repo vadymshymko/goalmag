@@ -5,11 +5,20 @@
     "trailingSlash": false,
     "headers": [
       {
+        "source": "**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=300"
+          }
+        ]
+      },
+      {
         "source": "**/*.*",
         "headers": [
           {
             "key": "Cache-Control",
-            "value": "public, max-age=1y"
+            "value": "public, max-age=31536000"
           }
         ]
       },
