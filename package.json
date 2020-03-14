@@ -15,7 +15,7 @@
     "lint:stylelint:fix": "stylelint --ignore-path .gitignore '**/*.js' --fix",
     "lint:eslint": "eslint . --ignore-path .gitignore --ext .js,.jsx",
     "lint:eslint:fix": "eslint . --ignore-path .gitignore --ext .js,.jsx --fix",
-    "deploy": "yarn lint && yarn build && firebase deploy --only functions"
+    "deploy": "yarn lint && yarn build && firebase deploy --only functions,hosting"
   },
   "husky": {
     "hooks": {
