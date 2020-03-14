@@ -72,6 +72,7 @@ export const PenaltiesScore = styled.span`
   font-size: 15px;
   color: #6c757d;
   display: inline-flex;
+  opacity: 0.75;
   padding-top: 10px;
   flex-flow: row wrap;
   justify-content: center;

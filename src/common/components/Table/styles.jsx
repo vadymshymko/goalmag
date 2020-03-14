@@ -16,6 +16,7 @@ const Wrapper = styled.table`
     font-size: 13px;
     font-weight: 400;
     height: 30px;
+    opacity: 0.75;
     text-align: inherit;
   }
 
