@@ -6,6 +6,7 @@ import ContentSection from 'components/ContentSection';
 import ContentSectionTitle from 'components/ContentSectionTitle';
 
 import { StyledTableWrapper, StyledTable, Status, FormIcon } from './styles';
+// import { getColorByText } from '../../utils';
 
 const TABLE_HEADERS = [
   {
@@ -82,68 +83,105 @@ function CompetitionStandings({ standings }) {
     <ContentSection>
       <ContentSectionTitle>Standings:</ContentSectionTitle>
 
-      {Object.keys(standings).map(tableGroup => (
-        <StyledTableWrapper key={tableGroup}>
-          <StyledTable>
-            <thead>
-              <tr>
-                {TABLE_HEADERS.map(head => (
-                  <th key={head.title}>{head.content}</th>
-                ))}
-              </tr>
-            </thead>
-
-            <tbody>
-              {standings[tableGroup].map(item => (
-                <tr key={item.teamId}>
-                  <td>{item.position}</td>
-
-                  <td>
-                    <Status className={item.status} />
-                  </td>
-
-                  <td>
-                    <Link
-                      to={`/teams/${item.teamId}`}
-                      href={`/teams/${item.teamId}`}
-                      title={item.teamName}
-                      style={{ position: 'relative' }}
-                    >
-                      {item.teamName}
-                    </Link>
-                  </td>
-                  <td>{item.overallGp}</td>
-                  <td>
-                    <strong>{item.points}</strong>
-                  </td>
-                  <td>{item.overallW}</td>
-                  <td>{item.overallD}</td>
-                  <td>{item.overallL}</td>
-                  <td>{item.overallGs}</td>
-                  <td>{item.overallGa}</td>
-                  <td>{item.gd}</td>
-                  <td>
-                    {(item.recentForm || '')
-                      .split('')
-                      .map((recentFormValue, recentFormIndex) => (
-                        <FormIcon
-                          // eslint-disable-next-line react/no-array-index-key
-                          key={`${recentFormValue}-${recentFormIndex}`}
-                          className={`form-${
-                            FORM_CONFIG[recentFormValue.toLowerCase()].id
-                          }`}
-                          title={
-                            FORM_CONFIG[recentFormValue.toLowerCase()].title
-                          }
-                        />
-                      ))}
-                  </td>
+      {Object.keys(standings).map(tableGroup => {
+        return (
+          <StyledTableWrapper key={tableGroup}>
+            <StyledTable>
+              <thead>
+                <tr>
+                  {TABLE_HEADERS.map(head => (
+                    <th key={head.title}>{head.content}</th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </StyledTable>
-        </StyledTableWrapper>
-      ))}
+              </thead>
+
+              <tbody>
+                {standings[tableGroup].map((item, itemIndex) => {
+                  // const isFirstDescription =
+                  //   item.description &&
+                  //   item.description === standings[tableGroup][0].description;
+                  // const isLastDescription =
+                  //   item.description &&
+                  //   item.description ===
+                  //     standings[tableGroup][standings[tableGroup].length - 1]
+                  //       .description;
+
+                  // const predefinedPositionColor = isFirstDescription
+                  //   ? '#28a745'
+                  //   : '#dc3545';
+
+                  // const calculatedPositionColor = item.description
+                  //   ? `#${getColorByText(item.description)}`
+                  //   : 'rgba(108,117,125,0.5)';
+
+                  // const positionColor =
+                  //   isFirstDescription || isLastDescription
+                  //     ? predefinedPositionColor
+                  //     : calculatedPositionColor;
+
+                  const borderBottom =
+                    !standings[tableGroup][itemIndex + 1] ||
+                    standings[tableGroup][itemIndex + 1].description ===
+                      item.description
+                      ? null
+                      : '1px dashed';
+
+                  return (
+                    <tr key={item.teamId} style={{ borderBottom }}>
+                      <td>
+                        {/* <PositionValue style={{ borderColor: positionColor }}> */}
+                        {item.position}
+                        {/* </PositionValue> */}
+                      </td>
+
+                      <td>
+                        <Status className={item.status} />
+                      </td>
+
+                      <td>
+                        <Link
+                          to={`/teams/${item.teamId}`}
+                          href={`/teams/${item.teamId}`}
+                          title={item.teamName}
+                          style={{ position: 'relative' }}
+                        >
+                          {item.teamName}
+                        </Link>
+                      </td>
+                      <td>{item.overallGp}</td>
+                      <td>
+                        <strong>{item.points}</strong>
+                      </td>
+                      <td>{item.overallW}</td>
+                      <td>{item.overallD}</td>
+                      <td>{item.overallL}</td>
+                      <td>{item.overallGs}</td>
+                      <td>{item.overallGa}</td>
+                      <td>{item.gd}</td>
+                      <td>
+                        {(item.recentForm || '')
+                          .split('')
+                          .map((recentFormValue, recentFormIndex) => (
+                            <FormIcon
+                              // eslint-disable-next-line react/no-array-index-key
+                              key={`${recentFormValue}-${recentFormIndex}`}
+                              className={`form-${
+                                FORM_CONFIG[recentFormValue.toLowerCase()].id
+                              }`}
+                              title={
+                                FORM_CONFIG[recentFormValue.toLowerCase()].title
+                              }
+                            />
+                          ))}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </StyledTable>
+          </StyledTableWrapper>
+        );
+      })}
     </ContentSection>
   );
 }
