@@ -2,11 +2,12 @@ import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+// import { getHSLByPercent } from 'utils';
+
 import ContentSection from 'components/ContentSection';
 import ContentSectionTitle from 'components/ContentSectionTitle';
 
 import { StyledTableWrapper, StyledTable, Status, FormIcon } from './styles';
-// import { getColorByText } from '../../utils';
 
 const TABLE_HEADERS = [
   {
@@ -84,6 +85,36 @@ function CompetitionStandings({ standings }) {
       <ContentSectionTitle>Standings:</ContentSectionTitle>
 
       {Object.keys(standings).map(tableGroup => {
+        // const descriptions = [
+        //   ...new Set([...standings[tableGroup].map(item => item.description)]),
+        // ]
+        //   .filter(item => !!item)
+        //   .map((item, index, items) => {
+        //     const isFirstDescription = index === 0;
+        //     const isLastDescription = index === items.length - 1;
+        //     const isSecondDescription = !isLastDescription && index === 1;
+
+        //     const firstOrLastPositionColors = isFirstDescription
+        //       ? '#28a745'
+        //       : '#dc3545';
+
+        //     const predefinedPositionColors = isSecondDescription
+        //       ? '#ffc107'
+        //       : firstOrLastPositionColors;
+
+        //     const calculatedPositionColor =
+        //       isFirstDescription || isLastDescription || isSecondDescription
+        //         ? predefinedPositionColors
+        //         : `${getHSLByPercent((index + 1) / items.length)}`;
+
+        //     return {
+        //       color: calculatedPositionColor,
+        //       text: item,
+        //     };
+        //   });
+
+        // let descriptionIndex = -1;
+
         return (
           <StyledTableWrapper key={tableGroup}>
             <StyledTable>
@@ -97,27 +128,18 @@ function CompetitionStandings({ standings }) {
 
               <tbody>
                 {standings[tableGroup].map((item, itemIndex) => {
-                  // const isFirstDescription =
-                  //   item.description &&
-                  //   item.description === standings[tableGroup][0].description;
-                  // const isLastDescription =
-                  //   item.description &&
-                  //   item.description ===
-                  //     standings[tableGroup][standings[tableGroup].length - 1]
-                  //       .description;
+                  // if (
+                  //   (!standings[tableGroup][itemIndex - 1] ||
+                  //     item.description !==
+                  //       standings[tableGroup][itemIndex - 1].description) &&
+                  //   item.description
+                  // ) {
+                  //   descriptionIndex += 1;
+                  // }
 
-                  // const predefinedPositionColor = isFirstDescription
-                  //   ? '#28a745'
-                  //   : '#dc3545';
-
-                  // const calculatedPositionColor = item.description
-                  //   ? `#${getColorByText(item.description)}`
+                  // const positionColor = item.description
+                  //   ? descriptions[descriptionIndex]
                   //   : 'rgba(108,117,125,0.5)';
-
-                  // const positionColor =
-                  //   isFirstDescription || isLastDescription
-                  //     ? predefinedPositionColor
-                  //     : calculatedPositionColor;
 
                   const borderBottom =
                     !standings[tableGroup][itemIndex + 1] ||

@@ -69,7 +69,7 @@ export const Inner = styled.nav`
   }
 
   @media (min-width: 1200px) {
-    left: calc(50vw - 579px);
+    left: calc(50vw - 570px);
   }
 `;
 
