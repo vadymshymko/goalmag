@@ -6,7 +6,13 @@ import { Wrapper, Input } from './styles';
 function DateInput({ value, onChange }) {
   return (
     <Wrapper htmlFor="date-input">
-      <Input type="date" value={value} onChange={onChange} id="date-input" />
+      <Input
+        type="date"
+        value={value}
+        onChange={onChange}
+        id="date-input"
+        name="date-input"
+      />
     </Wrapper>
   );
 }

@@ -12,9 +12,11 @@ export const StyledTableWrapper = styled(TableWrapper)`
 export const StyledTable = styled(Table)`
   th:first-child,
   td:first-child {
-    min-width: 30px;
-    max-width: 30px;
-    width: 30px;
+    min-width: 35px;
+    max-width: 35px;
+    padding-left: 0;
+    padding-right: 0;
+    width: 35px;
   }
 
   th:nth-child(2),
@@ -39,6 +41,17 @@ export const StyledTable = styled(Table)`
     max-width: 105px;
     width: 105px;
   }
+`;
+
+export const PositionValue = styled.span`
+  align-items: center;
+  border-left: 5px solid;
+  display: inline-flex;
+  height: 100%;
+  justify-content: center;
+  padding-left: 5px;
+  padding-right: 5px;
+  width: 100%;
 `;
 
 export const Status = styled.span`

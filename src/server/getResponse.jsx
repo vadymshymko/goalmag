@@ -11,14 +11,7 @@ import Root from 'components/Root';
 import configureStore from 'store';
 import routes from 'routes';
 
-const chunkStatsFile = path.resolve(
-  `${process.env.APP_CLIENT_BUILD_OUTPUT_PATH}/loadable-stats.json`
-);
-
-const responseCacheControl =
-  process.env.NODE_ENV === 'production'
-    ? `max-age=${process.env.APP_SERVER_RESPONSE_CACHE_MAX_AGE}`
-    : 'no-cache';
+const chunkStatsFile = path.resolve(`./getSSRApp/loadable-stats.json`);
 
 const redirect = ({ status, url, res }) => res.redirect(status || 301, url);
 
@@ -87,21 +80,9 @@ const getAppHTML = ({
 
 const getResponse = async (req, res) => {
   try {
-    const isHeroku = req.header('host').includes('heroku');
-
     const [locationPathname, locationSearch] = req.originalUrl.split('?');
     const isEndsWithSlash =
       locationPathname.length > 1 && locationPathname.endsWith('/');
-    const validURL = `${
-      isEndsWithSlash ? locationPathname.slice(0, -1) : locationPathname
-    }${locationSearch ? `?${locationSearch}` : ''}`;
-
-    if (isHeroku) {
-      return redirect({
-        res,
-        url: `https://soccerin.web.app${validURL}`,
-      });
-    }
 
     if (isEndsWithSlash) {
       return redirect({
@@ -145,13 +126,16 @@ const getResponse = async (req, res) => {
     const helmet = Helmet.renderStatic();
 
     return res
-      .set('Cache-Control', responseCacheControl)
+      .set(
+        'Cache-Control',
+        `public, max-age=${process.env.APP_SERVER_RESPONSE_CACHE_MAX_AGE}`
+      )
       .status(routerContext.status || 200)
       .render('index', {
         title: helmet.title.toString(),
         metaTags: helmet.meta.toString(),
         linkTags: helmet.link.toString(),
-        mainCSSFilePath: `${process.env.APP_CLIENT_BUILD_PUBLIC_PATH}main.${process.env.APP_VERSION}.css`,
+        mainCSSFilePath: `/main.${process.env.APP_VERSION}.css`,
         styleTags: styleSheetExtractor.getStyleTags(),
         prefetchLinks: chunkExtractor.getLinkTags(),
         scriptTags: chunkExtractor.getScriptTags(),

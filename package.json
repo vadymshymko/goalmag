@@ -1,19 +1,21 @@
 {
-  "name": "goalmag",
+  "name": "soccer-in-web",
   "version": "1.0.0",
   "repository": "git@github.com:vadymshymko/goalmag.git",
   "author": "Vadym Shymko <vadymshymko@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "NODE_ENV=production node dist/server/main.js",
-    "start-dev": "NODE_ENV=development node dist/server/main.js",
-    "build": "NODE_ENV=production webpack --mode='production'",
-    "build-dev": "NODE_ENV=development webpack --mode='development'",
+    "start-prod": "yarn build && yarn start:firebase",
+    "start-dev": "yarn build-dev && yarn start:firebase",
+    "start:firebase": "firebase serve --only functions,hosting",
+    "build": "NODE_ENV=production webpack --mode='production' && cp ./public/loadable-stats.json ./functions/getSSRApp/",
+    "build-dev": "NODE_ENV=development webpack --mode='development' && cp ./public/loadable-stats.json ./functions/getSSRApp/",
     "lint": "yarn lint:eslint && yarn lint:stylelint",
     "lint:stylelint": "stylelint --ignore-path .gitignore '**/*.js'",
     "lint:stylelint:fix": "stylelint --ignore-path .gitignore '**/*.js' --fix",
     "lint:eslint": "eslint . --ignore-path .gitignore --ext .js,.jsx",
-    "lint:eslint:fix": "eslint . --ignore-path .gitignore --ext .js,.jsx --fix"
+    "lint:eslint:fix": "eslint . --ignore-path .gitignore --ext .js,.jsx --fix",
+    "deploy": "yarn lint && yarn build && firebase deploy --only functions,hosting"
   },
   "husky": {
     "hooks": {
@@ -33,6 +35,7 @@
     "axios": "^0.19.2",
     "compression": "^1.7.4",
     "core-js": "3",
+    "cors": "^2.8.5",
     "deepmerge": "^4.2.2",
     "express": "^4.17.1",
     "humps": "^2.0.1",
@@ -96,7 +99,6 @@
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "path": "^0.12.7",
     "prettier": "^1.19.1",
-    "raw-loader": "^4.0.0",
     "redux-devtools": "^3.5.0",
     "stylelint": "^13.2.0",
     "stylelint-config-standard": "^20.0.0",

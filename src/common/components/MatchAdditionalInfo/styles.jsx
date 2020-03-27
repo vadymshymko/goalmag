@@ -22,6 +22,7 @@ export const InfoItem = styled.p`
 
 export const InfoName = styled.span`
   color: #6c757d;
+  opacity: 0.75;
   padding-right: 5px;
   text-align: right;
   width: 50%;

@@ -1,5 +1,16 @@
 import styled from 'styled-components';
 
+export const Wrapper = styled.div`
+  max-width: 0;
+  width: 0;
+
+  @media (min-width: 960px) {
+    max-width: 275px;
+    min-width: 275px;
+    width: 275px;
+  }
+`;
+
 export const ToggleBtn = styled.button`
   background: none;
   border-bottom: 1px solid #fff;
@@ -31,7 +42,7 @@ export const ToggleBtn = styled.button`
   }
 `;
 
-export const Wrapper = styled.nav`
+export const Inner = styled.nav`
   background-color: #fff;
   border-right: 1px solid #f8f9fa;
   bottom: 0;
@@ -42,8 +53,8 @@ export const Wrapper = styled.nav`
   padding: 30px 15px;
   position: fixed;
   top: 60px;
-  min-width: 280px;
-  width: 280px;
+  min-width: 290px;
+  width: 290px;
   z-index: 2;
 
   &.active {
@@ -51,11 +62,14 @@ export const Wrapper = styled.nav`
   }
 
   @media (min-width: 960px) {
+    bottom: 30px;
     display: block;
-    max-height: calc(100vh - 120px);
-    margin-left: -15px;
     padding: 0 15px;
-    position: static;
+    top: 90px;
+  }
+
+  @media (min-width: 1200px) {
+    left: calc(50vw - 570px);
   }
 `;
 
