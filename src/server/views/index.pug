@@ -37,6 +37,15 @@ html(lang='en')
     !=styleTags
 
     !=prefetchLinks
+
+    //- Global site tag (gtag.js) - Google Analytics
+    script(async src="https://www.googletagmanager.com/gtag/js?id=G-3VXV2YM4LE")
+    script.
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-3VXV2YM4LE');
   body
     #root
       !=appHTML
