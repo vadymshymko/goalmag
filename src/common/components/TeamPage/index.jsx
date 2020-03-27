@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 import loadable from '@loadable/component';
 import PropTypes from 'prop-types';
 
@@ -13,7 +14,9 @@ import { getTeam } from 'selectors';
 
 const ErrorPage = loadable(() => import('components/ErrorPage'));
 
-function TeamPage({ initialAction, location, match, staticContext }) {
+function TeamPage({ initialAction }) {
+  const location = useLocation();
+  const match = useRouteMatch();
   const dispatch = useDispatch();
 
   const teamInfo = useSelector(state => getTeam(state, { location, match }));
@@ -25,9 +28,7 @@ function TeamPage({ initialAction, location, match, staticContext }) {
   }, [match.params.teamId]);
 
   if (!teamInfo.isFetching && teamInfo.isRequestFailed) {
-    return (
-      <ErrorPage staticContext={staticContext} errorCode={teamInfo.errorCode} />
-    );
+    return <ErrorPage errorCode={teamInfo.errorCode} />;
   }
 
   return (
@@ -57,13 +58,6 @@ function TeamPage({ initialAction, location, match, staticContext }) {
 
 TeamPage.propTypes = {
   initialAction: PropTypes.func.isRequired,
-  location: PropTypes.objectOf(PropTypes.string).isRequired,
-  match: PropTypes.objectOf(PropTypes.any).isRequired,
-  staticContext: PropTypes.objectOf(PropTypes.any),
-};
-
-TeamPage.defaultProps = {
-  staticContext: null,
 };
 
 export default TeamPage;

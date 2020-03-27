@@ -28,6 +28,12 @@ const EVENT_TYPE_ICONS = {
       width: '10px',
     },
   },
+  yellowred: {
+    name: 'yellowRedCard',
+    style: {
+      width: '10px',
+    },
+  },
   'pen miss': {
     name: 'missedPenalty',
   },

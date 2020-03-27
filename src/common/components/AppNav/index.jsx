@@ -16,7 +16,7 @@ function AppNav() {
 
   const handleToggle = useCallback(() => {
     toggle(!show);
-  }, []);
+  }, [show]);
 
   const handleCloseNav = useCallback(() => {
     toggle(false);

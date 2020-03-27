@@ -4,3 +4,4 @@ export ball from './ball.svg';
 export field from './field.svg';
 export substitution from './substitution.svg';
 export missedPenalty from './missedPenalty.svg';
+export yellowRedCard from './yellowRedCard.svg';
