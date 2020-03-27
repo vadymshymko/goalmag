@@ -87,21 +87,21 @@ const getAppHTML = ({
 
 const getResponse = async (req, res) => {
   try {
-    // const isHeroku = req.header('host').includes('heroku');
+    const isHeroku = req.header('host').includes('heroku');
 
     const [locationPathname, locationSearch] = req.originalUrl.split('?');
     const isEndsWithSlash =
       locationPathname.length > 1 && locationPathname.endsWith('/');
-    // const validURL = `${
-    //   isEndsWithSlash ? locationPathname.slice(0, -1) : locationPathname
-    // }${locationSearch ? `?${locationSearch}` : ''}`;
+    const validURL = `${
+      isEndsWithSlash ? locationPathname.slice(0, -1) : locationPathname
+    }${locationSearch ? `?${locationSearch}` : ''}`;
 
-    // if (isHeroku) {
-    //   return redirect({
-    //     res,
-    //     url: `https://goal.now.sh${validURL}`,
-    //   });
-    // }
+    if (isHeroku) {
+      return redirect({
+        res,
+        url: `https://soccerin.web.app${validURL}`,
+      });
+    }
 
     if (isEndsWithSlash) {
       return redirect({
