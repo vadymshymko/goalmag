@@ -44,6 +44,7 @@ export const PlayerName = styled.span`
 
 export const PlayerNumber = styled.span`
   color: #6c757d;
+  opacity: 0.75;
   min-width: 30px;
   width: 30px;
 `;

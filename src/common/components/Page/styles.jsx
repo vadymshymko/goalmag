@@ -15,6 +15,7 @@ export const Content = styled.main`
 
   @media (min-width: 960px) {
     .app-nav ~ & {
+      max-width: calc(100% - 275px);
       padding-left: 30px;
     }
   }

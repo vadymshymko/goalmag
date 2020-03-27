@@ -56,7 +56,7 @@ function MatchCenterPage({ initialAction }) {
     <Page>
       <PageHelmet
         title="Match Center"
-        description="Live fixtures across all your favorite competitions - GoalMag"
+        description="Live fixtures across all your favorite competitions - Soccer In Web"
       />
 
       <PageTitle>

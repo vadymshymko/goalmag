@@ -1,1 +1,1 @@
-# goalmag.herokuapp.com
+# soccerin.web.app

@@ -6,7 +6,7 @@ import { getRegionsWithCompetitions } from 'selectors';
 
 import AppNavSection from 'components/AppNavSection';
 
-import { ToggleBtn, Wrapper, List, Bg } from './styles';
+import { ToggleBtn, Wrapper, Inner, List, Bg } from './styles';
 
 function AppNav() {
   const regionsWithCompetitions = useSelector(getRegionsWithCompetitions);
@@ -27,14 +27,14 @@ function AppNav() {
   }, [location.pathname]);
 
   return (
-    <>
+    <Wrapper className="app-nav">
       <ToggleBtn
         type="button"
         onClick={handleToggle}
         title="Toggle Navigation"
       />
 
-      <Wrapper className={`app-nav ${show ? 'active' : ''}`}>
+      <Inner className={show ? 'active' : ''}>
         <List>
           <AppNavSection items={[{ name: 'Match Center', href: '/' }]} />
 
@@ -48,10 +48,10 @@ function AppNav() {
             );
           })}
         </List>
-      </Wrapper>
+      </Inner>
 
       <Bg className={`${show ? 'active' : ''}`} onClick={handleCloseNav} />
-    </>
+    </Wrapper>
   );
 }
 

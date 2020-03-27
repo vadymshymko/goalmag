@@ -8,6 +8,7 @@ export const Name = styled.span`
   font-size: 13px;
   color: #6c757d;
   display: inline-block;
+  opacity: 0.75;
   width: 80px;
 `;
 
