@@ -49,7 +49,7 @@ function PageHelmet({ title, description }) {
             : {},
           {
             name: 'og:url',
-            content: `https://goal.now.sh${location.pathname}${location.search}`,
+            content: `https://soccerin.web.app${location.pathname}${location.search}`,
           },
         ]}
       />
