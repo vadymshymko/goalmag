@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import LayoutContainer from 'components/LayoutContainer';
 
@@ -31,4 +31,4 @@ function AppFooter() {
   );
 }
 
-export default AppFooter;
+export default memo(AppFooter);

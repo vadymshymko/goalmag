@@ -1,11 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import AppNavLink from 'components/AppNavLink';
 
 import Wrapper from './styles';
 
-function AppNavItem({ href, name }) {
+export type Props = {
+  href: string;
+  name: string;
+};
+
+export function AppNavItem({ href, name }: Props) {
   return (
     <Wrapper>
       <AppNavLink to={href} href={href} title={name}>
@@ -14,10 +18,5 @@ function AppNavItem({ href, name }) {
     </Wrapper>
   );
 }
-
-AppNavItem.propTypes = {
-  href: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-};
 
 export default AppNavItem;

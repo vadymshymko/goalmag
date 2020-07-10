@@ -38,7 +38,7 @@ function AppNav() {
         <List>
           <AppNavSection items={[{ name: 'Match Center', href: '/' }]} />
 
-          {regionsWithCompetitions.map(region => {
+          {regionsWithCompetitions.map((region) => {
             return (
               <AppNavSection
                 name={region.name}

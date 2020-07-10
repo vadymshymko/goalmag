@@ -34,12 +34,13 @@ const rawEnv = Object.keys(process.env).reduce(
   }
 );
 
-const stringifiedEnv = Object.keys(rawEnv).reduce((result, varName) => {
-  return {
+const stringifiedEnv = Object.keys(rawEnv).reduce(
+  (result, varName) => ({
     ...result,
     [`process.env.${varName}`]: JSON.stringify(rawEnv[varName]),
-  };
-}, {});
+  }),
+  {}
+);
 
 const envVars = {
   raw: rawEnv,
@@ -50,79 +51,73 @@ console.log({
   envVars,
 });
 
-const getCommonConfig = (target, mode) => {
-  return {
-    bail: true,
-    name: target,
-    target,
-    mode,
-    resolve: {
-      extensions: ['.js', '.jsx'],
-      modules: ['src/common', 'node_modules'],
-    },
-    module: {
-      rules: [
-        {
-          test: /\.svg$/,
-          use: [
-            {
-              loader: 'svg-sprite-loader',
-              options: {
-                extract: true,
-                spriteFilename: `sprite.${envVars.raw.APP_VERSION}.svg`,
-              },
+const getCommonConfig = (target, mode) => ({
+  bail: true,
+  name: target,
+  target,
+  mode,
+  resolve: {
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    modules: ['src/common', 'node_modules'],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: 'svg-sprite-loader',
+            options: {
+              extract: true,
+              spriteFilename: `sprite.${envVars.raw.APP_VERSION}.svg`,
             },
-            {
-              loader: 'svgo-loader',
-              options: {
-                plugins: [
-                  { removeDimensions: false },
-                  { removeViewBox: false },
-                ],
-              },
+          },
+          {
+            loader: 'svgo-loader',
+            options: {
+              plugins: [{ removeDimensions: false }, { removeViewBox: false }],
             },
-          ],
-          include: /icons/,
-          exclude: /node_modules/,
-        },
-        {
-          test: /\.(svg)$/,
-          use: [
-            {
-              loader: 'file-loader',
-              options: {
-                emitFile: target === 'web',
-                publicPath: '/',
-              },
+          },
+        ],
+        include: /icons/,
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.(svg)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              emitFile: target === 'web',
+              publicPath: '/',
             },
-          ],
-          exclude: [/node_modules/, /icons/],
-        },
-        {
-          enforce: 'pre',
-          test: /\.jsx?$/,
-          use: 'eslint-loader',
-          exclude: /node_modules/,
-        },
-        {
-          test: /\.jsx?$/,
-          use: ['babel-loader', 'stylelint-custom-processor-loader'],
-          exclude: /node_modules/,
-        },
-      ],
-    },
-    plugins: [
-      new webpack.DefinePlugin(envVars.stringified),
-      new webpack.LoaderOptionsPlugin({ options: {} }),
-      new SpriteLoaderPlugin({
-        plainSprite: false,
-      }),
+          },
+        ],
+        exclude: [/node_modules/, /icons/],
+      },
+      {
+        test: /\.jsx?$/,
+        use: 'stylelint-custom-processor-loader',
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.(ts|js)x?$/,
+        use: ['babel-loader', 'eslint-loader'],
+        exclude: /node_modules/,
+      },
     ],
-    stats: 'minimal',
-  };
-};
+  },
+  plugins: [
+    new webpack.DefinePlugin(envVars.stringified),
+    new webpack.LoaderOptionsPlugin({ options: {} }),
+    new SpriteLoaderPlugin({
+      plainSprite: false,
+    }),
+  ],
+  stats: 'minimal',
+});
 
-const getClientConfig = mode => {
+const getClientConfig = (mode) => {
   const isDev = mode === 'development';
   const isProd = mode === 'production';
   const isWithHMR = isDev && envVars.raw.APP_HMR === 'true';
@@ -181,7 +176,7 @@ const getClientConfig = mode => {
   });
 };
 
-const getServerConfig = mode =>
+const getServerConfig = (mode) =>
   webpackMerge(getCommonConfig('node', mode), {
     entry: './src/server',
     output: {
